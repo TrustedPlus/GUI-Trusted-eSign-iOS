@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Button } from 'react-native';
 
-export default class EncryptionPage extends Component {
+export default class Journal extends Component {
    
   static navigationOptions = ({navigation}) => ({
-    title: 'Подпись / проверка подписи',
+    title: 'Журнал операций',
   });
   render() {
     return (

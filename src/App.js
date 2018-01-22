@@ -12,8 +12,8 @@ import styles from '../styles';
 import {
   StackNavigator,
 } from 'react-navigation';
-
 import ListMenu from '../components/ListMenu';
+
 class Main extends Component {
   static navigationOptions = {
     title: 'КриптоАРМ ГОСТ',
@@ -21,15 +21,6 @@ class Main extends Component {
     headerStyle: {
       backgroundColor:"red"
     },*/
-    drawerLabel: () => (
-      <Text style={styles.text}>КриптоАРМ ГОСТ</Text>
-    ),
-    drawerIcon: () => (
-      <Image
-        source={require('../imgs/home.png')}
-        style={[styles.tabIcon, {tintColor: 'black'}]}
-      />
-    ),
   };
 
   render() {

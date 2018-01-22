@@ -8,15 +8,20 @@ import Encryption from './src/Encryption';
 import Сertificate from './src/Сertificate';
 import Repository from './src/Repository';
 import Journal from './src/Journal';
+import SideBar from "./components/SideBar";
 
 const SimpleApp = DrawerNavigator({
-  App: { screen: App },
+  App: { screen: App},
   Diagnostic: { screen: Diagnostic },
   Signature: { screen: Signature },
   Encryption: { screen: Encryption },
   Сertificate: { screen: Сertificate },
-  Repository: { screen: Repository },
-  Journal: { screen: Journal },
-});
+  Repository: { screen: Repository},
+  Journal: { screen: Journal},
+},
+{
+  contentComponent: props => <SideBar {...props} />
+}
+);
 
 AppRegistry.registerComponent('ReactNativeApp', () => SimpleApp);

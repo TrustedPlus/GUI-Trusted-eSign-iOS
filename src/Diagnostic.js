@@ -4,7 +4,7 @@ import { Button } from 'react-native';
 export default class Diagnostic extends Component {
    
   static navigationOptions = ({navigation}) => ({
-    title: 'Диагностика приложенияи',
+    title: 'Диагностика приложения',
   });
   render() {
     return (

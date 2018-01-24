@@ -7,6 +7,8 @@
 brew install node
 npm install -g react-native-cli
 npm install
+
+Удалить папку node_modules/@types/node
 ```
 
 

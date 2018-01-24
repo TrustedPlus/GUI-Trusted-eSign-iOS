@@ -14,5 +14,12 @@ npm install
 
 ### IOS:
 ```
-react-native run-ios
+npm run start:ios
+
+```
+
+### Android:
+```
+npm run start:android
+
 ```

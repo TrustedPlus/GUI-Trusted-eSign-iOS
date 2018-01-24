@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+      "experimentalDecorators": true,
+      "jsx": "react",
+      "module": "commonjs",
+      "noImplicitAny": false,
+      "sourceMap": false,
+      "rootDir": "src",
+      "outDir": "build",
+      "target": "es6"
+  },
+  "filesGlob": [
+      "typings/**/*.d.ts",
+      "src/**/*.ts",
+      "src/**/*.tsx"
+  ],
+  "exclude": [
+      "node_modules"
+  ]
+}

@@ -18,11 +18,11 @@ interface MainProps {
 
 class Main extends React.Component<MainProps> {
   static navigationOptions = {
-    title: "КриптоАРМ ГОСТ"
-    /*headerTintColor: "blue",
+    title: "КриптоАРМ ГОСТ",
+    headerTintColor: "white",
     headerStyle: {
-      backgroundColor:"red"
-    },*/
+      backgroundColor: "#be3817"
+    }
   };
 
   render() {

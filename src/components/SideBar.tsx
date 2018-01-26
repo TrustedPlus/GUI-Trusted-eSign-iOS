@@ -38,7 +38,10 @@ export class SideBar extends React.Component<SideBarProps> {
               return (
                 <ListItem
                   button
-                  onPress={() => this.props.navigation.navigate(item.link)}>
+                  onPress={() => {
+                    this.props.navigation.goBack(0);
+                    this.props.navigation.navigate(item.link);
+                    }}>
                   <Text>{item.title}</Text>
                 </ListItem>
               );

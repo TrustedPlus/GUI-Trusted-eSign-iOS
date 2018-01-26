@@ -1,9 +1,10 @@
 import * as React from "react";
-import {Left, Icon, Body, ListItem} from "native-base";
-import {Text} from "react-native";
+import {Left, Icon, Body, ListItem, Thumbnail} from "native-base";
+import {Text, Image} from "react-native";
 
 interface ListItemProps {
     title: string;
+    img: any;
     nav(): void;
 }
 
@@ -17,7 +18,7 @@ export class ListMenu extends React.PureComponent<ListItemProps> {
         return(
         <ListItem style={{marginLeft: 0}} avatar onPress={this.onPress.bind(this)} >
             <Left>
-                <Icon name="settings" style={{fontSize: 30, width: 35, padding: 5}}/>
+                <Thumbnail source={this.props.img}/>
             </Left>
             <Body>
                 <Text style={{fontSize: 20}}>{this.props.title}</Text>

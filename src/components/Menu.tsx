@@ -31,12 +31,18 @@ class Main extends React.Component<MainProps> {
       <Container>
         <Content>
           <List>
-            <ListMenu title="Диагностика приложения" nav={() => navigate("Diagnostic")}/>
-            <ListMenu title="Подпись / проверка подписи" nav={() => navigate("Signature")}/>
-            <ListMenu title="Шифрование / расшифрование" nav={() => navigate("Encryption")}/>
-            <ListMenu title="Управление сертификатами" nav={() => navigate("Certificate")}/>
-            <ListMenu title="Управление хранилищами" nav={() => navigate("Repository")}/>
-            <ListMenu title="Журнал операций" nav={() => navigate("Journal")}/>
+            <ListMenu title="Диагностика приложения"
+            img={require("../../imgs/general/diagnostic_main_icon.png" )} nav={() => navigate("Diagnostic")}/>
+            <ListMenu title="Подпись / проверка подписи"
+            img={require("../../imgs/general/sign_main_icon.png")} nav={() => navigate("Signature")}/>
+            <ListMenu title="Шифрование / расшифрование"
+            img={require("../../imgs/general/encode_main_icon.png")} nav={() => navigate("Encryption")}/>
+            <ListMenu title="Управление сертификатами"
+            img={require("../../imgs/general/certificates_main_icon.png")} nav={() => navigate("Certificate")}/>
+            <ListMenu title="Управление хранилищами"
+            img={require("../../imgs/general/stores_main_icon.png")} nav={() => navigate("Repository")}/>
+            <ListMenu title="Журнал операций"
+            img={require("../../imgs/general/journal_main_icon.png")} nav={() => navigate("Journal")}/>
           </List>
         </Content>
       </Container>

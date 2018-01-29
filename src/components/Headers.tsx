@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from "native-base";
+import {Image} from "react-native";
 
 interface HeadersProps {
     title: string;
@@ -17,7 +18,7 @@ export class Headers extends React.Component<HeadersProps> {
             <Header style={{backgroundColor: "#be3817"}}>
                 <Left style={{maxWidth: 50}}>
                 <Button transparent onPress={this.onPress.bind(this)}>
-                    <Icon name="home" style={{color: "white"}}/>
+                    <Image style={{width: "80%", height: "80%"}} source={require("../../imgs/general/home_icon.png")}/>
                 </Button>
                 </Left>
                 <Body>

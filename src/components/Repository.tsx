@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from "native-base";
+import {Headers} from "./Headers";
 
 interface RepositoryProps {
   navigation: any;
@@ -14,17 +15,7 @@ export class Repository extends React.Component<RepositoryProps> {
   render() {
     return (
       <Container>
-        <Header style={{backgroundColor: "#be3817"}}>
-        <Left style={{maxWidth: 50}}>
-          <Button transparent onPress={() => this.props.navigation.goBack()}>
-            <Icon name="home" style={{color: "white"}}/>
-          </Button>
-        </Left>
-        <Body>
-          <Title><Text style={{color: "white" }}>Управление хранилищами</Text></Title>
-        </Body>
-        <Right style={{maxWidth: 50}}/>
-      </Header>
+        <Headers title="Управление хранилищами" goBack={() => this.props.navigation.goBack()}/>
       </Container>
     );
   }

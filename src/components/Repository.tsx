@@ -1,22 +1,31 @@
 import * as React from "react";
-import {Text} from "react-native";
-import {Icon} from "native-base";
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from "native-base";
 
-export class Repository extends React.Component {
+interface RepositoryProps {
+  navigation: any;
+}
 
-  static navigationOptions = ({navigation}) => ({
-    title: "Управление хранилищами",
-    headerTintColor: "white",
-    headerStyle: {
-      backgroundColor: "#be3817"
-    },
-    headerLeft: (
-      <Icon name="home" style={{color: "white", padding: 10}} onPress={() => navigation.goBack()} />
-    )
-  })
+export class Repository extends React.Component<RepositoryProps> {
+
+  static navigationOptions = {
+    header: null
+  };
+
   render() {
     return (
-      <Text></Text>
+      <Container>
+        <Header style={{backgroundColor: "#be3817"}}>
+        <Left style={{maxWidth: 50}}>
+          <Button transparent onPress={() => this.props.navigation.goBack()}>
+            <Icon name="home" style={{color: "white"}}/>
+          </Button>
+        </Left>
+        <Body>
+          <Title><Text style={{color: "white" }}>Управление хранилищами</Text></Title>
+        </Body>
+        <Right style={{maxWidth: 50}}/>
+      </Header>
+      </Container>
     );
   }
 }

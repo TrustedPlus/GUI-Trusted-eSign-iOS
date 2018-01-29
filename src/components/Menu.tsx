@@ -18,17 +18,24 @@ interface MainProps {
 
 class Main extends React.Component<MainProps> {
   static navigationOptions = {
-    title: "КриптоАРМ ГОСТ",
-    headerTintColor: "white",
-    headerStyle: {
-      backgroundColor: "#be3817"
-    }
+    header: null
   };
 
   render() {
     const { navigate } = this.props.navigation;
     return (
       <Container>
+         <Header style={{backgroundColor: "#be3817"}}>
+          <Left style={{maxWidth: 50}}>
+            <Button transparent onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+              <Icon name="menu" style={{color: "white"}}/>
+            </Button>
+          </Left>
+          <Body>
+            <Title><Text style={{color: "white" }}>КриптоАрм ГОСТ</Text></Title>
+          </Body>
+          <Right style={{maxWidth: 50}}/>
+        </Header>
         <Content>
           <List>
             <ListMenu title="Диагностика приложения"

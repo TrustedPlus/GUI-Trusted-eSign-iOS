@@ -1,21 +1,30 @@
 import * as React from "react";
-import {Text} from "react-native";
-import {Icon} from "native-base";
-export class Signature extends React.Component {
+import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from "native-base";
 
-  static navigationOptions = ({navigation}) => ({
-    title: "Подпись / проверка подписи",
-    headerTintColor: "white",
-    headerStyle: {
-      backgroundColor: "#be3817"
-    },
-    headerLeft: (
-      <Icon name="home" style={{color: "white", padding: 10}} onPress={() => navigation.goBack(0)} />
-    )
-  })
+interface SignatureProps {
+  navigation: any;
+}
+
+export class Signature extends React.Component<SignatureProps> {
+
+  static navigationOptions = {
+    header: null
+  };
   render() {
     return (
-      <Text></Text>
+      <Container>
+        <Header style={{backgroundColor: "#be3817"}}>
+        <Left style={{maxWidth: 50}}>
+          <Button transparent onPress={() => this.props.navigation.goBack()}>
+            <Icon name="home" style={{color: "white"}}/>
+          </Button>
+        </Left>
+        <Body>
+          <Title><Text style={{color: "white" }}>Подпись/проверка</Text></Title>
+        </Body>
+        <Right style={{maxWidth: 50}}/>
+      </Header>
+      </Container>
     );
   }
 }

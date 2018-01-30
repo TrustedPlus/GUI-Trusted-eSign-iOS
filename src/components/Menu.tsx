@@ -28,7 +28,7 @@ class Main extends React.Component<MainProps> {
          <Header style={{backgroundColor: "#be3817"}}>
           <Left style={{maxWidth: 50}}>
             <Button transparent onPress={() => this.props.navigation.navigate("DrawerOpen")}>
-              <Icon name="menu" style={{color: "white"}}/>
+              <Image style={{width: "75%", height: "75%"}} source={require("../../imgs/general/sidebar_icon.png")}/>
             </Button>
           </Left>
           <Body>

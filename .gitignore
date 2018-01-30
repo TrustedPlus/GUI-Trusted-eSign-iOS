@@ -11,3 +11,4 @@ ios/build
 build
 
 .DS_Store
+android/.idea/.name

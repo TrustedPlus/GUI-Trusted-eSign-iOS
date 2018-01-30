@@ -11,6 +11,8 @@ import {Journal} from "./Journal";
 import {styles} from "../styles";
 import {StackNavigator} from "react-navigation";
 import {ListMenu} from "./ListMenu";
+import {License} from "./License";
+import {Help} from "./Help";
 
 interface MainProps {
   navigation: any;
@@ -64,5 +66,7 @@ export const menu = StackNavigator({
   Encryption: {screen: Encryption},
   Certificate: {screen: Certificate},
   Repository: {screen: Repository},
-  Journal: {screen: Journal}
+  Journal: {screen: Journal},
+  License: { screen: License},
+  Help: { screen: Help}
 });

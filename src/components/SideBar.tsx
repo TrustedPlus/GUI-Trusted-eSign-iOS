@@ -35,9 +35,22 @@ export class SideBar extends React.Component<SideBarProps> {
             <SideListItem title="Управление хранилищами"
           img={require("../../imgs/general/stores_menu_icon.png")} link={() => {
             goBack(0); navigate("Repository"); }} />
+            <View>
             <SideListItem title="Журнал операций"
           img={require("../../imgs/general/journal_menu_icon.png")} link={() => {
             goBack(0); navigate("Journal"); }} />
+            </View>
+        </List>
+        <View style={{height: "18%"}}/>
+        <List>
+            <SideListItem title="Лицензия на приложение"
+          img={require("../../imgs/general/license_menu_icon.png")} link={() => {
+            goBack(0); navigate("License"); }} />
+            <SideListItem title="Справочная помощь"
+          img={require("../../imgs/general/help_menu_icon.png")} link={() => {
+            goBack(0); navigate("Help"); }} />
+            <SideListItem title="Выход"
+          img={require("../../imgs/general/close_menu_icon.png")} link={() => navigate("DrawerClose")}/>
         </List>
         </Content>
       </Container>

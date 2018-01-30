@@ -8,6 +8,8 @@ import {Certificate} from "./components/Certificate";
 import {Repository} from "./components/Repository";
 import {Journal} from "./components/Journal";
 import {SideBar} from "./components/SideBar";
+import {License} from "./components/License";
+import {Help} from "./components/Help";
 
 export const app = DrawerNavigator({
   Menu: { screen: menu},
@@ -16,7 +18,9 @@ export const app = DrawerNavigator({
   Encryption: { screen: Encryption },
   Certificate: { screen: Certificate },
   Repository: { screen: Repository},
-  Journal: { screen: Journal}
+  Journal: { screen: Journal},
+  License: { screen: License},
+  Help: { screen: Help}
 },
 {
   contentComponent: props => <SideBar {...props} />

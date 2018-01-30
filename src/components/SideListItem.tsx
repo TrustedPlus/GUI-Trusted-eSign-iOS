@@ -16,7 +16,7 @@ export class SideListItem extends React.PureComponent<SideListItemProps> {
 
     render() {
         return(
-        <ListItem style={{marginLeft: 2, height: 50}} button onPress={this.onPress.bind(this)}>
+        <ListItem style={{marginLeft: 2, height: 50}} onPress={this.onPress.bind(this)}>
             <Thumbnail small style={{marginRight: 5}}
             source={this.props.img}/>
             <Text>{this.props.title}</Text>

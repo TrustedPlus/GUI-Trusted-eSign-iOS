@@ -16,7 +16,7 @@ export class ListMenu extends React.PureComponent<ListItemProps> {
 
     render() {
         return(
-        <ListItem style={{marginLeft: 0}} avatar onPress={this.onPress.bind(this)} >
+        <ListItem style={{marginLeft: 5}} avatar onPress={this.onPress.bind(this)} >
             <Left>
                 <Thumbnail source={this.props.img}/>
             </Left>

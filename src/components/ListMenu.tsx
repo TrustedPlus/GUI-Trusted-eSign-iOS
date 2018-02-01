@@ -6,7 +6,7 @@ import {styles} from "../styles";
 interface ListItemProps {
     title: string;
     img: any;
-    nav?(): void;
+    nav(): void;
 }
 
 export class ListMenu extends React.PureComponent<ListItemProps> {

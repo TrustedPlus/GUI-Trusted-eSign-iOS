@@ -1,11 +1,12 @@
 import * as React from "react";
 import {Left, Icon, Body, ListItem, Thumbnail} from "native-base";
 import {Text, Image} from "react-native";
+import {styles} from "../styles";
 
 interface ListItemProps {
     title: string;
     img: any;
-    nav(): void;
+    nav?(): void;
 }
 
 export class ListMenu extends React.PureComponent<ListItemProps> {
@@ -16,12 +17,12 @@ export class ListMenu extends React.PureComponent<ListItemProps> {
 
     render() {
         return(
-        <ListItem style={{marginLeft: 0}} avatar onPress={this.onPress.bind(this)} >
+        <ListItem style={styles.listItem} avatar onPress={this.onPress.bind(this)} >
             <Left>
-                <Thumbnail square style={{marginLeft: 5}} source={this.props.img}/>
+                <Thumbnail square style={styles.thumbnail} source={this.props.img}/>
             </Left>
             <Body>
-                <Text style={{fontSize: 20}}>{this.props.title}</Text>
+                <Text style={styles.listItemText}>{this.props.title}</Text>
                 <Text>выбрано файлов: 4</Text>
             </Body>
         </ListItem>

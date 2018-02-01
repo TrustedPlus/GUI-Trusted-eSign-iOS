@@ -3,6 +3,7 @@ import { DrawerNavigator } from "react-navigation";
 import { AppRegistry, Image, StatusBar, View, TouchableOpacity } from "react-native";
 import { Container, Content, Text, List, ListItem, Thumbnail, Left } from "native-base";
 import {SideListItem} from "./SideListItem";
+import {styles} from "../styles";
 
 interface SideBarProps {
   navigation?: any;
@@ -14,13 +15,12 @@ export class SideBar extends React.Component<SideBarProps> {
     const { goBack } = this.props.navigation;
     return (
       <Container>
-        <Content style={{flex: 1}}>
-        <View style={{width: "100%", height: 140}}>
-          <TouchableOpacity onPress={() => {goBack(0); navigate("DrawerClose"); }}>
-          <Image style={{width: "100%", height: "100%"}} source={require("../../imgs/general/splash_screen.png")} />
-          <Image style={{position: "absolute" , left: 100, top: 10,
-            width: 70, height: 70}} source={require("../../imgs/general/splash_icon.png")}/>
-          <Text style={{position: "absolute" , left: 60, top: 90, fontSize: 20, color: "white"}}>КриптоАРМ ГОСТ</Text>
+        <Content>
+        <View style={{height: 140}}>
+          <TouchableOpacity onPress={() => {goBack(0); goBack(0); navigate("DrawerClose"); }}>
+          <Image style={styles.splash_screen} source={require("../../imgs/general/splash_screen.png")} />
+          <Image style={styles.splash_icon} source={require("../../imgs/general/splash_icon.png")}/>
+          <Text style={styles.splash_text}>КриптоАРМ ГОСТ</Text>
           </TouchableOpacity>
         </View>
         <View>

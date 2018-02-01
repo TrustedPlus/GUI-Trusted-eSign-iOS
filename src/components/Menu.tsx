@@ -14,6 +14,7 @@ import {ListMenu} from "./ListMenu";
 import {License} from "./License";
 import {Help} from "./Help";
 import {DescriptionError} from "./DescriptionError";
+import {Headers} from "./Headers";
 
 interface MainProps {
   navigation: any;
@@ -26,18 +27,26 @@ class Main extends React.Component<MainProps> {
 
   render() {
     const { navigate } = this.props.navigation;
+
+    /*
+      <Headers title="КриптоАрм ГОСТ" src={require("../../imgs/general/sidebar_icon.png")}
+         goBack={() => this.props.navigation.navigate("DrawerOpen")}/>
+    */
     return (
       <Container>
-         <Header style={{backgroundColor: "#be3817"}}>
-          <Left style={{maxWidth: 50}}>
+         <Header style={styles.header}>
+          <Left style={styles.left}>
             <Button transparent onPress={() => this.props.navigation.navigate("DrawerOpen")}>
-              <Image style={{width: "75%", height: "75%"}} source={require("../../imgs/general/sidebar_icon.png")}/>
+              <Image style={styles.headerImage} source={require("../../imgs/general/sidebar_icon.png")}/>
             </Button>
           </Left>
           <Body>
             <Title><Text style={{color: "white" }}>КриптоАрм ГОСТ</Text></Title>
           </Body>
-          <Right style={{maxWidth: 50}}/>
+          <Right style={styles.right}>
+              <Image style={styles.headerImage}
+                  source={require("../../imgs/general/setting_icon.png")}/>
+          </Right>
         </Header>
         <Content>
           <List>

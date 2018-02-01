@@ -23,7 +23,7 @@ export class Diagnostic extends React.Component<DiagnosticProps> {
             <ListMenu title="Отсутствует лицензия на приложение"
             img={require("../../imgs/general/error_icon.png" )} nav={() => navigate("DescriptionError")}/>
             <ListMenu title="Не установлены личные сертификаты"
-            img={require("../../imgs/general/warning_error.png")} nav={() => navigate("DescriptionError")}/>
+            img={require("../../imgs/general/warning_icon.png")} nav={() => navigate("DescriptionError")}/>
             <ListMenu title="Доступна новая версия приложения"
             img={require("../../imgs/general/attention_icon.png")} nav={() => navigate("DescriptionError")}/>
           </List>

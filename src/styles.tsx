@@ -1,50 +1,55 @@
 import {StyleSheet} from "react-native";
 
 export const styles = StyleSheet.create({
-    main: {
-        flex: 1
-    },
-    description: {
-        marginBottom: 20,
-        fontSize: 18,
-        textAlign: "center",
-        color: "#656565"
-      },
-      container: {
-        padding: 30,
-        marginTop: 65,
-        alignItems: "center"
-      },
-      flowRight: {
-        flexDirection: "row",
-        alignItems: "center",
-        alignSelf: "stretch"
-      },
-      buttonText: {
-        fontSize: 18,
-        color: "white",
-        alignSelf: "center"
-      },
-      tabIcon: {
-        width: 16,
-        height: 16
-      },
-      button: {
-        height: 36,
-        flex: 1,
-        flexDirection: "row",
-        backgroundColor: "#48BBEC",
-        borderColor: "#48BBEC",
-        borderWidth: 1,
-        borderRadius: 8,
-        marginBottom: 10,
-        alignSelf: "stretch",
-        justifyContent: "center",
-        minHeight: 36
-      },
-      text: {
-        fontSize: 18,
-        padding: 5,
-        flex: 1
-      }
+  // Menu, Headers
+  header: {
+    backgroundColor: "#be3817"
+  },
+  headerImage: {
+    width: 30,
+    height: 30
+  },
+  left: {
+    maxWidth: 50
+  },
+  right: {
+    maxWidth: 50
+  },
+  // ListMenu
+  listItem: {
+    marginLeft: 0
+  },
+  listItemText: {
+    fontSize: 20
+  },
+  thumbnail: {
+    marginLeft: 5
+  },
+  // SideListItem
+  sideListItem: {
+    marginLeft: 2,
+    height: 50
+  },
+  sidethumbnail: {
+    marginRight: 5
+  },
+  // SideBar
+  splash_screen: {
+    width: "100%",
+    height: "100%"
+  },
+  splash_icon: {
+    position: "absolute",
+    left: 100,
+    top: 10,
+    width: 70,
+    height: 70
+  },
+  splash_text: {
+    position: "absolute" ,
+    left: 60,
+    top: 90,
+    fontSize: 20,
+    color: "white"
+  }
 });

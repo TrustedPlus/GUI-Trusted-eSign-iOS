@@ -15,7 +15,7 @@ export class SideBar extends React.Component<SideBarProps> {
     return (
       <Container>
         <Content style={{flex: 1}}>
-        <View style={{width: "100%", height: "30%"}}>
+        <View style={{width: "100%", height: 140}}>
           <TouchableOpacity onPress={() => {goBack(0); navigate("DrawerClose"); }}>
           <Image style={{width: "100%", height: "100%"}} source={require("../../imgs/general/splash_screen.png")} />
           <Image style={{position: "absolute" , left: 100, top: 10,
@@ -23,7 +23,7 @@ export class SideBar extends React.Component<SideBarProps> {
           <Text style={{position: "absolute" , left: 60, top: 90, fontSize: 20, color: "white"}}>КриптоАРМ ГОСТ</Text>
           </TouchableOpacity>
         </View>
-        <View style={{flex: 1}}>
+        <View>
         <List >
           <SideListItem title="Диагностика приложения"
           img={require("../../imgs/general/diagnostic_menu_icon.png")} link={() => {

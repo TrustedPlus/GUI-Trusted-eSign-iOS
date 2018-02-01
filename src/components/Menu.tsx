@@ -13,6 +13,7 @@ import {StackNavigator} from "react-navigation";
 import {ListMenu} from "./ListMenu";
 import {License} from "./License";
 import {Help} from "./Help";
+import {DescriptionError} from "./DescriptionError";
 
 interface MainProps {
   navigation: any;
@@ -68,5 +69,6 @@ export const menu = StackNavigator({
   Repository: {screen: Repository},
   Journal: {screen: Journal},
   License: { screen: License},
-  Help: { screen: Help}
+  Help: { screen: Help},
+  DescriptionError: { screen: DescriptionError}
 });

@@ -20,7 +20,8 @@ export const styles = StyleSheet.create({
     marginLeft: 0
   },
   listItemText: {
-    fontSize: 20
+    fontSize: 20,
+    marginRight: 5
   },
   thumbnail: {
     marginLeft: 5

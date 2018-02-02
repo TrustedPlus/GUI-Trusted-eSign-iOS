@@ -20,13 +20,13 @@ export class Certificate extends React.Component<CertificateProps> {
         <Content>
           <List>
             <ListMenu title="КриптоПро Cloud ООО ТЕНЗОР"
-            img={require("../../imgs/general/certificates_menu_icon.png" )} nav={() => null}/>
+            img={require("../../imgs/general/certificates_menu_icon.png" )} arrow nav={() => null}/>
             <ListMenu title="КриптоПро Cloud TEST"
-            img={require("../../imgs/general/certificates_menu_icon.png")} nav={() => null}/>
+            img={require("../../imgs/general/certificates_menu_icon.png")} arrow nav={() => null}/>
             <ListMenu title="Локальное хранилище"
-            img={require("../../imgs/general/certificates_menu_icon.png")} nav={() => null}/>
+            img={require("../../imgs/general/certificates_menu_icon.png")} arrow nav={() => null}/>
             <ListMenu title="SD Card Alladin"
-            img={require("../../imgs/general/certificates_menu_icon.png")} nav={() => null}/>
+            img={require("../../imgs/general/certificates_menu_icon.png")} arrow nav={() => null}/>
           </List>
         </Content>
       </Container>

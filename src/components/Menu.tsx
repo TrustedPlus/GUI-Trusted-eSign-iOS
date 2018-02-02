@@ -15,6 +15,8 @@ import {License} from "./License";
 import {Help} from "./Help";
 import {DescriptionError} from "./DescriptionError";
 import {Headers} from "./Headers";
+import {PersonalСert} from "./PersonalСert";
+import {PropertiesCert} from "./PropertiesCert";
 
 interface MainProps {
   navigation: any;
@@ -52,7 +54,8 @@ class Main extends React.Component<MainProps> {
         <Content>
           <List>
             <ListMenu title="Диагностика приложения"
-            img={require("../../imgs/general/diagnostic_main_icon.png" )} note="ошибок: 1           замечаний: 1" nav={() => navigate("Diagnostic")}/>
+             img={require("../../imgs/general/diagnostic_main_icon.png" )} note="ошибок: 1"
+             rightnote="замечаний: 1" nav={() => navigate("Diagnostic")}/>
             <ListMenu title="Подпись / проверка подписи"
             img={require("../../imgs/general/sign_main_icon.png")} note="выбрано файлов: 4" nav={() => navigate("Signature")}/>
             <ListMenu title="Шифрование / расшифрование"
@@ -80,5 +83,7 @@ export const menu = StackNavigator({
   Journal: {screen: Journal},
   License: { screen: License},
   Help: { screen: Help},
-  DescriptionError: { screen: DescriptionError}
+  DescriptionError: { screen: DescriptionError},
+  PersonalСert: {screen: PersonalСert},
+  PropertiesCert: {screen: PropertiesCert}
 });

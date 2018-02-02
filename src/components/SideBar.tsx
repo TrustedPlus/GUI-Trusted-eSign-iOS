@@ -17,7 +17,7 @@ export class SideBar extends React.Component<SideBarProps> {
       <Container>
         <Content>
         <View style={{height: 140}}>
-          <TouchableOpacity onPress={() => {goBack(0); goBack(0); navigate("DrawerClose"); }}>
+          <TouchableOpacity onPress={() => {navigate("Main"); }}>
           <Image style={styles.splash_screen} source={require("../../imgs/general/splash_screen.png")} />
           <Image style={styles.splash_icon} source={require("../../imgs/general/splash_icon.png")}/>
           <Text style={styles.splash_text}>КриптоАРМ ГОСТ</Text>

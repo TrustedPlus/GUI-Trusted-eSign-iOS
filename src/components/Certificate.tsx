@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from "native-base";
+import { Container, Header, List, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from "native-base";
 import {Headers} from "./Headers";
+import {ListMenu} from "./ListMenu";
 
 interface CertificateProps {
   navigation: any;
@@ -12,9 +13,22 @@ export class Certificate extends React.Component<CertificateProps> {
     header: null
   };
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <Container>
         <Headers title="Сертификаты" goBack={() => this.props.navigation.goBack()}/>
+        <Content>
+          <List>
+            <ListMenu title="КриптоПро Cloud ООО ТЕНЗОР"
+            img={require("../../imgs/general/error_icon.png" )} nav={() => null}/>
+            <ListMenu title="КриптоПро Cloud TEST"
+            img={require("../../imgs/general/error_icon.png")} nav={() => null}/>
+            <ListMenu title="Локальное хранилище"
+            img={require("../../imgs/general/error_icon.png")} nav={() => null}/>
+            <ListMenu title="SD Card Alladin"
+            img={require("../../imgs/general/error_icon.png")} nav={() => null}/>
+          </List>
+        </Content>
       </Container>
     );
   }

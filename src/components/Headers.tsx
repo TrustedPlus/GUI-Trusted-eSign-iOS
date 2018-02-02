@@ -29,8 +29,9 @@ export class Headers extends React.Component<HeadersProps> {
                     <Title><Text style={{color: "white" }}>{this.props.title}</Text></Title>
                 </Body>
                 <Right style={styles.right}>
-                    <Image style={styles.headerImage}
-                        source={require("../../imgs/general/contextm_menu_icon.png")}/>
+                    <Button transparent>
+                        <Image style={styles.headerImage} source={require("../../imgs/general/contextm_menu_icon.png")}/>
+                    </Button>
                 </Right>
             </Header>
         );

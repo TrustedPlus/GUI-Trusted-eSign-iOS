@@ -5,6 +5,7 @@ import {styles} from "../styles";
 
 interface ListItemProps {
     title: string;
+    note?: string;
     img: any;
     nav(): void;
 }
@@ -23,7 +24,7 @@ export class ListMenu extends React.PureComponent<ListItemProps> {
             </Left>
             <Body>
                 <Text style={styles.listItemText}>{this.props.title}</Text>
-                <Text>выбрано файлов: 4</Text>
+                <Text note>{this.props.note}</Text>
             </Body>
         </ListItem>
         );

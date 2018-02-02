@@ -20,7 +20,7 @@ export class Signature extends React.Component<SignatureProps> {
         <Content style={{backgroundColor: "white"}}>
           <View style={{padding: 15}}>
             <Text style={{fontSize: 23, color: "grey", width: "80%"}}>Сертификат подписи</Text>
-            <Button transparent style={{position: "absolute", marginTop: 6, marginLeft: "95%"}}>
+            <Button transparent style={{position: "absolute", marginTop: 6, right: 10}}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>
@@ -31,7 +31,7 @@ export class Signature extends React.Component<SignatureProps> {
           </Body>
           <View style={{padding: 15}}>
             <Text style={{fontSize: 23, color: "grey", width: "70%"}}>Файлы</Text>
-            <Button transparent style={{position: "absolute", marginTop: 6, marginLeft: "95%"}}>
+            <Button transparent style={{position: "absolute", marginTop: 6, right: 10}}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>

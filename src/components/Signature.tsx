@@ -3,6 +3,7 @@ import { Container, View, Title, Content, Footer, FooterTab, Button, Left, Right
 import {StyleSheet, TouchableOpacity, TouchableHighlight, Image} from "react-native";
 import {Headers} from "./Headers";
 import {styles} from "../styles";
+import {SelectСert} from "./SelectСert";
 
 interface SignatureProps {
   navigation: any;
@@ -14,13 +15,14 @@ export class Signature extends React.Component<SignatureProps> {
     header: null
   };
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <Container>
         <Headers title="Подпись/проверка" goBack={() => this.props.navigation.goBack()}/>
         <Content style={{backgroundColor: "white"}}>
           <View style={{padding: 15}}>
             <Text style={{fontSize: 23, color: "grey", width: "80%"}}>Сертификат подписи</Text>
-            <Button transparent style={{position: "absolute", marginTop: 6, right: 10}}>
+            <Button transparent onPress={() => this.props.navigation.navigate("SelectСert")} style={{position: "absolute", marginTop: 6, right: 10}}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>

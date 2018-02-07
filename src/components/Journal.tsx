@@ -13,9 +13,10 @@ export class Journal extends React.Component<JournalProps> {
   };
 
   render() {
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
-        <Headers title="Журнал операций" goBack={() => this.props.navigation.goBack()}/>
+        <Headers title="Журнал операций" goBack={() => goBack()}/>
       </Container>
     );
   }

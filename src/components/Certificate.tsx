@@ -13,10 +13,10 @@ export class Certificate extends React.Component<CertificateProps> {
     header: null
   };
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
-        <Headers title="Сертификаты" goBack={() => this.props.navigation.goBack()}/>
+        <Headers title="Сертификаты" goBack={() => goBack()}/>
         <Content>
           <List>
             <ListMenu title="КриптоПро Cloud ООО ТЕНЗОР"

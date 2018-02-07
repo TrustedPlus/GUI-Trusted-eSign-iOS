@@ -6,19 +6,19 @@ import {styles} from "../styles";
 interface SideListItemProps {
     title: string;
     img: any;
-    link(): void;
+    nav(): void;
 }
 
 export class SideListItem extends React.PureComponent<SideListItemProps> {
 
     onPress() {
-        this.props.link();
+        this.props.nav();
     }
 
     render() {
         return(
         <ListItem style={styles.sideListItem} onPress={this.onPress.bind(this)}>
-            <Thumbnail small style={{marginRight: 5}} source={this.props.img}/>
+            <Thumbnail small square style={{marginRight: 5}} source={this.props.img}/>
             <Text>{this.props.title}</Text>
         </ListItem>
         );

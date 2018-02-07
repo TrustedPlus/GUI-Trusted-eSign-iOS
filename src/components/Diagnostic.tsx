@@ -14,10 +14,10 @@ export class Diagnostic extends React.Component<DiagnosticProps> {
     header: null
   };
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
-        <Headers title="Диагностика" goBack={() => this.props.navigation.goBack()}/>
+        <Headers title="Диагностика" goBack={() => goBack()}/>
         <Content>
           <List>
             <ListMenu title="Отсутствует лицензия на приложение"

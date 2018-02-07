@@ -15,10 +15,10 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
   };
 
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
-        <Headers title="Свойства сертфиката" src={require("../../imgs/general/back_icon.png")} goBack={() => this.props.navigation.goBack()}/>
+        <Headers title="Свойства сертфиката" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
         <Content style={{backgroundColor: "white"}}>
         <View>
         <Image style={{height: 70, width: 70, margin: 20}} source={require("../../imgs/general/cert_ok_icon.png")}/>

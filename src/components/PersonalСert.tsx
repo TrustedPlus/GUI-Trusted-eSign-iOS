@@ -15,10 +15,10 @@ export class PersonalСert extends React.Component<PersonalСertProps> {
   };
 
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
-        <Headers title="Личные сертификаты" src={require("../../imgs/general/back_icon.png")} goBack={() => this.props.navigation.goBack()}/>
+        <Headers title="Личные сертификаты" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
         <Header searchBar>
           <Item>
             <Icon name="ios-search" />

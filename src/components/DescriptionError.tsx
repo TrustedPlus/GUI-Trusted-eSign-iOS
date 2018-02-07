@@ -12,9 +12,10 @@ export class DescriptionError extends React.Component<DescriptionErrorProps> {
     header: null
   };
   render() {
+    const { goBack } = this.props.navigation;
     return (
       <Container>
-        <Headers title="Диагностика" src={require("../../imgs/general/back_icon.png")} goBack={() => this.props.navigation.goBack()}/>
+        <Headers title="Диагностика" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
         <Content style={{backgroundColor: "white"}}>
           <View style={{padding: 15}}>
             <Text style={{fontSize: 23, color: "grey"}}>Проблема</Text>

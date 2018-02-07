@@ -12,9 +12,10 @@ export class License extends React.Component<LicenseProps> {
     header: null
   };
   render() {
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
-        <Headers title="Лицензия" goBack={() => this.props.navigation.goBack()}/>
+        <Headers title="Лицензия" goBack={() => goBack()}/>
       </Container>
     );
   }

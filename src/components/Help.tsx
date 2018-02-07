@@ -12,9 +12,10 @@ export class Help extends React.Component<HelpProps> {
     header: null
   };
   render() {
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
-        <Headers title="Справочная помощь" goBack={() => this.props.navigation.goBack()}/>
+        <Headers title="Справочная помощь" goBack={() => goBack()}/>
       </Container>
     );
   }

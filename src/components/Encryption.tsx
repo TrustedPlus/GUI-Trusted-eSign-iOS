@@ -14,9 +14,10 @@ export class Encryption extends React.Component<EncryptionProps> {
     header: null
   };
   render() {
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
-        <Headers title="Шифрование/расшифрование" goBack={() => this.props.navigation.goBack()}/>
+        <Headers title="Шифрование/расшифрование" goBack={() => goBack()}/>
         <Content style={{backgroundColor: "white"}}>
           <View style={{padding: 15}}>
             <Text style={{fontSize: 23, color: "grey", width: "80%"}}>Сертификаты получателей</Text>

@@ -52,5 +52,9 @@ export const styles = StyleSheet.create({
     top: 90,
     fontSize: 20,
     color: "white"
+  },
+  // Signature
+  sign_view: {
+    padding: 15
   }
 });

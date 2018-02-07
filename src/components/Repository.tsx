@@ -15,10 +15,10 @@ export class Repository extends React.Component<RepositoryProps> {
   };
 
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigate, goBack } = this.props.navigation;
     return (
       <Container>
-        <Headers title="Управление хранилищами" goBack={() => this.props.navigation.goBack()}/>
+        <Headers title="Управление хранилищами" goBack={() => goBack()}/>
         <Content>
           <List>
             <ListMenu title="Личные сертификаты"

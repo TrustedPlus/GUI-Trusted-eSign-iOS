@@ -16,7 +16,6 @@ export class Headers extends React.Component<HeadersProps> {
     }
 
     render() {
-        console.log(this.props.src);
         return (
             <Header style={styles.header}>
                 <Left style={styles.left}>

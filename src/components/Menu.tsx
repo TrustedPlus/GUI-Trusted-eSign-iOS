@@ -39,7 +39,7 @@ class Main extends React.Component<MainProps> {
       <Container>
          <Header style={styles.header}>
           <Left style={styles.left}>
-            <Button transparent onPress={() => this.props.navigation.navigate("DrawerOpen")}>
+            <Button transparent onPress={() => navigate("DrawerOpen")}>
               <Image style={styles.headerImage} source={require("../../imgs/general/sidebar_icon.png")}/>
             </Button>
           </Left>

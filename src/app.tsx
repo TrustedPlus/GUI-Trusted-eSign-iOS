@@ -10,8 +10,15 @@ import {Journal} from "./components/Journal";
 import {SideBar} from "./components/SideBar";
 import {License} from "./components/License";
 import {Help} from "./components/Help";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import reducers from "./reducers";
 
-export const app = DrawerNavigator({
+const store = createStore(reducers);
+
+
+
+export const App = DrawerNavigator({
   Menu: { screen: menu},
   Diagnostic: { screen: Diagnostic },
   Signature: { screen: Signature },

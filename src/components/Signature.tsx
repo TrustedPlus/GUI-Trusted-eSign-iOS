@@ -5,6 +5,7 @@ import {Headers} from "./Headers";
 import {styles} from "../styles";
 import {SelectСert} from "./SelectСert";
 import {ListMenu} from "./ListMenu";
+import FooterSign from "./FooterSign";
 
 interface SignatureProps {
   navigation: any;
@@ -27,26 +28,7 @@ export class Signature extends React.Component<SignatureProps, any> {
 
     let footer = null;
       if (this.state.footer) {
-        footer = <Footer>
-        <FooterTab>
-          <Button vertical>
-            <Icon name="apps" />
-            <Text>Проверить</Text>
-          </Button>
-          <Button vertical>
-            <Icon name="camera" />
-            <Text>Подписать</Text>
-          </Button>
-          <Button vertical>
-            <Icon name="navigate" />
-            <Text>Отправить</Text>
-          </Button>
-          <Button vertical>
-            <Icon name="person" />
-            <Text>Операции</Text>
-          </Button>
-        </FooterTab>
-      </Footer>;
+        footer = <FooterSign/>;
       }
     return (
       <Container>

@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import appData from "./dataReducer";
+import appData from "./SignReducers";
 
 const rootReducer = combineReducers({
     footer: appData

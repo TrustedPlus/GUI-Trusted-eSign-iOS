@@ -11,6 +11,7 @@ interface ListItemProps {
     rightimg?: any;
     arrow?: boolean;
     id?: number;
+    checkbox?: boolean;
     nav(): void;
 }
 
@@ -22,7 +23,7 @@ export class ListMenu extends React.PureComponent<ListItemProps, any> {
     }
 
     onPress() {
-        this.state.active ? this.setState({active: false}) : this.setState({active: true});
+        if (this.props.checkbox) this.state.active ? this.setState({active: false}) : this.setState({active: true});
         this.props.nav();
     }
 

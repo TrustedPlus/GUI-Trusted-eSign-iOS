@@ -24,7 +24,7 @@ class Signature extends React.Component<SignatureProps, any> {
   };
 
   render() {
-    const {footerAction } = this.props;
+    const {footerAction, footerClear} = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let footer = null;
@@ -34,7 +34,7 @@ class Signature extends React.Component<SignatureProps, any> {
     console.log(this.props.footer.arrButton);
     return (
       <Container>
-        <Headers title="Подпись/проверка" goBack={() => goBack()}/>
+        <Headers title="Подпись/проверка" goBack={() => {goBack(); }}/>
         <Content style={{backgroundColor: "white"}}>
           <View style={styles.sign_view}>
             <Text style={{fontSize: 23, color: "grey", width: "80%"}}>Сертификат подписи</Text>
@@ -55,13 +55,13 @@ class Signature extends React.Component<SignatureProps, any> {
           </View>
             <List>
               <ListMenu id={1} title="Договор №2332" img={require("../../imgs/general/file_pdf.png")}
-              note="12 января 2018, 02:34:22" nav={() => footerAction(1)}/>
+              note="12 января 2018, 02:34:22" checkbox nav={() => footerAction(1)}/>
               <ListMenu id={2} title="Письмо от 23.08.2018" img={require("../../imgs/general/file_txt.png")}
-              note="12 января 2018, 02:36:38" nav={() => footerAction(2)}/>
+              note="12 января 2018, 02:36:38" checkbox nav={() => footerAction(2)}/>
               <ListMenu id={3} title="Договор №2332 с приложениями" img={require("../../imgs/general/file_zip.png")}
-              note="6 января 2018, 13:49:26" nav={() => footerAction(3)}/>
+              note="6 января 2018, 13:49:26" checkbox nav={() => footerAction(3)}/>
               <ListMenu id={4} title="Заключение от поставке" img={require("../../imgs/general/file_docx.png")}
-              note="6 января 2018, 14:28:18" nav={() => footerAction(4)}/>
+              note="6 января 2018, 14:28:18" checkbox nav={() => footerAction(4)}/>
             </List>
         </Content>
         {footer}

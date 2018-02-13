@@ -1,4 +1,4 @@
-import { FOOTER_ACTION } from "../constants";
+import { FOOTER_ACTION} from "../constants";
 
 const initialState = {
   arrButton: []
@@ -9,13 +9,12 @@ export default function dataReducer (state = initialState, action) {
     case FOOTER_ACTION:
         function arrButtonFunc() {
           let index = state.arrButton.indexOf(action.payload);
+          console.log("arrButtonFunc()");
           if (index !== -1) {
             let arr = state.arrButton.splice(index, 1);
-            console.log(arr);
             return(arr);
           } else {
             let arr = state.arrButton.unshift(action.payload);
-            console.log(arr);
             return(arr);
           }
         }

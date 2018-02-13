@@ -10,12 +10,19 @@ interface ListItemProps {
     img: any;
     rightimg?: any;
     arrow?: boolean;
+    id?: number;
     nav(): void;
 }
 
-export class ListMenu extends React.PureComponent<ListItemProps> {
+export class ListMenu extends React.PureComponent<ListItemProps, any> {
+
+    constructor(props) {
+        super(props);
+        this.state = {active: false};
+    }
 
     onPress() {
+        this.state.active ? this.setState({active: false}) : this.setState({active: true});
         this.props.nav();
     }
 
@@ -28,8 +35,14 @@ export class ListMenu extends React.PureComponent<ListItemProps> {
         if (this.props.arrow) {
             arrow = <Text note style={{position: "absolute", right: 15, top: "50%"}}> > </Text>;
         }
+
+        let styleActive = null;
+
+        if (this.state.active) {
+            styleActive = {backgroundColor: "lightgrey"};
+        }
         return(
-        <ListItem style={styles.listItem} avatar onPress={this.onPress.bind(this)} >
+        <ListItem style={[styles.listItem, styleActive]} avatar onPress={this.onPress.bind(this)} >
             <Left>
                 <Thumbnail square style={styles.thumbnail} source={this.props.img}/>
             </Left>

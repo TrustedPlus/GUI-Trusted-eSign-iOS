@@ -1,13 +1,8 @@
-import { FOOTER_OPEN, FOOTER_CLOSE } from "../constants";
+import { FOOTER_ACTION } from "../constants";
 
-export function getFooterOpen() {
+export function footerAction(idButton) {
   return {
-    type: FOOTER_OPEN
-  };
-}
-
-export function getFooterClose() {
-  return {
-    type: FOOTER_CLOSE
+    type: FOOTER_ACTION,
+    payload: idButton
   };
 }

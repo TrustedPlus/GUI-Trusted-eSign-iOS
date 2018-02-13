@@ -5,31 +5,33 @@ import {Headers} from "./Headers";
 import {styles} from "../styles";
 import {SelectСert} from "./SelectСert";
 import {ListMenu} from "./ListMenu";
-import FooterSign from "./FooterSign";
+import {FooterSign} from "./FooterSign";
+
+import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import {footerAction} from "../actions/index";
 
 interface SignatureProps {
   navigation: any;
+  footer: any;
+  footerAction(any): void;
 }
 
-export class Signature extends React.Component<SignatureProps, any> {
+class Signature extends React.Component<SignatureProps, any> {
 
   static navigationOptions = {
     header: null
   };
 
-  constructor(props) {
-    super(props);
-
-    this.state = {footer: false};
-  }
-
   render() {
+    const {footerAction } = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let footer = null;
-      if (this.state.footer) {
-        footer = <FooterSign/>;
-      }
+    if (this.props.footer.arrButton.length) {
+      footer = <FooterSign/>;
+    }
+    console.log(this.props.footer.arrButton);
     return (
       <Container>
         <Headers title="Подпись/проверка" goBack={() => goBack()}/>
@@ -52,14 +54,14 @@ export class Signature extends React.Component<SignatureProps, any> {
             </Button>
           </View>
             <List>
-              <ListMenu title="Договор №2332" img={require("../../imgs/general/file_pdf.png")}
-              note="12 января 2018, 02:34:22" nav={() => {this.setState({footer: !this.state.footer}); console.log(this.state.footer); }}/>
-              <ListMenu title="Письмо от 23.08.2018" img={require("../../imgs/general/file_txt.png")}
-              note="12 января 2018, 02:36:38" nav={() => this.setState({footer: !this.state.footer})}/>
-              <ListMenu title="Договор №2332 с приложениями" img={require("../../imgs/general/file_zip.png")}
-              note="6 января 2018, 13:49:26" nav={() => this.setState({footer: !this.state.footer})}/>
-              <ListMenu title="Заключение от поставке" img={require("../../imgs/general/file_docx.png")}
-              note="6 января 2018, 14:28:18" nav={() => this.setState({footer: !this.state.footer})}/>
+              <ListMenu id={1} title="Договор №2332" img={require("../../imgs/general/file_pdf.png")}
+              note="12 января 2018, 02:34:22" nav={() => footerAction(1)}/>
+              <ListMenu id={2} title="Письмо от 23.08.2018" img={require("../../imgs/general/file_txt.png")}
+              note="12 января 2018, 02:36:38" nav={() => footerAction(2)}/>
+              <ListMenu id={3} title="Договор №2332 с приложениями" img={require("../../imgs/general/file_zip.png")}
+              note="6 января 2018, 13:49:26" nav={() => footerAction(3)}/>
+              <ListMenu id={4} title="Заключение от поставке" img={require("../../imgs/general/file_docx.png")}
+              note="6 января 2018, 14:28:18" nav={() => footerAction(4)}/>
             </List>
         </Content>
         {footer}
@@ -67,3 +69,17 @@ export class Signature extends React.Component<SignatureProps, any> {
     );
   }
 }
+
+function mapStateToProps (state) {
+  return {
+    footer: state.footer
+  };
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    footerAction: bindActionCreators(footerAction, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signature);

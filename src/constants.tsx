@@ -1,2 +1,1 @@
-export const FOOTER_OPEN = "FOOTER_OPEN";
-export const FOOTER_CLOSE = "FOOTER_CLOSE";
+export const FOOTER_ACTION = "FOOTER_ACTION";

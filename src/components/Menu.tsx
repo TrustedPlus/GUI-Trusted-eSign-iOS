@@ -3,7 +3,7 @@ import { Container, Header, Content, Left, Right, Button, Icon, Body, Title,
   List, ListItem, Thumbnail} from "native-base";
 import {StyleSheet, Text, TouchableOpacity, TouchableHighlight, View, Image} from "react-native";
 import {Diagnostic} from "./Diagnostic";
-import {Signature} from "./Signature";
+import Signature from "./Signature";
 import {Encryption} from "./Encryption";
 import {Certificate} from "./Certificate";
 import {Repository} from "./Repository";

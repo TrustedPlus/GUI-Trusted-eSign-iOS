@@ -1,19 +1,27 @@
-import { FOOTER_OPEN, FOOTER_CLOSE } from "../constants";
+import { FOOTER_ACTION } from "../constants";
+
 const initialState = {
-  footer: false
+  arrButton: []
 };
 
 export default function dataReducer (state = initialState, action) {
   switch (action.type) {
-    case FOOTER_OPEN:
+    case FOOTER_ACTION:
+        function arrButtonFunc() {
+          let index = state.arrButton.indexOf(action.payload);
+          if (index !== -1) {
+            let arr = state.arrButton.splice(index, 1);
+            console.log(arr);
+            return(arr);
+          } else {
+            let arr = state.arrButton.unshift(action.payload);
+            console.log(arr);
+            return(arr);
+          }
+        }
+        let arrButtonReturn = arrButtonFunc();
       return {
-        ...state,
-        footer: true
-      };
-    case FOOTER_CLOSE:
-      return {
-        ...state,
-        footer: false
+        ...state
       };
     default:
       return state;

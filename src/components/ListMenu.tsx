@@ -29,24 +29,24 @@ class ListMenu extends React.PureComponent<ListItemProps, any> {
     }
 
     onPress() {
-        if (this.props.checkbox) this.state.active ? this.setState({active: false}) : this.setState({active: true});
+        if (this.props.checkbox) this.state.active ?this.setState({active: false}) : this.setState({active: true});
         if (this.props.check) this.props.certAdd(this.props.title, this.props.img, this.props.note);
         this.props.nav();
     }
 
     render() {
         let rightimg = null;
-        if (this.props.rightimg) {
+        if (this.props.rightimg) { // условие на изображение справа
             rightimg = <Thumbnail small square style={{position: "absolute", right: 15, top: 15}} source={this.props.rightimg}/>;
         }
         let arrow = null;
-        if (this.props.arrow) {
+        if (this.props.arrow) { // условие на указатель
             arrow = <Text note style={{position: "absolute", right: 15, top: "50%"}}> > </Text>;
         }
 
         let styleActive = null;
 
-        if (this.state.active) {
+        if (this.state.active) { // выбран ли файл
             styleActive = {backgroundColor: "lightgrey"};
         }
         return(

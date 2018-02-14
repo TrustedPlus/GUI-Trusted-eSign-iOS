@@ -6,7 +6,7 @@ export class FooterSign extends React.Component {
         return(
             <Footer>
                 <FooterTab>
-                <Button vertical>
+                <Button vertical onPress={null}>
                     <Icon name="apps" />
                     <Text>Проверить</Text>
                 </Button>

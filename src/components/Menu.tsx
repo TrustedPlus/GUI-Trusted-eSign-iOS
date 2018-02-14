@@ -31,10 +31,6 @@ class Main extends React.Component<MainProps> {
   render() {
     const { navigate } = this.props.navigation;
 
-    /*
-      <Headers title="КриптоАрм ГОСТ" src={require("../../imgs/general/sidebar_icon.png")}
-         goBack={() => this.props.navigation.navigate("DrawerOpen")}/>
-    */
     return (
       <Container>
          <Header style={styles.header}>

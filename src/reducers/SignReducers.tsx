@@ -6,18 +6,18 @@ interface FooterReducerStore {
 }
 
 const initialState: FooterReducerStore = {
-  arrButton: []
+  arrButton: [] // массив выбраных файлов
 };
 
 function arrButtonFunc(oldButtonArray, action: AnyAction) {
 
   let index = oldButtonArray.indexOf(action.payload);
   if (index !== -1) {
-    oldButtonArray.splice(index, 1);
+    oldButtonArray.splice(index, 1); // удаление из массива
     return oldButtonArray;
   }
   oldButtonArray.unshift(action.payload);
-  return oldButtonArray;
+  return oldButtonArray; // добавление в массив
 }
 export default function Footer(state = initialState, action: AnyAction): FooterReducerStore {
   switch (action.type) {

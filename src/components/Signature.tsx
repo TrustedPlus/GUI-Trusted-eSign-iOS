@@ -15,6 +15,7 @@ interface SignatureProps {
   navigation: any;
   footer: any;
   certificate: any;
+  files: any;
   footerAction(any): void;
   footerClose(): void;
 }
@@ -26,16 +27,19 @@ class Signature extends React.Component<SignatureProps, any> {
   };
 
   render() {
-    const {footerAction, footerClose} = this.props;
+    const {footerAction, footerClose, files} = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let footer = null;
-    if (this.props.footer.arrButton.length) {
+    let selectFiles = <Text style={{height: 20}} ></Text>;
+    if (this.props.footer.arrButton.length) { // выбраны ли файлы
       footer = <FooterSign/>;
+      selectFiles = <Text style={{fontSize: 17, height: 20, color: "grey", width: "70%"}}>
+      выбран(о) {this.props.footer.arrButton.length} файл(ов)</Text>;
     }
 
     let certificate, icon;
-    if (this.props.certificate.title) {
+    if (this.props.certificate.title) { // выбран ли сертификат
       certificate = <List>
                       <ListMenu title={this.props.certificate.title} img={this.props.certificate.img}
                         note={this.props.certificate.note} nav={() => null}/>
@@ -46,7 +50,9 @@ class Signature extends React.Component<SignatureProps, any> {
                       <Text style={{fontSize: 17, color: "lightgrey"}}>[Добавьте сертификат подписчика]</Text>
                     </View></Body>;
       icon = require("../../imgs/general/add_icon.png");
-          }
+    }
+
+    console.log(files);
     return (
       <Container>
         <Headers title="Подпись/проверка" goBack={() => {goBack(); footerClose(); }}/>
@@ -60,19 +66,20 @@ class Signature extends React.Component<SignatureProps, any> {
           {certificate}
           <View style={styles.sign_view}>
             <Text style={{fontSize: 23, color: "grey", width: "70%"}}>Файлы</Text>
+            {selectFiles}
             <Button transparent style={{position: "absolute", marginTop: 6, right: 10}}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>
             <List>
-              <ListMenu id={1} title="Договор №2332" img={require("../../imgs/general/file_pdf.png")}
-              note="12 января 2018, 02:34:22" checkbox nav={() => footerAction(1)}/>
-              <ListMenu id={2} title="Письмо от 23.08.2018" img={require("../../imgs/general/file_txt.png")}
-              note="12 января 2018, 02:36:38" checkbox nav={() => footerAction(2)}/>
-              <ListMenu id={3} title="Договор №2332 с приложениями" img={require("../../imgs/general/file_zip.png")}
-              note="6 января 2018, 13:49:26" checkbox nav={() => footerAction(3)}/>
-              <ListMenu id={4} title="Заключение от поставке" img={require("../../imgs/general/file_docx.png")}
-              note="6 января 2018, 14:28:18" checkbox nav={() => footerAction(4)}/>
+              <ListMenu id={files[0].id} title={files[0].title} img={files[0].img}
+              note={files[0].note} checkbox nav={() => footerAction(files[0].id)}/>
+              <ListMenu id={files[1].id} title={files[1].title} img={files[1].img}
+              note={files[1].note} checkbox nav={() => footerAction(files[1].id)}/>
+              <ListMenu id={files[2].id} title={files[2].title} img={files[2].img}
+              note={files[2].note} checkbox nav={() => footerAction(files[2].id)}/>
+              <ListMenu iid={files[3].id} title={files[3].title} img={files[3].img}
+              note={files[3].note} checkbox nav={() => footerAction(files[3].id)}/>
             </List>
         </Content>
         {footer}
@@ -84,7 +91,8 @@ class Signature extends React.Component<SignatureProps, any> {
 function mapStateToProps (state) {
   return {
     footer: state.footer,
-    certificate: state.certificate
+    certificate: state.certificate,
+    files: state.files
   };
 }
 

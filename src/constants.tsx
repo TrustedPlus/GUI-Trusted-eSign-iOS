@@ -1,1 +1,3 @@
 export const FOOTER_ACTION = "FOOTER_ACTION";
+export const FOOTER_CLOSE = "FOOTER_CLOSE";
+export const CERT_ACTION = "CERT_ACTION";

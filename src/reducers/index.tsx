@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
-import appData from "./SignReducers";
+import Footer from "./SignReducers";
+import {Certificate} from "./CertReducers";
 
 const rootReducer = combineReducers({
-    footer: appData
+    footer: Footer,
+    certificate: Certificate
 });
 
 export default rootReducer;

@@ -4,17 +4,19 @@ import {StyleSheet, TouchableOpacity, TouchableHighlight, Image} from "react-nat
 import {Headers} from "./Headers";
 import {styles} from "../styles";
 import {SelectСert} from "./SelectСert";
-import {ListMenu} from "./ListMenu";
+import ListMenu from "./ListMenu";
 import {FooterSign} from "./FooterSign";
 
 import {bindActionCreators} from "redux";
 import { connect } from "react-redux";
-import {footerAction} from "../actions/index";
+import {footerAction, footerClose} from "../actions/index";
 
 interface SignatureProps {
   navigation: any;
   footer: any;
+  certificate: any;
   footerAction(any): void;
+  footerClose(): void;
 }
 
 class Signature extends React.Component<SignatureProps, any> {
@@ -24,29 +26,38 @@ class Signature extends React.Component<SignatureProps, any> {
   };
 
   render() {
-    const {footerAction, footerClear} = this.props;
+    const {footerAction, footerClose} = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let footer = null;
     if (this.props.footer.arrButton.length) {
       footer = <FooterSign/>;
     }
-    console.log(this.props.footer.arrButton);
+
+    let certificate, icon;
+    if (this.props.certificate.title) {
+      certificate = <List>
+                      <ListMenu title={this.props.certificate.title} img={this.props.certificate.img}
+                        note={this.props.certificate.note} nav={() => null}/>
+                    </List>;
+      icon = require("../../imgs/general/edit_icon.png");
+    } else  {
+      certificate = <Body><View style={[styles.sign_view, {paddingBottom: 40}]}>
+                      <Text style={{fontSize: 17, color: "lightgrey"}}>[Добавьте сертификат подписчика]</Text>
+                    </View></Body>;
+      icon = require("../../imgs/general/add_icon.png");
+          }
     return (
       <Container>
-        <Headers title="Подпись/проверка" goBack={() => {goBack(); }}/>
+        <Headers title="Подпись/проверка" goBack={() => {goBack(); footerClose(); }}/>
         <Content style={{backgroundColor: "white"}}>
           <View style={styles.sign_view}>
             <Text style={{fontSize: 23, color: "grey", width: "80%"}}>Сертификат подписи</Text>
             <Button transparent onPress={() => navigate("SelectСert")} style={{position: "absolute", marginTop: 6, right: 10}}>
-              <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
+              <Image style={styles.headerImage} source={icon}/>
             </Button>
           </View>
-          <Body>
-          <View style={[styles.sign_view, {paddingBottom: 40}]}>
-            <Text style={{fontSize: 17, color: "lightgrey"}}>[Добавьте сертификат подписчика]</Text>
-          </View>
-          </Body>
+          {certificate}
           <View style={styles.sign_view}>
             <Text style={{fontSize: 23, color: "grey", width: "70%"}}>Файлы</Text>
             <Button transparent style={{position: "absolute", marginTop: 6, right: 10}}>
@@ -72,13 +83,15 @@ class Signature extends React.Component<SignatureProps, any> {
 
 function mapStateToProps (state) {
   return {
-    footer: state.footer
+    footer: state.footer,
+    certificate: state.certificate
   };
 }
 
 function mapDispatchToProps (dispatch) {
   return {
-    footerAction: bindActionCreators(footerAction, dispatch)
+    footerAction: bindActionCreators(footerAction, dispatch),
+    footerClose: bindActionCreators(footerClose, dispatch)
   };
 }
 

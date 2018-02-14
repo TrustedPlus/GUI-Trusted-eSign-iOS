@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container, List, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from "native-base";
 import {Headers} from "./Headers";
-import {ListMenu} from "./ListMenu";
+import ListMenu from "./ListMenu";
 import {PersonalСert} from "./PersonalСert";
 
 interface RepositoryProps {

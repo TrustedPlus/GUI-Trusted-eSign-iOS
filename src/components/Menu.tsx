@@ -10,7 +10,7 @@ import {Repository} from "./Repository";
 import {Journal} from "./Journal";
 import {styles} from "../styles";
 import {StackNavigator} from "react-navigation";
-import {ListMenu} from "./ListMenu";
+import ListMenu from "./ListMenu";
 import {License} from "./License";
 import {Help} from "./Help";
 import {DescriptionError} from "./DescriptionError";

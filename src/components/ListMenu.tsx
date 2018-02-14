@@ -3,6 +3,10 @@ import {Left, Right, Icon, Body, ListItem, Thumbnail} from "native-base";
 import {Text, Image} from "react-native";
 import {styles} from "../styles";
 
+import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import {certAdd} from "../actions/index";
+
 interface ListItemProps {
     title: string;
     note?: string;
@@ -12,10 +16,12 @@ interface ListItemProps {
     arrow?: boolean;
     id?: number;
     checkbox?: boolean;
+    check?: boolean;
     nav(): void;
+    certAdd?(...any): void;
 }
 
-export class ListMenu extends React.PureComponent<ListItemProps, any> {
+class ListMenu extends React.PureComponent<ListItemProps, any> {
 
     constructor(props) {
         super(props);
@@ -24,6 +30,7 @@ export class ListMenu extends React.PureComponent<ListItemProps, any> {
 
     onPress() {
         if (this.props.checkbox) this.state.active ? this.setState({active: false}) : this.setState({active: true});
+        if (this.props.check) this.props.certAdd(this.props.title, this.props.img, this.props.note);
         this.props.nav();
     }
 
@@ -59,3 +66,17 @@ export class ListMenu extends React.PureComponent<ListItemProps, any> {
         );
     }
 }
+
+function mapStateToProps (state) {
+    return {
+        certificate: state.certificate
+    };
+  }
+
+function mapDispatchToProps (dispatch) {
+    return {
+      certAdd: bindActionCreators(certAdd, dispatch)
+    };
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListMenu);

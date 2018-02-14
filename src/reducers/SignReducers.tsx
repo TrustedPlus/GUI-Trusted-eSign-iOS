@@ -1,26 +1,35 @@
-import { FOOTER_ACTION} from "../constants";
+import { AnyAction } from "redux";
+import { FOOTER_ACTION, FOOTER_CLOSE} from "../constants";
 
-const initialState = {
+interface FooterReducerStore {
+  arrButton: any[];
+}
+
+const initialState: FooterReducerStore = {
   arrButton: []
 };
 
-export default function dataReducer (state = initialState, action) {
+function arrButtonFunc(oldButtonArray, action: AnyAction) {
+
+  let index = oldButtonArray.indexOf(action.payload);
+  if (index !== -1) {
+    oldButtonArray.splice(index, 1);
+    return oldButtonArray;
+  }
+  oldButtonArray.unshift(action.payload);
+  return oldButtonArray;
+}
+export default function Footer(state = initialState, action: AnyAction): FooterReducerStore {
   switch (action.type) {
     case FOOTER_ACTION:
-        function arrButtonFunc() {
-          let index = state.arrButton.indexOf(action.payload);
-          console.log("arrButtonFunc()");
-          if (index !== -1) {
-            let arr = state.arrButton.splice(index, 1);
-            return(arr);
-          } else {
-            let arr = state.arrButton.unshift(action.payload);
-            return(arr);
-          }
-        }
-        let arrButtonReturn = arrButtonFunc();
       return {
-        ...state
+        ...state,
+        arrButton: arrButtonFunc(state.arrButton, action)
+      };
+    case FOOTER_CLOSE:
+      return {
+        ...state,
+        arrButton: []
       };
     default:
       return state;

@@ -17,7 +17,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Свойства сертфиката" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
         <Content style={{backgroundColor: "white"}}>
         <View>

@@ -29,7 +29,7 @@ class ListMenu extends React.PureComponent<ListItemProps, any> {
     }
 
     onPress() {
-        if (this.props.checkbox) this.state.active ?this.setState({active: false}) : this.setState({active: true});
+        if (this.props.checkbox) this.state.active ? this.setState({active: false}) : this.setState({active: true});
         if (this.props.check) this.props.certAdd(this.props.title, this.props.img, this.props.note);
         this.props.nav();
     }

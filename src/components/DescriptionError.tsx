@@ -14,7 +14,7 @@ export class DescriptionError extends React.Component<DescriptionErrorProps> {
   render() {
     const { goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Диагностика" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
         <Content style={{backgroundColor: "white"}}>
           <View style={{padding: 15}}>

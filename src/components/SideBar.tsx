@@ -13,7 +13,7 @@ export class SideBar extends React.Component<SideBarProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Content>
         <View style={{height: 140}}>
           <TouchableOpacity onPress={() => {navigate("Main", navigate("DrawerClose")); }}>
@@ -24,32 +24,24 @@ export class SideBar extends React.Component<SideBarProps> {
         </View>
         <View>
         <List >
-          <SideListItem title="Диагностика приложения"
-          img={require("../../imgs/general/diagnostic_menu_icon.png")} nav={() => {
-            goBack(0); navigate("Diagnostic"); }} />
-            <SideListItem title="Подпись / проверка подписи"
-          img={require("../../imgs/general/sign_menu_icon.png")} nav={() => {
-            goBack(0); navigate("Signature"); }} />
-            <SideListItem title="Шифрование / расшифрование"
-          img={require("../../imgs/general/encode_menu_icon.png")} nav={() => {
-            goBack(0); navigate("Encryption"); }} />
-            <SideListItem title="Управление сертификатами"
-          img={require("../../imgs/general/certificates_menu_icon.png")} nav={() => {
-            goBack(0); navigate("Certificate"); }} />
-            <SideListItem title="Управление хранилищами"
-          img={require("../../imgs/general/stores_menu_icon.png")} nav={() => {
-            goBack(0); navigate("Repository"); }} />
-            <SideListItem title="Журнал операций"
-          img={require("../../imgs/general/journal_menu_icon.png")} nav={() => {
-            goBack(0); navigate("Journal"); }} />
-            <SideListItem title="Лицензия на приложение"
-          img={require("../../imgs/general/license_menu_icon.png")} nav={() => {
-            goBack(0); navigate("License"); }} />
-            <SideListItem title="Справочная помощь"
-          img={require("../../imgs/general/help_menu_icon.png")} nav={() => {
-            goBack(0); navigate("Help"); }} />
-            <SideListItem title="Выход"
-          img={require("../../imgs/general/close_menu_icon.png")} nav={() => navigate("DrawerClose")}/>
+          <SideListItem title="Диагностика приложения" img={require("../../imgs/general/diagnostic_menu_icon.png")}
+            nav={() => {goBack(0); navigate("Diagnostic"); }}/>
+          <SideListItem title="Подпись / проверка подписи" img={require("../../imgs/general/sign_menu_icon.png")}
+            nav={() => {goBack(0); navigate("Signature"); }}/>
+          <SideListItem title="Шифрование / расшифрование" img={require("../../imgs/general/encode_menu_icon.png")}
+            nav={() => {goBack(0); navigate("Encryption"); }}/>
+          <SideListItem title="Управление сертификатами" img={require("../../imgs/general/certificates_menu_icon.png")}
+            nav={() => {goBack(0); navigate("Certificate"); }}/>
+          <SideListItem title="Управление хранилищами" img={require("../../imgs/general/stores_menu_icon.png")}
+            nav={() => {goBack(0); navigate("Repository"); }}/>
+          <SideListItem title="Журнал операций" img={require("../../imgs/general/journal_menu_icon.png")}
+            nav={() => {goBack(0); navigate("Journal"); }}/>
+          <SideListItem title="Лицензия на приложение" img={require("../../imgs/general/license_menu_icon.png")}
+            nav={() => {goBack(0); navigate("License"); }}/>
+          <SideListItem title="Справочная помощь" img={require("../../imgs/general/help_menu_icon.png")}
+            nav={() => {goBack(0); navigate("Help"); }} />
+          <SideListItem title="Выход" img={require("../../imgs/general/close_menu_icon.png")}
+            nav={() => navigate("DrawerClose")}/>
         </List>
         </View>
         </Content>

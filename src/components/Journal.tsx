@@ -15,7 +15,7 @@ export class Journal extends React.Component<JournalProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Журнал операций" goBack={() => goBack()}/>
       </Container>
     );

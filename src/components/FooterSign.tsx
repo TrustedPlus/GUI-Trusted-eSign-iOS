@@ -12,23 +12,23 @@ interface FooterSignStore {
 class FooterSign extends React.Component<any, FooterSignStore> {
     render() {
         return(
-            <Footer>
+            <Footer style={{backgroundColor: "white"}}>
                 <FooterTab>
                 <Button vertical>
-                    <Icon name="apps" />
-                    <Text>Проверить</Text>
+                    <Icon style={{color: "black"}} name="apps" />
+                    <Text style={{color: "black", width: 110}}>Проверить</Text>
                 </Button>
                 <Button vertical onPress={() => this.props.signFiles(this.props.footer.arrButton)}>
-                    <Icon name="camera" />
-                    <Text>Подписать</Text>
+                    <Icon style={{color: "black"}} name="camera" />
+                    <Text style={{color: "black", width: 110}}>Подписать</Text>
                 </Button>
                 <Button vertical>
-                    <Icon name="navigate" />
-                    <Text>Отправить</Text>
+                    <Icon style={{color: "black"}} name="navigate" />
+                    <Text style={{color: "black",  width: 110}}>Отправить</Text>
                 </Button>
                 <Button vertical>
-                    <Icon name="person" />
-                    <Text >Закрыть</Text>
+                    <Icon style={{color: "black"}} name="person" />
+                    <Text style={{color: "black"}}>Удалить</Text>
                 </Button>
                 </FooterTab>
             </Footer>

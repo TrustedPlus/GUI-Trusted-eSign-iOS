@@ -32,7 +32,7 @@ class Main extends React.Component<MainProps> {
     const { navigate } = this.props.navigation;
 
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
          <Header style={styles.header}>
           <Left style={styles.left}>
             <Button transparent onPress={() => navigate("DrawerOpen")}>

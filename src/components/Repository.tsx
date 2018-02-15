@@ -17,7 +17,7 @@ export class Repository extends React.Component<RepositoryProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Управление хранилищами" goBack={() => goBack()}/>
         <Content>
           <List>

@@ -32,6 +32,7 @@ class Signature extends React.Component<SignatureProps, any> {
 
     let footer = null;
     let selectFiles = <Text style={{height: 20}} ></Text>;
+
     if (this.props.footer.arrButton.length) { // выбраны ли файлы
       footer = <FooterSign/>;
       selectFiles = <Text style={{fontSize: 17, height: 20, color: "grey", width: "70%"}}>
@@ -75,7 +76,7 @@ class Signature extends React.Component<SignatureProps, any> {
       }
     }
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Подпись/проверка" goBack={() => {goBack(); footerClose(); }}/>
         <Content style={{backgroundColor: "white"}}>
           <View style={styles.sign_view}>

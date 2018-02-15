@@ -16,7 +16,7 @@ export class SelectСert extends React.Component<SelectСertProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Выберите сертификат" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
         <Header searchBar>
           <Item>

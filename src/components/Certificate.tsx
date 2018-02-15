@@ -15,7 +15,7 @@ export class Certificate extends React.Component<CertificateProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Сертификаты" goBack={() => goBack()}/>
         <Content>
           <List>

@@ -14,7 +14,7 @@ export class License extends React.Component<LicenseProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Лицензия" goBack={() => goBack()}/>
       </Container>
     );

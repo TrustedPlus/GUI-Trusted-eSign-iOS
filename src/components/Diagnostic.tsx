@@ -16,7 +16,7 @@ export class Diagnostic extends React.Component<DiagnosticProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Диагностика" goBack={() => goBack()}/>
         <Content>
           <List>

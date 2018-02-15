@@ -17,7 +17,7 @@ export class PersonalСert extends React.Component<PersonalСertProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Личные сертификаты" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
         <Header searchBar>
           <Item>

@@ -14,7 +14,7 @@ export class Help extends React.Component<HelpProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container>
+      <Container style={{backgroundColor: "white"}}>
         <Headers title="Справочная помощь" goBack={() => goBack()}/>
       </Container>
     );

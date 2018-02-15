@@ -1,4 +1,4 @@
-import { FOOTER_ACTION, FOOTER_CLOSE, CERT_ACTION } from "../constants";
+import { FOOTER_ACTION, FOOTER_CLOSE, CERT_ACTION, SIGN_FILES } from "../constants";
 
 export function footerAction(idButton) {
   return {
@@ -17,5 +17,12 @@ export function certAdd(title, img, note) {
   return {
     type: CERT_ACTION,
     payload: [title, img, note]
+  };
+}
+
+export function signFiles(id) {
+  return {
+    type: SIGN_FILES,
+    payload: id
   };
 }

@@ -1,16 +1,24 @@
 import * as React from "react";
 import {Footer, FooterTab, Button, Icon, Text} from "native-base";
 
-export class FooterSign extends React.Component {
+import {bindActionCreators} from "redux";
+import { connect } from "react-redux";
+import {signFiles} from "../actions/index";
+
+interface FooterSignStore {
+    signFiles(any): void;
+}
+
+class FooterSign extends React.Component<any, FooterSignStore> {
     render() {
         return(
             <Footer>
                 <FooterTab>
-                <Button vertical onPress={null}>
+                <Button vertical>
                     <Icon name="apps" />
                     <Text>Проверить</Text>
                 </Button>
-                <Button vertical>
+                <Button vertical onPress={() => this.props.signFiles(this.props.footer.arrButton)}>
                     <Icon name="camera" />
                     <Text>Подписать</Text>
                 </Button>
@@ -27,3 +35,18 @@ export class FooterSign extends React.Component {
         );
     }
 }
+
+function mapStateToProps (state) {
+    return {
+      files: state.files,
+      footer: state.footer
+    };
+  }
+
+  function mapDispatchToProps (dispatch) {
+    return {
+        signFiles: bindActionCreators(signFiles, dispatch)
+    };
+  }
+
+  export default connect(mapStateToProps, mapDispatchToProps)(FooterSign);

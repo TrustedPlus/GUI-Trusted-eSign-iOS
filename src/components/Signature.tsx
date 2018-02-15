@@ -5,7 +5,7 @@ import {Headers} from "./Headers";
 import {styles} from "../styles";
 import {SelectСert} from "./SelectСert";
 import ListMenu from "./ListMenu";
-import {FooterSign} from "./FooterSign";
+import FooterSign from "./FooterSign";
 
 import {bindActionCreators} from "redux";
 import { connect } from "react-redux";
@@ -52,7 +52,28 @@ class Signature extends React.Component<SignatureProps, any> {
       icon = require("../../imgs/general/add_icon.png");
     }
 
-    console.log(files);
+    let img = [];
+    for (let i = 0; i < files.id.length; i++) {
+      switch (files.extension[i]) {
+        case "pdf":
+          img[i] = require("../../imgs/general/file_pdf.png");
+          break;
+        case "txt":
+          img[i] = require("../../imgs/general/file_txt.png");
+          break;
+        case "zip":
+          img[i] = require("../../imgs/general/file_zip.png");
+          break;
+        case "docx":
+          img[i] = require("../../imgs/general/file_docx.png");
+          break;
+        case "sig":
+          img[i] = require("../../imgs/general/file_sig.png");
+          break;
+        default:
+          break;
+      }
+    }
     return (
       <Container>
         <Headers title="Подпись/проверка" goBack={() => {goBack(); footerClose(); }}/>
@@ -72,14 +93,14 @@ class Signature extends React.Component<SignatureProps, any> {
             </Button>
           </View>
             <List>
-              <ListMenu id={files[0].id} title={files[0].title} img={files[0].img}
-              note={files[0].note} checkbox nav={() => footerAction(files[0].id)}/>
-              <ListMenu id={files[1].id} title={files[1].title} img={files[1].img}
-              note={files[1].note} checkbox nav={() => footerAction(files[1].id)}/>
-              <ListMenu id={files[2].id} title={files[2].title} img={files[2].img}
-              note={files[2].note} checkbox nav={() => footerAction(files[2].id)}/>
-              <ListMenu iid={files[3].id} title={files[3].title} img={files[3].img}
-              note={files[3].note} checkbox nav={() => footerAction(files[3].id)}/>
+              <ListMenu id={files.id[0]} title={files.title[0]} img={img[0]}
+              note={files.note[0]} checkbox nav={() => footerAction(files.id[0])}/>
+              <ListMenu id={files.id[1]} title={files.title[1]} img={img[1]}
+              note={files.note[1]} checkbox nav={() => footerAction(files.id[1])}/>
+              <ListMenu id={files.id[2]} title={files.title[2]} img={img[2]}
+              note={files.note[2]} checkbox nav={() => footerAction(files.id[2])}/>
+              <ListMenu iid={files.id[3]} title={files.title[3]} img={img[3]}
+              note={files.note[3]} checkbox nav={() => footerAction(files.id[3])}/>
             </List>
         </Content>
         {footer}

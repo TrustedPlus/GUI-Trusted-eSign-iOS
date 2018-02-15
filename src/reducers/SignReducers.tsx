@@ -19,6 +19,7 @@ function arrButtonFunc(oldButtonArray, action: AnyAction) {
   oldButtonArray.unshift(action.payload);
   return oldButtonArray; // добавление в массив
 }
+
 export default function Footer(state = initialState, action: AnyAction): FooterReducerStore {
   switch (action.type) {
     case FOOTER_ACTION:

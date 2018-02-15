@@ -1,28 +1,31 @@
-export default function () {
-    return [
-        {
-            id: 1,
-            title: "Договор №2332",
-            img: require("../../imgs/general/file_pdf.png"),
-            note: "12 января 2018, 02:34:22"
-        },
-        {
-            id: 2,
-            title: "Письмо от 23.08.2018",
-            img: require("../../imgs/general/file_txt.png"),
-            note: "12 января 2018, 02:36:38"
-        },
-        {
-            id: 3,
-            title: "Договор №2332 с приложениями",
-            img: require("../../imgs/general/file_zip.png"),
-            note: "6 января 2018, 13:49:26"
-        },
-        {
-            id: 4,
-            title: "Заключение от поставке",
-            img: require("../../imgs/general/file_docx.png"),
-            note: "6 января 2018, 14:28:18"
-        }
-    ];
+import { SIGN_FILES} from "../constants";
+
+const initialState = {
+    id: [0, 1, 2, 3],
+    title: ["Договор №2332", "Письмо от 23.08.2018", "Договор №2332 с приложениями", "Заключение от поставке"],
+    extension: ["pdf", "txt", "zip", "docx"],
+    note: ["12 января 2018, 02:34:22", "12 января 2018, 02:36:38", "6 января 2018, 13:49:26", "6 января 2018, 14:28:18"]
+};
+
+function changeExtension(OldExtension, id) {
+    let length = id.length;
+    while (length) {
+        OldExtension[id[length]] = "sig";
+        length--;
+        console.log(length);
+    }
+    OldExtension[id[0]] = "sig";
+    return OldExtension;
+}
+
+export function Files (state = initialState, action) {
+  switch (action.type) {
+    case SIGN_FILES:
+      return {
+        ...state,
+        extension: changeExtension(state.extension, action.payload)
+      };
+    default:
+      return state;
+  }
 }

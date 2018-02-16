@@ -1,6 +1,7 @@
 import * as React from "react";
-import { Container, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from "native-base";
+import {Container} from "native-base";
 import {Headers} from "./Headers";
+import {styles} from "../styles";
 
 interface JournalProps {
   navigation: any;
@@ -8,6 +9,7 @@ interface JournalProps {
 }
 
 export class Journal extends React.Component<JournalProps> {
+
   static navigationOptions = {
     header: null
   };
@@ -15,7 +17,7 @@ export class Journal extends React.Component<JournalProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container style={{backgroundColor: "white"}}>
+      <Container style={styles.container}>
         <Headers title="Журнал операций" goBack={() => goBack()}/>
       </Container>
     );

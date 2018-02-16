@@ -1,10 +1,9 @@
 import * as React from "react";
-import {Left, Right, Icon, Body, ListItem, Thumbnail} from "native-base";
+import {Left, Body, ListItem, Thumbnail} from "native-base";
 import {Text, Image} from "react-native";
 import {styles} from "../styles";
-
 import {bindActionCreators} from "redux";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {certAdd} from "../actions/index";
 
 interface ListItemProps {
@@ -39,16 +38,17 @@ class ListMenu extends React.PureComponent<ListItemProps, any> {
         if (this.props.rightimg) { // условие на изображение справа
             rightimg = <Thumbnail small square style={{position: "absolute", right: 15, top: 15}} source={this.props.rightimg}/>;
         }
+
         let arrow = null;
         if (this.props.arrow) { // условие на указатель
             arrow = <Text note style={{position: "absolute", right: 15, top: "50%"}}> > </Text>;
         }
 
         let styleActive = null;
-
         if (this.state.active) { // выбран ли файл
             styleActive = {backgroundColor: "lightgrey"};
         }
+
         return(
         <ListItem style={[styles.listItem, styleActive]} avatar onPress={this.onPress.bind(this)} >
             <Left>

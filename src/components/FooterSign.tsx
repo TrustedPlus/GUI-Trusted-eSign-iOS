@@ -1,8 +1,8 @@
 import * as React from "react";
 import {Footer, FooterTab, Button, Icon, Text} from "native-base";
-
+import {styles} from "../styles";
 import {bindActionCreators} from "redux";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {signFiles} from "../actions/index";
 
 interface FooterSignStore {
@@ -12,8 +12,8 @@ interface FooterSignStore {
 class FooterSign extends React.Component<any, FooterSignStore> {
     render() {
         return(
-            <Footer style={{backgroundColor: "white"}}>
-                <FooterTab>
+            <Footer>
+                <FooterTab style={styles.container}>
                 <Button vertical>
                     <Icon style={{color: "black"}} name="apps" />
                     <Text style={{color: "black", width: 110}}>Проверить</Text>
@@ -41,12 +41,12 @@ function mapStateToProps (state) {
       files: state.files,
       footer: state.footer
     };
-  }
+}
 
-  function mapDispatchToProps (dispatch) {
+function mapDispatchToProps (dispatch) {
     return {
         signFiles: bindActionCreators(signFiles, dispatch)
     };
-  }
+}
 
-  export default connect(mapStateToProps, mapDispatchToProps)(FooterSign);
+export default connect(mapStateToProps, mapDispatchToProps)(FooterSign);

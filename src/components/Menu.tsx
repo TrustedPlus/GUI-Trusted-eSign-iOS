@@ -1,7 +1,6 @@
 import * as React from "react";
-import { Container, Header, Content, Left, Right, Button, Icon, Body, Title,
-  List, ListItem, Thumbnail} from "native-base";
-import {StyleSheet, Text, TouchableOpacity, TouchableHighlight, View, Image} from "react-native";
+import {Container, Header, Content, Left, Right, Button, Body, Title, List} from "native-base";
+import {Text, Image} from "react-native";
 import {Diagnostic} from "./Diagnostic";
 import Signature from "./Signature";
 import {Encryption} from "./Encryption";
@@ -24,6 +23,7 @@ interface MainProps {
 }
 
 class Main extends React.Component<MainProps> {
+
   static navigationOptions = {
     header: null
   };
@@ -32,7 +32,7 @@ class Main extends React.Component<MainProps> {
     const { navigate } = this.props.navigation;
 
     return (
-      <Container style={{backgroundColor: "white"}}>
+      <Container style={styles.container}>
          <Header style={styles.header}>
           <Left style={styles.left}>
             <Button transparent onPress={() => navigate("DrawerOpen")}>
@@ -50,19 +50,18 @@ class Main extends React.Component<MainProps> {
         </Header>
         <Content>
           <List>
-            <ListMenu title="Диагностика приложения"
-             img={require("../../imgs/general/diagnostic_main_icon.png" )} note="ошибок: 1"
-             rightnote="замечаний: 1" nav={() => navigate("Diagnostic")}/>
-            <ListMenu title="Подпись / проверка подписи"
-            img={require("../../imgs/general/sign_main_icon.png")} note="выбрано файлов: 4" nav={() => navigate("Signature")}/>
-            <ListMenu title="Шифрование / расшифрование"
-            img={require("../../imgs/general/encode_main_icon.png")} note="выбрано файлов: 0" nav={() => navigate("Encryption")}/>
-            <ListMenu title="Управление сертификатами"
-            img={require("../../imgs/general/certificates_main_icon.png")} note="личных сертификатов: 6" nav={() => navigate("Certificate")}/>
-            <ListMenu title="Управление хранилищами"
-            img={require("../../imgs/general/stores_main_icon.png")} note="подключенных хранилищ: 2" nav={() => navigate("Repository")}/>
-            <ListMenu title="Журнал операций"
-            img={require("../../imgs/general/journal_main_icon.png")} note="выбрано файлов 4" nav={() => navigate("Journal")}/>
+            <ListMenu title="Диагностика приложения" img={require("../../imgs/general/diagnostic_main_icon.png" )}
+              note="ошибок: 1" rightnote="замечаний: 1" nav={() => navigate("Diagnostic")}/>
+            <ListMenu title="Подпись / проверка подписи" img={require("../../imgs/general/sign_main_icon.png")}
+              note="выбрано файлов: 4" nav={() => navigate("Signature")}/>
+            <ListMenu title="Шифрование / расшифрование" img={require("../../imgs/general/encode_main_icon.png")}
+              note="выбрано файлов: 0" nav={() => navigate("Encryption")}/>
+            <ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
+              note="личных сертификатов: 6" nav={() => navigate("Certificate")}/>
+            <ListMenu title="Управление хранилищами" img={require("../../imgs/general/stores_main_icon.png")}
+              note="подключенных хранилищ: 2" nav={() => navigate("Repository")}/>
+            <ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
+              note="выбрано файлов 4" nav={() => navigate("Journal")}/>
           </List>
         </Content>
       </Container>

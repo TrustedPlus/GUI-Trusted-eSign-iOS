@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Left, Icon, Body, ListItem, Thumbnail} from "native-base";
-import {Text, Image} from "react-native";
+import {ListItem, Thumbnail} from "native-base";
+import {Text} from "react-native";
 import {styles} from "../styles";
 
 interface SideListItemProps {

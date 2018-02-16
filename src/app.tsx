@@ -10,7 +10,6 @@ import {Journal} from "./components/Journal";
 import {SideBar} from "./components/SideBar";
 import {License} from "./components/License";
 import {Help} from "./components/Help";
-import { Provider } from "react-redux";
 import { createStore } from "redux";
 import reducers from "./reducers";
 

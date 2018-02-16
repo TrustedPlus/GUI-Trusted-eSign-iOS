@@ -1,8 +1,9 @@
 import * as React from "react";
-import { Container, Header, View, Item, Input, List, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from "native-base";
+import {Container, Header, Item, Input, List, Content, Icon} from "native-base";
 import {Headers} from "./Headers";
 import ListMenu from "./ListMenu";
 import {PropertiesCert} from "./PropertiesCert";
+import {styles} from "../styles";
 
 interface PersonalСertProps {
   navigation: any;
@@ -17,7 +18,7 @@ export class PersonalСert extends React.Component<PersonalСertProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     return (
-      <Container style={{backgroundColor: "white"}}>
+      <Container style={styles.container}>
         <Headers title="Личные сертификаты" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
         <Header searchBar>
           <Item>
@@ -27,14 +28,12 @@ export class PersonalСert extends React.Component<PersonalСertProps> {
         </Header>
         <Content>
           <List>
-            <ListMenu title="GisJkh"
-             img={require("../../imgs/general/cert2_ok_icon.png" )}
-             rightimg={require("../../imgs/general/key_icon.png" )} note="CRYPTO-PRO Test Center 2" nav={() => null}/>
-            <ListMenu title="shesnokov"
-             img={require("../../imgs/general/cert2_ok_icon.png")}
-             rightimg={require("../../imgs/general/key_icon.png" )} note='Тестовый УЦ ООО "Крипто Про"' nav={() => navigate("PropertiesCert")}/>
-            <ListMenu title="serji"
-             img={require("../../imgs/general/cert2_bad_icon.png")} note="serji" nav={() => null}/>
+            <ListMenu title="GisJkh" img={require("../../imgs/general/cert2_ok_icon.png" )}
+              rightimg={require("../../imgs/general/key_icon.png" )} note="CRYPTO-PRO Test Center 2" nav={() => null}/>
+            <ListMenu title="shesnokov" img={require("../../imgs/general/cert2_ok_icon.png")}
+              rightimg={require("../../imgs/general/key_icon.png" )} note='Тестовый УЦ ООО "Крипто Про"' nav={() => navigate("PropertiesCert")}/>
+            <ListMenu title="serji" img={require("../../imgs/general/cert2_bad_icon.png")}
+              note="serji" nav={() => null}/>
           </List>
         </Content>
       </Container>

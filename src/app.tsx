@@ -3,7 +3,7 @@ import { DrawerNavigator } from "react-navigation";
 import {menu} from "./components/Menu";
 import {Diagnostic} from "./components/Diagnostic";
 import Signature from "./components/Signature";
-import {Encryption} from "./components/Encryption";
+import Encryption from "./components/Encryption";
 import {Certificate} from "./components/Certificate";
 import {Repository} from "./components/Repository";
 import {Journal} from "./components/Journal";

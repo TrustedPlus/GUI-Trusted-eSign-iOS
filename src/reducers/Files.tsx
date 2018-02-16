@@ -1,4 +1,4 @@
-import { SIGN_FILES} from "../constants";
+import {SIGN_FILES, ENCRYPT_FILES} from "../constants";
 
 const initialState = {
     id: [0, 1, 2, 3],
@@ -8,14 +8,24 @@ const initialState = {
     check: ["nochecked, nochecked, nochecked, nochecked"]
 };
 
-function changeExtension(OldExtension, id) {
-    let length = id.length;
-    while (length) {
-        OldExtension[id[length]] = "sig";
-        length--;
-    }
-    OldExtension[id[0]] = "sig";
-    return OldExtension;
+function changeExtensionSign(OldExtension, id) {
+  let length = id.length;
+  while (length) {
+      OldExtension[id[length]] = "sig";
+      length--;
+  }
+  OldExtension[id[0]] = "sig";
+  return OldExtension;
+}
+
+function changeExtensionEncrypt(OldExtension, id) {
+  let length = id.length;
+  while (length) {
+      OldExtension[id[length]] = "enc";
+      length--;
+  }
+  OldExtension[id[0]] = "enc";
+  return OldExtension;
 }
 
 export function Files (state = initialState, action) {
@@ -23,7 +33,12 @@ export function Files (state = initialState, action) {
     case SIGN_FILES:
       return {
         ...state,
-        extension: changeExtension(state.extension, action.payload)
+        extension: changeExtensionSign(state.extension, action.payload)
+      };
+    case ENCRYPT_FILES:
+      return {
+        ...state,
+        extension: changeExtensionEncrypt(state.extension, action.payload)
       };
     default:
       return state;

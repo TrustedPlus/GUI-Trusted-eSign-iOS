@@ -3,7 +3,7 @@ import {Container, Header, Content, Left, Right, Button, Body, Title, List} from
 import {Text, Image} from "react-native";
 import {Diagnostic} from "./Diagnostic";
 import Signature from "./Signature";
-import {Encryption} from "./Encryption";
+import Encryption from "./Encryption";
 import {Certificate} from "./Certificate";
 import {Repository} from "./Repository";
 import {Journal} from "./Journal";

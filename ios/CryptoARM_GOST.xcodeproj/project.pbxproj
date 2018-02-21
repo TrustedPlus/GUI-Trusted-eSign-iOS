@@ -56,6 +56,12 @@
 		ABB64D2398F240A796B6CFE2 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EFB124FE39F4DC2A3DD4396 /* MaterialCommunityIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		CBA4BA79D75F4761858A6DDA /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 552BA437549D4B59ADC352CD /* FontAwesome.ttf */; };
+		D791ABE1203C4E71009B75E3 /* SignerClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = D791ABE0203C4E71009B75E3 /* SignerClass.mm */; };
+		D791AC1C203C50F6009B75E3 /* CipherClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = D791AC1B203C50F6009B75E3 /* CipherClass.mm */; };
+		D7CA7C62203B148B00619470 /* Header.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7C61203B148B00619470 /* Header.m */; };
+		D7CA7CA8203B1A1E00619470 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7CA7203B1A1E00619470 /* libcrypto.a */; };
+		D7CA7CAA203B1A2800619470 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7CA9203B1A2800619470 /* libssl.a */; };
+		D7CA7CAC203B1A3200619470 /* wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7CAB203B1A3200619470 /* wrapper.a */; };
 		E1D9C8CDE73D41E4A3F67813 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 487BBB9560EA486A93BD4003 /* Ionicons.ttf */; };
 		EA6E5C678A234535957D37B1 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3E9F35C7B6E42768B14AB35 /* Zocial.ttf */; };
 		EFD8B399E03140A1BC45C7C3 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B112937A183433480B170BD /* MaterialIcons.ttf */; };
@@ -397,6 +403,20 @@
 		B7EBE5778A2E48BA877B44CC /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		D3283234CB444E7197B4DEDF /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		D6C5CE7296D24E7DB8534B86 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
+		D791ABDF203C4E71009B75E3 /* SignerClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignerClass.h; sourceTree = "<group>"; };
+		D791ABE0203C4E71009B75E3 /* SignerClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SignerClass.mm; sourceTree = "<group>"; };
+		D791ABE2203C4F37009B75E3 /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CPROCSP.framework; path = ../../CPROCSP.framework; sourceTree = "<group>"; };
+		D791ABF3203C5085009B75E3 /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = ../../CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
+		D791AC1A203C50F6009B75E3 /* CipherClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CipherClass.h; sourceTree = "<group>"; };
+		D791AC1B203C50F6009B75E3 /* CipherClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CipherClass.mm; sourceTree = "<group>"; };
+		D7CA7BF3203B103F00619470 /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CPROCSP.framework; sourceTree = "<group>"; };
+		D7CA7C36203B143700619470 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		D7CA7C5E203B144B00619470 /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
+		D7CA7C60203B147C00619470 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		D7CA7C61203B148B00619470 /* Header.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Header.m; sourceTree = "<group>"; };
+		D7CA7CA7203B1A1E00619470 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
+		D7CA7CA9203B1A2800619470 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
+		D7CA7CAB203B1A3200619470 /* wrapper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = wrapper.a; path = lib/wrapper.a; sourceTree = "<group>"; };
 		DE712CC8B62642A3B0319877 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -413,6 +433,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7CA7CAC203B1A3200619470 /* wrapper.a in Frameworks */,
+				D7CA7CAA203B1A2800619470 /* libssl.a in Frameworks */,
+				D7CA7CA8203B1A1E00619470 /* libcrypto.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -574,6 +597,12 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				D7CA7C60203B147C00619470 /* Header.h */,
+				D7CA7C61203B148B00619470 /* Header.m */,
+				D791ABDF203C4E71009B75E3 /* SignerClass.h */,
+				D791ABE0203C4E71009B75E3 /* SignerClass.mm */,
+				D791AC1A203C50F6009B75E3 /* CipherClass.h */,
+				D791AC1B203C50F6009B75E3 /* CipherClass.mm */,
 			);
 			name = CryptoARM_GOST;
 			sourceTree = "<group>";
@@ -604,6 +633,14 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D791ABF3203C5085009B75E3 /* librdrpcsc_empty.o */,
+				D791ABE2203C4F37009B75E3 /* CPROCSP.framework */,
+				D7CA7CAB203B1A3200619470 /* wrapper.a */,
+				D7CA7CA9203B1A2800619470 /* libssl.a */,
+				D7CA7CA7203B1A1E00619470 /* libcrypto.a */,
+				D7CA7C5E203B144B00619470 /* librdrpcsc_empty.o */,
+				D7CA7C36203B143700619470 /* libz.tbd */,
+				D7CA7BF3203B103F00619470 /* CPROCSP.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 			);
 			name = Frameworks;
@@ -1256,7 +1293,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D791ABE1203C4E71009B75E3 /* SignerClass.mm in Sources */,
+				D791AC1C203C50F6009B75E3 /* CipherClass.mm in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				D7CA7C62203B148B00619470 /* Header.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1366,16 +1406,22 @@
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = B5A26ECMKT;
-				HEADER_SEARCH_PATHS = (
+				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = "/Users/dev/Desktop/GUI-Trusted-eSign-iOS/ios/include/**";
 				INFOPLIST_FILE = CryptoARM_GOST/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1390,15 +1436,21 @@
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B5A26ECMKT;
-				HEADER_SEARCH_PATHS = (
+				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = "/Users/dev/Desktop/GUI-Trusted-eSign-iOS/ios/include/**";
 				INFOPLIST_FILE = CryptoARM_GOST/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/lib",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

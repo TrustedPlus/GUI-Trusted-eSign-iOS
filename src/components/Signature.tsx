@@ -93,12 +93,12 @@ class Signature extends React.Component<SignatureProps, any> {
           <List>
             <ListMenu id={files.id[0]} title={files.title[0]} img={img[0]}
               note={files.note[0]} checkbox nav={() => footerAction(files.id[0])}/>
-            <ListMenu id={files.id[1]} title={files.title[1]} img={img[1]}
+            {/*<ListMenu id={files.id[1]} title={files.title[1]} img={img[1]}
               note={files.note[1]} checkbox nav={() => footerAction(files.id[1])}/>
             <ListMenu id={files.id[2]} title={files.title[2]} img={img[2]}
               note={files.note[2]} checkbox nav={() => footerAction(files.id[2])}/>
             <ListMenu iid={files.id[3]} title={files.title[3]} img={img[3]}
-              note={files.note[3]} checkbox nav={() => footerAction(files.id[3])}/>
+    note={files.note[3]} checkbox nav={() => footerAction(files.id[3])}/>*/}
           </List>
         </Content>
         {footer}

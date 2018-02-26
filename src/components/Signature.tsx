@@ -8,7 +8,7 @@ import ListMenu from "./ListMenu";
 import FooterSign from "./FooterSign";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {footerAction, footerClose} from "../actions/index";
+import {footerAction, footerClose, createFiles} from "../actions/index";
 
 interface SignatureProps {
   navigation: any;
@@ -17,6 +17,7 @@ interface SignatureProps {
   files: any;
   footerAction(any): void;
   footerClose(): void;
+  createFiles(): void;
 }
 
 class Signature extends React.Component<SignatureProps, any> {
@@ -26,7 +27,7 @@ class Signature extends React.Component<SignatureProps, any> {
   };
 
   render() {
-    const {footerAction, footerClose, files} = this.props;
+    const {footerAction, footerClose, files, createFiles} = this.props;
     const {navigate, goBack} = this.props.navigation;
 
     let certificate, icon;
@@ -72,6 +73,7 @@ class Signature extends React.Component<SignatureProps, any> {
       selectFiles = <Text style={{height: 20}} ></Text>;
     }
 
+    // console.log(this.props.files);
     return (
       <Container style={styles.container}>
         <Headers title="Подпись/проверка" goBack={() => {goBack(); footerClose(); }}/>
@@ -86,7 +88,7 @@ class Signature extends React.Component<SignatureProps, any> {
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Файлы</Text>
             {selectFiles}
-            <Button transparent style={styles.sign_enc_button}>
+            <Button transparent style={styles.sign_enc_button} onPress={() => {createFiles(); }} >
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>
@@ -118,7 +120,8 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     footerAction: bindActionCreators(footerAction, dispatch),
-    footerClose: bindActionCreators(footerClose, dispatch)
+    footerClose: bindActionCreators(footerClose, dispatch),
+    createFiles: bindActionCreators(createFiles, dispatch)
   };
 }
 

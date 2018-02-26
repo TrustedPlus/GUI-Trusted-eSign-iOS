@@ -13,8 +13,6 @@ import {Help} from "./components/Help";
 import { createStore } from "redux";
 import reducers from "./reducers";
 
-const store = createStore(reducers);
-
 export const App = DrawerNavigator({
   Menu: { screen: menu},
   Diagnostic: { screen: Diagnostic },

@@ -9,6 +9,8 @@ import { NativeModules } from "react-native";
 let Cipher = NativeModules.CipherClass;
 let Signer = NativeModules.SignerClass;
 
+import * as RNFS from "react-native-fs";
+
 interface FooterSignProps {
     encrypt?: boolean;
     sign?: boolean;

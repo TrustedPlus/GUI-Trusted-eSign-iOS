@@ -38,6 +38,7 @@ export function encryptFiles(id) {
 
 export function createFiles() {
   return function action(dispatch) {
+    dispatch({type: CREATE_FILES});
     const request = RNFS.readDir(RNFS.DocumentDirectoryPath + "/Files");
 
     return request.then(
@@ -50,10 +51,22 @@ export function createFiles() {
   // RNFS.writeFile(path, "Какой то файл", "utf8");
 }
 
-export function createFilesSuccess(offers) {
+export function createFilesSuccess(file) {
+  console.log(file);
+  let filearr, point, name, extension, mtime, path;
+  let length = file.length;
+  for (let i = 0; i < length; i++) {
+    point = file[i].name.indexOf(".");
+    name = file[i].name.substring(0, point);
+    extension = file[i].name.substring(point + 1);
+    mtime = file[i].mtime + "";
+    path = file[i].path;
+    filearr = {name, extension, mtime, path};
+    file[i] = filearr;
+  }
   return {
     type: CREATE_FILES_SUCCESS,
-    payload: [offers[1].name]
+    payload: file
   };
 }
 

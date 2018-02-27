@@ -2,10 +2,10 @@ import { SIGN_FILES, ENCRYPT_FILES, CREATE_FILES, CREATE_FILES_SUCCESS, CREATE_F
 import * as RNFS from "react-native-fs";
 
 const initialState = {
-  id: [0/*, 1, 2, 3*/],
-  title: [/*, "Договор №2332 с приложениями", "Заключение от поставке"*/],
-  extension: [/*"pdf",*/"txt"/*, "zip", "docx"*/],
-  note: [/*12 января 2018, 02:34:22",*/"12 января 2018, 02:36:38"/*, "6 января 2018, 13:49:26", "6 января 2018, 14:28:18"*/]
+  id: [],
+  title: [],
+  extension: [],
+  note: []
 };
 
 function changeExtensionSign(OldExtension, id) {
@@ -42,14 +42,29 @@ export function Files(state = initialState, action) {
       };
     case CREATE_FILES:
       return {
-        ...state,
-        title: action.payload
+        ...state
       };
     case CREATE_FILES_SUCCESS:
-    return {
-        ...state,
-        title: action.payload
-      };
+      let arrTitle = [], arrExtension = [], arrId = [], arrNote = [], arrPath = [];
+      for (let i = 0; i < action.payload.length; i++) {
+        if (action.payload[i].name === "") {
+          arrTitle.push(action.payload[i].extension);
+          arrExtension.push(action.payload[i].name);
+        } else {
+          arrTitle.push(action.payload[i].name);
+          arrExtension.push(action.payload[i].extension);
+        }
+        arrId.push(i);
+        arrNote.push(action.payload[i].mtime);
+        arrPath.push(action.payload[i].path);
+      }
+      return {
+          ...state,
+          title: arrTitle,
+          extension: arrExtension,
+          id: arrId,
+          note: arrNote
+        };
     case CREATE_FILES_ERROR:
       return {
         ...state

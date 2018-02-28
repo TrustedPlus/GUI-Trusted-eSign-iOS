@@ -3,7 +3,6 @@ import {Footer, FooterTab, Button, Icon, Text} from "native-base";
 import {styles} from "../styles";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {encryptFiles} from "../actions/index";
 import { NativeModules } from "react-native";
 // let Openssl = NativeModules.TestClass;
 let Cipher = NativeModules.CipherClass;
@@ -15,61 +14,77 @@ interface FooterSignProps {
     encrypt?: boolean;
     sign?: boolean;
     footer: any;
+    files: any;
     encryptFiles(any): void;
-}
-
-function signFile() {
-    Signer.signFile("/Users/dev/Desktop/cert\ and\ key/cert1.crt",
-                    "/Users/dev/Desktop/cert\ and\ key/cert1.key",
-                    "/Users/dev/Desktop/Files/Письмо\ от\ 23_08_2018.txt",
-                    "/Users/dev/Desktop/Files/Письмо\ от\ 23_08_2018.sgn",
-                    (err, signFile) => { console.log(err); console.log(signFile); });
-}
-
-function verifySign() {
-    Signer.verifySign("/Users/dev/Desktop/cert\ and\ key/cert1.crt",
-                      "/Users/dev/Desktop/Files/Письмо\ от\ 23_08_2018.sgn",
-                      (err, verify) => { console.log(err); console.log(verify); });
-}
-
-function EncAssymmetric() {
-    Cipher.EncAssymmetric("/Users/dev/Desktop/Files/Письмо\ от\ 23_08_2018.txt",
-                          "/Users/dev/Desktop/Files/Письмо\ от\ 23_08_2018.enc",
-                          "/Users/dev/Desktop/cert\ and\ key/cert1.crt",
-                          (err, encrypt) => { console.log(err); console.log(encrypt); });
-
-}
-
-function DecAssymmetric() {
-    Cipher.DecAssymmetric("/Users/dev/Desktop/Files/Письмо\ от\ 23_08_2018.enc",
-                          "/Users/dev/Desktop/Files/Письмо\ от\ 23_08_2018.txt",
-                          "/Users/dev/Desktop/cert\ and\ key/cert1.crt",
-                          "/Users/dev/Desktop/cert\ and\ key/cert1.key",
-                          (err, decrypt) => { console.log(err); console.log(decrypt); });
 }
 
 class FooterSign extends React.Component<FooterSignProps> {
 
+    signFile(files, footer) {
+        for (let i = 0; i < footer.arrButton.length; i++) {
+            let path = RNFS.DocumentDirectoryPath + "/Files/" + files.title[footer.arrButton[i]];
+            RNFS.writeFile(path + ".sig", "", "utf8");
+            Signer.signFile("/Users/dev/Desktop/cert\ and\ key/cert1.crt",
+                        "/Users/dev/Desktop/cert\ and\ key/cert1.key",
+                        path + "." + files.extension[footer.arrButton[i]],
+                        path + ".sig",
+                        (err, signFile) => { console.log(err); console.log(signFile); });
+        }
+    }
+
+    verifySign(files, footer) {
+        for (let i = 0; i < footer.arrButton.length; i++) {
+            let path = RNFS.DocumentDirectoryPath + "/Files/" + files.title[footer.arrButton[i]];
+            Signer.verifySign("/Users/dev/Desktop/cert\ and\ key/cert1.crt",
+                        path + "." + files.extension[footer.arrButton[i]],
+                        (err, signFile) => { console.log(err); console.log(signFile); });
+        }
+    }
+
+    EncAssymmetric(files, footer) {
+        for (let i = 0; i < footer.arrButton.length; i++) {
+            let path = RNFS.DocumentDirectoryPath + "/Files/" + files.title[footer.arrButton[i]];
+            RNFS.writeFile(path + ".enc", "", "utf8");
+            Cipher.EncAssymmetric(path + "." + files.extension[footer.arrButton[i]],
+                              path + ".enc",
+                              "/Users/dev/Desktop/cert\ and\ key/cert1.crt",
+                              (err, encrypt) => { console.log(err); console.log(encrypt); });
+        }
+    }
+
+    DecAssymmetric(files, footer) {
+        for (let i = 0; i < footer.arrButton.length; i++) {
+            let path = RNFS.DocumentDirectoryPath + "/Files/" + files.title[footer.arrButton[i]];
+            RNFS.writeFile(path + ".txt", "", "utf8");
+            Cipher.DecAssymmetric(path + "." + files.extension[footer.arrButton[i]],
+                              path + ".txt",
+                              "/Users/dev/Desktop/cert\ and\ key/cert1.crt",
+                              "/Users/dev/Desktop/cert\ and\ key/cert1.key",
+                              (err, decrypt) => { console.log(err); console.log(decrypt); });
+        }
+    }
+
     render() {
+        const {files} = this.props;
         let footer = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
             footer = <FooterTab style={styles.container}>
-                    <Button vertical onPress={() => EncAssymmetric()}>
+                    <Button vertical onPress={() => this.EncAssymmetric(files, this.props.footer)}>
                         <Icon style={{color: "black"}} name="apps" />
                         <Text style={{color: "black", width: 130}}>Зашифровать</Text>
                     </Button>
-                    <Button vertical onPress={() => DecAssymmetric()}>
+                    <Button vertical onPress={() => this.DecAssymmetric(files, this.props.footer)}>
                         <Icon style={{color: "black"}} name="camera" />
                         <Text style={{color: "black", width: 140}}>{/*Архивировать*/}Расшифровать</Text>
                     </Button></FooterTab>;
         }
         if (this.props.sign) { // если футер для мастера подписи
             footer = <FooterTab style={styles.container}>
-                    <Button vertical onPress={() => {verifySign(); }}>
+                    <Button vertical onPress={() => this.verifySign(files, this.props.footer)}>
                         <Icon style={{color: "black"}} name="apps" />
                         <Text style={{color: "black", width: 110}}>Проверить</Text>
                     </Button>
-                    <Button vertical onPress={() => {signFile(); }}>
+                    <Button vertical onPress={() => this.signFile(files, this.props.footer)}>
                         <Icon style={{color: "black"}} name="camera"/>
                         <Text style={{color: "black", width: 110}}>Подписать</Text>
                     </Button></FooterTab>;
@@ -98,10 +113,4 @@ function mapStateToProps (state) {
     };
 }
 
-function mapDispatchToProps (dispatch) {
-    return {
-        encryptFiles: bindActionCreators(encryptFiles, dispatch)
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(FooterSign);
+export default connect(mapStateToProps)(FooterSign);

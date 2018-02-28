@@ -4,6 +4,7 @@ import {Headers} from "./Headers";
 import ListMenu from "./ListMenu";
 import {PropertiesCert} from "./PropertiesCert";
 import {styles} from "../styles";
+import * as RNFS from "react-native-fs";
 
 interface PersonalСertProps {
   navigation: any;

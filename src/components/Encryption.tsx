@@ -5,7 +5,7 @@ import {Headers} from "./Headers";
 import {styles} from "../styles";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {footerAction, footerClose} from "../actions/index";
+import {footerAction, footerClose, createFiles} from "../actions/index";
 import ListMenu from "./ListMenu";
 import FooterSign from "./FooterSign";
 
@@ -15,6 +15,7 @@ interface EncryptionProps {
   files: any;
   footerAction(any): void;
   footerClose(): void;
+  createFiles(): void;
 }
 
 class Encryption extends React.Component<EncryptionProps> {
@@ -24,7 +25,7 @@ class Encryption extends React.Component<EncryptionProps> {
   };
 
   render() {
-    const {footerAction, footerClose, files} = this.props;
+    const {footerAction, footerClose, files, createFiles} = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let img = [];
@@ -38,7 +39,7 @@ class Encryption extends React.Component<EncryptionProps> {
           img[i] = require("../../imgs/general/file_zip.png"); break;
         case "docx":
           img[i] = require("../../imgs/general/file_docx.png"); break;
-        case "sgn":
+        case "sig":
           img[i] = require("../../imgs/general/file_sig.png"); break;
         case "enc":
           img[i] = require("../../imgs/general/file_enc.png"); break;
@@ -55,7 +56,6 @@ class Encryption extends React.Component<EncryptionProps> {
     } else {
       selectFiles = <Text style={{height: 20}} ></Text>;
     }
-
     return (
       <Container style={styles.container}>
         <Headers title="Шифрование/расшифрование" goBack={() => {goBack(); footerClose(); }}/>
@@ -74,7 +74,7 @@ class Encryption extends React.Component<EncryptionProps> {
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Файлы</Text>
             {selectFiles}
-            <Button transparent style={styles.sign_enc_button}>
+            <Button transparent style={styles.sign_enc_button} onPress={() => {createFiles(); }}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>
@@ -87,6 +87,8 @@ class Encryption extends React.Component<EncryptionProps> {
               note={files.note[2]} checkbox nav={() => footerAction(files.id[2])}/>
             <ListMenu iid={files.id[3]} title={files.title[3]} img={img[3]}
               note={files.note[3]} checkbox nav={() => footerAction(files.id[3])}/>
+            <ListMenu iid={files.id[4]} title={files.title[4]} img={img[4]}
+              note={files.note[4]} checkbox nav={() => footerAction(files.id[4])}/>
           </List>
         </Content>
         {footer}
@@ -105,7 +107,8 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     footerAction: bindActionCreators(footerAction, dispatch),
-    footerClose: bindActionCreators(footerClose, dispatch)
+    footerClose: bindActionCreators(footerClose, dispatch),
+    createFiles: bindActionCreators(createFiles, dispatch)
   };
 }
 

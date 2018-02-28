@@ -1,5 +1,4 @@
-import { SIGN_FILES, ENCRYPT_FILES, CREATE_FILES, CREATE_FILES_SUCCESS, CREATE_FILES_ERROR } from "../constants";
-import * as RNFS from "react-native-fs";
+import { CREATE_FILES, CREATE_FILES_SUCCESS, CREATE_FILES_ERROR } from "../constants";
 
 const initialState = {
   id: [],
@@ -30,16 +29,6 @@ function changeExtensionEncrypt(OldExtension, id) {
 
 export function Files(state = initialState, action) {
   switch (action.type) {
-    case SIGN_FILES:
-      return {
-        ...state,
-        extension: changeExtensionSign(state.extension, action.payload)
-      };
-    case ENCRYPT_FILES:
-      return {
-        ...state,
-        extension: changeExtensionEncrypt(state.extension, action.payload)
-      };
     case CREATE_FILES:
       return {
         ...state
@@ -56,7 +45,6 @@ export function Files(state = initialState, action) {
         }
         arrId.push(i);
         arrNote.push(action.payload[i].mtime);
-        arrPath.push(action.payload[i].path);
       }
       return {
           ...state,

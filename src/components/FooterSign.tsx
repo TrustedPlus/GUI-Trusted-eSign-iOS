@@ -15,12 +15,13 @@ interface FooterSignProps {
     sign?: boolean;
     footer: any;
     files: any;
+    certKeys: any;
     encryptFiles(any): void;
 }
 
 class FooterSign extends React.Component<FooterSignProps> {
 
-    signFile(files, footer) {
+    signFile(files, certKeys, footer) {
         for (let i = 0; i < footer.arrButton.length; i++) {
             let path = RNFS.DocumentDirectoryPath + "/Files/" + files.title[footer.arrButton[i]];
             RNFS.writeFile(path + ".sig", "", "utf8");
@@ -32,59 +33,59 @@ class FooterSign extends React.Component<FooterSignProps> {
         }
     }
 
-    verifySign(files, footer) {
+    verifySign(files, certKeys, footer) {
         for (let i = 0; i < footer.arrButton.length; i++) {
             let path = RNFS.DocumentDirectoryPath + "/Files/" + files.title[footer.arrButton[i]];
-            Signer.verifySign("/Users/dev/Desktop/cert\ and\ key/cert1.crt",
+            Signer.verifySign(RNFS.DocumentDirectoryPath + "/CertKeys/" + certKeys.title[footer.arrButton[i]] + ".crt",
                         path + "." + files.extension[footer.arrButton[i]],
                         (err, signFile) => { console.log(err); console.log(signFile); });
         }
     }
 
-    EncAssymmetric(files, footer) {
+    EncAssymmetric(files, certKeys, footer) {
         for (let i = 0; i < footer.arrButton.length; i++) {
             let path = RNFS.DocumentDirectoryPath + "/Files/" + files.title[footer.arrButton[i]];
             RNFS.writeFile(path + ".enc", "", "utf8");
             Cipher.EncAssymmetric(path + "." + files.extension[footer.arrButton[i]],
                               path + ".enc",
-                              "/Users/dev/Desktop/cert\ and\ key/cert1.crt",
+                              RNFS.DocumentDirectoryPath + "/CertKeys/" + certKeys.title[footer.arrButton[i]] + ".crt",
                               (err, encrypt) => { console.log(err); console.log(encrypt); });
         }
     }
 
-    DecAssymmetric(files, footer) {
+    DecAssymmetric(files, certKeys, footer) {
         for (let i = 0; i < footer.arrButton.length; i++) {
             let path = RNFS.DocumentDirectoryPath + "/Files/" + files.title[footer.arrButton[i]];
             RNFS.writeFile(path + ".txt", "", "utf8");
             Cipher.DecAssymmetric(path + "." + files.extension[footer.arrButton[i]],
                               path + ".txt",
-                              "/Users/dev/Desktop/cert\ and\ key/cert1.crt",
-                              "/Users/dev/Desktop/cert\ and\ key/cert1.key",
+                              RNFS.DocumentDirectoryPath + "/CertKeys/" + certKeys.title[footer.arrButton[i]] + ".crt",
+                              RNFS.DocumentDirectoryPath + "/CertKeys/" + certKeys.title[footer.arrButton[i]] + ".key",
                               (err, decrypt) => { console.log(err); console.log(decrypt); });
         }
     }
 
     render() {
-        const {files} = this.props;
+        const {files, certKeys} = this.props;
         let footer = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
             footer = <FooterTab style={styles.container}>
-                    <Button vertical onPress={() => this.EncAssymmetric(files, this.props.footer)}>
+                    <Button vertical onPress={() => this.EncAssymmetric(files, certKeys, this.props.footer)}>
                         <Icon style={{color: "black"}} name="apps" />
                         <Text style={{color: "black", width: 130}}>Зашифровать</Text>
                     </Button>
-                    <Button vertical onPress={() => this.DecAssymmetric(files, this.props.footer)}>
+                    <Button vertical onPress={() => this.DecAssymmetric(files, certKeys, this.props.footer)}>
                         <Icon style={{color: "black"}} name="camera" />
                         <Text style={{color: "black", width: 140}}>{/*Архивировать*/}Расшифровать</Text>
                     </Button></FooterTab>;
         }
         if (this.props.sign) { // если футер для мастера подписи
             footer = <FooterTab style={styles.container}>
-                    <Button vertical onPress={() => this.verifySign(files, this.props.footer)}>
+                    <Button vertical onPress={() => this.verifySign(files, certKeys, this.props.footer)}>
                         <Icon style={{color: "black"}} name="apps" />
                         <Text style={{color: "black", width: 110}}>Проверить</Text>
                     </Button>
-                    <Button vertical onPress={() => this.signFile(files, this.props.footer)}>
+                    <Button vertical onPress={() => this.signFile(files, certKeys, this.props.footer)}>
                         <Icon style={{color: "black"}} name="camera"/>
                         <Text style={{color: "black", width: 110}}>Подписать</Text>
                     </Button></FooterTab>;
@@ -109,7 +110,8 @@ class FooterSign extends React.Component<FooterSignProps> {
 function mapStateToProps (state) {
     return {
       files: state.files,
-      footer: state.footer
+      footer: state.footer,
+      certKeys: state.certKeys
     };
 }
 

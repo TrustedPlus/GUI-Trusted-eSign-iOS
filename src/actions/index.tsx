@@ -1,4 +1,4 @@
-import { FOOTER_ACTION, FOOTER_CLOSE, CERT_ACTION, CREATE_FILES, CREATE_FILES_SUCCESS, CREATE_FILES_ERROR} from "../constants";
+import { FOOTER_ACTION, FOOTER_CLOSE, CERT_ACTION, READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR} from "../constants";
 import * as RNFS from "react-native-fs";
 
 export function footerAction(idButton) {
@@ -21,19 +21,19 @@ export function certAdd(title, img, note) {
   };
 }
 
-export function createFiles() {
+export function readFiles() {
   return function action(dispatch) {
-    dispatch({type: CREATE_FILES});
+    dispatch({type: READ_FILES});
     const request = RNFS.readDir(RNFS.DocumentDirectoryPath + "/Files");
 
     return request.then(
-      response => dispatch(createFilesSuccess(response)),
-      err => dispatch(createFilesError(err))
+      response => dispatch(readFilesSuccess(response)),
+      err => dispatch(readFilesError(err))
     );
   };
 }
 
-export function createFilesSuccess(file) {
+export function readFilesSuccess(file) {
   let filearr = [], point, name, extension, mtime;
   let length = file.length;
   for (let i = 0; i < length; i++) {
@@ -44,14 +44,14 @@ export function createFilesSuccess(file) {
     filearr[i] = {name, extension, mtime};
   }
   return {
-    type: CREATE_FILES_SUCCESS,
+    type: READ_FILES_SUCCESS,
     payload: filearr
   };
 }
 
-export function createFilesError(error) {
+export function readFilesError(error) {
   return {
-    type: CREATE_FILES_ERROR,
+    type: READ_FILES_ERROR,
     payload: error
   };
 }

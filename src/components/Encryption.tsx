@@ -5,7 +5,7 @@ import {Headers} from "./Headers";
 import {styles} from "../styles";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {footerAction, footerClose, createFiles} from "../actions/index";
+import {footerAction, footerClose, readFiles} from "../actions/index";
 import ListMenu from "./ListMenu";
 import FooterSign from "./FooterSign";
 
@@ -15,7 +15,7 @@ interface EncryptionProps {
   files: any;
   footerAction(any): void;
   footerClose(): void;
-  createFiles(): void;
+  readFiles(): void;
 }
 
 class Encryption extends React.Component<EncryptionProps> {
@@ -25,7 +25,7 @@ class Encryption extends React.Component<EncryptionProps> {
   };
 
   render() {
-    const {footerAction, footerClose, files, createFiles} = this.props;
+    const {footerAction, footerClose, files, readFiles} = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let img = [];
@@ -74,7 +74,7 @@ class Encryption extends React.Component<EncryptionProps> {
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Файлы</Text>
             {selectFiles}
-            <Button transparent style={styles.sign_enc_button} onPress={() => {createFiles(); }}>
+            <Button transparent style={styles.sign_enc_button} onPress={() => {readFiles(); }}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>
@@ -108,7 +108,7 @@ function mapDispatchToProps (dispatch) {
   return {
     footerAction: bindActionCreators(footerAction, dispatch),
     footerClose: bindActionCreators(footerClose, dispatch),
-    createFiles: bindActionCreators(createFiles, dispatch)
+    readFiles: bindActionCreators(readFiles, dispatch)
   };
 }
 

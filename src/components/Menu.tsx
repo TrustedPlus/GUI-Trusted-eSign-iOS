@@ -16,7 +16,7 @@ import {DescriptionError} from "./DescriptionError";
 import {Headers} from "./Headers";
 import {PersonalСert} from "./PersonalСert";
 import {PropertiesCert} from "./PropertiesCert";
-import {SelectСert} from "./SelectСert";
+import SelectСert from "./SelectСert";
 
 interface MainProps {
   navigation: any;

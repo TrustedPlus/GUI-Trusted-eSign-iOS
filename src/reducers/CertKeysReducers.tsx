@@ -1,4 +1,4 @@
-import { READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR } from "../constants";
+import { READ_CERT_KEY, READ_CERT_KEY_SUCCESS, READ_CERT_KEY_ERROR } from "../constants";
 
 const initialState = {
   id: [],
@@ -7,20 +7,22 @@ const initialState = {
   note: []
 };
 
-export function Files(state = initialState, action) {
+export function CertKeys(state = initialState, action) {
   switch (action.type) {
-    case READ_FILES:
+    case READ_CERT_KEY:
       return {
         ...state
       };
-    case READ_FILES_SUCCESS:
+    case READ_CERT_KEY_SUCCESS:
       let arrTitle = [], arrExtension = [], arrId = [], arrNote = [], arrPath = [];
       for (let i = 0; i < action.payload.length; i++) {
-        if (action.payload[i].name !== "") {
-          arrTitle.push(action.payload[i].name);
-          arrExtension.push(action.payload[i].extension);
-          arrId.push(i);
-        arrNote.push(action.payload[i].mtime);
+        if (action.payload[i].extension !== "key") {
+          if (action.payload[i].name !== "") {
+            arrTitle.push(action.payload[i].name);
+            arrExtension.push(action.payload[i].extension);
+            arrId.push(i);
+          arrNote.push(action.payload[i].mtime);
+          }
         }
       }
       return {
@@ -30,7 +32,7 @@ export function Files(state = initialState, action) {
           id: arrId,
           note: arrNote
         };
-    case READ_FILES_ERROR:
+    case READ_CERT_KEY_ERROR:
       return {
         ...state
       };

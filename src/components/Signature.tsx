@@ -3,12 +3,13 @@ import { Container, View, List, Content, Button, Body, Text } from "native-base"
 import { StyleSheet, TouchableOpacity, TouchableHighlight, Image } from "react-native";
 import { Headers } from "./Headers";
 import { styles } from "../styles";
-import { SelectСert } from "./SelectСert";
+import SelectСert from "./SelectСert";
 import ListMenu from "./ListMenu";
 import FooterSign from "./FooterSign";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { footerAction, footerClose, createFiles } from "../actions/index";
+import { footerAction, footerClose, readFiles } from "../actions/index";
+import { readCertKeys} from "../actions/CertKeysAction";
 /*
 interface IFile {
   id: number[];
@@ -23,9 +24,11 @@ interface SignatureProps {
   footer: any;
   certificate: any;
   files: any;
+  certKeys: any;
   footerAction(any): void;
   footerClose(): void;
-  createFiles(): void;
+  readFiles(): void;
+  readCertKeys(): void;
 }
 
 class Signature extends React.Component<SignatureProps> {
@@ -51,7 +54,7 @@ class Signature extends React.Component<SignatureProps> {
   }*/
 
   render() {
-    const { footerAction, footerClose, files, createFiles } = this.props;
+    const { footerAction, footerClose, files, readFiles, readCertKeys} = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let certificate, icon;
@@ -96,14 +99,14 @@ class Signature extends React.Component<SignatureProps> {
     } else {
       selectFiles = <Text style={{ height: 20 }} ></Text>;
     }
-    // console.log(this.props.files);
+    console.log(this.props);
     return (
       <Container style={styles.container}>
         <Headers title="Подпись/проверка" goBack={() => { goBack(); footerClose(); }} />
         <Content>
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Сертификат подписи</Text>
-            <Button transparent onPress={() => navigate("SelectСert")} style={styles.sign_enc_button}>
+            <Button transparent onPress={() => { readCertKeys(); navigate("SelectСert"); }} style={styles.sign_enc_button}>
               <Image style={styles.headerImage} source={icon} />
             </Button>
           </View>
@@ -111,7 +114,7 @@ class Signature extends React.Component<SignatureProps> {
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Файлы</Text>
             {selectFiles}
-            <Button transparent style={styles.sign_enc_button} onPress={() => createFiles()} >
+            <Button transparent style={styles.sign_enc_button} onPress={() => readFiles()} >
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
             </Button>
           </View>
@@ -139,7 +142,8 @@ function mapStateToProps(state) {
   return {
     footer: state.footer,
     certificate: state.certificate,
-    files: state.files
+    files: state.files,
+    certKeys: state.certKeys
   };
 }
 
@@ -147,7 +151,8 @@ function mapDispatchToProps(dispatch) {
   return {
     footerAction: bindActionCreators(footerAction, dispatch),
     footerClose: bindActionCreators(footerClose, dispatch),
-    createFiles: bindActionCreators(createFiles, dispatch)
+    readFiles: bindActionCreators(readFiles, dispatch),
+    readCertKeys: bindActionCreators(readCertKeys, dispatch)
   };
 }
 

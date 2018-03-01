@@ -36,12 +36,17 @@ export function readFiles() {
 export function readFilesSuccess(file) {
   let filearr = [], point, name, extension, mtime;
   let length = file.length;
+  let k = 0;
   for (let i = 0; i < length; i++) {
     point = file[i].name.indexOf(".");
     name = file[i].name.substring(0, point);
     extension = file[i].name.substring(point + 1);
     mtime = file[i].mtime + "";
-    filearr[i] = {name, extension, mtime};
+    if (name === "") {
+      k++;
+    } else {
+      filearr[i - k] = {name, extension, mtime};
+    }
   }
   return {
     type: READ_FILES_SUCCESS,

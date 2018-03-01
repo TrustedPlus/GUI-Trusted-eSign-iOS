@@ -10,20 +10,18 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { footerAction, footerClose, readFiles } from "../actions/index";
 import { readCertKeys} from "../actions/CertKeysAction";
-/*
+
 interface IFile {
-  id: number[];
-  type: string[];
-  note: string[];
-  extension: string[];
-  title: string[];
-}*/
+  mtime: string;
+  extension: string;
+  name: string;
+}
 
 interface SignatureProps {
   navigation: any;
   footer: any;
   certificate: any;
-  files: any;
+  files: IFile[];
   certKeys: any;
   footerAction(any): void;
   footerClose(): void;
@@ -37,21 +35,20 @@ class Signature extends React.Component<SignatureProps> {
     header: null
   };
 
-  /*showList(img) {
-    this.props.files.map((file, key) => {
-      return (
-        <List>
-          <ListMenu
-          key={key}
-          id={file.id}
-          title={file.title}
-          note={file.note}
-          img = {img[key]}
-          checkbox nav={() => footerAction(file.id)} />
-        </List>
-      );
-    });
-  }*/
+  ShowList(img) {
+    return (
+      this.props.files.map((file, key) => <ListMenu
+        key = {key}
+        title={file.name}
+        note = {file.mtime}
+        img = {img[key]}
+        checkbox
+        nav={() => this.props.footerAction(key)} />));
+  }
+
+  componentWillMount() {
+    this.props.readFiles();
+  }
 
   render() {
     const { footerAction, footerClose, files, readFiles, readCertKeys} = this.props;
@@ -72,8 +69,8 @@ class Signature extends React.Component<SignatureProps> {
     }
 
     let img = [];
-    for (let i = 0; i < files.id.length; i++) { // какое расширение у файлов
-      switch (files.extension[i]) {
+    for (let i = 0; i < files.length; i++) { // какое расширение у файлов
+      switch (files[i].extension) {
         case "pdf":
           img[i] = require("../../imgs/general/file_pdf.png"); break;
         case "txt":
@@ -87,7 +84,7 @@ class Signature extends React.Component<SignatureProps> {
         case "enc":
           img[i] = require("../../imgs/general/file_enc.png"); break;
         default:
-          break;
+          img[i] = require("../../imgs/general/file_pdf.png"); break;
       }
     }
 
@@ -99,7 +96,7 @@ class Signature extends React.Component<SignatureProps> {
     } else {
       selectFiles = <Text style={{ height: 20 }} ></Text>;
     }
-    console.log(this.props);
+
     return (
       <Container style={styles.container}>
         <Headers title="Подпись/проверка" goBack={() => { goBack(); footerClose(); }} />
@@ -118,18 +115,8 @@ class Signature extends React.Component<SignatureProps> {
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
             </Button>
           </View>
-          {/*this.showList(img)*/}
           <List>
-            <ListMenu id={files.id[0]} title={files.title[0]} img={img[0]}
-              note={files.note[0]} checkbox nav={() => footerAction(files.id[0])}/>
-            <ListMenu id={files.id[1]} title={files.title[1]} img={img[1]}
-              note={files.note[1]} checkbox nav={() => footerAction(files.id[1])}/>
-            <ListMenu id={files.id[2]} title={files.title[2]} img={img[2]}
-              note={files.note[2]} checkbox nav={() => footerAction(files.id[2])}/>
-            <ListMenu iid={files.id[3]} title={files.title[3]} img={img[3]}
-              note={files.note[3]} checkbox nav={() => footerAction(files.id[3])}/>
-            <ListMenu iid={files.id[4]} title={files.title[4]} img={img[4]}
-              note={files.note[4]} checkbox nav={() => footerAction(files.id[4])}/>
+            {this.ShowList(img)}
           </List>
         </Content>
         {footer}
@@ -142,7 +129,7 @@ function mapStateToProps(state) {
   return {
     footer: state.footer,
     certificate: state.certificate,
-    files: state.files,
+    files: state.files.files,
     certKeys: state.certKeys
   };
 }

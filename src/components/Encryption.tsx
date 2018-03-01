@@ -24,13 +24,28 @@ class Encryption extends React.Component<EncryptionProps> {
     header: null
   };
 
+  ShowList(img) {
+    return (
+      this.props.files.map((file, key) => <ListMenu
+        key = {key}
+        title={file.name}
+        note = {file.mtime}
+        img = {img[key]}
+        checkbox
+        nav={() => this.props.footerAction(key)} />));
+  }
+
+  componentWillMount() {
+    this.props.readFiles();
+  }
+
   render() {
     const {footerAction, footerClose, files, readFiles} = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let img = [];
-    for (let i = 0; i < files.id.length; i++) { // какое расширение у файлов
-      switch (files.extension[i]) {
+    for (let i = 0; i < files.length; i++) { // какое расширение у файлов
+      switch (files[i].extension) {
         case "pdf":
           img[i] = require("../../imgs/general/file_pdf.png"); break;
         case "txt":
@@ -79,16 +94,7 @@ class Encryption extends React.Component<EncryptionProps> {
             </Button>
           </View>
           <List>
-            <ListMenu id={files.id[0]} title={files.title[0]} img={img[0]}
-              note={files.note[0]} checkbox nav={() => footerAction(files.id[0])}/>
-            <ListMenu id={files.id[1]} title={files.title[1]} img={img[1]}
-              note={files.note[1]} checkbox nav={() => footerAction(files.id[1])}/>
-            <ListMenu id={files.id[2]} title={files.title[2]} img={img[2]}
-              note={files.note[2]} checkbox nav={() => footerAction(files.id[2])}/>
-            <ListMenu iid={files.id[3]} title={files.title[3]} img={img[3]}
-              note={files.note[3]} checkbox nav={() => footerAction(files.id[3])}/>
-            <ListMenu iid={files.id[4]} title={files.title[4]} img={img[4]}
-              note={files.note[4]} checkbox nav={() => footerAction(files.id[4])}/>
+            {this.ShowList(img)}
           </List>
         </Content>
         {footer}
@@ -100,7 +106,7 @@ class Encryption extends React.Component<EncryptionProps> {
 function mapStateToProps (state) {
   return {
     footer: state.footer,
-    files: state.files
+    files: state.files.files
   };
 }
 

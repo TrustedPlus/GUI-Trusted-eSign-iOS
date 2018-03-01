@@ -16,12 +16,19 @@ export function readCertKeys() {
 export function readCertKeysSuccess(file) {
   let filearr = [], point, name, extension, mtime;
   let length = file.length;
+  let k = 0; // количество файлов, которые не нужно отображать
   for (let i = 0; i < length; i++) {
     point = file[i].name.indexOf(".");
     name = file[i].name.substring(0, point);
     extension = file[i].name.substring(point + 1);
     mtime = file[i].mtime + "";
-    filearr[i] = {name, extension, mtime};
+    if (name === "") {
+      k++;
+    } else if (extension === "key") {
+      k++;
+    } else {
+      filearr[i - k] = {name, extension, mtime};
+    }
   }
   return {
     type: READ_CERT_KEY_SUCCESS,

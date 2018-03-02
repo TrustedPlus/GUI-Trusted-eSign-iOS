@@ -1,19 +1,20 @@
-import { READ_CERT_KEY, READ_CERT_KEY_SUCCESS, READ_CERT_KEY_ERROR} from "../constants";
+import { READ_CERT_KEY, READ_PERSONAL_CERT_KEY_SUCCESS, READ_OTHER_CERT_KEY_SUCCESS, READ_CERT_KEY_ERROR} from "../constants";
 import * as RNFS from "react-native-fs";
 
-export function readCertKeys() {
+export function readCertKeys(path) {
   return function action(dispatch) {
     dispatch({type: READ_CERT_KEY});
-    const request = RNFS.readDir(RNFS.DocumentDirectoryPath + "/CertKeys");
-
+    let request;
+    if (path === "sig") request = RNFS.readDir(RNFS.DocumentDirectoryPath + "/PersonalCertKeys");
+    else if (path === "enc") request = RNFS.readDir(RNFS.DocumentDirectoryPath + "/OtherCertKeys");
     return request.then(
-      response => dispatch(readCertKeysSuccess(response)),
+      response => dispatch(readCertKeysSuccess(response, path)),
       err => dispatch(readCertKeysError(err))
     );
   };
 }
 
-export function readCertKeysSuccess(file) {
+export function readCertKeysSuccess(file, path) {
   let filearr = [], point, name, extension, mtime;
   let length = file.length;
   let k = 0; // количество файлов, которые не нужно отображать
@@ -30,10 +31,17 @@ export function readCertKeysSuccess(file) {
       filearr[i - k] = {name, extension, mtime};
     }
   }
-  return {
-    type: READ_CERT_KEY_SUCCESS,
+  if (path === "sig") {
+    return {
+    type: READ_PERSONAL_CERT_KEY_SUCCESS,
     payload: filearr
-  };
+    };
+  } else if (path === "enc") {
+    return {
+      type: READ_OTHER_CERT_KEY_SUCCESS,
+      payload: filearr
+    };
+  }
 }
 
 export function readCertKeysError(error) {

@@ -1,4 +1,4 @@
-import { CERT_ACTION} from "../constants";
+import { PERSONAL_CERT_ACTION} from "../constants";
 
 const initialState = {
   title: "",
@@ -6,9 +6,9 @@ const initialState = {
   note: ""
 };
 
-export function Certificate (state = initialState, action) {
+export function personalCert (state = initialState, action) {
   switch (action.type) {
-    case CERT_ACTION:
+    case PERSONAL_CERT_ACTION:
       return {
         ...state,
         title: action.payload[0],

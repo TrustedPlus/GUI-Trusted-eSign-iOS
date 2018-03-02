@@ -8,14 +8,18 @@ import {connect} from "react-redux";
 import {footerAction, footerClose, readFiles} from "../actions/index";
 import ListMenu from "./ListMenu";
 import FooterSign from "./FooterSign";
+import { readCertKeys} from "../actions/CertKeysAction";
+import SelectOtherСert from "./SelectOtherСert";
 
 interface EncryptionProps {
   navigation: any;
   footer: any;
   files: any;
+  otherCert: any;
   footerAction(any): void;
   footerClose(): void;
   readFiles(): void;
+  readCertKeys(string): void;
 }
 
 class Encryption extends React.Component<EncryptionProps> {
@@ -24,7 +28,7 @@ class Encryption extends React.Component<EncryptionProps> {
     header: null
   };
 
-  ShowList(img) {
+  showList(img) {
     return (
       this.props.files.map((file, key) => <ListMenu
         key = {key}
@@ -35,13 +39,23 @@ class Encryption extends React.Component<EncryptionProps> {
         nav={() => this.props.footerAction(key)} />));
   }
 
-  componentWillMount() {
-    this.props.readFiles();
-  }
-
   render() {
-    const {footerAction, footerClose, files, readFiles} = this.props;
+    const {footerAction, footerClose, files, readFiles, readCertKeys, otherCert} = this.props;
     const { navigate, goBack } = this.props.navigation;
+
+    let certificate, icon;
+    if (otherCert.title) { // выбран ли сертификат
+      certificate = <List>
+        <ListMenu title={otherCert.title} img={otherCert.img}
+          note={otherCert.note} nav={() => null} />
+      </List>;
+      icon = require("../../imgs/general/edit_icon.png");
+    } else {
+      certificate = <Body><View style={styles.sign_enc_view}>
+        <Text style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
+      </View></Body>;
+      icon = require("../../imgs/general/add_icon.png");
+    }
 
     let img = [];
     for (let i = 0; i < files.length; i++) { // какое расширение у файлов
@@ -73,40 +87,42 @@ class Encryption extends React.Component<EncryptionProps> {
     }
     return (
       <Container style={styles.container}>
-        <Headers title="Шифрование/расшифрование" goBack={() => {goBack(); footerClose(); }}/>
+        <Headers title="Шифрование/расшифрование" goBack={() => goBack() }/>
         <Content>
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Сертификаты получателей</Text>
-            <Button transparent style={styles.sign_enc_button}>
+            <Button transparent style={styles.sign_enc_button} onPress={() => {readCertKeys("enc"); navigate("SelectOtherСert");  } }>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>
-          <Body>
-          <View style={styles.sign_enc_view}>
-            <Text style={styles.sign_enc_prompt}>[Добавьте сертификаты получателей]</Text>
-          </View>
-          </Body>
+          {certificate}
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Файлы</Text>
             {selectFiles}
-            <Button transparent style={styles.sign_enc_button} onPress={() => {readFiles(); }}>
+            <Button transparent style={styles.sign_enc_button} onPress={() => readFiles()}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>
           <List>
-            {this.ShowList(img)}
+            {this.showList(img)}
           </List>
         </Content>
         {footer}
       </Container>
     );
   }
+
+  componentDidMount() {
+    this.props.footerClose();
+    this.props.readFiles();
+  }
 }
 
 function mapStateToProps (state) {
   return {
     footer: state.footer,
-    files: state.files.files
+    files: state.files.files,
+    otherCert: state.otherCert
   };
 }
 
@@ -114,7 +130,8 @@ function mapDispatchToProps (dispatch) {
   return {
     footerAction: bindActionCreators(footerAction, dispatch),
     footerClose: bindActionCreators(footerClose, dispatch),
-    readFiles: bindActionCreators(readFiles, dispatch)
+    readFiles: bindActionCreators(readFiles, dispatch),
+    readCertKeys: bindActionCreators(readCertKeys, dispatch)
   };
 }
 

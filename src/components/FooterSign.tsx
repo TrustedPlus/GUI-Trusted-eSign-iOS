@@ -21,77 +21,85 @@ interface FooterSignProps {
     sign?: boolean;
     footer: any;
     files: IFile[];
-    certificate: any;
+    personalCert: any;
+    otherCert: any;
     encryptFiles(any): void;
 }
 
 class FooterSign extends React.Component<FooterSignProps> {
 
-    signFile(files, certificate, footer) {
+    signFile(files, personalCert, footer) {
+        if (personalCert.title === "") return;
         for (let i = 0; i < footer.arrButton.length; i++) {
             let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
             RNFS.writeFile(path + ".sig", "", "utf8");
-            console.log(certificate.title);
-            Signer.signFile(RNFS.DocumentDirectoryPath + "/CertKeys/" + certificate.title + ".crt",
-                        RNFS.DocumentDirectoryPath + "/CertKeys/" + certificate.title + ".key",
+            console.log(personalCert.title);
+            Signer.signFile(RNFS.DocumentDirectoryPath + "/PersonalCertKeys/" + personalCert.title + ".crt",
+                        RNFS.DocumentDirectoryPath + "/PersonalCertKeys/" + personalCert.title + ".key",
                         path + "." + files[footer.arrButton[i]].extension,
                         path + ".sig",
                         (err, signFile) => { console.log(err); console.log(signFile); });
         }
     }
 
-    verifySign(files, certificate, footer) {
+    verifySign(files, personalCert, footer) {
+        if (personalCert.title === "") return;
         for (let i = 0; i < footer.arrButton.length; i++) {
             let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
-            Signer.verifySign(RNFS.DocumentDirectoryPath + "/CertKeys/" + certificate.title + ".crt",
+            Signer.verifySign(RNFS.DocumentDirectoryPath + "/PersonalCertKeys/" + personalCert.title + ".crt",
                         path + "." + files[footer.arrButton[i]].extension,
                         (err, signFile) => { console.log(err); console.log(signFile); });
         }
     }
 
-    EncAssymmetric(files, certificate, footer) {
+    EncAssymmetric(files, otherCert, footer) {
+        console.log(files);
+        console.log(otherCert);
+        console.log(footer);
+        if (otherCert.title === "") return;
         for (let i = 0; i < footer.arrButton.length; i++) {
             let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
             RNFS.writeFile(path + ".enc", "", "utf8");
             Cipher.EncAssymmetric(path + "." + files[footer.arrButton[i]].extension,
                               path + ".enc",
-                              RNFS.DocumentDirectoryPath + "/CertKeys/" + certificate.title + ".crt",
+                              RNFS.DocumentDirectoryPath + "/OtherCertKeys/" + otherCert.title + ".crt",
                               (err, encrypt) => { console.log(err); console.log(encrypt); });
         }
     }
 
-    DecAssymmetric(files, certificate, footer) {
+    DecAssymmetric(files, otherCert, footer) {
+        if (otherCert.title === "") return;
         for (let i = 0; i < footer.arrButton.length; i++) {
             let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
             RNFS.writeFile(path + ".txt", "", "utf8");
             Cipher.DecAssymmetric(path + "." + files[footer.arrButton[i]].extension,
                               path + ".txt",
-                              RNFS.DocumentDirectoryPath + "/CertKeys/" + certificate.title + ".crt",
-                              RNFS.DocumentDirectoryPath + "/CertKeys/" + certificate.title + ".key",
+                              RNFS.DocumentDirectoryPath + "/OtherCertKeys/" + otherCert.title + ".crt",
+                              RNFS.DocumentDirectoryPath + "/OtherCertKeys/" + otherCert.title + ".key",
                               (err, decrypt) => { console.log(err); console.log(decrypt); });
         }
     }
     render() {
-        const {files, certificate} = this.props;
+        const {files, personalCert, otherCert} = this.props;
         let footer = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
             footer = <FooterTab style={styles.container}>
-                    <Button vertical onPress={() => this.EncAssymmetric(files, certificate, this.props.footer)}>
+                    <Button vertical onPress={() => this.EncAssymmetric(files, otherCert, this.props.footer)}>
                         <Icon style={{color: "black"}} name="apps" />
                         <Text style={{color: "black", width: 130}}>Зашифровать</Text>
                     </Button>
-                    <Button vertical onPress={() => this.DecAssymmetric(files, certificate, this.props.footer)}>
+                    <Button vertical onPress={() => this.DecAssymmetric(files, otherCert, this.props.footer)}>
                         <Icon style={{color: "black"}} name="camera" />
                         <Text style={{color: "black", width: 140}}>{/*Архивировать*/}Расшифровать</Text>
                     </Button></FooterTab>;
         }
         if (this.props.sign) { // если футер для мастера подписи
             footer = <FooterTab style={styles.container}>
-                    <Button vertical onPress={() => this.verifySign(files, certificate, this.props.footer)}>
+                    <Button vertical onPress={() => this.verifySign(files, personalCert, this.props.footer)}>
                         <Icon style={{color: "black"}} name="apps" />
                         <Text style={{color: "black", width: 110}}>Проверить</Text>
                     </Button>
-                    <Button vertical onPress={() => this.signFile(files, certificate, this.props.footer)}>
+                    <Button vertical onPress={() => this.signFile(files, personalCert, this.props.footer)}>
                         <Icon style={{color: "black"}} name="camera"/>
                         <Text style={{color: "black", width: 110}}>Подписать</Text>
                     </Button></FooterTab>;
@@ -117,7 +125,8 @@ function mapStateToProps (state) {
     return {
       files: state.files.files,
       footer: state.footer,
-      certificate: state.certificate
+      personalCert: state.personalCert,
+      otherCert: state.otherCert
     };
 }
 

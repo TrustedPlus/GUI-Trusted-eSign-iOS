@@ -1,7 +1,8 @@
-import { READ_CERT_KEY, READ_CERT_KEY_SUCCESS, READ_CERT_KEY_ERROR } from "../constants";
+import { READ_CERT_KEY, READ_PERSONAL_CERT_KEY_SUCCESS, READ_OTHER_CERT_KEY_SUCCESS, READ_CERT_KEY_ERROR } from "../constants";
 
 const initialState = {
-  certKeys: []
+  pesronalCertKeys: [],
+  otherCertKeys: []
 };
 
 export function CertKeys(state = initialState, action) {
@@ -10,10 +11,15 @@ export function CertKeys(state = initialState, action) {
       return {
         ...state
       };
-    case READ_CERT_KEY_SUCCESS:
+    case READ_PERSONAL_CERT_KEY_SUCCESS:
       return {
           ...state,
-          certKeys: action.payload
+          pesronalCertKeys: action.payload
+        };
+    case READ_OTHER_CERT_KEY_SUCCESS:
+      return {
+          ...state,
+          otherCertKeys: action.payload
         };
     case READ_CERT_KEY_ERROR:
       return {

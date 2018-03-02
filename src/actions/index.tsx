@@ -1,4 +1,5 @@
-import { FOOTER_ACTION, FOOTER_CLOSE, CERT_ACTION, READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR} from "../constants";
+import { FOOTER_ACTION, FOOTER_CLOSE, PERSONAL_CERT_ACTION, OTHER_CERT_ACTION,
+  READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR} from "../constants";
 import * as RNFS from "react-native-fs";
 
 export function footerAction(idButton) {
@@ -14,9 +15,16 @@ export function footerClose() {
   };
 }
 
-export function certAdd(title, img, note) {
+export function personalCertAdd(title, img, note) {
   return {
-    type: CERT_ACTION,
+    type: PERSONAL_CERT_ACTION,
+    payload: [title, img, note]
+  };
+}
+
+export function otherCertAdd(title, img, note) {
+  return {
+    type: OTHER_CERT_ACTION,
     payload: [title, img, note]
   };
 }

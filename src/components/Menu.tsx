@@ -16,7 +16,8 @@ import {DescriptionError} from "./DescriptionError";
 import {Headers} from "./Headers";
 import {PersonalСert} from "./PersonalСert";
 import {PropertiesCert} from "./PropertiesCert";
-import SelectСert from "./SelectСert";
+import SelectPersonalСert from "./SelectPersonalСert";
+import SelectOtherСert from "./SelectOtherСert";
 
 interface MainProps {
   navigation: any;
@@ -82,5 +83,6 @@ export const menu = StackNavigator({
   DescriptionError: { screen: DescriptionError},
   PersonalСert: {screen: PersonalСert},
   PropertiesCert: {screen: PropertiesCert},
-  SelectСert: {screen: SelectСert}
+  SelectPersonalСert: {screen: SelectPersonalСert},
+  SelectOtherСert: {screen: SelectOtherСert}
 });

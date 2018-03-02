@@ -3,7 +3,7 @@ import { Container, View, List, Content, Button, Body, Text } from "native-base"
 import { StyleSheet, TouchableOpacity, TouchableHighlight, Image } from "react-native";
 import { Headers } from "./Headers";
 import { styles } from "../styles";
-import SelectСert from "./SelectСert";
+import SelectPersonalСert from "./SelectPersonalСert";
 import ListMenu from "./ListMenu";
 import FooterSign from "./FooterSign";
 import { bindActionCreators } from "redux";
@@ -20,13 +20,13 @@ interface IFile {
 interface SignatureProps {
   navigation: any;
   footer: any;
-  certificate: any;
+  personalCert: any;
   files: IFile[];
   certKeys: any;
   footerAction(any): void;
   footerClose(): void;
   readFiles(): void;
-  readCertKeys(): void;
+  readCertKeys(string): void;
 }
 
 class Signature extends React.Component<SignatureProps> {
@@ -46,19 +46,15 @@ class Signature extends React.Component<SignatureProps> {
         nav={() => this.props.footerAction(key)} />));
   }
 
-  componentWillMount() {
-    this.props.readFiles();
-  }
-
   render() {
-    const { footerAction, footerClose, files, readFiles, readCertKeys} = this.props;
+    const { footerAction, footerClose, files, readFiles, readCertKeys, personalCert} = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let certificate, icon;
-    if (this.props.certificate.title) { // выбран ли сертификат
+    if (personalCert.title) { // выбран ли сертификат
       certificate = <List>
-        <ListMenu title={this.props.certificate.title} img={this.props.certificate.img}
-          note={this.props.certificate.note} nav={() => null} />
+        <ListMenu title={personalCert.title} img={personalCert.img}
+          note={personalCert.note} nav={() => null} />
       </List>;
       icon = require("../../imgs/general/edit_icon.png");
     } else {
@@ -99,11 +95,11 @@ class Signature extends React.Component<SignatureProps> {
 
     return (
       <Container style={styles.container}>
-        <Headers title="Подпись/проверка" goBack={() => { goBack(); footerClose(); }} />
+        <Headers title="Подпись/проверка" goBack={() => goBack()} />
         <Content>
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Сертификат подписи</Text>
-            <Button transparent onPress={() => { readCertKeys(); navigate("SelectСert"); }} style={styles.sign_enc_button}>
+            <Button transparent onPress={() => { readCertKeys("sig"); navigate("SelectPersonalСert"); }} style={styles.sign_enc_button}>
               <Image style={styles.headerImage} source={icon} />
             </Button>
           </View>
@@ -123,14 +119,18 @@ class Signature extends React.Component<SignatureProps> {
       </Container>
     );
   }
+
+  componentDidMount() {
+    this.props.footerClose();
+    this.props.readFiles();
+  }
 }
 
 function mapStateToProps(state) {
   return {
     footer: state.footer,
-    certificate: state.certificate,
-    files: state.files.files,
-    certKeys: state.certKeys
+    personalCert: state.personalCert,
+    files: state.files.files
   };
 }
 

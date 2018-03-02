@@ -6,12 +6,12 @@ import {styles} from "../styles";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-interface SelectСertProps {
+interface SelectPersonalСertProps {
   navigation: any;
-  certKeys: any;
+  pesronalCertKeys: any;
 }
 
-class SelectСert extends React.Component<SelectСertProps> {
+class SelectPersonalСert extends React.Component<SelectPersonalСertProps> {
 
   static navigationOptions = {
     header: null
@@ -19,22 +19,22 @@ class SelectСert extends React.Component<SelectСertProps> {
 
   ShowList(img) {
     return (
-      this.props.certKeys.map((file, key) => <ListMenu
+      this.props.pesronalCertKeys.map((file, key) => <ListMenu
         key = {key}
         title={file.name}
         note = {file.mtime}
         img = {img[key]}
-        check
+        personal
         nav={() => this.props.navigation.goBack()} />));
   }
 
   render() {
-    const { certKeys} = this.props;
+    const { pesronalCertKeys} = this.props;
     const { goBack } = this.props.navigation;
 
     let img = [];
-    for (let i = 0; i < certKeys.length; i++) { // какое расширение у файлов
-      switch (certKeys[i].extension) {
+    for (let i = 0; i < pesronalCertKeys.length; i++) { // какое расширение у файлов
+      switch (pesronalCertKeys[i].extension) {
         default:
           img[i] = require("../../imgs/general/cert2_ok_icon.png"); break;
       }
@@ -61,8 +61,8 @@ class SelectСert extends React.Component<SelectСertProps> {
 
 function mapStateToProps(state) {
   return {
-    certKeys: state.certKeys.certKeys
+    pesronalCertKeys: state.certKeys.pesronalCertKeys
   };
 }
 
-export default connect(mapStateToProps)(SelectСert);
+export default connect(mapStateToProps)(SelectPersonalСert);

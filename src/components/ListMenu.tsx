@@ -4,7 +4,7 @@ import {Text, Image} from "react-native";
 import {styles} from "../styles";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {certAdd} from "../actions/index";
+import {personalCertAdd, otherCertAdd} from "../actions/index";
 
 interface ListItemProps {
     title: string;
@@ -15,12 +15,14 @@ interface ListItemProps {
     arrow?: boolean;
     id?: number;
     checkbox?: boolean;
-    check?: boolean;
+    personal?: boolean;
+    other?: boolean;
     nav(): void;
-    certAdd?(...any): void;
+    personalCertAdd?(...any): void;
+    otherCertAdd?(...any): void;
 }
 
-class ListMenu extends React.PureComponent<ListItemProps, any> {
+class ListMenu extends React.Component<ListItemProps, any> {
 
     constructor(props) {
         super(props);
@@ -29,7 +31,8 @@ class ListMenu extends React.PureComponent<ListItemProps, any> {
 
     onPress() {
         if (this.props.checkbox) this.state.active ? this.setState({active: false}) : this.setState({active: true});
-        if (this.props.check) this.props.certAdd(this.props.title, this.props.img, this.props.note);
+        if (this.props.personal) this.props.personalCertAdd(this.props.title, this.props.img, this.props.note);
+        if (this.props.other) this.props.otherCertAdd(this.props.title, this.props.img, this.props.note);
         this.props.nav();
     }
 
@@ -75,7 +78,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
     return {
-      certAdd: bindActionCreators(certAdd, dispatch)
+        personalCertAdd: bindActionCreators(personalCertAdd, dispatch),
+        otherCertAdd: bindActionCreators(otherCertAdd, dispatch)
     };
   }
 

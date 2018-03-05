@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Container, View, List, Content, Button, Body, Text } from "native-base";
-import { StyleSheet, TouchableOpacity, TouchableHighlight, Image } from "react-native";
+import { Image, RefreshControl, ScrollView } from "react-native";
 import { Headers } from "./Headers";
 import { styles } from "../styles";
 import SelectPersonalСert from "./SelectPersonalСert";
@@ -12,9 +12,14 @@ import { footerAction, footerClose, readFiles } from "../actions/index";
 import { readCertKeys} from "../actions/CertKeysAction";
 
 interface IFile {
-  mtime: string;
   extension: string;
   name: string;
+  date: string;
+  month: string;
+  year: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
 }
 
 interface SignatureProps {
@@ -23,6 +28,7 @@ interface SignatureProps {
   personalCert: any;
   files: IFile[];
   certKeys: any;
+  isFetching: boolean;
   footerAction(any): void;
   footerClose(): void;
   readFiles(): void;
@@ -35,19 +41,19 @@ class Signature extends React.Component<SignatureProps> {
     header: null
   };
 
-  ShowList(img) {
+  showList(img) {
     return (
       this.props.files.map((file, key) => <ListMenu
         key = {key}
         title={file.name}
-        note = {file.mtime}
+        note = {file.date + " " + file.month + " " + file.year + ", " + file.hours + ":" + file.minutes + ":" + file.seconds}
         img = {img[key]}
         checkbox
         nav={() => this.props.footerAction(key)} />));
   }
 
   render() {
-    const { footerAction, footerClose, files, readFiles, readCertKeys, personalCert} = this.props;
+    const { footerAction, footerClose, files, isFetching, readFiles, readCertKeys, personalCert} = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let certificate, icon;
@@ -58,9 +64,9 @@ class Signature extends React.Component<SignatureProps> {
       </List>;
       icon = require("../../imgs/general/edit_icon.png");
     } else {
-      certificate = <Body><View style={styles.sign_enc_view}>
+      certificate = <View style={styles.sign_enc_view}>
         <Text style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
-      </View></Body>;
+      </View>;
       icon = require("../../imgs/general/add_icon.png");
     }
 
@@ -90,13 +96,12 @@ class Signature extends React.Component<SignatureProps> {
       selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>
         выбран(о) {this.props.footer.arrButton.length} файл(ов)</Text>;
     } else {
-      selectFiles = <Text style={{ height: 20 }} ></Text>;
+      selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>
+      всего файлов: {files.length}</Text>;
     }
-
     return (
       <Container style={styles.container}>
         <Headers title="Подпись/проверка" goBack={() => goBack()} />
-        <Content>
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Сертификат подписи</Text>
             <Button transparent onPress={() => { readCertKeys("sig"); navigate("SelectPersonalСert"); }} style={styles.sign_enc_button}>
@@ -107,22 +112,24 @@ class Signature extends React.Component<SignatureProps> {
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Файлы</Text>
             {selectFiles}
-            <Button transparent style={styles.sign_enc_button} onPress={() => readFiles()} >
+            <Button transparent style={styles.sign_enc_button}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
             </Button>
           </View>
-          <List>
-            {this.ShowList(img)}
-          </List>
-        </Content>
+          <ScrollView refreshControl = {
+            <RefreshControl refreshing={isFetching}
+              onRefresh={() => readFiles()}
+            />}>
+            <List>{this.showList(img)}</List>
+          </ScrollView>
         {footer}
       </Container>
     );
   }
 
   componentDidMount() {
-    this.props.footerClose();
-    this.props.readFiles();
+    if (this.props.footer.arrButton.length !== 0) this.props.footerClose();
+    if (this.props.files.length === 0) this.props.readFiles();
   }
 }
 
@@ -130,7 +137,8 @@ function mapStateToProps(state) {
   return {
     footer: state.footer,
     personalCert: state.personalCert,
-    files: state.files.files
+    files: state.files.files,
+    isFetching: state.files.isFetching
   };
 }
 

@@ -42,18 +42,41 @@ export function readFiles() {
 }
 
 export function readFilesSuccess(file) {
-  let filearr = [], point, name, extension, mtime;
+  let filearr = [], point, name, extension, date, month, year, hours, minutes, time, seconds;
   let length = file.length;
   let k = 0;
   for (let i = 0; i < length; i++) {
     point = file[i].name.indexOf(".");
     name = file[i].name.substring(0, point);
     extension = file[i].name.substring(point + 1);
-    mtime = file[i].mtime + "";
+    date = file[i].mtime.getDate();
+    month = file[i].mtime.getMonth();
+    switch (month) {
+      case 0: month = "января"; break;
+      case 1: month = "февраля"; break;
+      case 2: month = "марта"; break;
+      case 3: month = "апреля"; break;
+      case 4: month = "мая"; break;
+      case 5: month = "июня"; break;
+      case 6: month = "июля"; break;
+      case 7: month = "августа"; break;
+      case 8: month = "сентября"; break;
+      case 9: month = "октября"; break;
+      case 10: month = "ноября"; break;
+      case 11: month = "декабря"; break;
+      default: break;
+    }
+    year = file[i].mtime.getFullYear();
+    hours = "" + file[i].mtime.getHours();
+    if (hours.length === 1) hours = "0" + hours;
+    minutes = "" + file[i].mtime.getMinutes();
+    if (minutes.length === 1) minutes = "0" + minutes;
+    seconds = "" + file[i].mtime.getSeconds();
+    if (seconds.length === 1) seconds = "0" + seconds;
     if (name === "") {
       k++;
     } else {
-      filearr[i - k] = {name, extension, mtime};
+      filearr[i - k] = {name, extension, date, month, year, hours, minutes, seconds};
     }
   }
   return {

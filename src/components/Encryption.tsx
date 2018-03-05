@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Container, View, Content, Button, Body, Text, List} from "native-base";
-import {Image} from "react-native";
+import {Image, RefreshControl, ScrollView} from "react-native";
 import {Headers} from "./Headers";
 import {styles} from "../styles";
 import {bindActionCreators} from "redux";
@@ -16,6 +16,7 @@ interface EncryptionProps {
   footer: any;
   files: any;
   otherCert: any;
+  isFetching: boolean;
   footerAction(any): void;
   footerClose(): void;
   readFiles(): void;
@@ -33,14 +34,14 @@ class Encryption extends React.Component<EncryptionProps> {
       this.props.files.map((file, key) => <ListMenu
         key = {key}
         title={file.name}
-        note = {file.mtime}
+        note = {file.date + " " + file.month + " " + file.year + ", " + file.hours + ":" + file.minutes + ":" + file.seconds}
         img = {img[key]}
         checkbox
         nav={() => this.props.footerAction(key)} />));
   }
 
   render() {
-    const {footerAction, footerClose, files, readFiles, readCertKeys, otherCert} = this.props;
+    const {footerAction, footerClose, files, readFiles, readCertKeys, otherCert, isFetching} = this.props;
     const { navigate, goBack } = this.props.navigation;
 
     let certificate, icon;
@@ -51,9 +52,9 @@ class Encryption extends React.Component<EncryptionProps> {
       </List>;
       icon = require("../../imgs/general/edit_icon.png");
     } else {
-      certificate = <Body><View style={styles.sign_enc_view}>
+      certificate = <View style={styles.sign_enc_view}>
         <Text style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
-      </View></Body>;
+      </View>;
       icon = require("../../imgs/general/add_icon.png");
     }
 
@@ -83,12 +84,12 @@ class Encryption extends React.Component<EncryptionProps> {
       selectFiles = <Text style={{fontSize: 17, height: 20, color: "grey"}}>
        выбран(о) {this.props.footer.arrButton.length} файл(ов)</Text>;
     } else {
-      selectFiles = <Text style={{height: 20}} ></Text>;
+      selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>
+      всего файлов: {files.length}</Text>;
     }
     return (
       <Container style={styles.container}>
         <Headers title="Шифрование/расшифрование" goBack={() => goBack() }/>
-        <Content>
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Сертификаты получателей</Text>
             <Button transparent style={styles.sign_enc_button} onPress={() => {readCertKeys("enc"); navigate("SelectOtherСert");  } }>
@@ -99,22 +100,24 @@ class Encryption extends React.Component<EncryptionProps> {
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Файлы</Text>
             {selectFiles}
-            <Button transparent style={styles.sign_enc_button} onPress={() => readFiles()}>
+            <Button transparent style={styles.sign_enc_button} onPress={() => null}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>
-          <List>
+          <ScrollView refreshControl = {
+            <RefreshControl refreshing={isFetching}
+              onRefresh={() => readFiles()}
+            />}>
             {this.showList(img)}
-          </List>
-        </Content>
+          </ScrollView>
         {footer}
       </Container>
     );
   }
 
   componentDidMount() {
-    this.props.footerClose();
-    this.props.readFiles();
+    if (this.props.footer.arrButton.length !== 0) this.props.footerClose();
+    if (this.props.files.length === 0) this.props.readFiles();
   }
 }
 
@@ -122,7 +125,8 @@ function mapStateToProps (state) {
   return {
     footer: state.footer,
     files: state.files.files,
-    otherCert: state.otherCert
+    otherCert: state.otherCert,
+    isFetching: state.files.isFetching
   };
 }
 

@@ -66,7 +66,8 @@ export const styles = StyleSheet.create({
   },
   sign_enc_prompt: {
     fontSize: 17,
-    color: "lightgrey"
+    color: "lightgrey",
+    textAlign: "center"
   },
   sign_enc_button: {
     position: "absolute",

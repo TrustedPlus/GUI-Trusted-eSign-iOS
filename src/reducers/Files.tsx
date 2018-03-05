@@ -1,19 +1,22 @@
 import { READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR } from "../constants";
 
 const initialState = {
-  files: []
+  files: [],
+  isFetching: false
 };
 
 export function Files(state = initialState, action) {
   switch (action.type) {
     case READ_FILES:
       return {
-        ...state
+        ...state,
+        isFetching: true
       };
     case READ_FILES_SUCCESS:
       return {
           ...state,
-          files: action.payload
+          files: action.payload,
+          isFetching: false
         };
     case READ_FILES_ERROR:
       return {

@@ -53,9 +53,6 @@ class FooterSign extends React.Component<FooterSignProps> {
     }
 
     EncAssymmetric(files, otherCert, footer) {
-        console.log(files);
-        console.log(otherCert);
-        console.log(footer);
         if (otherCert.title === "") return;
         for (let i = 0; i < footer.arrButton.length; i++) {
             let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
@@ -84,7 +81,7 @@ class FooterSign extends React.Component<FooterSignProps> {
         let footer = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
             footer = <FooterTab style={styles.container}>
-                    <Button vertical onPress={() => this.EncAssymmetric(files, otherCert, this.props.footer)}>
+                    <Button vertical  onPress={() => this.EncAssymmetric(files, otherCert, this.props.footer)}>
                         <Icon style={{color: "black"}} name="apps" />
                         <Text style={{color: "black", width: 130}}>Зашифровать</Text>
                     </Button>

@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -29,6 +30,7 @@
 		2421BD16757E4A7D989F4628 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D3283234CB444E7197B4DEDF /* EvilIcons.ttf */; };
 		25413E65F8364100B6FDA1B7 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 556B38BF6168445E9B9807D8 /* Entypo.ttf */; };
 		261F8AB1DF344A27B4A156C6 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6C5CE7296D24E7DB8534B86 /* rubicon-icon-font.ttf */; };
+		268B9C58094A4CA5995F240F /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B493C735BC8643A0B1B270AA /* libRNFS.a */; };
 		26B3CBB2DC8B4414B9EBCC9C /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B2221E8F72D4E1D9F27AFB0 /* Ionicons.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -55,9 +57,108 @@
 		ABB64D2398F240A796B6CFE2 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EFB124FE39F4DC2A3DD4396 /* MaterialCommunityIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		CBA4BA79D75F4761858A6DDA /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 552BA437549D4B59ADC352CD /* FontAwesome.ttf */; };
-		D791ABE1203C4E71009B75E3 /* SignerClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = D791ABE0203C4E71009B75E3 /* SignerClass.mm */; };
-		D791AC1C203C50F6009B75E3 /* CipherClass.mm in Sources */ = {isa = PBXBuildFile; fileRef = D791AC1B203C50F6009B75E3 /* CipherClass.mm */; };
-		D7CA7C62203B148B00619470 /* Header.m in Sources */ = {isa = PBXBuildFile; fileRef = D7CA7C61203B148B00619470 /* Header.m */; };
+		D7BD4943204EA3C80006EAC0 /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7BF3203B103F00619470 /* CPROCSP.framework */; };
+		D7BD4944204EA3F90006EAC0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7C36203B143700619470 /* libz.tbd */; };
+		D7BD4945204EA43D0006EAC0 /* librdrpcsc_empty.o in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7C5E203B144B00619470 /* librdrpcsc_empty.o */; };
+		D7BD49E7204EB8100006EAC0 /* PaneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4986204EB80C0006EAC0 /* PaneViewController.xib */; };
+		D7BD49E8204EB8100006EAC0 /* RequestSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4987204EB80C0006EAC0 /* RequestSelectionViewController.xib */; };
+		D7BD49E9204EB8100006EAC0 /* TemplateSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4988204EB80D0006EAC0 /* TemplateSelectionViewController.xib */; };
+		D7BD49EA204EB8100006EAC0 /* CPROCertviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4989204EB80D0006EAC0 /* CPROCertviewViewController.xib */; };
+		D7BD49EB204EB8100006EAC0 /* SelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD498A204EB80D0006EAC0 /* SelectionViewControllerIPhone.xib */; };
+		D7BD49EC204EB8100006EAC0 /* CPCAViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD498B204EB80D0006EAC0 /* CPCAViewController.xib */; };
+		D7BD49EE204EB8100006EAC0 /* kis_1 in Resources */ = {isa = PBXBuildFile; fileRef = D7BD498D204EB80E0006EAC0 /* kis_1 */; };
+		D7BD49EF204EB8100006EAC0 /* PaneViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD498E204EB80E0006EAC0 /* PaneViewControllerIPhone.xib */; };
+		D7BD49F0204EB8100006EAC0 /* MSCARequestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD498F204EB80E0006EAC0 /* MSCARequestViewController.xib */; };
+		D7BD49F1204EB8100006EAC0 /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4993204EB80E0006EAC0 /* csp_error_messages.cat */; };
+		D7BD49F2204EB8100006EAC0 /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4994204EB80E0006EAC0 /* libcsp.cat */; };
+		D7BD49F3204EB8100006EAC0 /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4995204EB80E0006EAC0 /* librdrdsrf.cat */; };
+		D7BD49F4204EB8100006EAC0 /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4996204EB80E0006EAC0 /* librdremv.cat */; };
+		D7BD49F5204EB8100006EAC0 /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4997204EB80E0006EAC0 /* librdrfat12.cat */; };
+		D7BD49F6204EB8100006EAC0 /* librdrjacarta.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4998204EB80E0006EAC0 /* librdrjacarta.cat */; };
+		D7BD49F7204EB8100006EAC0 /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4999204EB80E0006EAC0 /* librdrnova.cat */; };
+		D7BD49F8204EB8100006EAC0 /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD499A204EB80E0006EAC0 /* librdrpcsc.cat */; };
+		D7BD49F9204EB8100006EAC0 /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD499B204EB80E0006EAC0 /* librdrric.cat */; };
+		D7BD49FA204EB8100006EAC0 /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD499C204EB80E0006EAC0 /* librdrrndm0.cat */; };
+		D7BD49FB204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD499D204EB80E0006EAC0 /* librdrrndmbio_gui.cat */; };
+		D7BD49FC204EB8100006EAC0 /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD499E204EB80E0006EAC0 /* librdrsup.cat */; };
+		D7BD49FD204EB8100006EAC0 /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49A0204EB80E0006EAC0 /* csp_error_messages.cat */; };
+		D7BD49FE204EB8100006EAC0 /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49A1204EB80E0006EAC0 /* libcsp.cat */; };
+		D7BD49FF204EB8100006EAC0 /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49A2204EB80E0006EAC0 /* librdrdsrf.cat */; };
+		D7BD4A00204EB8100006EAC0 /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49A3204EB80E0006EAC0 /* librdremv.cat */; };
+		D7BD4A01204EB8100006EAC0 /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49A4204EB80E0006EAC0 /* librdrfat12.cat */; };
+		D7BD4A02204EB8100006EAC0 /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49A5204EB80E0006EAC0 /* librdrnova.cat */; };
+		D7BD4A03204EB8100006EAC0 /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49A6204EB80E0006EAC0 /* librdrpcsc.cat */; };
+		D7BD4A04204EB8100006EAC0 /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49A7204EB80E0006EAC0 /* librdrric.cat */; };
+		D7BD4A05204EB8100006EAC0 /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49A8204EB80E0006EAC0 /* librdrrndm0.cat */; };
+		D7BD4A06204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49A9204EB80E0006EAC0 /* librdrrndmbio_gui.cat */; };
+		D7BD4A07204EB8100006EAC0 /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49AA204EB80E0006EAC0 /* librdrsup.cat */; };
+		D7BD4A08204EB8100006EAC0 /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49AC204EB80E0006EAC0 /* csp_error_messages.cat */; };
+		D7BD4A09204EB8100006EAC0 /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49AD204EB80E0006EAC0 /* libcsp.cat */; };
+		D7BD4A0A204EB8100006EAC0 /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49AE204EB80E0006EAC0 /* librdrdsrf.cat */; };
+		D7BD4A0B204EB8100006EAC0 /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49AF204EB80E0006EAC0 /* librdremv.cat */; };
+		D7BD4A0C204EB8100006EAC0 /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49B0204EB80E0006EAC0 /* librdrfat12.cat */; };
+		D7BD4A0D204EB8100006EAC0 /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49B1204EB80E0006EAC0 /* librdrnova.cat */; };
+		D7BD4A0E204EB8100006EAC0 /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49B2204EB80E0006EAC0 /* librdrpcsc.cat */; };
+		D7BD4A0F204EB8100006EAC0 /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49B3204EB80E0006EAC0 /* librdrric.cat */; };
+		D7BD4A10204EB8100006EAC0 /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49B4204EB80E0006EAC0 /* librdrrndm0.cat */; };
+		D7BD4A11204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49B5204EB80E0006EAC0 /* librdrrndmbio_gui.cat */; };
+		D7BD4A12204EB8100006EAC0 /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49B6204EB80E0006EAC0 /* librdrsup.cat */; };
+		D7BD4A13204EB8100006EAC0 /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49B8204EB80E0006EAC0 /* csp_error_messages.cat */; };
+		D7BD4A14204EB8100006EAC0 /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49B9204EB80E0006EAC0 /* libcsp.cat */; };
+		D7BD4A15204EB8100006EAC0 /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49BA204EB80E0006EAC0 /* librdrdsrf.cat */; };
+		D7BD4A16204EB8100006EAC0 /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49BB204EB80E0006EAC0 /* librdremv.cat */; };
+		D7BD4A17204EB8100006EAC0 /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49BC204EB80E0006EAC0 /* librdrfat12.cat */; };
+		D7BD4A18204EB8100006EAC0 /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49BD204EB80E0006EAC0 /* librdrnova.cat */; };
+		D7BD4A19204EB8100006EAC0 /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49BE204EB80E0006EAC0 /* librdrpcsc.cat */; };
+		D7BD4A1A204EB8100006EAC0 /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49BF204EB80E0006EAC0 /* librdrric.cat */; };
+		D7BD4A1B204EB8100006EAC0 /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49C0204EB80E0006EAC0 /* librdrrndm0.cat */; };
+		D7BD4A1C204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49C1204EB80E0006EAC0 /* librdrrndmbio_gui.cat */; };
+		D7BD4A1D204EB8100006EAC0 /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49C2204EB80E0006EAC0 /* librdrsup.cat */; };
+		D7BD4A1E204EB8100006EAC0 /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49C4204EB80E0006EAC0 /* csp_error_messages.cat */; };
+		D7BD4A1F204EB8100006EAC0 /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49C5204EB80E0006EAC0 /* libcsp.cat */; };
+		D7BD4A20204EB8100006EAC0 /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49C6204EB80E0006EAC0 /* librdrdsrf.cat */; };
+		D7BD4A21204EB8100006EAC0 /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49C7204EB80E0006EAC0 /* librdremv.cat */; };
+		D7BD4A22204EB8100006EAC0 /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49C8204EB80E0006EAC0 /* librdrfat12.cat */; };
+		D7BD4A23204EB8100006EAC0 /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49C9204EB80E0006EAC0 /* librdrnova.cat */; };
+		D7BD4A24204EB8100006EAC0 /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49CA204EB80E0006EAC0 /* librdrpcsc.cat */; };
+		D7BD4A25204EB8100006EAC0 /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49CB204EB80E0006EAC0 /* librdrric.cat */; };
+		D7BD4A26204EB8100006EAC0 /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49CC204EB80E0006EAC0 /* librdrrndm0.cat */; };
+		D7BD4A27204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49CD204EB80E0006EAC0 /* librdrrndmbio_gui.cat */; };
+		D7BD4A28204EB8100006EAC0 /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49CE204EB80E0006EAC0 /* librdrsup.cat */; };
+		D7BD4A29204EB8100006EAC0 /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49D0204EB80E0006EAC0 /* csp_error_messages.cat */; };
+		D7BD4A2A204EB8100006EAC0 /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49D1204EB80E0006EAC0 /* libcsp.cat */; };
+		D7BD4A2B204EB8100006EAC0 /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49D2204EB80E0006EAC0 /* librdrdsrf.cat */; };
+		D7BD4A2C204EB8100006EAC0 /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49D3204EB80E0006EAC0 /* librdremv.cat */; };
+		D7BD4A2D204EB8100006EAC0 /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49D4204EB80E0006EAC0 /* librdrfat12.cat */; };
+		D7BD4A2E204EB8100006EAC0 /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49D5204EB80E0006EAC0 /* librdrnova.cat */; };
+		D7BD4A2F204EB8100006EAC0 /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49D6204EB80E0006EAC0 /* librdrpcsc.cat */; };
+		D7BD4A30204EB8100006EAC0 /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49D7204EB80E0006EAC0 /* librdrric.cat */; };
+		D7BD4A31204EB8100006EAC0 /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49D8204EB80E0006EAC0 /* librdrrndm0.cat */; };
+		D7BD4A32204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49D9204EB80E0006EAC0 /* librdrrndmbio_gui.cat */; };
+		D7BD4A33204EB8100006EAC0 /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49DA204EB80E0006EAC0 /* librdrsup.cat */; };
+		D7BD4A34204EB8100006EAC0 /* root.sto in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49DB204EB80E0006EAC0 /* root.sto */; };
+		D7BD4A35204EB8100006EAC0 /* RndmBioViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49DC204EB80E0006EAC0 /* RndmBioViewController.xib */; };
+		D7BD4A36204EB8100006EAC0 /* RequestSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49DD204EB80F0006EAC0 /* RequestSelectionViewControllerIPhone.xib */; };
+		D7BD4A37204EB8100006EAC0 /* CPROCertviewViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49DE204EB80F0006EAC0 /* CPROCertviewViewControllerIPhone.xib */; };
+		D7BD4A38204EB8100006EAC0 /* NewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49DF204EB80F0006EAC0 /* NewUserViewController.xib */; };
+		D7BD4A39204EB8100006EAC0 /* SelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49E0204EB80F0006EAC0 /* SelectionViewController.xib */; };
+		D7BD4A3A204EB8100006EAC0 /* NewUserViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49E1204EB80F0006EAC0 /* NewUserViewControllerIPhone.xib */; };
+		D7BD4A3B204EB8100006EAC0 /* config.ini in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49E2204EB80F0006EAC0 /* config.ini */; };
+		D7BD4A3C204EB8100006EAC0 /* CPCAViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49E3204EB8100006EAC0 /* CPCAViewControllerIPhone.xib */; };
+		D7BD4A3D204EB8100006EAC0 /* MSCARequestViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49E4204EB8100006EAC0 /* MSCARequestViewControllerIPhone.xib */; };
+		D7BD4A3E204EB8100006EAC0 /* RndmBioViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49E5204EB8100006EAC0 /* RndmBioViewControllerIPhone.xib */; };
+		D7BD4A3F204EB8100006EAC0 /* TemplateSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49E6204EB8100006EAC0 /* TemplateSelectionViewControllerIPhone.xib */; };
+		D7BD4A42204EB8160006EAC0 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4A40204EB8160006EAC0 /* en.lproj */; };
+		D7BD4A43204EB8160006EAC0 /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4A41204EB8160006EAC0 /* ru.lproj */; };
+		D7BD4A8C204EBC110006EAC0 /* Class.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A7B204EBC110006EAC0 /* Class.mm */; };
+		D7BD4A8D204EBC110006EAC0 /* PCert.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A7D204EBC110006EAC0 /* PCert.mm */; };
+		D7BD4A8E204EBC110006EAC0 /* PCipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A7F204EBC110006EAC0 /* PCipher.mm */; };
+		D7BD4A8F204EBC110006EAC0 /* PSigner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A81204EBC110006EAC0 /* PSigner.mm */; };
+		D7BD4A90204EBC110006EAC0 /* WCert.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A84204EBC110006EAC0 /* WCert.mm */; };
+		D7BD4A91204EBC110006EAC0 /* WCipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A86204EBC110006EAC0 /* WCipher.mm */; };
+		D7BD4A92204EBC110006EAC0 /* WHelp.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A88204EBC110006EAC0 /* WHelp.mm */; };
+		D7BD4A93204EBC110006EAC0 /* WHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A89204EBC110006EAC0 /* WHelper.m */; };
+		D7BD4A94204EBC110006EAC0 /* WSigner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A8B204EBC110006EAC0 /* WSigner.mm */; };
 		D7CA7CA8203B1A1E00619470 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7CA7203B1A1E00619470 /* libcrypto.a */; };
 		D7CA7CAA203B1A2800619470 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7CA9203B1A2800619470 /* libssl.a */; };
 		D7CA7CAC203B1A3200619470 /* wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7CAB203B1A3200619470 /* wrapper.a */; };
@@ -66,7 +167,6 @@
 		EFD8B399E03140A1BC45C7C3 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B112937A183433480B170BD /* MaterialIcons.ttf */; };
 		F81017F4EA584A4CAA6B705F /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B444D0C7BBB24767A391005E /* FontAwesome.ttf */; };
 		FD372582B6B645CC9AD63DD6 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7209D7CA370146CA9DD0994E /* SimpleLineIcons.ttf */; };
-		268B9C58094A4CA5995F240F /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B493C735BC8643A0B1B270AA /* libRNFS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -350,10 +450,25 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		D73EBF2F2049815A0035F089 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00B397260B4B47D7AA7095B8 /* RNFS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
+			remoteInfo = RNFS;
+		};
+		D73EBF312049815A0035F089 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 00B397260B4B47D7AA7095B8 /* RNFS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6456441F1EB8DA9100672408;
+			remoteInfo = "RNFS-tvOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		00B397260B4B47D7AA7095B8 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
 		00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTGeolocation.xcodeproj; path = "../node_modules/react-native/Libraries/Geolocation/RCTGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
@@ -400,26 +515,123 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B3E9F35C7B6E42768B14AB35 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		B444D0C7BBB24767A391005E /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		B493C735BC8643A0B1B270AA /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		B7EBE5778A2E48BA877B44CC /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		D3283234CB444E7197B4DEDF /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		D6C5CE7296D24E7DB8534B86 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
-		D791ABDF203C4E71009B75E3 /* SignerClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignerClass.h; sourceTree = "<group>"; };
-		D791ABE0203C4E71009B75E3 /* SignerClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SignerClass.mm; sourceTree = "<group>"; };
-		D791ABE2203C4F37009B75E3 /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CPROCSP.framework; path = ../../CPROCSP.framework; sourceTree = "<group>"; };
-		D791ABF3203C5085009B75E3 /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = ../../CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
-		D791AC1A203C50F6009B75E3 /* CipherClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CipherClass.h; sourceTree = "<group>"; };
-		D791AC1B203C50F6009B75E3 /* CipherClass.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CipherClass.mm; sourceTree = "<group>"; };
+		D7BD4986204EB80C0006EAC0 /* PaneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PaneViewController.xib; path = CPROCSP.framework/Resources/PaneViewController.xib; sourceTree = "<group>"; };
+		D7BD4987204EB80C0006EAC0 /* RequestSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestSelectionViewController.xib; path = CPROCSP.framework/Resources/RequestSelectionViewController.xib; sourceTree = "<group>"; };
+		D7BD4988204EB80D0006EAC0 /* TemplateSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateSelectionViewController.xib; path = CPROCSP.framework/Resources/TemplateSelectionViewController.xib; sourceTree = "<group>"; };
+		D7BD4989204EB80D0006EAC0 /* CPROCertviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CPROCertviewViewController.xib; path = CPROCSP.framework/Resources/CPROCertviewViewController.xib; sourceTree = "<group>"; };
+		D7BD498A204EB80D0006EAC0 /* SelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SelectionViewControllerIPhone.xib; path = CPROCSP.framework/Resources/SelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
+		D7BD498B204EB80D0006EAC0 /* CPCAViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CPCAViewController.xib; path = CPROCSP.framework/Resources/CPCAViewController.xib; sourceTree = "<group>"; };
+		D7BD498D204EB80E0006EAC0 /* kis_1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = kis_1; path = CPROCSP.framework/Resources/kis_1; sourceTree = "<group>"; };
+		D7BD498E204EB80E0006EAC0 /* PaneViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PaneViewControllerIPhone.xib; path = CPROCSP.framework/Resources/PaneViewControllerIPhone.xib; sourceTree = "<group>"; };
+		D7BD498F204EB80E0006EAC0 /* MSCARequestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSCARequestViewController.xib; path = CPROCSP.framework/Resources/MSCARequestViewController.xib; sourceTree = "<group>"; };
+		D7BD4993204EB80E0006EAC0 /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
+		D7BD4994204EB80E0006EAC0 /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
+		D7BD4995204EB80E0006EAC0 /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
+		D7BD4996204EB80E0006EAC0 /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
+		D7BD4997204EB80E0006EAC0 /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
+		D7BD4998204EB80E0006EAC0 /* librdrjacarta.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrjacarta.cat; sourceTree = "<group>"; };
+		D7BD4999204EB80E0006EAC0 /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
+		D7BD499A204EB80E0006EAC0 /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
+		D7BD499B204EB80E0006EAC0 /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
+		D7BD499C204EB80E0006EAC0 /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
+		D7BD499D204EB80E0006EAC0 /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
+		D7BD499E204EB80E0006EAC0 /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
+		D7BD49A0204EB80E0006EAC0 /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
+		D7BD49A1204EB80E0006EAC0 /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
+		D7BD49A2204EB80E0006EAC0 /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
+		D7BD49A3204EB80E0006EAC0 /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
+		D7BD49A4204EB80E0006EAC0 /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
+		D7BD49A5204EB80E0006EAC0 /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
+		D7BD49A6204EB80E0006EAC0 /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
+		D7BD49A7204EB80E0006EAC0 /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
+		D7BD49A8204EB80E0006EAC0 /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
+		D7BD49A9204EB80E0006EAC0 /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
+		D7BD49AA204EB80E0006EAC0 /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
+		D7BD49AC204EB80E0006EAC0 /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
+		D7BD49AD204EB80E0006EAC0 /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
+		D7BD49AE204EB80E0006EAC0 /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
+		D7BD49AF204EB80E0006EAC0 /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
+		D7BD49B0204EB80E0006EAC0 /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
+		D7BD49B1204EB80E0006EAC0 /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
+		D7BD49B2204EB80E0006EAC0 /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
+		D7BD49B3204EB80E0006EAC0 /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
+		D7BD49B4204EB80E0006EAC0 /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
+		D7BD49B5204EB80E0006EAC0 /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
+		D7BD49B6204EB80E0006EAC0 /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
+		D7BD49B8204EB80E0006EAC0 /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
+		D7BD49B9204EB80E0006EAC0 /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
+		D7BD49BA204EB80E0006EAC0 /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
+		D7BD49BB204EB80E0006EAC0 /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
+		D7BD49BC204EB80E0006EAC0 /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
+		D7BD49BD204EB80E0006EAC0 /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
+		D7BD49BE204EB80E0006EAC0 /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
+		D7BD49BF204EB80E0006EAC0 /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
+		D7BD49C0204EB80E0006EAC0 /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
+		D7BD49C1204EB80E0006EAC0 /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
+		D7BD49C2204EB80E0006EAC0 /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
+		D7BD49C4204EB80E0006EAC0 /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
+		D7BD49C5204EB80E0006EAC0 /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
+		D7BD49C6204EB80E0006EAC0 /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
+		D7BD49C7204EB80E0006EAC0 /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
+		D7BD49C8204EB80E0006EAC0 /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
+		D7BD49C9204EB80E0006EAC0 /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
+		D7BD49CA204EB80E0006EAC0 /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
+		D7BD49CB204EB80E0006EAC0 /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
+		D7BD49CC204EB80E0006EAC0 /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
+		D7BD49CD204EB80E0006EAC0 /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
+		D7BD49CE204EB80E0006EAC0 /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
+		D7BD49D0204EB80E0006EAC0 /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
+		D7BD49D1204EB80E0006EAC0 /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
+		D7BD49D2204EB80E0006EAC0 /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
+		D7BD49D3204EB80E0006EAC0 /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
+		D7BD49D4204EB80E0006EAC0 /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
+		D7BD49D5204EB80E0006EAC0 /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
+		D7BD49D6204EB80E0006EAC0 /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
+		D7BD49D7204EB80E0006EAC0 /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
+		D7BD49D8204EB80E0006EAC0 /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
+		D7BD49D9204EB80E0006EAC0 /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
+		D7BD49DA204EB80E0006EAC0 /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
+		D7BD49DB204EB80E0006EAC0 /* root.sto */ = {isa = PBXFileReference; lastKnownFileType = file; name = root.sto; path = CPROCSP.framework/Resources/root.sto; sourceTree = "<group>"; };
+		D7BD49DC204EB80E0006EAC0 /* RndmBioViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RndmBioViewController.xib; path = CPROCSP.framework/Resources/RndmBioViewController.xib; sourceTree = "<group>"; };
+		D7BD49DD204EB80F0006EAC0 /* RequestSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestSelectionViewControllerIPhone.xib; path = CPROCSP.framework/Resources/RequestSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
+		D7BD49DE204EB80F0006EAC0 /* CPROCertviewViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CPROCertviewViewControllerIPhone.xib; path = CPROCSP.framework/Resources/CPROCertviewViewControllerIPhone.xib; sourceTree = "<group>"; };
+		D7BD49DF204EB80F0006EAC0 /* NewUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewUserViewController.xib; path = CPROCSP.framework/Resources/NewUserViewController.xib; sourceTree = "<group>"; };
+		D7BD49E0204EB80F0006EAC0 /* SelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SelectionViewController.xib; path = CPROCSP.framework/Resources/SelectionViewController.xib; sourceTree = "<group>"; };
+		D7BD49E1204EB80F0006EAC0 /* NewUserViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NewUserViewControllerIPhone.xib; path = CPROCSP.framework/Resources/NewUserViewControllerIPhone.xib; sourceTree = "<group>"; };
+		D7BD49E2204EB80F0006EAC0 /* config.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = config.ini; path = CPROCSP.framework/Resources/config.ini; sourceTree = "<group>"; };
+		D7BD49E3204EB8100006EAC0 /* CPCAViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CPCAViewControllerIPhone.xib; path = CPROCSP.framework/Resources/CPCAViewControllerIPhone.xib; sourceTree = "<group>"; };
+		D7BD49E4204EB8100006EAC0 /* MSCARequestViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MSCARequestViewControllerIPhone.xib; path = CPROCSP.framework/Resources/MSCARequestViewControllerIPhone.xib; sourceTree = "<group>"; };
+		D7BD49E5204EB8100006EAC0 /* RndmBioViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RndmBioViewControllerIPhone.xib; path = CPROCSP.framework/Resources/RndmBioViewControllerIPhone.xib; sourceTree = "<group>"; };
+		D7BD49E6204EB8100006EAC0 /* TemplateSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateSelectionViewControllerIPhone.xib; path = CPROCSP.framework/Resources/TemplateSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
+		D7BD4A40204EB8160006EAC0 /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en.lproj; path = CPROCSP.framework/Resources/en.lproj; sourceTree = "<group>"; };
+		D7BD4A41204EB8160006EAC0 /* ru.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ru.lproj; path = CPROCSP.framework/Resources/ru.lproj; sourceTree = "<group>"; };
+		D7BD4A7B204EBC110006EAC0 /* Class.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Class.mm; sourceTree = "<group>"; };
+		D7BD4A7C204EBC110006EAC0 /* PCert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCert.h; sourceTree = "<group>"; };
+		D7BD4A7D204EBC110006EAC0 /* PCert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCert.mm; sourceTree = "<group>"; };
+		D7BD4A7E204EBC110006EAC0 /* PCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCipher.h; sourceTree = "<group>"; };
+		D7BD4A7F204EBC110006EAC0 /* PCipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCipher.mm; sourceTree = "<group>"; };
+		D7BD4A80204EBC110006EAC0 /* PSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSigner.h; sourceTree = "<group>"; };
+		D7BD4A81204EBC110006EAC0 /* PSigner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PSigner.mm; sourceTree = "<group>"; };
+		D7BD4A83204EBC110006EAC0 /* WCert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCert.h; sourceTree = "<group>"; };
+		D7BD4A84204EBC110006EAC0 /* WCert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCert.mm; sourceTree = "<group>"; };
+		D7BD4A85204EBC110006EAC0 /* WCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCipher.h; sourceTree = "<group>"; };
+		D7BD4A86204EBC110006EAC0 /* WCipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCipher.mm; sourceTree = "<group>"; };
+		D7BD4A87204EBC110006EAC0 /* WHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHelp.h; sourceTree = "<group>"; };
+		D7BD4A88204EBC110006EAC0 /* WHelp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WHelp.mm; sourceTree = "<group>"; };
+		D7BD4A89204EBC110006EAC0 /* WHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHelper.m; sourceTree = "<group>"; };
+		D7BD4A8A204EBC110006EAC0 /* WSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSigner.h; sourceTree = "<group>"; };
+		D7BD4A8B204EBC110006EAC0 /* WSigner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WSigner.mm; sourceTree = "<group>"; };
 		D7CA7BF3203B103F00619470 /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CPROCSP.framework; sourceTree = "<group>"; };
 		D7CA7C36203B143700619470 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		D7CA7C5E203B144B00619470 /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
-		D7CA7C60203B147C00619470 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
-		D7CA7C61203B148B00619470 /* Header.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Header.m; sourceTree = "<group>"; };
 		D7CA7CA7203B1A1E00619470 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = lib/libcrypto.a; sourceTree = "<group>"; };
 		D7CA7CA9203B1A2800619470 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = lib/libssl.a; sourceTree = "<group>"; };
 		D7CA7CAB203B1A3200619470 /* wrapper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = wrapper.a; path = lib/wrapper.a; sourceTree = "<group>"; };
 		DE712CC8B62642A3B0319877 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
-		00B397260B4B47D7AA7095B8 /* RNFS.xcodeproj */ = {isa = PBXFileReference; name = "RNFS.xcodeproj"; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		B493C735BC8643A0B1B270AA /* libRNFS.a */ = {isa = PBXFileReference; name = "libRNFS.a"; path = "libRNFS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -435,6 +647,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7BD4945204EA43D0006EAC0 /* librdrpcsc_empty.o in Frameworks */,
+				D7BD4944204EA3F90006EAC0 /* libz.tbd in Frameworks */,
+				D7BD4943204EA3C80006EAC0 /* CPROCSP.framework in Frameworks */,
 				D7CA7CAC203B1A3200619470 /* wrapper.a in Frameworks */,
 				D7CA7CAA203B1A2800619470 /* libssl.a in Frameworks */,
 				D7CA7CA8203B1A1E00619470 /* libcrypto.a in Frameworks */,
@@ -543,6 +758,30 @@
 		05E84DAD111C425F967D24F7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D7BD4A40204EB8160006EAC0 /* en.lproj */,
+				D7BD4A41204EB8160006EAC0 /* ru.lproj */,
+				D7BD49E2204EB80F0006EAC0 /* config.ini */,
+				D7BD498B204EB80D0006EAC0 /* CPCAViewController.xib */,
+				D7BD49E3204EB8100006EAC0 /* CPCAViewControllerIPhone.xib */,
+				D7BD4989204EB80D0006EAC0 /* CPROCertviewViewController.xib */,
+				D7BD49DE204EB80F0006EAC0 /* CPROCertviewViewControllerIPhone.xib */,
+				D7BD498D204EB80E0006EAC0 /* kis_1 */,
+				D7BD4990204EB80E0006EAC0 /* locale */,
+				D7BD498F204EB80E0006EAC0 /* MSCARequestViewController.xib */,
+				D7BD49E4204EB8100006EAC0 /* MSCARequestViewControllerIPhone.xib */,
+				D7BD49DF204EB80F0006EAC0 /* NewUserViewController.xib */,
+				D7BD49E1204EB80F0006EAC0 /* NewUserViewControllerIPhone.xib */,
+				D7BD4986204EB80C0006EAC0 /* PaneViewController.xib */,
+				D7BD498E204EB80E0006EAC0 /* PaneViewControllerIPhone.xib */,
+				D7BD4987204EB80C0006EAC0 /* RequestSelectionViewController.xib */,
+				D7BD49DD204EB80F0006EAC0 /* RequestSelectionViewControllerIPhone.xib */,
+				D7BD49DC204EB80E0006EAC0 /* RndmBioViewController.xib */,
+				D7BD49E5204EB8100006EAC0 /* RndmBioViewControllerIPhone.xib */,
+				D7BD49DB204EB80E0006EAC0 /* root.sto */,
+				D7BD49E0204EB80F0006EAC0 /* SelectionViewController.xib */,
+				D7BD498A204EB80D0006EAC0 /* SelectionViewControllerIPhone.xib */,
+				D7BD4988204EB80D0006EAC0 /* TemplateSelectionViewController.xib */,
+				D7BD49E6204EB8100006EAC0 /* TemplateSelectionViewControllerIPhone.xib */,
 				30673830BBF94806BE5CCA5D /* Entypo.ttf */,
 				7E0B41D769A740B2ABB0E9D7 /* EvilIcons.ttf */,
 				1B18A96F6A91419D88E22ADF /* Feather.ttf */,
@@ -593,6 +832,8 @@
 		13B07FAE1A68108700A75B9A /* CryptoARM_GOST */ = {
 			isa = PBXGroup;
 			children = (
+				D7BD4A82204EBC110006EAC0 /* crypto */,
+				D7BD4A7A204EBC110006EAC0 /* cryptoPro */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -600,12 +841,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				D7CA7C60203B147C00619470 /* Header.h */,
-				D7CA7C61203B148B00619470 /* Header.m */,
-				D791ABDF203C4E71009B75E3 /* SignerClass.h */,
-				D791ABE0203C4E71009B75E3 /* SignerClass.mm */,
-				D791AC1A203C50F6009B75E3 /* CipherClass.h */,
-				D791AC1B203C50F6009B75E3 /* CipherClass.mm */,
 			);
 			name = CryptoARM_GOST;
 			sourceTree = "<group>";
@@ -636,8 +871,6 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D791ABF3203C5085009B75E3 /* librdrpcsc_empty.o */,
-				D791ABE2203C4F37009B75E3 /* CPROCSP.framework */,
 				D7CA7CAB203B1A3200619470 /* wrapper.a */,
 				D7CA7CA9203B1A2800619470 /* libssl.a */,
 				D7CA7CA7203B1A1E00619470 /* libcrypto.a */,
@@ -728,6 +961,7 @@
 			isa = PBXGroup;
 			children = (
 				A25A425C00FC4EDD96130B87 /* libRNVectorIcons.a */,
+				B493C735BC8643A0B1B270AA /* libRNFS.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -747,6 +981,178 @@
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D73EBF2B204981590035F089 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D73EBF302049815A0035F089 /* libRNFS.a */,
+				D73EBF322049815A0035F089 /* libRNFS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D7BD4990204EB80E0006EAC0 /* locale */ = {
+			isa = PBXGroup;
+			children = (
+				D7BD4991204EB80E0006EAC0 /* default */,
+				D7BD499F204EB80E0006EAC0 /* ru_RU.CP1251 */,
+				D7BD49AB204EB80E0006EAC0 /* ru_RU.CP866 */,
+				D7BD49B7204EB80E0006EAC0 /* ru_RU.ISO8859-5 */,
+				D7BD49C3204EB80E0006EAC0 /* ru_RU.KOI8-R */,
+				D7BD49CF204EB80E0006EAC0 /* ru_RU.UTF-8 */,
+			);
+			name = locale;
+			path = CPROCSP.framework/Resources/locale;
+			sourceTree = "<group>";
+		};
+		D7BD4991204EB80E0006EAC0 /* default */ = {
+			isa = PBXGroup;
+			children = (
+				D7BD4992204EB80E0006EAC0 /* LC_MESSAGES */,
+			);
+			path = default;
+			sourceTree = "<group>";
+		};
+		D7BD4992204EB80E0006EAC0 /* LC_MESSAGES */ = {
+			isa = PBXGroup;
+			children = (
+				D7BD4993204EB80E0006EAC0 /* csp_error_messages.cat */,
+				D7BD4994204EB80E0006EAC0 /* libcsp.cat */,
+				D7BD4995204EB80E0006EAC0 /* librdrdsrf.cat */,
+				D7BD4996204EB80E0006EAC0 /* librdremv.cat */,
+				D7BD4997204EB80E0006EAC0 /* librdrfat12.cat */,
+				D7BD4998204EB80E0006EAC0 /* librdrjacarta.cat */,
+				D7BD4999204EB80E0006EAC0 /* librdrnova.cat */,
+				D7BD499A204EB80E0006EAC0 /* librdrpcsc.cat */,
+				D7BD499B204EB80E0006EAC0 /* librdrric.cat */,
+				D7BD499C204EB80E0006EAC0 /* librdrrndm0.cat */,
+				D7BD499D204EB80E0006EAC0 /* librdrrndmbio_gui.cat */,
+				D7BD499E204EB80E0006EAC0 /* librdrsup.cat */,
+			);
+			path = LC_MESSAGES;
+			sourceTree = "<group>";
+		};
+		D7BD499F204EB80E0006EAC0 /* ru_RU.CP1251 */ = {
+			isa = PBXGroup;
+			children = (
+				D7BD49A0204EB80E0006EAC0 /* csp_error_messages.cat */,
+				D7BD49A1204EB80E0006EAC0 /* libcsp.cat */,
+				D7BD49A2204EB80E0006EAC0 /* librdrdsrf.cat */,
+				D7BD49A3204EB80E0006EAC0 /* librdremv.cat */,
+				D7BD49A4204EB80E0006EAC0 /* librdrfat12.cat */,
+				D7BD49A5204EB80E0006EAC0 /* librdrnova.cat */,
+				D7BD49A6204EB80E0006EAC0 /* librdrpcsc.cat */,
+				D7BD49A7204EB80E0006EAC0 /* librdrric.cat */,
+				D7BD49A8204EB80E0006EAC0 /* librdrrndm0.cat */,
+				D7BD49A9204EB80E0006EAC0 /* librdrrndmbio_gui.cat */,
+				D7BD49AA204EB80E0006EAC0 /* librdrsup.cat */,
+			);
+			path = ru_RU.CP1251;
+			sourceTree = "<group>";
+		};
+		D7BD49AB204EB80E0006EAC0 /* ru_RU.CP866 */ = {
+			isa = PBXGroup;
+			children = (
+				D7BD49AC204EB80E0006EAC0 /* csp_error_messages.cat */,
+				D7BD49AD204EB80E0006EAC0 /* libcsp.cat */,
+				D7BD49AE204EB80E0006EAC0 /* librdrdsrf.cat */,
+				D7BD49AF204EB80E0006EAC0 /* librdremv.cat */,
+				D7BD49B0204EB80E0006EAC0 /* librdrfat12.cat */,
+				D7BD49B1204EB80E0006EAC0 /* librdrnova.cat */,
+				D7BD49B2204EB80E0006EAC0 /* librdrpcsc.cat */,
+				D7BD49B3204EB80E0006EAC0 /* librdrric.cat */,
+				D7BD49B4204EB80E0006EAC0 /* librdrrndm0.cat */,
+				D7BD49B5204EB80E0006EAC0 /* librdrrndmbio_gui.cat */,
+				D7BD49B6204EB80E0006EAC0 /* librdrsup.cat */,
+			);
+			path = ru_RU.CP866;
+			sourceTree = "<group>";
+		};
+		D7BD49B7204EB80E0006EAC0 /* ru_RU.ISO8859-5 */ = {
+			isa = PBXGroup;
+			children = (
+				D7BD49B8204EB80E0006EAC0 /* csp_error_messages.cat */,
+				D7BD49B9204EB80E0006EAC0 /* libcsp.cat */,
+				D7BD49BA204EB80E0006EAC0 /* librdrdsrf.cat */,
+				D7BD49BB204EB80E0006EAC0 /* librdremv.cat */,
+				D7BD49BC204EB80E0006EAC0 /* librdrfat12.cat */,
+				D7BD49BD204EB80E0006EAC0 /* librdrnova.cat */,
+				D7BD49BE204EB80E0006EAC0 /* librdrpcsc.cat */,
+				D7BD49BF204EB80E0006EAC0 /* librdrric.cat */,
+				D7BD49C0204EB80E0006EAC0 /* librdrrndm0.cat */,
+				D7BD49C1204EB80E0006EAC0 /* librdrrndmbio_gui.cat */,
+				D7BD49C2204EB80E0006EAC0 /* librdrsup.cat */,
+			);
+			path = "ru_RU.ISO8859-5";
+			sourceTree = "<group>";
+		};
+		D7BD49C3204EB80E0006EAC0 /* ru_RU.KOI8-R */ = {
+			isa = PBXGroup;
+			children = (
+				D7BD49C4204EB80E0006EAC0 /* csp_error_messages.cat */,
+				D7BD49C5204EB80E0006EAC0 /* libcsp.cat */,
+				D7BD49C6204EB80E0006EAC0 /* librdrdsrf.cat */,
+				D7BD49C7204EB80E0006EAC0 /* librdremv.cat */,
+				D7BD49C8204EB80E0006EAC0 /* librdrfat12.cat */,
+				D7BD49C9204EB80E0006EAC0 /* librdrnova.cat */,
+				D7BD49CA204EB80E0006EAC0 /* librdrpcsc.cat */,
+				D7BD49CB204EB80E0006EAC0 /* librdrric.cat */,
+				D7BD49CC204EB80E0006EAC0 /* librdrrndm0.cat */,
+				D7BD49CD204EB80E0006EAC0 /* librdrrndmbio_gui.cat */,
+				D7BD49CE204EB80E0006EAC0 /* librdrsup.cat */,
+			);
+			path = "ru_RU.KOI8-R";
+			sourceTree = "<group>";
+		};
+		D7BD49CF204EB80E0006EAC0 /* ru_RU.UTF-8 */ = {
+			isa = PBXGroup;
+			children = (
+				D7BD49D0204EB80E0006EAC0 /* csp_error_messages.cat */,
+				D7BD49D1204EB80E0006EAC0 /* libcsp.cat */,
+				D7BD49D2204EB80E0006EAC0 /* librdrdsrf.cat */,
+				D7BD49D3204EB80E0006EAC0 /* librdremv.cat */,
+				D7BD49D4204EB80E0006EAC0 /* librdrfat12.cat */,
+				D7BD49D5204EB80E0006EAC0 /* librdrnova.cat */,
+				D7BD49D6204EB80E0006EAC0 /* librdrpcsc.cat */,
+				D7BD49D7204EB80E0006EAC0 /* librdrric.cat */,
+				D7BD49D8204EB80E0006EAC0 /* librdrrndm0.cat */,
+				D7BD49D9204EB80E0006EAC0 /* librdrrndmbio_gui.cat */,
+				D7BD49DA204EB80E0006EAC0 /* librdrsup.cat */,
+			);
+			path = "ru_RU.UTF-8";
+			sourceTree = "<group>";
+		};
+		D7BD4A7A204EBC110006EAC0 /* cryptoPro */ = {
+			isa = PBXGroup;
+			children = (
+				D7BD4A7B204EBC110006EAC0 /* Class.mm */,
+				D7BD4A7C204EBC110006EAC0 /* PCert.h */,
+				D7BD4A7D204EBC110006EAC0 /* PCert.mm */,
+				D7BD4A7E204EBC110006EAC0 /* PCipher.h */,
+				D7BD4A7F204EBC110006EAC0 /* PCipher.mm */,
+				D7BD4A80204EBC110006EAC0 /* PSigner.h */,
+				D7BD4A81204EBC110006EAC0 /* PSigner.mm */,
+			);
+			name = cryptoPro;
+			path = src/cryptoPro;
+			sourceTree = "<group>";
+		};
+		D7BD4A82204EBC110006EAC0 /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				D7BD4A83204EBC110006EAC0 /* WCert.h */,
+				D7BD4A84204EBC110006EAC0 /* WCert.mm */,
+				D7BD4A85204EBC110006EAC0 /* WCipher.h */,
+				D7BD4A86204EBC110006EAC0 /* WCipher.mm */,
+				D7BD4A87204EBC110006EAC0 /* WHelp.h */,
+				D7BD4A88204EBC110006EAC0 /* WHelp.mm */,
+				D7BD4A89204EBC110006EAC0 /* WHelper.m */,
+				D7BD4A8A204EBC110006EAC0 /* WSigner.h */,
+				D7BD4A8B204EBC110006EAC0 /* WSigner.mm */,
+			);
+			name = crypto;
+			path = src/crypto;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -859,6 +1265,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -911,6 +1318,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = D73EBF2B204981590035F089 /* Products */;
+					ProjectRef = 00B397260B4B47D7AA7095B8 /* RNFS.xcodeproj */;
 				},
 				{
 					ProductGroup = 84AA86B52021BE770017E3A4 /* Products */;
@@ -1194,6 +1605,20 @@
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D73EBF302049815A0035F089 /* libRNFS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFS.a;
+			remoteRef = D73EBF2F2049815A0035F089 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D73EBF322049815A0035F089 /* libRNFS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFS.a;
+			remoteRef = D73EBF312049815A0035F089 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1208,30 +1633,120 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7BD4A00204EB8100006EAC0 /* librdremv.cat in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				D7BD4A3F204EB8100006EAC0 /* TemplateSelectionViewControllerIPhone.xib in Resources */,
+				D7BD4A13204EB8100006EAC0 /* csp_error_messages.cat in Resources */,
+				D7BD49F4204EB8100006EAC0 /* librdremv.cat in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				D7BD49F3204EB8100006EAC0 /* librdrdsrf.cat in Resources */,
+				D7BD49E7204EB8100006EAC0 /* PaneViewController.xib in Resources */,
+				D7BD49E9204EB8100006EAC0 /* TemplateSelectionViewController.xib in Resources */,
+				D7BD4A37204EB8100006EAC0 /* CPROCertviewViewControllerIPhone.xib in Resources */,
+				D7BD49F6204EB8100006EAC0 /* librdrjacarta.cat in Resources */,
 				3FC3965ADC1F462D8820C75F /* Entypo.ttf in Resources */,
+				D7BD4A0A204EB8100006EAC0 /* librdrdsrf.cat in Resources */,
+				D7BD49EA204EB8100006EAC0 /* CPROCertviewViewController.xib in Resources */,
+				D7BD49EC204EB8100006EAC0 /* CPCAViewController.xib in Resources */,
+				D7BD49F8204EB8100006EAC0 /* librdrpcsc.cat in Resources */,
+				D7BD4A11204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */,
 				6762580102C24F97946E4C91 /* EvilIcons.ttf in Resources */,
+				D7BD4A09204EB8100006EAC0 /* libcsp.cat in Resources */,
+				D7BD4A05204EB8100006EAC0 /* librdrrndm0.cat in Resources */,
+				D7BD49FE204EB8100006EAC0 /* libcsp.cat in Resources */,
+				D7BD4A0D204EB8100006EAC0 /* librdrnova.cat in Resources */,
+				D7BD4A38204EB8100006EAC0 /* NewUserViewController.xib in Resources */,
+				D7BD4A0C204EB8100006EAC0 /* librdrfat12.cat in Resources */,
+				D7BD4A3D204EB8100006EAC0 /* MSCARequestViewControllerIPhone.xib in Resources */,
+				D7BD4A42204EB8160006EAC0 /* en.lproj in Resources */,
 				0570629B8E9C4EB88D0EB4B5 /* Feather.ttf in Resources */,
+				D7BD4A0F204EB8100006EAC0 /* librdrric.cat in Resources */,
+				D7BD4A3A204EB8100006EAC0 /* NewUserViewControllerIPhone.xib in Resources */,
+				D7BD4A08204EB8100006EAC0 /* csp_error_messages.cat in Resources */,
+				D7BD4A15204EB8100006EAC0 /* librdrdsrf.cat in Resources */,
+				D7BD49F2204EB8100006EAC0 /* libcsp.cat in Resources */,
+				D7BD4A17204EB8100006EAC0 /* librdrfat12.cat in Resources */,
+				D7BD4A3B204EB8100006EAC0 /* config.ini in Resources */,
 				F81017F4EA584A4CAA6B705F /* FontAwesome.ttf in Resources */,
+				D7BD4A18204EB8100006EAC0 /* librdrnova.cat in Resources */,
+				D7BD4A02204EB8100006EAC0 /* librdrnova.cat in Resources */,
 				3FC011A4AB7E428E9E77F77F /* Foundation.ttf in Resources */,
+				D7BD49F9204EB8100006EAC0 /* librdrric.cat in Resources */,
+				D7BD49EF204EB8100006EAC0 /* PaneViewControllerIPhone.xib in Resources */,
+				D7BD4A39204EB8100006EAC0 /* SelectionViewController.xib in Resources */,
 				E1D9C8CDE73D41E4A3F67813 /* Ionicons.ttf in Resources */,
+				D7BD4A1C204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */,
+				D7BD4A26204EB8100006EAC0 /* librdrrndm0.cat in Resources */,
+				D7BD4A1E204EB8100006EAC0 /* csp_error_messages.cat in Resources */,
+				D7BD49FC204EB8100006EAC0 /* librdrsup.cat in Resources */,
 				ABB64D2398F240A796B6CFE2 /* MaterialCommunityIcons.ttf in Resources */,
+				D7BD4A2F204EB8100006EAC0 /* librdrpcsc.cat in Resources */,
+				D7BD4A23204EB8100006EAC0 /* librdrnova.cat in Resources */,
+				D7BD4A1B204EB8100006EAC0 /* librdrrndm0.cat in Resources */,
 				EFD8B399E03140A1BC45C7C3 /* MaterialIcons.ttf in Resources */,
+				D7BD4A3C204EB8100006EAC0 /* CPCAViewControllerIPhone.xib in Resources */,
+				D7BD49FA204EB8100006EAC0 /* librdrrndm0.cat in Resources */,
+				D7BD4A01204EB8100006EAC0 /* librdrfat12.cat in Resources */,
 				93775695A22446698CB0CEC8 /* Octicons.ttf in Resources */,
+				D7BD49EB204EB8100006EAC0 /* SelectionViewControllerIPhone.xib in Resources */,
+				D7BD4A24204EB8100006EAC0 /* librdrpcsc.cat in Resources */,
+				D7BD4A1F204EB8100006EAC0 /* libcsp.cat in Resources */,
+				D7BD4A33204EB8100006EAC0 /* librdrsup.cat in Resources */,
+				D7BD4A2C204EB8100006EAC0 /* librdremv.cat in Resources */,
+				D7BD4A2E204EB8100006EAC0 /* librdrnova.cat in Resources */,
+				D7BD49F1204EB8100006EAC0 /* csp_error_messages.cat in Resources */,
 				FD372582B6B645CC9AD63DD6 /* SimpleLineIcons.ttf in Resources */,
 				EA6E5C678A234535957D37B1 /* Zocial.ttf in Resources */,
+				D7BD4A43204EB8160006EAC0 /* ru.lproj in Resources */,
+				D7BD4A22204EB8100006EAC0 /* librdrfat12.cat in Resources */,
+				D7BD4A31204EB8100006EAC0 /* librdrrndm0.cat in Resources */,
+				D7BD4A1D204EB8100006EAC0 /* librdrsup.cat in Resources */,
+				D7BD4A34204EB8100006EAC0 /* root.sto in Resources */,
 				25413E65F8364100B6FDA1B7 /* Entypo.ttf in Resources */,
+				D7BD4A29204EB8100006EAC0 /* csp_error_messages.cat in Resources */,
+				D7BD4A06204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */,
 				2421BD16757E4A7D989F4628 /* EvilIcons.ttf in Resources */,
+				D7BD4A2D204EB8100006EAC0 /* librdrfat12.cat in Resources */,
+				D7BD4A30204EB8100006EAC0 /* librdrric.cat in Resources */,
+				D7BD4A21204EB8100006EAC0 /* librdremv.cat in Resources */,
 				CBA4BA79D75F4761858A6DDA /* FontAwesome.ttf in Resources */,
+				D7BD4A2A204EB8100006EAC0 /* libcsp.cat in Resources */,
+				D7BD49F0204EB8100006EAC0 /* MSCARequestViewController.xib in Resources */,
 				219894AFDA9D415097B28217 /* Foundation.ttf in Resources */,
 				26B3CBB2DC8B4414B9EBCC9C /* Ionicons.ttf in Resources */,
+				D7BD4A0E204EB8100006EAC0 /* librdrpcsc.cat in Resources */,
+				D7BD4A32204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */,
+				D7BD4A2B204EB8100006EAC0 /* librdrdsrf.cat in Resources */,
 				152F97FD761241928F6CDC7D /* MaterialIcons.ttf in Resources */,
+				D7BD4A25204EB8100006EAC0 /* librdrric.cat in Resources */,
+				D7BD49F5204EB8100006EAC0 /* librdrfat12.cat in Resources */,
+				D7BD49E8204EB8100006EAC0 /* RequestSelectionViewController.xib in Resources */,
+				D7BD4A03204EB8100006EAC0 /* librdrpcsc.cat in Resources */,
+				D7BD4A14204EB8100006EAC0 /* libcsp.cat in Resources */,
+				D7BD49EE204EB8100006EAC0 /* kis_1 in Resources */,
 				6CD32F49E8354680B1C44DBC /* Octicons.ttf in Resources */,
+				D7BD4A20204EB8100006EAC0 /* librdrdsrf.cat in Resources */,
+				D7BD4A3E204EB8100006EAC0 /* RndmBioViewControllerIPhone.xib in Resources */,
+				D7BD49FB204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */,
+				D7BD4A16204EB8100006EAC0 /* librdremv.cat in Resources */,
 				737E6D6A0EDA4E2FAF7D11A6 /* Roboto_medium.ttf in Resources */,
+				D7BD4A12204EB8100006EAC0 /* librdrsup.cat in Resources */,
+				D7BD49F7204EB8100006EAC0 /* librdrnova.cat in Resources */,
+				D7BD49FF204EB8100006EAC0 /* librdrdsrf.cat in Resources */,
+				D7BD4A10204EB8100006EAC0 /* librdrrndm0.cat in Resources */,
 				172C2D509C6A487ABD321719 /* Roboto.ttf in Resources */,
+				D7BD4A04204EB8100006EAC0 /* librdrric.cat in Resources */,
+				D7BD4A0B204EB8100006EAC0 /* librdremv.cat in Resources */,
+				D7BD4A1A204EB8100006EAC0 /* librdrric.cat in Resources */,
+				D7BD4A28204EB8100006EAC0 /* librdrsup.cat in Resources */,
+				D7BD4A27204EB8100006EAC0 /* librdrrndmbio_gui.cat in Resources */,
+				D7BD49FD204EB8100006EAC0 /* csp_error_messages.cat in Resources */,
+				D7BD4A35204EB8100006EAC0 /* RndmBioViewController.xib in Resources */,
 				261F8AB1DF344A27B4A156C6 /* rubicon-icon-font.ttf in Resources */,
 				088DE1A49BD94B3D93F72143 /* SimpleLineIcons.ttf in Resources */,
+				D7BD4A36204EB8100006EAC0 /* RequestSelectionViewControllerIPhone.xib in Resources */,
+				D7BD4A07204EB8100006EAC0 /* librdrsup.cat in Resources */,
+				D7BD4A19204EB8100006EAC0 /* librdrpcsc.cat in Resources */,
 				6DCFFC1702524F8AA2A17DBD /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1256,7 +1771,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
@@ -1266,7 +1781,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n./CPROCSP.framework/ConfigureApplication";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1297,11 +1812,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D791ABE1203C4E71009B75E3 /* SignerClass.mm in Sources */,
-				D791AC1C203C50F6009B75E3 /* CipherClass.mm in Sources */,
+				D7BD4A8E204EBC110006EAC0 /* PCipher.mm in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				D7CA7C62203B148B00619470 /* Header.m in Sources */,
+				D7BD4A92204EBC110006EAC0 /* WHelp.mm in Sources */,
+				D7BD4A8F204EBC110006EAC0 /* PSigner.mm in Sources */,
+				D7BD4A90204EBC110006EAC0 /* WCert.mm in Sources */,
+				D7BD4A94204EBC110006EAC0 /* WSigner.mm in Sources */,
+				D7BD4A91204EBC110006EAC0 /* WCipher.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				D7BD4A8D204EBC110006EAC0 /* PCert.mm in Sources */,
+				D7BD4A8C204EBC110006EAC0 /* Class.mm in Sources */,
+				D7BD4A93204EBC110006EAC0 /* WHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1439,7 +1960,9 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = CryptoARM_GOST;
-				TARGETED_DEVICE_FAMILY = 2;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1471,7 +1994,9 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = CryptoARM_GOST;
-				TARGETED_DEVICE_FAMILY = 2;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

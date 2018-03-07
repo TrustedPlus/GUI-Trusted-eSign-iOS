@@ -25,6 +25,7 @@ class SelectPersonalСert extends React.Component<SelectPersonalСertProps> {
         note = {file.mtime}
         img = {img[key]}
         personal
+        extension = {file.extension}
         nav={() => this.props.navigation.goBack()} />));
   }
 

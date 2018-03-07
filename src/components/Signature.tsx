@@ -20,6 +20,7 @@ interface IFile {
   hours: string;
   minutes: string;
   seconds: string;
+  verify: number;
 }
 
 interface SignatureProps {
@@ -47,6 +48,7 @@ class Signature extends React.Component<SignatureProps> {
         key = {key}
         title={file.name}
         note = {file.date + " " + file.month + " " + file.year + ", " + file.hours + ":" + file.minutes + ":" + file.seconds}
+        verify = {file.verify}
         img = {img[key]}
         checkbox
         nav={() => this.props.footerAction(key)} />));

@@ -14,8 +14,10 @@ interface ListItemProps {
     rightimg?: any;
     arrow?: boolean;
     id?: number;
+    verify?: number;
     checkbox?: boolean;
     personal?: boolean;
+    extension?: string;
     other?: boolean;
     nav(): void;
     personalCertAdd?(...any): void;
@@ -31,7 +33,9 @@ class ListMenu extends React.Component<ListItemProps, any> {
 
     onPress() {
         if (this.props.checkbox) this.state.active ? this.setState({active: false}) : this.setState({active: true});
-        if (this.props.personal) this.props.personalCertAdd(this.props.title, this.props.img, this.props.note);
+        if (this.props.personal) {
+            this.props.personalCertAdd(this.props.title, this.props.img, this.props.note, this.props.extension);
+        }
         if (this.props.other) this.props.otherCertAdd(this.props.title, this.props.img, this.props.note);
         this.props.nav();
     }
@@ -52,10 +56,18 @@ class ListMenu extends React.Component<ListItemProps, any> {
             styleActive = {backgroundColor: "lightgrey"};
         }
 
+        let verify = null;
+        if (this.props.verify === 1) {
+            verify = <Image style={{position: "absolute", width: 25, height: 25, left: 40}} source={require("../../imgs/checkmark.png")}/>;
+        }
+        if (this.props.verify === -1) {
+            verify = <Image style={{position: "absolute", width: 25, height: 25, left: 40}} source={require("../../imgs/cross.png")}/>;
+        }
         return(
         <ListItem style={[styles.listItem, styleActive]} avatar onPress={this.onPress.bind(this)} >
             <Left>
                 <Thumbnail square style={styles.thumbnail} source={this.props.img}/>
+                {verify}
             </Left>
             <Body>
                 <Text style={styles.listItemText}>{this.props.title}</Text>

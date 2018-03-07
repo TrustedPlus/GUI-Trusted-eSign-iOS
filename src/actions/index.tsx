@@ -1,6 +1,7 @@
 import { FOOTER_ACTION, FOOTER_CLOSE, PERSONAL_CERT_ACTION, OTHER_CERT_ACTION,
   READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR} from "../constants";
 import * as RNFS from "react-native-fs";
+import { NativeModules } from "react-native";
 
 export function footerAction(idButton) {
   return {
@@ -15,10 +16,10 @@ export function footerClose() {
   };
 }
 
-export function personalCertAdd(title, img, note) {
+export function personalCertAdd(title, img, note, extension) {
   return {
     type: PERSONAL_CERT_ACTION,
-    payload: [title, img, note]
+    payload: [title, img, note, extension]
   };
 }
 
@@ -42,7 +43,7 @@ export function readFiles() {
 }
 
 export function readFilesSuccess(file) {
-  let filearr = [], point, name, extension, date, month, year, hours, minutes, time, seconds;
+  let filearr = [], point, name, extension, date, month, year, hours, minutes, time, seconds, verify = 0;
   let length = file.length;
   let k = 0;
   for (let i = 0; i < length; i++) {
@@ -76,7 +77,7 @@ export function readFilesSuccess(file) {
     if (name === "") {
       k++;
     } else {
-      filearr[i - k] = {name, extension, date, month, year, hours, minutes, seconds};
+      filearr[i - k] = {name, extension, date, month, year, hours, minutes, seconds, verify};
     }
   }
   return {

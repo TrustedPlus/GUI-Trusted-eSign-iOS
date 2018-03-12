@@ -23,10 +23,10 @@ export function personalCertAdd(title, img, note, extension) {
   };
 }
 
-export function otherCertAdd(title, img, note) {
+export function otherCertAdd(title, img, note, extension) {
   return {
     type: OTHER_CERT_ACTION,
-    payload: [title, img, note]
+    payload: [title, img, note, extension]
   };
 }
 

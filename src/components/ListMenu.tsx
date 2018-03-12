@@ -36,7 +36,7 @@ class ListMenu extends React.Component<ListItemProps, any> {
         if (this.props.personal) {
             this.props.personalCertAdd(this.props.title, this.props.img, this.props.note, this.props.extension);
         }
-        if (this.props.other) this.props.otherCertAdd(this.props.title, this.props.img, this.props.note);
+        if (this.props.other) this.props.otherCertAdd(this.props.title, this.props.img, this.props.note, this.props.extension);
         this.props.nav();
     }
 

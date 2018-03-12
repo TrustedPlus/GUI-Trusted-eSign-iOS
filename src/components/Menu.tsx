@@ -14,7 +14,8 @@ import {License} from "./License";
 import {Help} from "./Help";
 import {DescriptionError} from "./DescriptionError";
 import {Headers} from "./Headers";
-import {PersonalСert} from "./PersonalСert";
+import PersonalСert from "./PersonalСert";
+import OtherСert from "./OtherCert";
 import {PropertiesCert} from "./PropertiesCert";
 import SelectPersonalСert from "./SelectPersonalСert";
 import SelectOtherСert from "./SelectOtherСert";
@@ -82,6 +83,7 @@ export const menu = StackNavigator({
   Help: { screen: Help},
   DescriptionError: { screen: DescriptionError},
   PersonalСert: {screen: PersonalСert},
+  OtherСert: {screen: OtherСert},
   PropertiesCert: {screen: PropertiesCert},
   SelectPersonalСert: {screen: SelectPersonalСert},
   SelectOtherСert: {screen: SelectOtherСert}

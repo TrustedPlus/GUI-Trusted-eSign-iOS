@@ -2,7 +2,8 @@ import * as React from "react";
 import {Container, List, Content} from "native-base";
 import {Headers} from "./Headers";
 import ListMenu from "./ListMenu";
-import {PersonalСert} from "./PersonalСert";
+import PersonalСert from "./PersonalСert";
+import OtherСert from "./OtherCert";
 import {styles} from "../styles";
 
 interface RepositoryProps {
@@ -25,7 +26,7 @@ export class Repository extends React.Component<RepositoryProps> {
             <ListMenu title="Личные сертификаты" img={require("../../imgs/general/certificates_menu_icon.png" )}
               arrow nav={() => navigate("PersonalСert")}/>
             <ListMenu title="Сертификаты других пользователей" img={require("../../imgs/general/certificates_menu_icon.png")}
-              arrow nav={() => null}/>
+              arrow nav={() => navigate("OtherСert")}/>
             <ListMenu title="Промежуточные сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
               arrow nav={() => null}/>
             <ListMenu title="Доверенные корневые сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}

@@ -8,13 +8,13 @@ import { connect } from "react-redux";
 import { readCertKeys} from "../actions/CertKeysAction";
 import { PropertiesCert} from "./PropertiesCert";
 
-interface PersonalСertProps {
+interface OtherСertProps {
   navigation: any;
-  pesronalCertKeys: any;
+  otherCertKeys: any;
   readCertKeys(string): any;
 }
 
-class PersonalСert extends React.Component<PersonalСertProps> {
+class OtherСert extends React.Component<OtherСertProps> {
 
   static navigationOptions = {
     header: null
@@ -22,22 +22,22 @@ class PersonalСert extends React.Component<PersonalСertProps> {
 
   ShowList(img) {
     return (
-      this.props.pesronalCertKeys.map((file, key) => <ListMenu
+      this.props.otherCertKeys.map((file, key) => <ListMenu
         key = {key}
         title={file.name}
         note = {file.mtime}
         img = {img[key]}
-        personal
-        nav={() => this.props.navigation.navigate("PropertiesCert", { cert: file, where: "personal" })} />));
+        other
+        nav={() => this.props.navigation.navigate("PropertiesCert", { cert: file, where: "other" })} />));
   }
 
   render() {
-    const { pesronalCertKeys} = this.props;
+    const { otherCertKeys} = this.props;
     const { goBack } = this.props.navigation;
 
     let img = [];
-    for (let i = 0; i < pesronalCertKeys.length; i++) { // какое расширение у файлов
-      switch (pesronalCertKeys[i].extension) {
+    for (let i = 0; i < otherCertKeys.length; i++) { // какое расширение у файлов
+      switch (otherCertKeys[i].extension) {
         default:
           img[i] = require("../../imgs/general/cert2_ok_icon.png"); break;
       }
@@ -62,20 +62,20 @@ class PersonalСert extends React.Component<PersonalСertProps> {
   }
 
   componentDidMount() {
-    this.props.readCertKeys("sig");
+    this.props.readCertKeys("enc");
   }
 }
 
 function mapStateToProps(state) {
   return {
-    pesronalCertKeys: state.certKeys.pesronalCertKeys
+    otherCertKeys: state.certKeys.otherCertKeys
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    readCertKeys: bindActionCreators(readCertKeys, dispatch)
-  };
+    return {
+      readCertKeys: bindActionCreators(readCertKeys, dispatch)
+    };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PersonalСert);
+export default connect(mapStateToProps, mapDispatchToProps)(OtherСert);

@@ -42,6 +42,12 @@ class Signature extends React.Component<SignatureProps> {
     header: null
   };
 
+  constructor(props) {
+    super(props);
+
+    this.showList = this.showList.bind(this);
+  }
+
   showList(img) {
     return (
       this.props.files.map((file, key) => <ListMenu

@@ -31,7 +31,6 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps> {
   render() {
     const { otherCertKeys} = this.props;
     const { goBack } = this.props.navigation;
-    console.log(this.props);
     let img = [];
     for (let i = 0; i < otherCertKeys.length; i++) { // какое расширение у файлов
       switch (otherCertKeys[i].extension) {

@@ -1,4 +1,4 @@
-import { FOOTER_ACTION, FOOTER_CLOSE, PERSONAL_CERT_ACTION, OTHER_CERT_ACTION,
+import { FOOTER_ACTION, FOOTER_CLOSE, PERSONAL_CERT_ACTION, OTHER_CERT_ACTION, CLEAR_LOG,
   READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR} from "../constants";
 import * as RNFS from "react-native-fs";
 import { NativeModules } from "react-native";
@@ -90,5 +90,11 @@ export function readFilesError(error) {
   return {
     type: READ_FILES_ERROR,
     payload: error
+  };
+}
+
+export function clearLog() {
+  return {
+    type: CLEAR_LOG
   };
 }

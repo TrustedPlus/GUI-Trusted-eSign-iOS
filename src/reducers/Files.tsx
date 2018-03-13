@@ -2,11 +2,14 @@ import { READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR,
          SIGN_FILE, SIGN_FILE_ERROR, SIGN_FILE_SUCCESS, SIGN_FILE_END,
          VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END,
          ENCODE_FILES, ENCODE_FILES_SUCCESS, ENCODE_FILES_ERROR, ENCODE_FILES_END,
-         DECODE_FILES, DECODE_FILES_SUCCESS, DECODE_FILES_ERROR, DECODE_FILES_END} from "../constants";
+         DECODE_FILES, DECODE_FILES_SUCCESS, DECODE_FILES_ERROR, DECODE_FILES_END,
+         CLEAR_LOG} from "../constants";
 
 const initialState = {
   files: [],
-  isFetching: false
+  isFetching: false,
+  log: [],
+  lastlog: ""
 };
 
 function verySignSuccess(oldFiles, action) {
@@ -26,6 +29,12 @@ function verySignError(oldFiles, action) {
       return oldFiles;
     }
   }
+}
+
+function logAddrecord(oldLog, name, record: string) {
+  let now = new Date();
+  oldLog.push(record + "\n" + name + "\n" + now + "\n");
+  return oldLog; // добавление в массив
 }
 
 export function Files(state = initialState, action) {
@@ -52,11 +61,15 @@ export function Files(state = initialState, action) {
       };
     case SIGN_FILE_ERROR:
       return {
-        ...state
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Подпись файла не удалась"),
+        lastlog: new Date() + ""
       };
     case SIGN_FILE_SUCCESS:
       return {
-        ...state
+        ...state,
+        log: logAddrecord(state.log,  action.payload, "Подпись файла прошла успешно"),
+        lastlog: new Date() + ""
       };
     case SIGN_FILE_END:
       return {
@@ -71,12 +84,16 @@ export function Files(state = initialState, action) {
     case VERIFY_SIGN_SUCCESS:
       return {
         ...state,
-        files: verySignSuccess(state.files, action)
+        files: verySignSuccess(state.files, action),
+        log: logAddrecord(state.log, action.payload, "Верификация подписи прошла успешно"),
+        lastlog: new Date() + ""
       };
     case VERIFY_SIGN_ERROR:
       return {
         ...state,
-        files: verySignError(state.files, action)
+        files: verySignError(state.files, action),
+        log: logAddrecord(state.log, action.payload, "Подпись не верифицирована"),
+        lastlog: new Date() + ""
       };
     case VERIFY_SIGN_END:
       return {
@@ -90,11 +107,15 @@ export function Files(state = initialState, action) {
       };
     case ENCODE_FILES_SUCCESS:
       return {
-        ...state
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Шифрование файла прошло успешно"),
+        lastlog: new Date() + ""
       };
     case ENCODE_FILES_ERROR:
       return {
-        ...state
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Шифрование файла не удалось"),
+        lastlog: new Date() + ""
       };
     case ENCODE_FILES_END:
       return {
@@ -108,16 +129,26 @@ export function Files(state = initialState, action) {
       };
     case DECODE_FILES_SUCCESS:
       return {
-        ...state
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Расшифрование файла прошло успешно"),
+        lastlog: new Date() + ""
       };
     case DECODE_FILES_ERROR:
       return {
-        ...state
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Расшифрование файла не удалось"),
+        lastlog: new Date() + ""
       };
     case DECODE_FILES_END:
       return {
         ...state,
         isFetching: false
+      };
+    case CLEAR_LOG:
+      return {
+        ...state,
+        log: [],
+        lastlog: ""
       };
     default:
       return state;

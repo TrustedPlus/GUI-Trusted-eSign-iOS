@@ -6,7 +6,7 @@ import Signature from "./Signature";
 import Encryption from "./Encryption";
 import {Certificate} from "./Certificate";
 import {Repository} from "./Repository";
-import {Journal} from "./Journal";
+import Journal from "./Journal";
 import {styles} from "../styles";
 import {StackNavigator} from "react-navigation";
 import ListMenu from "./ListMenu";
@@ -28,6 +28,7 @@ interface MainProps {
   navigation: any;
   files: any;
   pesronalCertKeys: any;
+  lastlog: string;
   readCertKeys(string): any;
   readFiles(): any;
 }
@@ -40,10 +41,10 @@ class Main extends React.Component<MainProps> {
 
   render() {
     const { navigate } = this.props.navigation;
-    const {files, pesronalCertKeys} = this.props;
-    console.log(files);
+    const {files, pesronalCertKeys, lastlog} = this.props;
     let length = "выбрано файлов: " + files.length;
     let persCert = "личных сертификатов: " + pesronalCertKeys.length;
+    let lastlognote = lastlog ? "последняя запись: " + lastlog : "действий не совершалось";
     return (
       <Container style={styles.container}>
          <Header style={styles.header}>
@@ -72,9 +73,9 @@ class Main extends React.Component<MainProps> {
             <ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
               note={persCert} nav={() => navigate("Certificate")}/>
             <ListMenu title="Управление хранилищами" img={require("../../imgs/general/stores_main_icon.png")}
-              note="подключенных хранилищ: 0" nav={() => navigate("Repository")}/>
+              note="подключенных хранилищ: 2" nav={() => navigate("Repository")}/>
             <ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
-              note="выбрано файлов 4" nav={() => navigate("Journal")}/>
+              note={lastlognote} nav={() => navigate("Journal")}/>
           </List>
         </Content>
       </Container>
@@ -90,7 +91,8 @@ class Main extends React.Component<MainProps> {
 function mapStateToProps(state) {
   return {
     pesronalCertKeys: state.certKeys.pesronalCertKeys,
-    files: state.files.files
+    files: state.files.files,
+    lastlog: state.files.lastlog
   };
 }
 

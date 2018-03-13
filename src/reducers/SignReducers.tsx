@@ -16,7 +16,7 @@ function arrButtonFunc(oldButtonArray, action: AnyAction) {
     oldButtonArray.splice(index, 1); // удаление из массива
     return oldButtonArray;
   }
-  oldButtonArray.unshift(action.payload);
+  oldButtonArray.push(action.payload);
   return oldButtonArray; // добавление в массив
 }
 

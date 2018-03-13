@@ -6,7 +6,7 @@ import Signature from "./components/Signature";
 import Encryption from "./components/Encryption";
 import {Certificate} from "./components/Certificate";
 import {Repository} from "./components/Repository";
-import {Journal} from "./components/Journal";
+import Journal from "./components/Journal";
 import {SideBar} from "./components/SideBar";
 import {License} from "./components/License";
 import {Help} from "./components/Help";

@@ -21,9 +21,9 @@ export function EncAssymmetric(files: IFile[], otherCert, footer) {
                             RNFS.DocumentDirectoryPath + "/OtherCertKeys/" + otherCert.title + ".crt", "BASE64",
                             (err, encrypt) => {
                                 if (err === null) {
-                                    dispatch({type: ENCODE_FILES_SUCCESS});
+                                    dispatch({type: ENCODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name});
                                 } else {
-                                    dispatch({type: ENCODE_FILES_ERROR});
+                                    dispatch({type: ENCODE_FILES_ERROR, payload: files[footer.arrButton[i]].name});
                                 }
                                 if (i + 1 === footer.arrButton.length) {
                                     dispatch({type: ENCODE_FILES_END});
@@ -46,9 +46,9 @@ export function DecAssymmetric(files: IFile[], otherCert, footer) {
                             RNFS.DocumentDirectoryPath + "/OtherCertKeys/" + otherCert.title + ".key", "BASE64",
                             (err, decrypt) => {
                                 if (err === null) {
-                                    dispatch({type: DECODE_FILES_SUCCESS});
+                                    dispatch({type: DECODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name});
                                 } else {
-                                    dispatch({type: DECODE_FILES_ERROR});
+                                    dispatch({type: DECODE_FILES_ERROR, payload: files[footer.arrButton[i]].name});
                                 }
                                 if (i + 1 === footer.arrButton.length) {
                                     dispatch({type: DECODE_FILES_END});

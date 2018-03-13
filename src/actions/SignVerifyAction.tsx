@@ -35,9 +35,9 @@ export function signFile(files: IFile[], personalCert, footer) {
                             path + ".sig",
                             (err, signFile) => {
                                 if (err === null) {
-                                    dispatch({type: SIGN_FILE_SUCCESS});
+                                    dispatch({type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name});
                                 } else {
-                                    dispatch({type: SIGN_FILE_ERROR});
+                                    dispatch({type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name});
                                 }
                                 if (i + 1 === footer.arrButton.length) {
                                     dispatch({type: SIGN_FILE_END});

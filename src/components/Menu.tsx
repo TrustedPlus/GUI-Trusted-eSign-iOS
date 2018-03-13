@@ -19,9 +19,17 @@ import OtherСert from "./OtherCert";
 import {PropertiesCert} from "./PropertiesCert";
 import SelectPersonalСert from "./SelectPersonalСert";
 import SelectOtherСert from "./SelectOtherСert";
+import {connect} from "react-redux";
+import {bindActionCreators} from "redux";
+import {readCertKeys} from "../actions/CertKeysAction";
+import {readFiles} from "../actions/index";
 
 interface MainProps {
   navigation: any;
+  files: any;
+  pesronalCertKeys: any;
+  readCertKeys(string): any;
+  readFiles(): any;
 }
 
 class Main extends React.Component<MainProps> {
@@ -32,7 +40,10 @@ class Main extends React.Component<MainProps> {
 
   render() {
     const { navigate } = this.props.navigation;
-
+    const {files, pesronalCertKeys} = this.props;
+    console.log(files);
+    let length = "выбрано файлов: " + files.length;
+    let persCert = "личных сертификатов: " + pesronalCertKeys.length;
     return (
       <Container style={styles.container}>
          <Header style={styles.header}>
@@ -53,15 +64,15 @@ class Main extends React.Component<MainProps> {
         <Content>
           <List>
             <ListMenu title="Диагностика приложения" img={require("../../imgs/general/diagnostic_main_icon.png" )}
-              note="ошибок: 1" rightnote="замечаний: 1" nav={() => navigate("Diagnostic")}/>
+              note="ошибок: 0" rightnote="замечаний: 0" nav={() => navigate("Diagnostic")}/>
             <ListMenu title="Подпись / проверка подписи" img={require("../../imgs/general/sign_main_icon.png")}
-              note="выбрано файлов: 4" nav={() => navigate("Signature")}/>
+              note={length} nav={() => navigate("Signature")}/>
             <ListMenu title="Шифрование / расшифрование" img={require("../../imgs/general/encode_main_icon.png")}
-              note="выбрано файлов: 0" nav={() => navigate("Encryption")}/>
+              note={length} nav={() => navigate("Encryption")}/>
             <ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
-              note="личных сертификатов: 6" nav={() => navigate("Certificate")}/>
+              note={persCert} nav={() => navigate("Certificate")}/>
             <ListMenu title="Управление хранилищами" img={require("../../imgs/general/stores_main_icon.png")}
-              note="подключенных хранилищ: 2" nav={() => navigate("Repository")}/>
+              note="подключенных хранилищ: 0" nav={() => navigate("Repository")}/>
             <ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
               note="выбрано файлов 4" nav={() => navigate("Journal")}/>
           </List>
@@ -69,10 +80,29 @@ class Main extends React.Component<MainProps> {
       </Container>
     );
   }
+
+  componentDidMount() {
+    if (this.props.pesronalCertKeys.length === 0) this.props.readCertKeys("sig");
+    if (this.props.files.length === 0) this.props.readFiles();
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    pesronalCertKeys: state.certKeys.pesronalCertKeys,
+    files: state.files.files
+  };
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    readFiles: bindActionCreators(readFiles, dispatch),
+    readCertKeys: bindActionCreators(readCertKeys, dispatch)
+  };
 }
 
 export const menu = StackNavigator({
-  Main: {screen: Main},
+  Main: {screen: connect(mapStateToProps, mapDispatchToProps)(Main)},
   Diagnostic: {screen: Diagnostic},
   Signature: {screen: Signature},
   Encryption: {screen: Encryption},

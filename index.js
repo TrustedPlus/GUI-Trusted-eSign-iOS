@@ -11,6 +11,7 @@ const store = createStore(reducers, applyMiddleware(logger, thunk));
 
 
 class MainApp extends React.Component {
+
     componentDidMount() {
         console.disableYellowBox = true;
     }

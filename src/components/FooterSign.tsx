@@ -22,9 +22,9 @@ interface FooterSignProps {
     personalCert: any;
     otherCert: any;
     signFile(files: IFile[], otherCert: string[], footer: string[]): void;
-    verifySign?(...any): void;
-    EncAssymmetric?(...any): void;
-    DecAssymmetric?(...any): void;
+    verifySign?(files: IFile[], otherCert: string[], footer: string[]): void;
+    EncAssymmetric?(files: IFile[], otherCert: string[], footer: string[]): void;
+    DecAssymmetric?(files: IFile[], otherCert: string[], footer: string[]): void;
 }
 
 class FooterSign extends React.Component<FooterSignProps> {

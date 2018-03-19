@@ -106,7 +106,7 @@ void Logger::write(LoggerLevel::LOGGER_LEVEL level, const char* fn, const char *
 }
 
 void Logger::write(LoggerLevel::LOGGER_LEVEL level, const char* fn, const char *msg, va_list args){
-	if (this->_file && level && (level & this->levels)){
+	if (this && this->_file && level && (level & this->levels)){
 		writeLoggerTime(this->_file);
 		writeLoggerLevel(this->_file, level);
 		writeLoggerFunction(this->_file, fn);

@@ -34,7 +34,7 @@ class FooterSign extends React.Component<FooterSignProps> {
         let footer = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
             footer = <FooterTab style={styles.container}>
-                    <Button vertical  onPress={() => EncAssymmetric(files, otherCert, this.props.footer)}>
+                    <Button vertical onPress={() => EncAssymmetric(files, otherCert, this.props.footer)}>
                         <Icon style={{color: "black"}} name="apps" />
                         <Text style={{color: "black", width: 130}}>Зашифровать</Text>
                     </Button>

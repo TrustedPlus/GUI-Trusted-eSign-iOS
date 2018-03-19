@@ -1,5 +1,5 @@
 import { FOOTER_ACTION, FOOTER_CLOSE, PERSONAL_CERT_ACTION, OTHER_CERT_ACTION, CLEAR_LOG,
-  READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR} from "../constants";
+  READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR, ADD_FILES} from "../constants";
 import * as RNFS from "react-native-fs";
 import { NativeModules } from "react-native";
 
@@ -33,6 +33,8 @@ export function otherCertAdd(title, img, note, extension) {
 export function readFiles() {
   return function action(dispatch) {
     dispatch({type: READ_FILES});
+    /*var path = RNFS.DocumentDirectoryPath + '/test.txt';
+    RNFS.writeFile(path, 'Lorem ipsum dolor sit amet', 'utf8')*/
     const request = RNFS.readDir(RNFS.DocumentDirectoryPath + "/Files");
 
     return request.then(
@@ -96,5 +98,16 @@ export function readFilesError(error) {
 export function clearLog() {
   return {
     type: CLEAR_LOG
+  };
+}
+
+export function addFiles(uri, type, fileName, fileSize) {
+  let point, name;
+    point = fileName.indexOf(".");
+    name = fileName.substring(0, point);
+    RNFS.copyFile(decodeURIComponent(uri.substring(7)), RNFS.DocumentDirectoryPath + "/Files/" + fileName);
+  return {
+    type: ADD_FILES,
+    payload: name
   };
 }

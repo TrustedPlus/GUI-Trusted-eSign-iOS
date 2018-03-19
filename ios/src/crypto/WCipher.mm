@@ -1,5 +1,6 @@
 #include "WCipher.h"
 #include "WHelp.h"
+#include "../globalHelper.h"
 
 @implementation WCipher
 
@@ -52,7 +53,7 @@ RCT_EXPORT_METHOD(DecSymmetric: (NSString *)encFile: (NSString *)decFile: (RCTRe
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
   }
 }
-
+/*
 RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)inFile: (NSString *)encFile: (NSString *)certFile: (NSString *)formatCert: (RCTResponseSenderBlock)callback){
   try{
     OpenSSL::run();
@@ -114,6 +115,94 @@ RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSS
     
     char *decfile = (char *) [decFile UTF8String];
     TrustedHandle<Bio> bioDecFile = new Bio(BIO_TYPE_FILE, decfile, "wb");
+    
+    ch->decrypt(bioEncFile, bioDecFile, format);
+    
+    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+}
+*/
+RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)inFile: (NSString *)encFile: (NSString *)issuerName: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
+  char *pIssuerName = (char *) [issuerName UTF8String];
+  char *pSerialNumber = (char *) [serialNumber UTF8String];
+  
+  try{
+    OpenSSL::run();
+    //read cert file
+    TrustedHandle<Filter> filterByCert = new Filter();
+    
+    filterByCert->setIssuerName(new std::string(pIssuerName));
+    filterByCert->setSerial(new std::string(pSerialNumber));
+    
+    TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
+    if (pic->length() <= 0)
+      callback(@[[@"Not find certificate!" copy], [NSNull null]]);
+    
+    TrustedHandle<PkiItem> pi = new PkiItem();
+    pi = pic->items(0);
+    
+    TrustedHandle<Certificate> cert = g_storeCrypto->getItemCert(pi);
+    
+    TrustedHandle<Cipher> ch = new Cipher();
+    TrustedHandle<CertificateCollection> certs = new CertificateCollection();
+    certs->push(cert);
+    ch->addRecipientsCerts(certs);
+    
+    char *infile = (char *) [inFile UTF8String];
+    TrustedHandle<Bio> bioInFile = new Bio(BIO_TYPE_FILE, infile, "rb");
+    
+    char *encfile = (char *) [encFile UTF8String];
+    TrustedHandle<Bio> bioEncFile = new Bio(BIO_TYPE_FILE, encfile, "wb");
+    
+    DataFormat::DATA_FORMAT format = DataFormat::BASE64;
+    
+    ch->encrypt(bioInFile, bioEncFile, format);
+    
+    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+}
+
+RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSString *)issuerName: (NSString *)serialNumber:(RCTResponseSenderBlock)callback){
+  try{
+    char *pIssuerName = (char *) [issuerName UTF8String];
+    char *pSerialNumber = (char *) [serialNumber UTF8String];
+    OpenSSL::run();
+    
+    //read cert file
+    TrustedHandle<Filter> filterByCert = new Filter();
+    filterByCert->setIssuerName(new std::string(pIssuerName));
+    filterByCert->setSerial(new std::string(pSerialNumber));
+    TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
+    if (pic->length() <= 0)
+      callback(@[[@"Not find certificate!" copy], [NSNull null]]);    
+    TrustedHandle<PkiItem> pi = new PkiItem();
+    pi = pic->items(0);
+    TrustedHandle<Certificate> cert = g_storeCrypto->getItemCert(pi);
+    
+    //findKey
+    TrustedHandle<Filter> filterByKey = new Filter();
+    filterByKey->setHash(pi->certKey);
+    TrustedHandle<PkiItemCollection> picKey = g_storeCrypto->find(filterByKey);
+    TrustedHandle<PkiItem> piKey = picKey->items(0);
+    TrustedHandle<Key> hkey = g_storeCrypto->getItemKey(piKey);
+
+    TrustedHandle<Cipher> ch = new Cipher();
+    ch->setRecipientCert(cert);
+    ch->setPrivKey(hkey);
+    
+    char *encfile = (char *) [encFile UTF8String];
+    TrustedHandle<Bio> bioEncFile = new Bio(BIO_TYPE_FILE, encfile, "rb");
+    
+    char *decfile = (char *) [decFile UTF8String];
+    TrustedHandle<Bio> bioDecFile = new Bio(BIO_TYPE_FILE, decfile, "wb");
+    
+    DataFormat::DATA_FORMAT format = DataFormat::BASE64;
     
     ch->decrypt(bioEncFile, bioDecFile, format);
     

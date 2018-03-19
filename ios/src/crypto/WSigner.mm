@@ -1,10 +1,11 @@
 #include "WSigner.h"
 #include "WHelp.h"
+#include "../globalHelper.h"
 
 @implementation WSigner
 
 RCT_EXPORT_MODULE();
-
+/*
 RCT_EXPORT_METHOD(signFile: (NSString *)infilenameCert: (NSString *)formatCert: (NSString *)infilenameKey: (NSString *)formatKey: (NSString *)infilenameContext: (NSString *)outfilename:(RCTResponseSenderBlock)callback) {
   try{
     OpenSSL::run();
@@ -80,5 +81,100 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)infilenameCert: (NSString *)formatCert
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
   }
 }
+*/
+RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)infilenameContext: (NSString *)outfilename:(RCTResponseSenderBlock)callback) {
+  try{
+    OpenSSL::run();
+    char *pIssuerName = (char *) [issuerName UTF8String];
+    char *pSerialNumber = (char *) [serialNumber UTF8String];
+    
+    //read cert file
+    TrustedHandle<Filter> filterByCert = new Filter();
+    
+    filterByCert->setIssuerName(new std::string(pIssuerName));
+    filterByCert->setSerial(new std::string(pSerialNumber));
+    
+    TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
+    if (pic->length() <= 0)
+      callback(@[[@"Not find certificate!" copy], [NSNull null]]);
+    
+    TrustedHandle<PkiItem> pi = new PkiItem();
+    pi = pic->items(0);
+    
+    TrustedHandle<Certificate> cert = g_storeCrypto->getItemCert(pi);
+    
+    //findKey
+    TrustedHandle<Filter> filterByKey = new Filter();
+    filterByKey->setHash(pi->certKey);
+    TrustedHandle<PkiItemCollection> picKey = g_storeCrypto->find(filterByKey);
+    TrustedHandle<PkiItem> piKey = picKey->items(0);
+    TrustedHandle<Key> hkey = g_storeCrypto->getItemKey(piKey);
+    
+    TrustedHandle<SignedData> sd = new SignedData();
+    sd->setFlags(32+256);
+    
+    TrustedHandle<Signer> signer =  sd->createSigner(cert, hkey);
+    
+    char *infile = (char *) [infilenameContext UTF8String];
+    TrustedHandle<Bio> value = new Bio(BIO_TYPE_FILE, infile, "rb");
+    sd->setContent(value);
+    
+    sd->sign();
+    
+    char *outfile = (char *) [outfilename UTF8String];
+    TrustedHandle<Bio> outFile = new Bio(BIO_TYPE_FILE, outfile, "wb");
+    sd->write(outFile, DataFormat::BASE64);
+    
+    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+}
+
+RCT_EXPORT_METHOD(verifySign: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)checkfilename:(RCTResponseSenderBlock)callback) {
+  try{
+    OpenSSL::run();
+    
+    char *pIssuerName = (char *) [issuerName UTF8String];
+    char *pSerialNumber = (char *) [serialNumber UTF8String];
+    
+    //read cert file
+    TrustedHandle<Filter> filterByCert = new Filter();
+    
+    filterByCert->setIssuerName(new std::string(pIssuerName));
+    filterByCert->setSerial(new std::string(pSerialNumber));
+    
+    TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
+    if (pic->length() <= 0)
+      callback(@[[@"Not find certificate!" copy], [NSNull null]]);
+    
+    TrustedHandle<PkiItem> pi = new PkiItem();
+    pi = pic->items(0);
+    
+    TrustedHandle<Certificate> cert = g_storeCrypto->getItemCert(pi);
+    
+    //read file
+    char *inFileName = (char *) [checkfilename UTF8String];
+    TrustedHandle<Bio> value = NULL;
+    DataFormat::DATA_FORMAT format = DataFormat::BASE64;
+    value = new Bio(BIO_TYPE_FILE, inFileName, "rb");
+    
+    TrustedHandle<SignedData> sd = new SignedData();
+    sd->read(value, format);
+    
+    TrustedHandle<Signer> signer = sd->signers(0);
+    TrustedHandle<Algorithm> alg = signer->getDigestAlgorithm();
+    signer->setCertificate(cert);
+    
+    bool b = signer->verify(sd->getContent());
+    
+    callback(@[[NSNull null], [NSNumber numberWithInt:(b)]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+}
+ 
 
 @end

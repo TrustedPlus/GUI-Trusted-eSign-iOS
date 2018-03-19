@@ -57,6 +57,21 @@
 		ABB64D2398F240A796B6CFE2 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EFB124FE39F4DC2A3DD4396 /* MaterialCommunityIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		CBA4BA79D75F4761858A6DDA /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 552BA437549D4B59ADC352CD /* FontAwesome.ttf */; };
+		D73D9D9F205A86D800E63BE0 /* globalHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9D73205A86D700E63BE0 /* globalHelper.mm */; };
+		D73D9DA0205A86D800E63BE0 /* CertsList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9D9E205A86D800E63BE0 /* CertsList.mm */; };
+		D73D9DC1205A872900E63BE0 /* Class.m in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DAA205A872900E63BE0 /* Class.m */; };
+		D73D9DC2205A872900E63BE0 /* PCert.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DAC205A872900E63BE0 /* PCert.mm */; };
+		D73D9DC3205A872900E63BE0 /* PCerts.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DAE205A872900E63BE0 /* PCerts.mm */; };
+		D73D9DC4205A872900E63BE0 /* PCipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DB0205A872900E63BE0 /* PCipher.mm */; };
+		D73D9DC5205A872900E63BE0 /* PCsp.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DB2205A872900E63BE0 /* PCsp.mm */; };
+		D73D9DC6205A872900E63BE0 /* PSigner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DB4205A872900E63BE0 /* PSigner.mm */; };
+		D73D9DC7205A872900E63BE0 /* WCert.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DB7205A872900E63BE0 /* WCert.mm */; };
+		D73D9DC8205A872900E63BE0 /* WCertsList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DB9205A872900E63BE0 /* WCertsList.mm */; };
+		D73D9DC9205A872900E63BE0 /* WCipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DBB205A872900E63BE0 /* WCipher.mm */; };
+		D73D9DCA205A872900E63BE0 /* WHelp.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DBD205A872900E63BE0 /* WHelp.mm */; };
+		D73D9DCB205A872900E63BE0 /* WHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DBE205A872900E63BE0 /* WHelper.m */; };
+		D73D9DCC205A872900E63BE0 /* WSigner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DC0205A872900E63BE0 /* WSigner.mm */; };
+		D77C8578205BAAA8000003F1 /* libRNDocumentPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7EE8BA4205AB75500395904 /* libRNDocumentPicker.a */; };
 		D7BD4943204EA3C80006EAC0 /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7BF3203B103F00619470 /* CPROCSP.framework */; };
 		D7BD4944204EA3F90006EAC0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7C36203B143700619470 /* libz.tbd */; };
 		D7BD4945204EA43D0006EAC0 /* librdrpcsc_empty.o in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7C5E203B144B00619470 /* librdrpcsc_empty.o */; };
@@ -150,15 +165,6 @@
 		D7BD4A3F204EB8100006EAC0 /* TemplateSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D7BD49E6204EB8100006EAC0 /* TemplateSelectionViewControllerIPhone.xib */; };
 		D7BD4A42204EB8160006EAC0 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4A40204EB8160006EAC0 /* en.lproj */; };
 		D7BD4A43204EB8160006EAC0 /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = D7BD4A41204EB8160006EAC0 /* ru.lproj */; };
-		D7BD4A8C204EBC110006EAC0 /* Class.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A7B204EBC110006EAC0 /* Class.mm */; };
-		D7BD4A8D204EBC110006EAC0 /* PCert.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A7D204EBC110006EAC0 /* PCert.mm */; };
-		D7BD4A8E204EBC110006EAC0 /* PCipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A7F204EBC110006EAC0 /* PCipher.mm */; };
-		D7BD4A8F204EBC110006EAC0 /* PSigner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A81204EBC110006EAC0 /* PSigner.mm */; };
-		D7BD4A90204EBC110006EAC0 /* WCert.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A84204EBC110006EAC0 /* WCert.mm */; };
-		D7BD4A91204EBC110006EAC0 /* WCipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A86204EBC110006EAC0 /* WCipher.mm */; };
-		D7BD4A92204EBC110006EAC0 /* WHelp.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A88204EBC110006EAC0 /* WHelp.mm */; };
-		D7BD4A93204EBC110006EAC0 /* WHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A89204EBC110006EAC0 /* WHelper.m */; };
-		D7BD4A94204EBC110006EAC0 /* WSigner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7BD4A8B204EBC110006EAC0 /* WSigner.mm */; };
 		D7CA7CA8203B1A1E00619470 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7CA7203B1A1E00619470 /* libcrypto.a */; };
 		D7CA7CAA203B1A2800619470 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7CA9203B1A2800619470 /* libssl.a */; };
 		D7CA7CAC203B1A3200619470 /* wrapper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7CAB203B1A3200619470 /* wrapper.a */; };
@@ -464,6 +470,13 @@
 			remoteGlobalIDString = 6456441F1EB8DA9100672408;
 			remoteInfo = "RNFS-tvOS";
 		};
+		D7EE8BA3205AB75500395904 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 513AC9F6E3C34193AB7D596C /* RNDocumentPicker.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E01DD9DB1D2311A600C39062;
+			remoteInfo = RNDocumentPicker;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -489,6 +502,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1B18A96F6A91419D88E22ADF /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		1B2221E8F72D4E1D9F27AFB0 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		1C34D8DA9F164960AF268206 /* libRNDocumentPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDocumentPicker.a; sourceTree = "<group>"; };
 		214E8AB542174AD8B3DD795E /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* CryptoARM_GOST-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CryptoARM_GOST-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* CryptoARM_GOST-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CryptoARM_GOST-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -501,6 +515,7 @@
 		44EFC677F1314BD8A1F1F2D8 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		479751C77E4F42B48658E434 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		487BBB9560EA486A93BD4003 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		513AC9F6E3C34193AB7D596C /* RNDocumentPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDocumentPicker.xcodeproj; path = "../node_modules/react-native-document-picker/ios/RNDocumentPicker.xcodeproj"; sourceTree = "<group>"; };
 		552BA437549D4B59ADC352CD /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		556B38BF6168445E9B9807D8 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -519,6 +534,33 @@
 		B7EBE5778A2E48BA877B44CC /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		D3283234CB444E7197B4DEDF /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		D6C5CE7296D24E7DB8534B86 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
+		D73D9D73205A86D700E63BE0 /* globalHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = globalHelper.mm; path = src/globalHelper.mm; sourceTree = "<group>"; };
+		D73D9D9C205A86D700E63BE0 /* CertsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertsList.h; path = src/CertsList.h; sourceTree = "<group>"; };
+		D73D9D9D205A86D800E63BE0 /* globalHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = globalHelper.h; path = src/globalHelper.h; sourceTree = "<group>"; };
+		D73D9D9E205A86D800E63BE0 /* CertsList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CertsList.mm; path = src/CertsList.mm; sourceTree = "<group>"; };
+		D73D9DAA205A872900E63BE0 /* Class.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Class.m; sourceTree = "<group>"; };
+		D73D9DAB205A872900E63BE0 /* PCert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCert.h; sourceTree = "<group>"; };
+		D73D9DAC205A872900E63BE0 /* PCert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCert.mm; sourceTree = "<group>"; };
+		D73D9DAD205A872900E63BE0 /* PCerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCerts.h; sourceTree = "<group>"; };
+		D73D9DAE205A872900E63BE0 /* PCerts.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCerts.mm; sourceTree = "<group>"; };
+		D73D9DAF205A872900E63BE0 /* PCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCipher.h; sourceTree = "<group>"; };
+		D73D9DB0205A872900E63BE0 /* PCipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCipher.mm; sourceTree = "<group>"; };
+		D73D9DB1205A872900E63BE0 /* PCsp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCsp.h; sourceTree = "<group>"; };
+		D73D9DB2205A872900E63BE0 /* PCsp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCsp.mm; sourceTree = "<group>"; };
+		D73D9DB3205A872900E63BE0 /* PSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSigner.h; sourceTree = "<group>"; };
+		D73D9DB4205A872900E63BE0 /* PSigner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PSigner.mm; sourceTree = "<group>"; };
+		D73D9DB6205A872900E63BE0 /* WCert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCert.h; sourceTree = "<group>"; };
+		D73D9DB7205A872900E63BE0 /* WCert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCert.mm; sourceTree = "<group>"; };
+		D73D9DB8205A872900E63BE0 /* WCertsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCertsList.h; sourceTree = "<group>"; };
+		D73D9DB9205A872900E63BE0 /* WCertsList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCertsList.mm; sourceTree = "<group>"; };
+		D73D9DBA205A872900E63BE0 /* WCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCipher.h; sourceTree = "<group>"; };
+		D73D9DBB205A872900E63BE0 /* WCipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCipher.mm; sourceTree = "<group>"; };
+		D73D9DBC205A872900E63BE0 /* WHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHelp.h; sourceTree = "<group>"; };
+		D73D9DBD205A872900E63BE0 /* WHelp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WHelp.mm; sourceTree = "<group>"; };
+		D73D9DBE205A872900E63BE0 /* WHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHelper.m; sourceTree = "<group>"; };
+		D73D9DBF205A872900E63BE0 /* WSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSigner.h; sourceTree = "<group>"; };
+		D73D9DC0205A872900E63BE0 /* WSigner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WSigner.mm; sourceTree = "<group>"; };
+		D77C8623205BB6A9000003F1 /* CryptoARM_GOST.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CryptoARM_GOST.entitlements; path = CryptoARM_GOST/CryptoARM_GOST.entitlements; sourceTree = "<group>"; };
 		D7BD4986204EB80C0006EAC0 /* PaneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PaneViewController.xib; path = CPROCSP.framework/Resources/PaneViewController.xib; sourceTree = "<group>"; };
 		D7BD4987204EB80C0006EAC0 /* RequestSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestSelectionViewController.xib; path = CPROCSP.framework/Resources/RequestSelectionViewController.xib; sourceTree = "<group>"; };
 		D7BD4988204EB80D0006EAC0 /* TemplateSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateSelectionViewController.xib; path = CPROCSP.framework/Resources/TemplateSelectionViewController.xib; sourceTree = "<group>"; };
@@ -609,22 +651,6 @@
 		D7BD49E6204EB8100006EAC0 /* TemplateSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TemplateSelectionViewControllerIPhone.xib; path = CPROCSP.framework/Resources/TemplateSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
 		D7BD4A40204EB8160006EAC0 /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en.lproj; path = CPROCSP.framework/Resources/en.lproj; sourceTree = "<group>"; };
 		D7BD4A41204EB8160006EAC0 /* ru.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ru.lproj; path = CPROCSP.framework/Resources/ru.lproj; sourceTree = "<group>"; };
-		D7BD4A7B204EBC110006EAC0 /* Class.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Class.mm; sourceTree = "<group>"; };
-		D7BD4A7C204EBC110006EAC0 /* PCert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCert.h; sourceTree = "<group>"; };
-		D7BD4A7D204EBC110006EAC0 /* PCert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCert.mm; sourceTree = "<group>"; };
-		D7BD4A7E204EBC110006EAC0 /* PCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCipher.h; sourceTree = "<group>"; };
-		D7BD4A7F204EBC110006EAC0 /* PCipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCipher.mm; sourceTree = "<group>"; };
-		D7BD4A80204EBC110006EAC0 /* PSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSigner.h; sourceTree = "<group>"; };
-		D7BD4A81204EBC110006EAC0 /* PSigner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PSigner.mm; sourceTree = "<group>"; };
-		D7BD4A83204EBC110006EAC0 /* WCert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCert.h; sourceTree = "<group>"; };
-		D7BD4A84204EBC110006EAC0 /* WCert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCert.mm; sourceTree = "<group>"; };
-		D7BD4A85204EBC110006EAC0 /* WCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCipher.h; sourceTree = "<group>"; };
-		D7BD4A86204EBC110006EAC0 /* WCipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCipher.mm; sourceTree = "<group>"; };
-		D7BD4A87204EBC110006EAC0 /* WHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHelp.h; sourceTree = "<group>"; };
-		D7BD4A88204EBC110006EAC0 /* WHelp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WHelp.mm; sourceTree = "<group>"; };
-		D7BD4A89204EBC110006EAC0 /* WHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHelper.m; sourceTree = "<group>"; };
-		D7BD4A8A204EBC110006EAC0 /* WSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSigner.h; sourceTree = "<group>"; };
-		D7BD4A8B204EBC110006EAC0 /* WSigner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WSigner.mm; sourceTree = "<group>"; };
 		D7CA7BF3203B103F00619470 /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CPROCSP.framework; sourceTree = "<group>"; };
 		D7CA7C36203B143700619470 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		D7CA7C5E203B144B00619470 /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
@@ -668,6 +694,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				4843B98A40684A108D93E96D /* libRNVectorIcons.a in Frameworks */,
 				268B9C58094A4CA5995F240F /* libRNFS.a in Frameworks */,
+				D77C8578205BAAA8000003F1 /* libRNDocumentPicker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -832,8 +859,13 @@
 		13B07FAE1A68108700A75B9A /* CryptoARM_GOST */ = {
 			isa = PBXGroup;
 			children = (
-				D7BD4A82204EBC110006EAC0 /* crypto */,
-				D7BD4A7A204EBC110006EAC0 /* cryptoPro */,
+				D77C8623205BB6A9000003F1 /* CryptoARM_GOST.entitlements */,
+				D73D9D9C205A86D700E63BE0 /* CertsList.h */,
+				D73D9D9E205A86D800E63BE0 /* CertsList.mm */,
+				D73D9D9D205A86D800E63BE0 /* globalHelper.h */,
+				D73D9D73205A86D700E63BE0 /* globalHelper.mm */,
+				D73D9DB5205A872900E63BE0 /* crypto */,
+				D73D9DA9205A872900E63BE0 /* cryptoPro */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -917,6 +949,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				479751C77E4F42B48658E434 /* RNVectorIcons.xcodeproj */,
 				00B397260B4B47D7AA7095B8 /* RNFS.xcodeproj */,
+				513AC9F6E3C34193AB7D596C /* RNDocumentPicker.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -962,6 +995,7 @@
 			children = (
 				A25A425C00FC4EDD96130B87 /* libRNVectorIcons.a */,
 				B493C735BC8643A0B1B270AA /* libRNFS.a */,
+				1C34D8DA9F164960AF268206 /* libRNDocumentPicker.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -981,6 +1015,44 @@
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D73D9DA9205A872900E63BE0 /* cryptoPro */ = {
+			isa = PBXGroup;
+			children = (
+				D73D9DAA205A872900E63BE0 /* Class.m */,
+				D73D9DAB205A872900E63BE0 /* PCert.h */,
+				D73D9DAC205A872900E63BE0 /* PCert.mm */,
+				D73D9DAD205A872900E63BE0 /* PCerts.h */,
+				D73D9DAE205A872900E63BE0 /* PCerts.mm */,
+				D73D9DAF205A872900E63BE0 /* PCipher.h */,
+				D73D9DB0205A872900E63BE0 /* PCipher.mm */,
+				D73D9DB1205A872900E63BE0 /* PCsp.h */,
+				D73D9DB2205A872900E63BE0 /* PCsp.mm */,
+				D73D9DB3205A872900E63BE0 /* PSigner.h */,
+				D73D9DB4205A872900E63BE0 /* PSigner.mm */,
+			);
+			name = cryptoPro;
+			path = src/cryptoPro;
+			sourceTree = "<group>";
+		};
+		D73D9DB5205A872900E63BE0 /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				D73D9DB6205A872900E63BE0 /* WCert.h */,
+				D73D9DB7205A872900E63BE0 /* WCert.mm */,
+				D73D9DB8205A872900E63BE0 /* WCertsList.h */,
+				D73D9DB9205A872900E63BE0 /* WCertsList.mm */,
+				D73D9DBA205A872900E63BE0 /* WCipher.h */,
+				D73D9DBB205A872900E63BE0 /* WCipher.mm */,
+				D73D9DBC205A872900E63BE0 /* WHelp.h */,
+				D73D9DBD205A872900E63BE0 /* WHelp.mm */,
+				D73D9DBE205A872900E63BE0 /* WHelper.m */,
+				D73D9DBF205A872900E63BE0 /* WSigner.h */,
+				D73D9DC0205A872900E63BE0 /* WSigner.mm */,
+			);
+			name = crypto;
+			path = src/crypto;
 			sourceTree = "<group>";
 		};
 		D73EBF2B204981590035F089 /* Products */ = {
@@ -1123,36 +1195,12 @@
 			path = "ru_RU.UTF-8";
 			sourceTree = "<group>";
 		};
-		D7BD4A7A204EBC110006EAC0 /* cryptoPro */ = {
+		D7EE8BA0205AB75500395904 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D7BD4A7B204EBC110006EAC0 /* Class.mm */,
-				D7BD4A7C204EBC110006EAC0 /* PCert.h */,
-				D7BD4A7D204EBC110006EAC0 /* PCert.mm */,
-				D7BD4A7E204EBC110006EAC0 /* PCipher.h */,
-				D7BD4A7F204EBC110006EAC0 /* PCipher.mm */,
-				D7BD4A80204EBC110006EAC0 /* PSigner.h */,
-				D7BD4A81204EBC110006EAC0 /* PSigner.mm */,
+				D7EE8BA4205AB75500395904 /* libRNDocumentPicker.a */,
 			);
-			name = cryptoPro;
-			path = src/cryptoPro;
-			sourceTree = "<group>";
-		};
-		D7BD4A82204EBC110006EAC0 /* crypto */ = {
-			isa = PBXGroup;
-			children = (
-				D7BD4A83204EBC110006EAC0 /* WCert.h */,
-				D7BD4A84204EBC110006EAC0 /* WCert.mm */,
-				D7BD4A85204EBC110006EAC0 /* WCipher.h */,
-				D7BD4A86204EBC110006EAC0 /* WCipher.mm */,
-				D7BD4A87204EBC110006EAC0 /* WHelp.h */,
-				D7BD4A88204EBC110006EAC0 /* WHelp.mm */,
-				D7BD4A89204EBC110006EAC0 /* WHelper.m */,
-				D7BD4A8A204EBC110006EAC0 /* WSigner.h */,
-				D7BD4A8B204EBC110006EAC0 /* WSigner.mm */,
-			);
-			name = crypto;
-			path = src/crypto;
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1245,7 +1293,13 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = B5A26ECMKT;
+						DevelopmentTeam = 8TC4KGDY5X;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1318,6 +1372,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = D7EE8BA0205AB75500395904 /* Products */;
+					ProjectRef = 513AC9F6E3C34193AB7D596C /* RNDocumentPicker.xcodeproj */;
 				},
 				{
 					ProductGroup = D73EBF2B204981590035F089 /* Products */;
@@ -1619,6 +1677,13 @@
 			remoteRef = D73EBF312049815A0035F089 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D7EE8BA4205AB75500395904 /* libRNDocumentPicker.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNDocumentPicker.a;
+			remoteRef = D7EE8BA3205AB75500395904 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1812,17 +1877,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7BD4A8E204EBC110006EAC0 /* PCipher.mm in Sources */,
+				D73D9DC7205A872900E63BE0 /* WCert.mm in Sources */,
+				D73D9DCC205A872900E63BE0 /* WSigner.mm in Sources */,
+				D73D9DC2205A872900E63BE0 /* PCert.mm in Sources */,
+				D73D9DCA205A872900E63BE0 /* WHelp.mm in Sources */,
+				D73D9DC3205A872900E63BE0 /* PCerts.mm in Sources */,
+				D73D9DCB205A872900E63BE0 /* WHelper.m in Sources */,
+				D73D9DA0205A86D800E63BE0 /* CertsList.mm in Sources */,
+				D73D9D9F205A86D800E63BE0 /* globalHelper.mm in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				D7BD4A92204EBC110006EAC0 /* WHelp.mm in Sources */,
-				D7BD4A8F204EBC110006EAC0 /* PSigner.mm in Sources */,
-				D7BD4A90204EBC110006EAC0 /* WCert.mm in Sources */,
-				D7BD4A94204EBC110006EAC0 /* WSigner.mm in Sources */,
-				D7BD4A91204EBC110006EAC0 /* WCipher.mm in Sources */,
+				D73D9DC4205A872900E63BE0 /* PCipher.mm in Sources */,
+				D73D9DC9205A872900E63BE0 /* WCipher.mm in Sources */,
+				D73D9DC5205A872900E63BE0 /* PCsp.mm in Sources */,
+				D73D9DC1205A872900E63BE0 /* Class.m in Sources */,
+				D73D9DC8205A872900E63BE0 /* WCertsList.mm in Sources */,
+				D73D9DC6205A872900E63BE0 /* PSigner.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				D7BD4A8D204EBC110006EAC0 /* PCert.mm in Sources */,
-				D7BD4A8C204EBC110006EAC0 /* Class.mm in Sources */,
-				D7BD4A93204EBC110006EAC0 /* WHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1885,12 +1955,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 				);
 				INFOPLIST_FILE = CryptoARM_GOSTTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1914,12 +1986,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 				);
 				INFOPLIST_FILE = CryptoARM_GOSTTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1937,9 +2011,13 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CryptoARM_GOST/CryptoARM_GOST.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = B5A26ECMKT;
+				DEVELOPMENT_TEAM = 8TC4KGDY5X;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1947,6 +2025,7 @@
 				HEADER_SEARCH_PATHS = (
 					"/Users/dev/Desktop/GUI-Trusted-eSign-iOS/ios/include/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 				);
 				INFOPLIST_FILE = CryptoARM_GOST/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1960,9 +2039,10 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = CryptoARM_GOST;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "arm64 armv7";
+				VALID_ARCHS = "armv7 arm64";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1972,8 +2052,12 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CryptoARM_GOST/CryptoARM_GOST.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B5A26ECMKT;
+				DEVELOPMENT_TEAM = 8TC4KGDY5X;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1981,6 +2065,7 @@
 				HEADER_SEARCH_PATHS = (
 					"/Users/dev/Desktop/GUI-Trusted-eSign-iOS/ios/include/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 				);
 				INFOPLIST_FILE = CryptoARM_GOST/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1994,9 +2079,10 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = CryptoARM_GOST;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "arm64 armv7";
+				VALID_ARCHS = "armv7 arm64";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -2017,11 +2103,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 				);
 				INFOPLIST_FILE = "CryptoARM_GOST-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -2053,11 +2141,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 				);
 				INFOPLIST_FILE = "CryptoARM_GOST-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -2090,6 +2180,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.CryptoARM_GOST-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2114,6 +2205,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

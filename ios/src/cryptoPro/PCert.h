@@ -22,6 +22,7 @@
 #define TYPE_DER  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 
 @interface PCert : NSObject <RCTBridgeModule>
+//функция получения содержимого сертификата, на входе имя_хранилища и сертификат.
 
 @end
 

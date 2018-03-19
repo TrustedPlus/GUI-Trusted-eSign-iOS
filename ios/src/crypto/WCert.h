@@ -16,7 +16,7 @@
 #include "storehelper.h"
 
 @interface WCert : NSObject <RCTBridgeModule>{
-  Certificate cert;
+  TrustedHandle<Certificate> cert;
 }
 
 @end

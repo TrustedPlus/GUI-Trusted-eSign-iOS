@@ -9,6 +9,7 @@
 #ifndef PSigner_h
 #define PSigner_h
 
+#include "cert.h"
 #import <Foundation/Foundation.h>
 #import "React/RCTBridgeModule.h"
 #import <CPROCSP/CPROCSP.h>

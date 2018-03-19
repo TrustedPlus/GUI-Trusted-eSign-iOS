@@ -8,8 +8,9 @@ import ListMenu from "./ListMenu";
 import FooterSign from "./FooterSign";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { footerAction, footerClose, readFiles } from "../actions/index";
+import { footerAction, footerClose, readFiles, addFiles} from "../actions/index";
 import { readCertKeys} from "../actions/CertKeysAction";
+import { DocumentPicker, DocumentPickerUtil } from "react-native-document-picker";
 
 interface IFile {
   extension: string;
@@ -34,6 +35,7 @@ interface SignatureProps {
   footerClose(): void;
   readFiles(): void;
   readCertKeys(string): void;
+  addFiles(...any): void;
 }
 
 class Signature extends React.Component<SignatureProps> {
@@ -46,18 +48,33 @@ class Signature extends React.Component<SignatureProps> {
     super(props);
 
     this.showList = this.showList.bind(this);
+    this.documentPicker = this.documentPicker.bind(this);
   }
 
   showList(img) {
     return (
       this.props.files.map((file, key) => <ListMenu
-        key = {key}
+        key = {key + file.seconds}
         title={file.name}
         note = {file.date + " " + file.month + " " + file.year + ", " + file.hours + ":" + file.minutes + ":" + file.seconds}
         verify = {file.verify}
         img = {img[key]}
         checkbox
         nav={() => this.props.footerAction(key)} />));
+  }
+
+  documentPicker() {
+    DocumentPicker.show({
+      filetype: [DocumentPickerUtil.allFiles()]
+    }, (error: any, res: any) => {
+      this.props.addFiles(res.uri, res.type, res.fileName, res.fileSize);
+      /*console.log(
+        res.uri,
+        res.type, // mime type
+        res.fileName,
+        res.fileSize
+      );*/
+    });
   }
 
   render() {
@@ -120,7 +137,7 @@ class Signature extends React.Component<SignatureProps> {
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Файлы</Text>
             {selectFiles}
-            <Button transparent style={styles.sign_enc_button}>
+            <Button transparent style={styles.sign_enc_button} onPress={() => {this.documentPicker(); }}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
             </Button>
           </View>
@@ -155,7 +172,8 @@ function mapDispatchToProps(dispatch) {
     footerAction: bindActionCreators(footerAction, dispatch),
     footerClose: bindActionCreators(footerClose, dispatch),
     readFiles: bindActionCreators(readFiles, dispatch),
-    readCertKeys: bindActionCreators(readCertKeys, dispatch)
+    readCertKeys: bindActionCreators(readCertKeys, dispatch),
+    addFiles: bindActionCreators(addFiles, dispatch)
   };
 }
 

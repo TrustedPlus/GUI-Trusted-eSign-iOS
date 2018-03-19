@@ -30,7 +30,8 @@ export function signFile(files: IFile[], personalCert, footer) {
                 }
                 NativeModules.WSigner.signFile(RNFS.DocumentDirectoryPath + "/PersonalCertKeys/" + personalCert.title + "." + personalCert.extension,
                             format,
-                            RNFS.DocumentDirectoryPath + "/PersonalCertKeys/" + personalCert.title + ".key", format,
+                            RNFS.DocumentDirectoryPath + "/PersonalCertKeys/" + personalCert.title + ".key",
+                            format,
                             path + "." + files[footer.arrButton[i]].extension,
                             path + ".sig",
                             (err, signFile) => {

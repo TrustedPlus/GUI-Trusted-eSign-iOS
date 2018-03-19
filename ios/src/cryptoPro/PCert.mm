@@ -1,9 +1,11 @@
 #include "PCert.h"
+#include "../globalHelper.h"
 
 @implementation PCert
 
 RCT_EXPORT_MODULE();
 
+//TODO: { показать нужно выбранный сертификат, а не рандомный }
 RCT_EXPORT_METHOD(getCertInfo: (RCTResponseSenderBlock)callback) {
   NSMutableDictionary *arrayPropertyCert = [NSMutableDictionary dictionary];
   

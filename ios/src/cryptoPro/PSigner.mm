@@ -1,10 +1,14 @@
 #include "PSigner.h"
+#include "../globalHelper.h"
 
 @implementation PSigner
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(signFile: (NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
+  char *pIssuerName = (char *) [issuerName UTF8String];
+  char *pSerialNumber = (char *) [serialNumber UTF8String];
+  
   char *infile = (char *) [inputFile UTF8String];
   char *outfile = (char *) [outputFile UTF8String];
 
@@ -54,12 +58,26 @@ RCT_EXPORT_METHOD(signFile: (NSString *)inputFile: (NSString *)outputFile: (RCTR
   while( !bResult){
     pUserCert= CertEnumCertificatesInStore(hCertStore, pUserCert);
     if(!pUserCert){ break; }
-    bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, NULL, &dwSize);
-    if (bResult) {
-      free(pProvInfo);
-      pProvInfo = (CRYPT_KEY_PROV_INFO *)malloc(dwSize);
-      if (pProvInfo) {
-        bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, pProvInfo, &dwSize);
+    
+    X509 *cert =NULL;
+    const unsigned char *p;
+    p = pUserCert->pbCertEncoded;
+    if (!(cert = d2i_X509(NULL, &p, pUserCert->cbCertEncoded))){
+      throw new std::string("'d2i_X509' Error decode len bytes");
+    }
+    //i2d_X509(<#X509 *a#>, <#unsigned char **out#>)
+    //TrustedHandle<Certificate> ->internal() <->x509
+    TrustedHandle<Certificate> hcert = new Certificate(cert);
+    std::string str_1 = hcert->getIssuerName()->c_str();
+    std::string str_2 = hcert->getSerialNumber()->c_str();
+    if ((str_1 == pIssuerName) && (str_2 == pSerialNumber)){
+      bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, NULL, &dwSize);
+      if (bResult) {
+        free(pProvInfo);
+        pProvInfo = (CRYPT_KEY_PROV_INFO *)malloc(dwSize);
+        if (pProvInfo) {
+          bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, pProvInfo, &dwSize);
+        }
       }
     }
   }

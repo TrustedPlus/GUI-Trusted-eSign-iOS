@@ -1,5 +1,5 @@
-#ifndef WCertsList_h
-#define WCertsList_h
+#ifndef WStore_h
+#define WStore_h
 
 #include "../globalHelper.h"
 
@@ -13,11 +13,11 @@
 #import "React/RCTBridgeModule.h"
 #import <string.h>
 
-@interface WCertsList : NSObject <RCTBridgeModule>{
+@interface WStore : NSObject <RCTBridgeModule>{
   NSMutableArray *arrayPkiStore;
 }
-- (NSMutableArray*) loadStore;
+- (NSMutableArray*) UnloadCertsFromStore;
 
 @end
 
-#endif /* WCertsList_h */
+#endif /* WStore_h */

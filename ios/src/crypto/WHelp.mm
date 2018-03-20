@@ -9,7 +9,7 @@ DataFormat::DATA_FORMAT NSStringToDataFormat(NSString *nsformat) {
     if (strncmp(format, "BASE64", 6) == 0)
       data_format = DataFormat::BASE64;
     else
-      return data_format;
+      throw new std::string("format is not set correctly! ");
   }
   return data_format;
 }

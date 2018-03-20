@@ -3,8 +3,12 @@
 @implementation PCipher
 
 RCT_EXPORT_MODULE();
-
-RCT_EXPORT_METHOD(encFile: (NSString *)inputFile: (NSString *)encFile: (NSString *)nsSessionSV: (NSString *)nsSessionEncryptedKey: (NSString *)nsSessionMacKey: (NSString *)nsVector: (NSString *)nsEncryptionParam: (RCTResponseSenderBlock)callback) {
+//добавить сертификат и поиск ключа у этого сертификата
+RCT_EXPORT_METHOD(encFile: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)encFile: (NSString *)nsSessionSV: (NSString *)nsSessionEncryptedKey: (NSString *)nsSessionMacKey: (NSString *)nsVector: (NSString *)nsEncryptionParam: (RCTResponseSenderBlock)callback) {
+  
+  char *pIssuerName = (char *) [issuerName UTF8String];
+  char *pSerialNumber = (char *) [serialNumber UTF8String];
+  char *pCategory = (char *) [category UTF8String];
   
   char *in_filename = (char *) [inputFile UTF8String];
   char *out_filename = (char *) [encFile UTF8String];
@@ -45,55 +49,103 @@ RCT_EXPORT_METHOD(encFile: (NSString *)inputFile: (NSString *)encFile: (NSString
   DWORD bufLen = sizeof(pbContent);
   ALG_ID ke_alg = CALG_PRO12_EXPORT;
   DWORD cbEncryptionParamSetStandart;
-  DWORD result = 0;
   
-  if(!(source = fopen(in_filename, "rb")))
-    result = CSP_GetLastError();
+  if(!(source = fopen(in_filename, "rb"))){
+    callback(@[[@"Can't open file 'in_filename'" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'in_filename' was opened\n" );
   
-  if(!(Encrypt = fopen(out_filename, "wb")))
-    result = CSP_GetLastError();
+  if(!(Encrypt = fopen(out_filename, "wb"))){
+    callback(@[[@"Can't open file 'out_filename'" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'out_filename' was opened\n" );
   
-  if(!(session_SV = fopen(sessionSV, "wb")))
-    result = CSP_GetLastError();
+  if(!(session_SV = fopen(sessionSV, "wb"))){
+    callback(@[[@"Can't open file 'session_SV.bin'" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'session_SV.bin' was opened\n" );
   
-  if(!(session_EncryptedKey = fopen(sessionEncryptedKey, "wb")))
-    result = CSP_GetLastError();
+  if(!(session_EncryptedKey = fopen(sessionEncryptedKey, "wb"))){
+    callback(@[[@"Can't open file 'session_EncryptedKey.bin'" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'session_EncryptedKey.bin' was opened\n" );
   
-  if(!(session_MacKey = fopen(sessionMacKey, "wb")))
-    result = CSP_GetLastError();
+  if(!(session_MacKey = fopen(sessionMacKey, "wb"))){
+    callback(@[[@"Can't open file 'session_MacKey.bin'" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'session_MacKey.bin' was opened\n" );
   
-  if(!(vectorf = fopen(vector, "wb")))
-    result = CSP_GetLastError();
+  if(!(vectorf = fopen(vector, "wb"))){
+    callback(@[[@"Can't open file 'vector.bin'" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'vector.bin' was opened\n" );
   
-  if (!(Encryption_Param = fopen(EncryptionParam, "wb")))
-    result = CSP_GetLastError();
+  if (!(Encryption_Param = fopen(EncryptionParam, "wb"))){
+    callback(@[[@"Can't open file 'EncryptionParam.bin'" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf("The file 'EncryptionParam.bin' was opened\n");
-  
-  /*if(CryptAcquireContext(&hProv, "\\\\.\\HDIMAGE\\fa40.000\\5982", NULL, 75, 0)) {
-   printf("The key container \"HDIMAGE\\fa40.000\5982\" has been acquired. \n");
-   }
-   else {
-   result = CSP_GetLastError();
-   }*/
-  //hProv = L"Crypto-Pro GOST R 34.10-2001 KC1 CSP";
   
   CSP_BOOL bResult = FALSE;
   PCCERT_CONTEXT pUserCert = NULL;
+  PCCERT_CONTEXT pUserCert_new = NULL;
   HCERTSTORE hCertStore = 0;
   HCRYPTKEY hPubKey;
   
-  hCertStore = CertOpenSystemStore(0, "My");
+  hCertStore = CertOpenSystemStore(0, pCategory);
   if(!hCertStore){
-    fprintf (stderr, "CertOpenSystemStore failed.");
+    callback(@[[@"CertOpenSystemStore failed." copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
-  pUserCert= CertEnumCertificatesInStore(hCertStore, pUserCert);
-  DWORD dwSize;
+  TrustedHandle<Filter> filterByCert = new Filter();
+  filterByCert->setIssuerName(new std::string(pIssuerName));
+  filterByCert->setSerial(new std::string(pSerialNumber));
+  TrustedHandle<PkiItemCollection> pic = g_picCSP->find(filterByCert);
+  if (pic->length() <= 0){
+    callback(@[[@"Not find certificate!" copy], [NSNumber numberWithInt: 0]]);
+  }
+  TrustedHandle<PkiItem> pi = new PkiItem();
+  pi = pic->items(0);
+  TrustedHandle<Certificate> cert = pi->certificate;
+  
+  unsigned char *pData = NULL, *p = NULL;
+  int iData;
+  if (cert->isEmpty()){
+    callback(@[[@"Cert cannot be empty.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if ((iData = i2d_X509(cert->internal(), NULL)) <= 0) {
+    callback(@[[@"Error i2d_X509.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if (NULL == (pData = (unsigned char*)OPENSSL_malloc(iData))) {
+    callback(@[[@"Error malloc.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  p = pData;
+  if ((iData = i2d_X509(cert->internal(), &p)) <= 0) {
+    callback(@[[@"Error i2d_X509.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if (NULL == (pUserCert_new = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, pData, iData))) {
+    callback(@[[@"CertCreateCertificateContext() failed.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  OPENSSL_free(pData);
+  
+  pUserCert = CertFindCertificateInStore(hCertStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, NULL, CERT_FIND_EXISTING, pUserCert_new, NULL);
+  if (!pUserCert){
+    callback(@[[@"No find exiting certificates.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  
+  DWORD dwSize = 0;
   CRYPT_KEY_PROV_INFO *pProvInfo = NULL;
   bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, NULL, &dwSize);
   if (bResult) {
@@ -106,14 +158,16 @@ RCT_EXPORT_METHOD(encFile: (NSString *)inputFile: (NSString *)encFile: (NSString
   char contName[100];
   wcstombs(contName, pProvInfo->pwszContainerName, 100);
   if(CryptAcquireContext(&hProv, contName, NULL, 75, 0)) {
-    printf("The key container \"HDIMAGE\\fa40.000\5982\" has been acquired. \n");
+    printf("The key container has been acquired. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(!bResult){
-    fprintf (stderr, "No certificates with private key link.");
+    callback(@[[@"No certificates with private key link." copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   if (CryptImportPublicKeyInfoEx(hProv, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, &(pUserCert->pCertInfo->SubjectPublicKeyInfo), 0, 0, NULL, &hPubKey)){
     printf("Public key imported from cert file\n");
@@ -125,110 +179,130 @@ RCT_EXPORT_METHOD(encFile: (NSString *)inputFile: (NSString *)encFile: (NSString
     printf("Public key exported to blob\n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(CryptGetUserKey(hProv, AT_KEYEXCHANGE, &hKey)) {
     printf("The private key has been acquired. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(CryptImportKey(hProv, pbKeyBlob, dwBlobLen, hKey, 0, &hAgreeKey)) {
     printf("The responder public key has been imported. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(CryptSetKeyParam(hAgreeKey, KP_ALGID, (LPBYTE)&ke_alg, 0)) {
     printf("PRO12_EXPORT agree key algorithm has been set. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(CryptGenKey(hProv, CALG_G28147, CRYPT_EXPORTABLE, &hSessionKey)) {
     printf("Original session key is created. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(CryptExportKey(hSessionKey, hAgreeKey, SIMPLEBLOB, 0, NULL, &dwBlobLenSimple)) {
     printf("Size of the BLOB for the sender session key determined. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[@"Size of the BLOB for the sender session key not determined." copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   pbKeyBlobSimple = (BYTE*)malloc(dwBlobLenSimple);
   
-  if(!pbKeyBlobSimple)
-    result = CSP_GetLastError();
+  if(!pbKeyBlobSimple){
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   
   if(CryptExportKey(hSessionKey, hAgreeKey, SIMPLEBLOB, 0, pbKeyBlobSimple, &dwBlobLenSimple)) {
     printf("Contents have been written to the BLOB. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(CryptGetKeyParam(hSessionKey, KP_IV, NULL, &dwIV, 0)) {
     printf("Size of the IV for the session key determined. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   pbIV = (BYTE*)malloc(dwIV);
-  if (!pbIV)
-    result = CSP_GetLastError();
+  if (!pbIV){
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   
   if(CryptGetKeyParam(hSessionKey, KP_IV, pbIV, &dwIV, 0)){
     printf( "CryptGetKeyParam succeeded. \n");
   }
   else{
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(fwrite(pbIV, 1, dwIV, vectorf)) {
     printf( "The IV was written to the 'vector.bin'\n" );
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(fwrite(((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bSV, 1, SEANCE_VECTOR_LEN, session_SV)) {
     printf( "The session key was written to the 'session_SV.bin'\n" );
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(fwrite(((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bEncryptedKey, 1, G28147_KEYLEN, session_EncryptedKey)){
     printf( "The session key was written to the 'session.bin'\n" );
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(fwrite(((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bMacKey, 1, EXPORT_IMIT_SIZE, session_MacKey)){
     printf( "The session key was written to the 'session.bin'\n" );
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
-  if (((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bEncryptionParamSet[0] != 0x30)
-    result = CSP_GetLastError();
+  if (((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bEncryptionParamSet[0] != 0x30){
+    callback(@[[@"pbKeyBlobSimple)->bEncryptionParamSet[0] != 0x30" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   cbEncryptionParamSetStandart = (DWORD)((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bEncryptionParamSet[1] + sizeof((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bEncryptionParamSet[0] + sizeof((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bEncryptionParamSet[1];
   if (fwrite(((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bEncryptionParamSet, 1, cbEncryptionParamSetStandart, Encryption_Param)) {
     printf("The EncryptionParam was written to the 'EncryptionParam.bin'\n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   do{
@@ -241,15 +315,18 @@ RCT_EXPORT_METHOD(encFile: (NSString *)inputFile: (NSString *)encFile: (NSString
           printf( "The encrypted content was written to the 'encrypt.bin'\n" );
         }
         else {
-          result = CSP_GetLastError();
+          callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+          return;
         }
       }
       else {
-        result = CSP_GetLastError();
+        callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+        return;
       }
     }
     else {
-      result = CSP_GetLastError();
+      callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+      return;
     }
   }
   while (!feof(source));
@@ -290,10 +367,14 @@ RCT_EXPORT_METHOD(encFile: (NSString *)inputFile: (NSString *)encFile: (NSString
   if(pbIV)
     free(pbIV);
   
-  callback(@[[NSNull null], [NSNumber numberWithInt: result]]);
+  callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
 }
 
-RCT_EXPORT_METHOD(decFile: (NSString *)encFile: (NSString *)decFile: (NSString *)nsSessionSV: (NSString *)nsSessionEncryptedKey: (NSString *)nsSessionMacKey: (NSString *)nsVector: (NSString *)nsEncryptionParam: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(decFile: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)category: (NSString *)encFile: (NSString *)decFile: (NSString *)nsSessionSV: (NSString *)nsSessionEncryptedKey: (NSString *)nsSessionMacKey: (NSString *)nsVector: (NSString *)nsEncryptionParam: (RCTResponseSenderBlock)callback) {
+  char *pIssuerName = (char *) [issuerName UTF8String];
+  char *pSerialNumber = (char *) [serialNumber UTF8String];
+  char *pCategory = (char *) [category UTF8String];
+  
   char *enc_filename = (char *) [encFile UTF8String];
   char *dec_filename = (char *) [decFile UTF8String];
   
@@ -341,51 +422,109 @@ RCT_EXPORT_METHOD(decFile: (NSString *)encFile: (NSString *)decFile: (NSString *
   tSimpleBlobHeaderStandart.EncryptKeyAlgId = CALG_G28147;
   tSimpleBlobHeaderStandart.Magic = G28147_MAGIC;
   
-  DWORD result = 0;
-  
-  if(!(Encrypt = fopen(enc_filename, "rb" )))
-    result = CSP_GetLastError();
+  if(!(Encrypt = fopen(enc_filename, "rb" ))){
+    callback(@[[@"The file 'encrypt.bin' was not opened" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'encrypt.bin' was opened\n" );
   
-  if(!(session_SV = fopen(sessionSV, "rb")))
-    result = CSP_GetLastError();
+  if(!(session_SV = fopen(sessionSV, "rb"))){
+    callback(@[[@"The file 'session_SV.bin' was not opened" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'session_SV.bin' was opened\n" );
   
-  if(!(session_EncryptedKey = fopen(sessionEncryptedKey, "rb")))
-    result = CSP_GetLastError();
+  if(!(session_EncryptedKey = fopen(sessionEncryptedKey, "rb"))){
+    callback(@[[@"The file 'session_EncryptedKey.bin' was not opened" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'session_EncryptedKey.bin' was opened\n" );
   
-  if(!(session_MacKey = fopen(sessionMacKey, "rb")))
-    result = CSP_GetLastError();
+  if(!(session_MacKey = fopen(sessionMacKey, "rb"))){
+    callback(@[[@"The file 'session_MacKey.bin' was not opened" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'session_MacKey.bin' was opened\n" );
   
-  if(!(vectorf = fopen(vector, "rb")))
-    result = CSP_GetLastError();
+  if(!(vectorf = fopen(vector, "rb"))){
+    callback(@[[@"The file 'vector.bin' was not opened" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'vector.bin' was opened\n" );
   
-  if(!(destination = fopen(dec_filename, "wb" )))
-    result = CSP_GetLastError();
+  if(!(destination = fopen(dec_filename, "wb" ))){
+    callback(@[[@"The file 'destination.txt' was not opened" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The file 'destination.txt' was opened\n" );
   
-  if (!(Encryption_Param = fopen(EncryptionParam, "rb")))
-    result = CSP_GetLastError();
+  if (!(Encryption_Param = fopen(EncryptionParam, "rb"))){
+    callback(@[[@"The file 'EncryptionParam.bin' was not opened" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf("The file 'EncryptionParam.bin' was opened\n");
   
   dwIV = (DWORD)fread(pbIV, 1, 100, vectorf);
-  if(!dwIV)
-    result = CSP_GetLastError();
+  if(!dwIV){
+    callback(@[[@"The IV was not read from the 'vector.bin'" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The IV was read from the 'vector.bin'\n" );
   
   CSP_BOOL bResult = FALSE;
   PCCERT_CONTEXT pUserCert = NULL;
+  PCCERT_CONTEXT pUserCert_new = NULL;
   HCERTSTORE hCertStore = 0;
   
-  hCertStore = CertOpenSystemStore(0, "My");
+  hCertStore = CertOpenSystemStore(0, pCategory);
   if(!hCertStore){
-    fprintf (stderr, "CertOpenSystemStore failed.");
+    callback(@[[@"CertOpenSystemStore failed." copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
-  pUserCert= CertEnumCertificatesInStore(hCertStore, pUserCert);
-  DWORD dwSize;
+  TrustedHandle<Filter> filterByCert = new Filter();
+  filterByCert->setIssuerName(new std::string(pIssuerName));
+  filterByCert->setSerial(new std::string(pSerialNumber));
+  TrustedHandle<PkiItemCollection> pic = g_picCSP->find(filterByCert);
+  if (pic->length() <= 0){
+    callback(@[[@"Not find certificate!" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  TrustedHandle<PkiItem> pi = new PkiItem();
+  pi = pic->items(0);
+  TrustedHandle<Certificate> cert = pi->certificate;
+  
+  unsigned char *pData = NULL, *p = NULL;
+  int iData;
+  if (cert->isEmpty()){
+    callback(@[[@"Cert cannot be empty.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if ((iData = i2d_X509(cert->internal(), NULL)) <= 0) {
+    callback(@[[@"Error i2d_X509.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if (NULL == (pData = (unsigned char*)OPENSSL_malloc(iData))) {
+    callback(@[[@"Error malloc.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  p = pData;
+  if ((iData = i2d_X509(cert->internal(), &p)) <= 0) {
+    callback(@[[@"Error i2d_X509.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if (NULL == (pUserCert_new = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, pData, iData))) {
+    callback(@[[@"CertCreateCertificateContext() failed.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  OPENSSL_free(pData);
+  
+  pUserCert = CertFindCertificateInStore(hCertStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, NULL, CERT_FIND_EXISTING, pUserCert_new, NULL);
+  if (!pUserCert){
+    callback(@[[@"No find exiting certificates.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  
+  DWORD dwSize = 0;
   CRYPT_KEY_PROV_INFO *pProvInfo = NULL;
   bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, NULL, &dwSize);
   if (bResult) {
@@ -401,13 +540,9 @@ RCT_EXPORT_METHOD(decFile: (NSString *)encFile: (NSString *)decFile: (NSString *
     printf("The key container \"HDIMAGE\\fa40.000\5982\" has been acquired. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
-  
-  /*if(!CryptAcquireContext(&hProv, "Responder", NULL, PROV_GOST_2012_256, 0)){
-   result = CSP_GetLastError();
-   }
-   printf("The key container \"Responder\" has been acquired. \n");*/
   
   // obtain file size:
   fseek(Encryption_Param, 0, SEEK_END);
@@ -415,36 +550,49 @@ RCT_EXPORT_METHOD(decFile: (NSString *)encFile: (NSString *)decFile: (NSString *
   rewind(Encryption_Param);
   // allocate memory to contain the whole file:
   pbEncryptionParamSetStandart = (BYTE*)malloc(cbEncryptionParamSetStandart);
-  if (pbEncryptionParamSetStandart == NULL)
-    result = CSP_GetLastError();
+  if (pbEncryptionParamSetStandart == NULL){
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+
   // copy the file into the buffer:
   dwBytesRead = (DWORD)fread(pbEncryptionParamSetStandart, 1, cbEncryptionParamSetStandart, Encryption_Param);
-  if (dwBytesRead != cbEncryptionParamSetStandart)
-    result = CSP_GetLastError();
+  if (dwBytesRead != cbEncryptionParamSetStandart){
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   
   cbBlobLenSimple = cbEncryptionParamSetStandart;
   cbBlobLenSimple += (sizeof(CRYPT_SIMPLEBLOB_HEADER)+SEANCE_VECTOR_LEN + G28147_KEYLEN + EXPORT_IMIT_SIZE);// +sizeof(pbEncryptionParamSetStandart);
   pbKeyBlobSimple = (BYTE *)malloc(cbBlobLenSimple);
-  if(!pbKeyBlobSimple)
-    result = CSP_GetLastError();
+  if(!pbKeyBlobSimple){
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   
   memcpy(&((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->tSimpleBlobHeader, &tSimpleBlobHeaderStandart, sizeof(CRYPT_SIMPLEBLOB_HEADER));
   
   dwBytesRead = (DWORD)fread(((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bSV, 1, SEANCE_VECTOR_LEN, session_SV);
-  if(!dwBytesRead)
-    result = CSP_GetLastError();
+  if(!dwBytesRead){
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The session key was read from the 'session_SV.bin'\n" );
   
   dwBytesRead = (DWORD)fread(((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bEncryptedKey, 1, G28147_KEYLEN, session_EncryptedKey);
-  if(!dwBytesRead)
-    result = CSP_GetLastError();
+  if(!dwBytesRead){
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The session key was read from the 'session_EncryptedKey.bin'\n" );
   
   memcpy(((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bEncryptionParamSet, pbEncryptionParamSetStandart, cbEncryptionParamSetStandart);
   
   dwBytesRead = (DWORD)fread(((CRYPT_SIMPLEBLOB*)pbKeyBlobSimple)->bMacKey, 1, EXPORT_IMIT_SIZE, session_MacKey);
-  if(!dwBytesRead)
-    result = CSP_GetLastError();
+  if(!dwBytesRead){
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   printf( "The session key was read from the 'session_MacKey.bin'\n" );
   
   HCRYPTKEY hPubKey;
@@ -452,7 +600,8 @@ RCT_EXPORT_METHOD(decFile: (NSString *)encFile: (NSString *)decFile: (NSString *
     printf("Public key imported from cert file\n");
   } else {
     CertFreeCertificateContext(pUserCert);
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   CertFreeCertificateContext(pUserCert);
   
@@ -460,7 +609,8 @@ RCT_EXPORT_METHOD(decFile: (NSString *)encFile: (NSString *)decFile: (NSString *
     printf("Public key exported to blob\n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   //LoadPublicKey(pbKeyBlob, &dwBlobLen, "Sender.cer", "Sender.pub");
@@ -469,32 +619,37 @@ RCT_EXPORT_METHOD(decFile: (NSString *)encFile: (NSString *)decFile: (NSString *
     printf("The private key has been acquired. \n");
   }
   else{
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(CryptImportKey(hProv, pbKeyBlob, dwBlobLen, hKey, 0, &hAgreeKey)) {
     printf("The sender public key has been imported. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(CryptSetKeyParam(hAgreeKey, KP_ALGID, (LPBYTE)&ke_alg, 0)) {
     printf("PRO12_EXPORT agree key algorithm has been set. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(CryptImportKey(hProv, pbKeyBlobSimple, cbBlobLenSimple, hAgreeKey, 0, &hSessionKey)) {
     printf("The session key has been imported. \n");
   }
   else {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if(!CryptSetKeyParam( hSessionKey, KP_IV, pbIV, 0)) {
-    result = CSP_GetLastError();
+    callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+    return;
   }
   printf( "CryptSetKeyParam succeeded. \n");
   
@@ -510,15 +665,18 @@ RCT_EXPORT_METHOD(decFile: (NSString *)encFile: (NSString *)decFile: (NSString *
           printf( "The decrypted content was written to the 'destination.txt'\n" );
         }
         else {
-          result = CSP_GetLastError();
+          callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+          return;
         }
       }
       else {
-        result = CSP_GetLastError();
+        callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+        return;
       }
     }
     else {
-      result = CSP_GetLastError();
+      callback(@[[NSNumber numberWithInt: CSP_GetLastError()], [NSNumber numberWithInt: 0]]);
+      return;
     }
   }
   while(!feof(Encrypt));
@@ -558,7 +716,7 @@ RCT_EXPORT_METHOD(decFile: (NSString *)encFile: (NSString *)decFile: (NSString *
   free(pbEncryptionParamSetStandart);
   free(pbKeyBlobSimple);
   
-  callback(@[[NSNull null], [NSNumber numberWithInt: result]]);
+  callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
 }
 
 @end

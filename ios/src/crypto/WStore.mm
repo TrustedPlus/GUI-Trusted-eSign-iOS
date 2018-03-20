@@ -1,11 +1,12 @@
-#include "WCertsList.h"
+#include "WStore.h"
 
-@implementation WCertsList
+@implementation WStore
 
-- (NSMutableArray*) loadStore{
+- (NSMutableArray*) UnloadCertsFromStore{
   arrayPkiStore = [NSMutableArray array];
   try{
-    TrustedHandle<Provider> prov = new Provider_System(new std::string(g_pathToStore));
+    TrustedHandle<Provider> prov = new Provider_System(new std::string(g_pathToStore));    
+    g_storeCrypto = new PkiStore(new std::string(g_pathToStore));
     g_storeCrypto->addProvider(prov); //загрузка сертификатов и "ключей" этого криптопровайдера. Загрузка из хранилища по пути pathToStore
     TrustedHandle<PkiItemCollection> pic = new PkiItemCollection();
     pic = g_storeCrypto->getItems();                                    //список PKI обьектов
@@ -44,7 +45,12 @@
       arrayPropertyCert[@"isCA"] = @(cert->isCA());
       arrayPropertyCert[@"provider"] = @((pi->provider)->c_str());
       arrayPropertyCert[@"type"] = @((pi->type)->c_str());
-      arrayPropertyCert[@"hasPrivateKey"] = @((pi->certKey)->c_str());
+      if (!strcmp(pi->certKey->c_str(), "")){
+        arrayPropertyCert[@"hasPrivateKey"] = @(0);
+      }
+      else{
+        arrayPropertyCert[@"hasPrivateKey"] = @((pi->certKey)->c_str());
+      }
       [arrayPkiStore addObject: arrayPropertyCert];
     }
     

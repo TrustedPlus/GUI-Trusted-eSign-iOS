@@ -1,13 +1,13 @@
 #include "PSigner.h"
-#include "../globalHelper.h"
 
 @implementation PSigner
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
   char *pIssuerName = (char *) [issuerName UTF8String];
   char *pSerialNumber = (char *) [serialNumber UTF8String];
+  char *pCategory = (char *) [category UTF8String];
   
   char *infile = (char *) [inputFile UTF8String];
   char *outfile = (char *) [outputFile UTF8String];
@@ -24,7 +24,10 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
   DWORD mem_len = 0;
   //read input file
   tbs = fopen (infile, "rb");
-  if (!tbs) { fprintf (stderr, "Cannot open input file\n"); }
+  if (!tbs) {
+    callback(@[[@"Cannot open input file\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   mem_len = 0;
   while (!feof(tbs)) {
     int r = 0;
@@ -43,70 +46,93 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
   DWORD ret = 0;
   HCRYPTPROV hCryptProv = 0;               // CSP handle
   PCCERT_CONTEXT pUserCert = NULL;        // User certificate to be used
+  PCCERT_CONTEXT pUserCert_new = NULL;
   ALG_ID hash_alg_id = 0;
   DWORD dwSize;
   DWORD keytype = 0;
   CSP_BOOL should_release_ctx = FALSE;
     
-  hCertStore = CertOpenSystemStore(0, "My");
+  hCertStore = CertOpenSystemStore(0, pCategory);
   if(!hCertStore){
-    ret = CSP_GetLastError();
-    fprintf (stderr, "CertOpenSystemStore failed.");
-    goto err;
+    callback(@[[@"CertOpenSystemStore failed.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
-    
-  while( !bResult){
-    pUserCert= CertEnumCertificatesInStore(hCertStore, pUserCert);
-    if(!pUserCert){ break; }
-    
-    X509 *cert =NULL;
-    const unsigned char *p;
-    p = pUserCert->pbCertEncoded;
-    if (!(cert = d2i_X509(NULL, &p, pUserCert->cbCertEncoded))){
-      throw new std::string("'d2i_X509' Error decode len bytes");
-    }
-    //i2d_X509(<#X509 *a#>, <#unsigned char **out#>)
-    //TrustedHandle<Certificate> ->internal() <->x509
-    TrustedHandle<Certificate> hcert = new Certificate(cert);
-    std::string str_1 = hcert->getIssuerName()->c_str();
-    std::string str_2 = hcert->getSerialNumber()->c_str();
-    if ((str_1 == pIssuerName) && (str_2 == pSerialNumber)){
-      bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, NULL, &dwSize);
-      if (bResult) {
-        free(pProvInfo);
-        pProvInfo = (CRYPT_KEY_PROV_INFO *)malloc(dwSize);
-        if (pProvInfo) {
-          bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, pProvInfo, &dwSize);
-        }
-      }
+  
+  TrustedHandle<Filter> filterByCert = new Filter();
+  filterByCert->setIssuerName(new std::string(pIssuerName));
+  filterByCert->setSerial(new std::string(pSerialNumber));
+  TrustedHandle<PkiItemCollection> pic = g_picCSP->find(filterByCert);
+  if (pic->length() <= 0){
+    callback(@[[@"Not find certificate!" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  TrustedHandle<PkiItem> pi = new PkiItem();
+  pi = pic->items(0);
+  TrustedHandle<Certificate> cert = pi->certificate;
+  
+  unsigned char *pData = NULL, *p = NULL;
+  int iData;
+  if (cert->isEmpty()){
+    callback(@[[@"Cert cannot be empty.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if ((iData = i2d_X509(cert->internal(), NULL)) <= 0) {
+    callback(@[[@"Error i2d_X509.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if (NULL == (pData = (unsigned char*)OPENSSL_malloc(iData))) {
+    callback(@[[@"Error malloc.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  p = pData;
+  if ((iData = i2d_X509(cert->internal(), &p)) <= 0) {
+    callback(@[[@"Error i2d_X509.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if (NULL == (pUserCert_new = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, pData, iData))) {
+    callback(@[[@"CertCreateCertificateContext() failed.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  OPENSSL_free(pData);
+  
+  pUserCert = CertFindCertificateInStore(hCertStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, NULL, CERT_FIND_EXISTING, pUserCert_new, NULL);
+  if (!pUserCert){
+    callback(@[[@"No find exiting certificates.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  
+  bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, NULL, &dwSize);
+  if (bResult) {
+    free(pProvInfo);
+    pProvInfo = (CRYPT_KEY_PROV_INFO *)malloc(dwSize);
+    if (pProvInfo) {
+      bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, pProvInfo, &dwSize);
     }
   }
+  
   if(!bResult){
-    fprintf (stderr, "No certificates with private key link.");
-    goto err;
+    callback(@[[@"No certificates with private key link.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
     
-  if (! infile) {
-    fprintf (stderr, "No input file was specified\n");
-    goto err;
+  if (! infile){
+    callback(@[[@"No input file was specified.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
     
   if (CryptAcquireCertificatePrivateKey(pUserCert, 0, NULL, &hCryptProv, &keytype, &should_release_ctx)) {
     printf("A CSP has been acquired. \n");
   }
   else {
-    ret = CSP_GetLastError();
-    fprintf (stderr, "Cryptographic context could not be acquired.");
-    goto err;
+    callback(@[[@"Cryptographic context could not be acquired.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
     
   hash_alg_id = CPCryptGetProviderHashAlgId(hCryptProv, pUserCert->pCertInfo->SubjectPublicKeyInfo.Algorithm.pszObjId);
     
-  if (!hash_alg_id)
-  {
-    ret = CSP_GetLastError();
-    fprintf (stderr, "Cannot determine hash algorithm.");
-    goto err;
+  if (!hash_alg_id){
+    callback(@[[@"Cannot determine hash algorithm.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
     
   // Fill CRYPT_SIGN_MESSAGE_PARA structure
@@ -122,17 +148,20 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
   MessageSizeArray[0] = mem_len;
   //CryptSignMessage: parameter true - detached signature, false - not detached signature
   if (!CryptSignMessage(&stSignMessagePara, TRUE, 1, MessageArray, MessageSizeArray, NULL, &dwSignatureSize)) {
-    ret = CSP_GetLastError();//(_TEXT("Can't sign file '%s'.\n"), szFile);
+    callback(@[[@"Can't sign file.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
     
   pbSignatureData = (BYTE*)malloc(dwSignatureSize * sizeof(BYTE));
     
   if (pbSignatureData == NULL) {
-    ret = CSP_GetLastError();//(_TEXT("Can't allocate memory for signature data.\n"));
+    callback(@[[@"Can't allocate memory for signature data.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
     
   if (!CryptSignMessage(&stSignMessagePara, TRUE, 1, MessageArray, MessageSizeArray, pbSignatureData, &dwSignatureSize)) {
-    ret = CSP_GetLastError();//(_TEXT("Can't sign file '%s'.\n"), szFile);
+    callback(@[[@"Can't sign file.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   else {
     _tprintf(_TEXT("File '%s' successfully signed.\n"), infile);
@@ -146,16 +175,17 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
       fclose (out);
       printf ("Output file (%s) has been saved\n", outfile);
     }
-    else
-      perror ("Cannot open out file\n");
+    else{
+      callback(@[[@"Cannot open out file.\n" copy], [NSNumber numberWithInt: 0]]);
+      return;
+    }
   }
-    
-  err:
-    if (pUserCert) { CertFreeCertificateContext(pUserCert); }
-    if (mem_tbs) { free(mem_tbs); }
-    if (pbSignatureData) { free(pbSignatureData); }
   
-  callback(@[[NSNull null], [NSNumber numberWithInt: ret]]);
+  if (pUserCert) { CertFreeCertificateContext(pUserCert); }
+  if (mem_tbs) { free(mem_tbs); }
+  if (pbSignatureData) { free(pbSignatureData); }
+  
+  callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
 }
 
 DWORD VerifyCertificate(PCCERT_CONTEXT pCert,DWORD *CheckResult)
@@ -167,9 +197,6 @@ DWORD VerifyCertificate(PCCERT_CONTEXT pCert,DWORD *CheckResult)
   ChainPara.RequestedUsage.dwType=USAGE_MATCH_TYPE_AND;
   ChainPara.RequestedUsage.Usage.cUsageIdentifier=0;
   ChainPara.RequestedUsage.Usage.rgpszUsageIdentifier=NULL;
-  //ChainPara.RequestedIssuancePolicy=NULL;
-  //ChainPara.fCheckRevocationFreshnessTime=FALSE;
-  //ChainPara.dwUrlRetrievalTimeout=0;
   
   if(!CertGetCertificateChain(NULL, pCert, NULL, NULL, &ChainPara, CERT_CHAIN_REVOCATION_CHECK_CHAIN_EXCLUDE_ROOT, NULL, &Chain))
     return CSP_GetLastError();
@@ -195,7 +222,8 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)inputFile: (NSString *)signFile: (RCTR
   
   tbs = fopen (infile, "rb");
   if (!tbs) {
-    fprintf (stderr, "Cannot open input file\n");
+    callback(@[[@"Cannot open input file.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   mem_len = 0;
   while (!feof(tbs)) {
@@ -215,7 +243,8 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)inputFile: (NSString *)signFile: (RCTR
   
   signtbs = fopen (signfile, "rb");
   if (!signtbs) {
-    fprintf (stderr, "Cannot open input file\n");
+    callback(@[[@"Cannot open signed file.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   signmem_len = 0;
   while (!feof(signtbs)) {
@@ -228,7 +257,6 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)inputFile: (NSString *)signFile: (RCTR
   }
   fclose (signtbs);
   signtbs = NULL;
-  DWORD ret = 0;
   
   // Fill structure
   ZeroMemory(&stVerifyMessagePara, sizeof(CRYPT_VERIFY_MESSAGE_PARA));
@@ -241,31 +269,36 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)inputFile: (NSString *)signFile: (RCTR
   MessageSizeArray[0] = mem_len;
   
   if (!CryptVerifyDetachedMessageSignature(&stVerifyMessagePara, 0, signmem_tbs, signmem_len, 1, MessageArray, MessageSizeArray, &pSignerCertCtx)) {
-    ret = CSP_GetLastError();//(_TEXT("Verify file's '%s' signature failed.\n"), szFile);
+    callback(@[[@"Verify file's signature failed.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   else {
     DWORD errCode=0;
     bool err=VerifyCertificate(pSignerCertCtx,&errCode);
     if (err) {
-      printf("Subject cert verification failed: err=%x\n",err);
-      callback(@[[NSNull null], [NSNumber numberWithInt: ret]]);
+      callback(@[[@"Subject cert verification failed.\n" copy], [NSNumber numberWithInt: 0]]);
+      return;
+      //printf("Subject cert verification failed: err=%x\n",err);
     }
     /*if (errCode)
      {
      printf("Subject cert BAD: errCode=%x\n",errCode);
      return errCode;
      }*/
-    ret = 0;
   }
-err:
+
   if (mem_tbs) { free(mem_tbs); }
   if (signmem_tbs) { free(signmem_tbs); }
   
-  callback(@[[NSNull null], [NSNumber numberWithInt: ret]]);
+  callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
 }
 
 
-RCT_EXPORT_METHOD(attachSign: (NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(attachSign: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)category:(NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
+  char *pIssuerName = (char *) [issuerName UTF8String];
+  char *pSerialNumber = (char *) [serialNumber UTF8String];
+  char *pCategory = (char *) [category UTF8String];
+  
   char *infile = (char *) [inputFile UTF8String];
   char *outfile = (char *) [outputFile UTF8String];
   CRYPT_SIGN_MESSAGE_PARA stSignMessagePara;
@@ -279,7 +312,10 @@ RCT_EXPORT_METHOD(attachSign: (NSString *)inputFile: (NSString *)outputFile: (RC
   DWORD mem_len = 0;
   //read input file
   tbs = fopen (infile, "rb");
-  if (!tbs) { fprintf (stderr, "Cannot open input file\n"); }
+  if (!tbs) {
+    callback(@[[@"Cannot open input file\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
   mem_len = 0;
   while (!feof(tbs)) {
     int r = 0;
@@ -295,58 +331,95 @@ RCT_EXPORT_METHOD(attachSign: (NSString *)inputFile: (NSString *)outputFile: (RC
   CSP_BOOL bResult = FALSE;
   CRYPT_KEY_PROV_INFO *pProvInfo = NULL;
   HCERTSTORE hCertStore = 0;
-  DWORD ret = 0;
   HCRYPTPROV hCryptProv = 0;               // CSP handle
   PCCERT_CONTEXT pUserCert = NULL;        // User certificate to be used
+  PCCERT_CONTEXT pUserCert_new = NULL;
   ALG_ID hash_alg_id = 0;
   DWORD dwSize;
   DWORD keytype = 0;
   CSP_BOOL should_release_ctx = FALSE;
   
-  hCertStore = CertOpenSystemStore(0, "My");
+  hCertStore = CertOpenSystemStore(0, pCategory);
   if(!hCertStore){
-    ret = CSP_GetLastError();
-    fprintf (stderr, "CertOpenSystemStore failed.");
-    goto err;
+    callback(@[[@"CertOpenSystemStore failed.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
-  while( !bResult){
-    pUserCert= CertEnumCertificatesInStore(hCertStore, pUserCert);
-    if(!pUserCert){ break; }
-    bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, NULL, &dwSize);
-    if (bResult) {
-      free(pProvInfo);
-      pProvInfo = (CRYPT_KEY_PROV_INFO *)malloc(dwSize);
-      if (pProvInfo) {
-        bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, pProvInfo, &dwSize);
-      }
+  TrustedHandle<Filter> filterByCert = new Filter();
+  filterByCert->setIssuerName(new std::string(pIssuerName));
+  filterByCert->setSerial(new std::string(pSerialNumber));
+  TrustedHandle<PkiItemCollection> pic = g_picCSP->find(filterByCert);
+  if (pic->length() <= 0){
+    callback(@[[@"Not find certificate!" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  TrustedHandle<PkiItem> pi = new PkiItem();
+  pi = pic->items(0);
+  TrustedHandle<Certificate> cert = pi->certificate;
+  
+  unsigned char *pData = NULL, *p = NULL;
+  int iData;
+  if (cert->isEmpty()){
+    callback(@[[@"Cert cannot be empty.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if ((iData = i2d_X509(cert->internal(), NULL)) <= 0) {
+    callback(@[[@"Error i2d_X509.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if (NULL == (pData = (unsigned char*)OPENSSL_malloc(iData))) {
+    callback(@[[@"Error malloc.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  p = pData;
+  if ((iData = i2d_X509(cert->internal(), &p)) <= 0) {
+    callback(@[[@"Error i2d_X509.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  if (NULL == (pUserCert_new = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, pData, iData))) {
+    callback(@[[@"CertCreateCertificateContext() failed.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  OPENSSL_free(pData);
+  
+  pUserCert = CertFindCertificateInStore(hCertStore, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, NULL, CERT_FIND_EXISTING, pUserCert_new, NULL);
+  if (!pUserCert){
+    callback(@[[@"No find exiting certificates.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
+  }
+  
+  bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, NULL, &dwSize);
+  if (bResult) {
+    free(pProvInfo);
+    pProvInfo = (CRYPT_KEY_PROV_INFO *)malloc(dwSize);
+    if (pProvInfo) {
+      bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, pProvInfo, &dwSize);
     }
   }
+  
   if(!bResult){
-    fprintf (stderr, "No certificates with private key link.");
-    goto err;
+    callback(@[[@"No certificates with private key link.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if (! infile) {
-    fprintf (stderr, "No input file was specified\n");
-    goto err;
+    callback(@[[@"No input file was specified.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if (CryptAcquireCertificatePrivateKey(pUserCert, 0, NULL, &hCryptProv, &keytype, &should_release_ctx)) {
     printf("A CSP has been acquired. \n");
   }
   else {
-    ret = CSP_GetLastError();
-    fprintf (stderr, "Cryptographic context could not be acquired.");
-    goto err;
+    callback(@[[@"Cryptographic context could not be acquired.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   hash_alg_id = CPCryptGetProviderHashAlgId(hCryptProv, pUserCert->pCertInfo->SubjectPublicKeyInfo.Algorithm.pszObjId);
   
   if (!hash_alg_id) {
-    ret = CSP_GetLastError();
-    fprintf (stderr, "Cannot determine hash algorithm.");
-    goto err;
+    callback(@[[@"Cannot determine hash algorithm.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   // Fill CRYPT_SIGN_MESSAGE_PARA structure
@@ -361,18 +434,21 @@ RCT_EXPORT_METHOD(attachSign: (NSString *)inputFile: (NSString *)outputFile: (RC
   MessageArray[0] = mem_tbs;
   MessageSizeArray[0] = mem_len;
   //CryptSignMessage: parameter true - detached signature, false - not detached signature
-  if (!CryptSignMessage(&stSignMessagePara, TRUE, 1, MessageArray, MessageSizeArray, NULL, &dwSignatureSize)) {
-    ret = CSP_GetLastError();//(_TEXT("Can't sign file '%s'.\n"), szFile);
+  if (!CryptSignMessage(&stSignMessagePara, FALSE, 1, MessageArray, MessageSizeArray, NULL, &dwSignatureSize)) {
+    callback(@[[@"Can't sign file.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   pbSignatureData = (BYTE*)malloc(dwSignatureSize * sizeof(BYTE));
   
   if (pbSignatureData == NULL) {
-    ret = CSP_GetLastError();//(_TEXT("Can't allocate memory for signature data.\n"));
+    callback(@[[@"Can't allocate memory for signature data.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   
   if (!CryptSignMessage(&stSignMessagePara, FALSE, 1, MessageArray, MessageSizeArray, pbSignatureData, &dwSignatureSize)) {
-    ret = CSP_GetLastError();//(_TEXT("Can't sign file '%s'.\n"), szFile);
+    callback(@[[@"Can't sign file.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   else {
     _tprintf(_TEXT("File '%s' successfully signed.\n"), infile);
@@ -386,16 +462,18 @@ RCT_EXPORT_METHOD(attachSign: (NSString *)inputFile: (NSString *)outputFile: (RC
       fclose (out);
       printf ("Output file (%s) has been saved\n", outfile);
     }
-    else
-      perror ("Cannot open out file\n");
+    else{
+      callback(@[[@"Cannot open out file.\n" copy], [NSNumber numberWithInt: 0]]);
+      return;
+    }
   }
   
-err:
   if (pUserCert) { CertFreeCertificateContext(pUserCert); }
   if (mem_tbs) { free(mem_tbs); }
   if (pbSignatureData) { free(pbSignatureData); }
+  if (hCertStore){ CertCloseStore(hCertStore, 0); hCertStore = HCRYPT_NULL; }
   
-  callback(@[[NSNull null], [NSNumber numberWithInt: ret]]);
+  callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
 }
 
 RCT_EXPORT_METHOD(verify: (NSString *)inputFile: (RCTResponseSenderBlock)callback) {
@@ -410,7 +488,8 @@ RCT_EXPORT_METHOD(verify: (NSString *)inputFile: (RCTResponseSenderBlock)callbac
   
   signtbs = fopen (signfile, "rb");
   if (!signtbs) {
-    fprintf (stderr, "Cannot open input file\n");
+    callback(@[[@"Cannot open input file.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   signmem_len = 0;
   while (!feof(signtbs)) {
@@ -423,7 +502,6 @@ RCT_EXPORT_METHOD(verify: (NSString *)inputFile: (RCTResponseSenderBlock)callbac
   }
   fclose (signtbs);
   signtbs = NULL;
-  DWORD ret = 0;
   
   // Fill structure
   ZeroMemory(&stVerifyMessagePara, sizeof(CRYPT_VERIFY_MESSAGE_PARA));
@@ -436,31 +514,30 @@ RCT_EXPORT_METHOD(verify: (NSString *)inputFile: (RCTResponseSenderBlock)callbac
   DWORD cbDecodedMessageBlob = 0;
   
   if (!CryptVerifyMessageSignature(&stVerifyMessagePara, 0, signmem_tbs, signmem_len, pbDecodedMessageBlob, &cbDecodedMessageBlob,  &pSignerCertCtx)) {
-    ret = CSP_GetLastError();//(_TEXT("Verify file's '%s' signature failed.\n"), szFile);
+    callback(@[[@"Verify file's signature failed.\n" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   else {
     pbDecodedMessageBlob = new BYTE[cbDecodedMessageBlob];
     if (!CryptVerifyMessageSignature(&stVerifyMessagePara, 0, signmem_tbs, signmem_len, pbDecodedMessageBlob, &cbDecodedMessageBlob,  &pSignerCertCtx)) {
-      ret = CSP_GetLastError();//(_TEXT("Verify file's '%s' signature failed.\n"), szFile);
-      goto err;
+      callback(@[[@"Verify file's signature failed.\n" copy], [NSNumber numberWithInt: 0]]);
+      return;
     }
     DWORD errCode=0;
     bool err=VerifyCertificate(pSignerCertCtx,&errCode);
     if (err){
-      printf("Subject cert verification failed: err=%x\n",err);
-      callback(@[[NSNull null], [NSNumber numberWithInt: ret]]);
+      callback(@[[@"Subject cert verification failed.\n" copy], [NSNumber numberWithInt: 0]]);
+      return;
     }
     /*if (errCode)
      {
      printf("Subject cert BAD: errCode=%x\n",errCode);
      return errCode;
      }*/
-    ret = 0;
   }
-err:
   if (signmem_tbs) { free(signmem_tbs);}
   
-  callback(@[[NSNull null], [NSNumber numberWithInt: ret]]);
+  callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
 }
 
 @end

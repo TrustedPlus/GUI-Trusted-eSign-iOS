@@ -5,11 +5,12 @@ import {Headers} from "./Headers";
 import {styles} from "../styles";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
-import {footerAction, footerClose, readFiles} from "../actions/index";
+import {footerAction, footerClose, readFiles, addFiles} from "../actions/index";
 import ListMenu from "./ListMenu";
 import FooterSign from "./FooterSign";
 import { readCertKeys} from "../actions/CertKeysAction";
 import SelectOtherСert from "./SelectOtherСert";
+import { DocumentPicker, DocumentPickerUtil } from "react-native-document-picker";
 
 interface EncryptionProps {
   navigation: any;
@@ -21,6 +22,7 @@ interface EncryptionProps {
   footerClose(): void;
   readFiles(): void;
   readCertKeys(string): void;
+  addFiles(...any): void;
 }
 
 class Encryption extends React.Component<EncryptionProps> {
@@ -38,6 +40,20 @@ class Encryption extends React.Component<EncryptionProps> {
         img = {img[key]}
         checkbox
         nav={() => this.props.footerAction(key)} />));
+  }
+
+  documentPicker() {
+    DocumentPicker.show({
+      filetype: [DocumentPickerUtil.allFiles()]
+    }, (error: any, res: any) => {
+      this.props.addFiles(res.uri, res.type, res.fileName, res.fileSize);
+      /*console.log(
+        res.uri,
+        res.type, // mime type
+        res.fileName,
+        res.fileSize
+      );*/
+    });
   }
 
   render() {
@@ -100,7 +116,7 @@ class Encryption extends React.Component<EncryptionProps> {
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Файлы</Text>
             {selectFiles}
-            <Button transparent style={styles.sign_enc_button} onPress={() => null}>
+            <Button transparent style={styles.sign_enc_button} onPress={() => {this.documentPicker(); }}>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>
@@ -135,7 +151,8 @@ function mapDispatchToProps (dispatch) {
     footerAction: bindActionCreators(footerAction, dispatch),
     footerClose: bindActionCreators(footerClose, dispatch),
     readFiles: bindActionCreators(readFiles, dispatch),
-    readCertKeys: bindActionCreators(readCertKeys, dispatch)
+    readCertKeys: bindActionCreators(readCertKeys, dispatch),
+    addFiles: bindActionCreators(addFiles, dispatch)
   };
 }
 

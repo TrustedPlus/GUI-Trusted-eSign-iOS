@@ -23,10 +23,10 @@ RCT_EXPORT_METHOD(EncSymmetric: (NSString *)infilename:(NSString *)outfilename:(
     
     ch->encrypt(inFile, outFile, DataFormat::BASE64);
     
-    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
 
@@ -47,10 +47,10 @@ RCT_EXPORT_METHOD(DecSymmetric: (NSString *)encFile: (NSString *)decFile: (RCTRe
     
     ch->decrypt(bioEncFile, bioDecFile, DataFormat::BASE64);
     
-    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
 /*
@@ -79,10 +79,10 @@ RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)inFile: (NSString *)encFile: (NSSt
     
     ch->encrypt(bioInFile, bioEncFile, format);
     
-    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
 
@@ -118,10 +118,10 @@ RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSS
     
     ch->decrypt(bioEncFile, bioDecFile, format);
     
-    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
 */
@@ -138,8 +138,10 @@ RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)inFile: (NSString *)encFile: (NSSt
     filterByCert->setSerial(new std::string(pSerialNumber));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
-    if (pic->length() <= 0)
-      callback(@[[@"Not find certificate!" copy], [NSNull null]]);
+    if (pic->length() <= 0){
+      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
+      return;
+    }
     
     TrustedHandle<PkiItem> pi = new PkiItem();
     pi = pic->items(0);
@@ -161,10 +163,10 @@ RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)inFile: (NSString *)encFile: (NSSt
     
     ch->encrypt(bioInFile, bioEncFile, format);
     
-    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
 
@@ -179,8 +181,10 @@ RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSS
     filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
-    if (pic->length() <= 0)
-      callback(@[[@"Not find certificate!" copy], [NSNull null]]);    
+    if (pic->length() <= 0){
+      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
+      return;
+    }
     TrustedHandle<PkiItem> pi = new PkiItem();
     pi = pic->items(0);
     TrustedHandle<Certificate> cert = g_storeCrypto->getItemCert(pi);
@@ -189,6 +193,10 @@ RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSS
     TrustedHandle<Filter> filterByKey = new Filter();
     filterByKey->setHash(pi->certKey);
     TrustedHandle<PkiItemCollection> picKey = g_storeCrypto->find(filterByKey);
+    if (picKey->length() <= 0){
+      callback(@[[@"No private key found for this certificate in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
+      return;
+    }
     TrustedHandle<PkiItem> piKey = picKey->items(0);
     TrustedHandle<Key> hkey = g_storeCrypto->getItemKey(piKey);
 
@@ -206,10 +214,10 @@ RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSS
     
     ch->decrypt(bioEncFile, bioDecFile, format);
     
-    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
 

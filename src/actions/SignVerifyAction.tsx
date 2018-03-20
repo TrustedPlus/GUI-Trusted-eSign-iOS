@@ -1,5 +1,6 @@
 import * as RNFS from "react-native-fs";
 import { NativeModules } from "react-native";
+import {readFiles} from "../actions/index";
 import { SIGN_FILE, SIGN_FILE_SUCCESS, SIGN_FILE_ERROR, SIGN_FILE_END,
          VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END} from "../constants";
 
@@ -12,13 +13,13 @@ interface IFile {
 export function signFile(files: IFile[], personalCert, footer) {
     return function action(dispatch) {
         dispatch({type: SIGN_FILE});
-        if (personalCert.title === "") {
+       /* if (personalCert.title === "") {
             dispatch({type: SIGN_FILE_END});
-        } else {
+        } else { */
             for (let i = 0; i < footer.arrButton.length; i++) {
                 let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
                 RNFS.writeFile(path + ".sig", "", "utf8");
-                let format;
+              /*  let format;
                 switch (personalCert.extension) {
                     case "cer":
                         format = "DER";
@@ -27,11 +28,10 @@ export function signFile(files: IFile[], personalCert, footer) {
                         format = "BASE64";
                         break;
                     default: break;
-                }
-                NativeModules.WSigner.signFile(RNFS.DocumentDirectoryPath + "/PersonalCertKeys/" + personalCert.title + "." + personalCert.extension,
-                            format,
-                            RNFS.DocumentDirectoryPath + "/PersonalCertKeys/" + personalCert.title + ".key",
-                            format,
+                } */
+                NativeModules.WSigner.signFile(
+                    "/1.2.840.113549.1.9.1=pfx@gmail.com/2.5.4.6=RU/2.5.4.8=pfx_obl/2.5.4.7=pfx_gor/2.5.4.10=pfx_org/2.5.4.3=pfx",
+                    "295B3C3E989D82DC",
                             path + "." + files[footer.arrButton[i]].extension,
                             path + ".sig",
                             (err, signFile) => {
@@ -42,17 +42,18 @@ export function signFile(files: IFile[], personalCert, footer) {
                                 }
                                 if (i + 1 === footer.arrButton.length) {
                                     dispatch({type: SIGN_FILE_END});
+                                    dispatch(readFiles());
                                 }
                             });
             }
-        }
+      //  }
     };
 }
 
 export function verifySign(files: IFile[], personalCert, footer) {
     return function action(dispatch) {
         dispatch({type: VERIFY_SIGN});
-        if (personalCert.title === "") {
+        /*if (personalCert.title === "") {
             dispatch({type: VERIFY_SIGN_END});
         } else {
             let format;
@@ -64,12 +65,12 @@ export function verifySign(files: IFile[], personalCert, footer) {
                     format = "BASE64";
                     break;
                 default: break;
-            }
+            }*/
             for (let i = 0; i < footer.arrButton.length; i++) {
                 let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
-                NativeModules.WSigner.verifySign(RNFS.DocumentDirectoryPath + "/PersonalCertKeys/" +
-                personalCert.title + "." + personalCert.extension,
-                            format,
+                NativeModules.WSigner.verifySign(
+                "/1.2.840.113549.1.9.1=pfx@gmail.com/2.5.4.6=RU/2.5.4.8=pfx_obl/2.5.4.7=pfx_gor/2.5.4.10=pfx_org/2.5.4.3=pfx",
+                "295B3C3E989D82DC",
                             path + "." + files[footer.arrButton[i]].extension,
                             (err, verify) => {
                                 if (err === null) {
@@ -82,6 +83,6 @@ export function verifySign(files: IFile[], personalCert, footer) {
                                 }
                         });
             }
-        }
+       // }
     };
 }

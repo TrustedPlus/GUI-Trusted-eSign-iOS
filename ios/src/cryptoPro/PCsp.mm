@@ -3,7 +3,7 @@
 
 @implementation PCsp
 
-- (NSMutableArray*) showCerts{
+- (NSMutableArray*) UnloadCertsFromStore{
   NSMutableArray *myArray = [NSMutableArray array];
   try{
     providerItemCollection = new PkiItemCollection();
@@ -290,11 +290,6 @@ RCT_EXPORT_METHOD(enumContainers: (NSString *)provType: (NSString *)provName:  (
       free((BYTE*)pbData);
     }
   }
-  //(std::__1::string) unique = "HDIMAGE\\\\09izp87f.000\\23EA"
-  //(std::__1::wstring) fqcnW = L"\\\\.\\HDIMAGE\\de2f8166-2420-4fe5-9968-cae18bd74404" (std::__1::string) unique = "HDIMAGE\\\\de2f8166.000\\5BCD"
-  //(std::__1::wstring) fqcnW = L"\\\\.\\HDIMAGE\\f06abcae-fa87-4fb9-b871-853ee89bbefa" (std::__1::string) unique = "HDIMAGE\\\\f06abcae.000\\3B84"
-  //(std::__1::wstring) fqcnW = L"\\\\.\\HDIMAGE\\fcrizduvu1vy202hof9s5p35dmpvr7zce3d5v4u" (std::__1::string) unique = "HDIMAGE\\\\fcrizduv.000\\9923"
-  //(std::__1::wstring) fqcnW = L"\\\\.\\HDIMAGE\\tj1fx6buuku71em77fo5377iq4tmjwtqdzxv5th" (std::__1::string) unique = "HDIMAGE\\\\tj1fx6bu.000\\F92A"
   callback(@[[NSNull null], [NSNull null]]);
 }
 

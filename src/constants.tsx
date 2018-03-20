@@ -28,3 +28,5 @@ export const DECODE_FILES_ERROR = "DECODE_FILES_ERROR";
 export const DECODE_FILES_END = "DECODE_FILES_END";
 export const CLEAR_LOG = "CLEAR_LOG";
 export const ADD_FILES = "ADD_FILES";
+export const ADD_FILES_SUCCESS = "ADD_FILES_SUCCESS";
+export const ADD_FILES_ERROR = "ADD_FILES_ERROR";

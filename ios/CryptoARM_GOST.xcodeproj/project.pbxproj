@@ -57,20 +57,20 @@
 		ABB64D2398F240A796B6CFE2 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EFB124FE39F4DC2A3DD4396 /* MaterialCommunityIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		CBA4BA79D75F4761858A6DDA /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 552BA437549D4B59ADC352CD /* FontAwesome.ttf */; };
-		D73D9D9F205A86D800E63BE0 /* globalHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9D73205A86D700E63BE0 /* globalHelper.mm */; };
-		D73D9DA0205A86D800E63BE0 /* CertsList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9D9E205A86D800E63BE0 /* CertsList.mm */; };
-		D73D9DC1205A872900E63BE0 /* Class.m in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DAA205A872900E63BE0 /* Class.m */; };
-		D73D9DC2205A872900E63BE0 /* PCert.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DAC205A872900E63BE0 /* PCert.mm */; };
-		D73D9DC3205A872900E63BE0 /* PCerts.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DAE205A872900E63BE0 /* PCerts.mm */; };
-		D73D9DC4205A872900E63BE0 /* PCipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DB0205A872900E63BE0 /* PCipher.mm */; };
-		D73D9DC5205A872900E63BE0 /* PCsp.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DB2205A872900E63BE0 /* PCsp.mm */; };
-		D73D9DC6205A872900E63BE0 /* PSigner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DB4205A872900E63BE0 /* PSigner.mm */; };
-		D73D9DC7205A872900E63BE0 /* WCert.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DB7205A872900E63BE0 /* WCert.mm */; };
-		D73D9DC8205A872900E63BE0 /* WCertsList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DB9205A872900E63BE0 /* WCertsList.mm */; };
-		D73D9DC9205A872900E63BE0 /* WCipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DBB205A872900E63BE0 /* WCipher.mm */; };
-		D73D9DCA205A872900E63BE0 /* WHelp.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DBD205A872900E63BE0 /* WHelp.mm */; };
-		D73D9DCB205A872900E63BE0 /* WHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DBE205A872900E63BE0 /* WHelper.m */; };
-		D73D9DCC205A872900E63BE0 /* WSigner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D73D9DC0205A872900E63BE0 /* WSigner.mm */; };
+		D7334029205FF45A00BC05DD /* globalHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7334025205FF45900BC05DD /* globalHelper.mm */; };
+		D733402A205FF45A00BC05DD /* CertsList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7334028205FF45A00BC05DD /* CertsList.mm */; };
+		D7334047205FF47000BC05DD /* Class.m in Sources */ = {isa = PBXBuildFile; fileRef = D7334030205FF46F00BC05DD /* Class.m */; };
+		D7334048205FF47000BC05DD /* PCert.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7334032205FF46F00BC05DD /* PCert.mm */; };
+		D7334049205FF47000BC05DD /* PCerts.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7334034205FF46F00BC05DD /* PCerts.mm */; };
+		D733404A205FF47000BC05DD /* PCipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7334036205FF46F00BC05DD /* PCipher.mm */; };
+		D733404B205FF47000BC05DD /* PCsp.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7334038205FF46F00BC05DD /* PCsp.mm */; };
+		D733404C205FF47000BC05DD /* PSigner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D733403A205FF46F00BC05DD /* PSigner.mm */; };
+		D733404D205FF47000BC05DD /* WCert.mm in Sources */ = {isa = PBXBuildFile; fileRef = D733403D205FF46F00BC05DD /* WCert.mm */; };
+		D733404E205FF47000BC05DD /* WCipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = D733403F205FF46F00BC05DD /* WCipher.mm */; };
+		D733404F205FF47000BC05DD /* WHelp.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7334041205FF46F00BC05DD /* WHelp.mm */; };
+		D7334050205FF47000BC05DD /* WHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D7334042205FF46F00BC05DD /* WHelper.m */; };
+		D7334051205FF47000BC05DD /* WSigner.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7334044205FF46F00BC05DD /* WSigner.mm */; };
+		D7334052205FF47000BC05DD /* WStore.mm in Sources */ = {isa = PBXBuildFile; fileRef = D7334046205FF46F00BC05DD /* WStore.mm */; };
 		D77C8578205BAAA8000003F1 /* libRNDocumentPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7EE8BA4205AB75500395904 /* libRNDocumentPicker.a */; };
 		D7BD4943204EA3C80006EAC0 /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7BF3203B103F00619470 /* CPROCSP.framework */; };
 		D7BD4944204EA3F90006EAC0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7C36203B143700619470 /* libz.tbd */; };
@@ -534,32 +534,32 @@
 		B7EBE5778A2E48BA877B44CC /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		D3283234CB444E7197B4DEDF /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		D6C5CE7296D24E7DB8534B86 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
-		D73D9D73205A86D700E63BE0 /* globalHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = globalHelper.mm; path = src/globalHelper.mm; sourceTree = "<group>"; };
-		D73D9D9C205A86D700E63BE0 /* CertsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertsList.h; path = src/CertsList.h; sourceTree = "<group>"; };
-		D73D9D9D205A86D800E63BE0 /* globalHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = globalHelper.h; path = src/globalHelper.h; sourceTree = "<group>"; };
-		D73D9D9E205A86D800E63BE0 /* CertsList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CertsList.mm; path = src/CertsList.mm; sourceTree = "<group>"; };
-		D73D9DAA205A872900E63BE0 /* Class.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Class.m; sourceTree = "<group>"; };
-		D73D9DAB205A872900E63BE0 /* PCert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCert.h; sourceTree = "<group>"; };
-		D73D9DAC205A872900E63BE0 /* PCert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCert.mm; sourceTree = "<group>"; };
-		D73D9DAD205A872900E63BE0 /* PCerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCerts.h; sourceTree = "<group>"; };
-		D73D9DAE205A872900E63BE0 /* PCerts.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCerts.mm; sourceTree = "<group>"; };
-		D73D9DAF205A872900E63BE0 /* PCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCipher.h; sourceTree = "<group>"; };
-		D73D9DB0205A872900E63BE0 /* PCipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCipher.mm; sourceTree = "<group>"; };
-		D73D9DB1205A872900E63BE0 /* PCsp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCsp.h; sourceTree = "<group>"; };
-		D73D9DB2205A872900E63BE0 /* PCsp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCsp.mm; sourceTree = "<group>"; };
-		D73D9DB3205A872900E63BE0 /* PSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSigner.h; sourceTree = "<group>"; };
-		D73D9DB4205A872900E63BE0 /* PSigner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PSigner.mm; sourceTree = "<group>"; };
-		D73D9DB6205A872900E63BE0 /* WCert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCert.h; sourceTree = "<group>"; };
-		D73D9DB7205A872900E63BE0 /* WCert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCert.mm; sourceTree = "<group>"; };
-		D73D9DB8205A872900E63BE0 /* WCertsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCertsList.h; sourceTree = "<group>"; };
-		D73D9DB9205A872900E63BE0 /* WCertsList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCertsList.mm; sourceTree = "<group>"; };
-		D73D9DBA205A872900E63BE0 /* WCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCipher.h; sourceTree = "<group>"; };
-		D73D9DBB205A872900E63BE0 /* WCipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCipher.mm; sourceTree = "<group>"; };
-		D73D9DBC205A872900E63BE0 /* WHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHelp.h; sourceTree = "<group>"; };
-		D73D9DBD205A872900E63BE0 /* WHelp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WHelp.mm; sourceTree = "<group>"; };
-		D73D9DBE205A872900E63BE0 /* WHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHelper.m; sourceTree = "<group>"; };
-		D73D9DBF205A872900E63BE0 /* WSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSigner.h; sourceTree = "<group>"; };
-		D73D9DC0205A872900E63BE0 /* WSigner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WSigner.mm; sourceTree = "<group>"; };
+		D7334025205FF45900BC05DD /* globalHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = globalHelper.mm; path = src/globalHelper.mm; sourceTree = "<group>"; };
+		D7334026205FF45900BC05DD /* CertsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertsList.h; path = src/CertsList.h; sourceTree = "<group>"; };
+		D7334027205FF45900BC05DD /* globalHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = globalHelper.h; path = src/globalHelper.h; sourceTree = "<group>"; };
+		D7334028205FF45A00BC05DD /* CertsList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CertsList.mm; path = src/CertsList.mm; sourceTree = "<group>"; };
+		D7334030205FF46F00BC05DD /* Class.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Class.m; sourceTree = "<group>"; };
+		D7334031205FF46F00BC05DD /* PCert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCert.h; sourceTree = "<group>"; };
+		D7334032205FF46F00BC05DD /* PCert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCert.mm; sourceTree = "<group>"; };
+		D7334033205FF46F00BC05DD /* PCerts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCerts.h; sourceTree = "<group>"; };
+		D7334034205FF46F00BC05DD /* PCerts.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCerts.mm; sourceTree = "<group>"; };
+		D7334035205FF46F00BC05DD /* PCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCipher.h; sourceTree = "<group>"; };
+		D7334036205FF46F00BC05DD /* PCipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCipher.mm; sourceTree = "<group>"; };
+		D7334037205FF46F00BC05DD /* PCsp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCsp.h; sourceTree = "<group>"; };
+		D7334038205FF46F00BC05DD /* PCsp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PCsp.mm; sourceTree = "<group>"; };
+		D7334039205FF46F00BC05DD /* PSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSigner.h; sourceTree = "<group>"; };
+		D733403A205FF46F00BC05DD /* PSigner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PSigner.mm; sourceTree = "<group>"; };
+		D733403C205FF46F00BC05DD /* WCert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCert.h; sourceTree = "<group>"; };
+		D733403D205FF46F00BC05DD /* WCert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCert.mm; sourceTree = "<group>"; };
+		D733403E205FF46F00BC05DD /* WCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WCipher.h; sourceTree = "<group>"; };
+		D733403F205FF46F00BC05DD /* WCipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WCipher.mm; sourceTree = "<group>"; };
+		D7334040205FF46F00BC05DD /* WHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHelp.h; sourceTree = "<group>"; };
+		D7334041205FF46F00BC05DD /* WHelp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WHelp.mm; sourceTree = "<group>"; };
+		D7334042205FF46F00BC05DD /* WHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHelper.m; sourceTree = "<group>"; };
+		D7334043205FF46F00BC05DD /* WSigner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSigner.h; sourceTree = "<group>"; };
+		D7334044205FF46F00BC05DD /* WSigner.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WSigner.mm; sourceTree = "<group>"; };
+		D7334045205FF46F00BC05DD /* WStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WStore.h; sourceTree = "<group>"; };
+		D7334046205FF46F00BC05DD /* WStore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WStore.mm; sourceTree = "<group>"; };
 		D77C8623205BB6A9000003F1 /* CryptoARM_GOST.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CryptoARM_GOST.entitlements; path = CryptoARM_GOST/CryptoARM_GOST.entitlements; sourceTree = "<group>"; };
 		D7BD4986204EB80C0006EAC0 /* PaneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PaneViewController.xib; path = CPROCSP.framework/Resources/PaneViewController.xib; sourceTree = "<group>"; };
 		D7BD4987204EB80C0006EAC0 /* RequestSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestSelectionViewController.xib; path = CPROCSP.framework/Resources/RequestSelectionViewController.xib; sourceTree = "<group>"; };
@@ -859,13 +859,13 @@
 		13B07FAE1A68108700A75B9A /* CryptoARM_GOST */ = {
 			isa = PBXGroup;
 			children = (
+				D7334026205FF45900BC05DD /* CertsList.h */,
+				D7334028205FF45A00BC05DD /* CertsList.mm */,
+				D7334027205FF45900BC05DD /* globalHelper.h */,
+				D7334025205FF45900BC05DD /* globalHelper.mm */,
+				D733403B205FF46F00BC05DD /* crypto */,
+				D733402F205FF46F00BC05DD /* cryptoPro */,
 				D77C8623205BB6A9000003F1 /* CryptoARM_GOST.entitlements */,
-				D73D9D9C205A86D700E63BE0 /* CertsList.h */,
-				D73D9D9E205A86D800E63BE0 /* CertsList.mm */,
-				D73D9D9D205A86D800E63BE0 /* globalHelper.h */,
-				D73D9D73205A86D700E63BE0 /* globalHelper.mm */,
-				D73D9DB5205A872900E63BE0 /* crypto */,
-				D73D9DA9205A872900E63BE0 /* cryptoPro */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1017,39 +1017,39 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D73D9DA9205A872900E63BE0 /* cryptoPro */ = {
+		D733402F205FF46F00BC05DD /* cryptoPro */ = {
 			isa = PBXGroup;
 			children = (
-				D73D9DAA205A872900E63BE0 /* Class.m */,
-				D73D9DAB205A872900E63BE0 /* PCert.h */,
-				D73D9DAC205A872900E63BE0 /* PCert.mm */,
-				D73D9DAD205A872900E63BE0 /* PCerts.h */,
-				D73D9DAE205A872900E63BE0 /* PCerts.mm */,
-				D73D9DAF205A872900E63BE0 /* PCipher.h */,
-				D73D9DB0205A872900E63BE0 /* PCipher.mm */,
-				D73D9DB1205A872900E63BE0 /* PCsp.h */,
-				D73D9DB2205A872900E63BE0 /* PCsp.mm */,
-				D73D9DB3205A872900E63BE0 /* PSigner.h */,
-				D73D9DB4205A872900E63BE0 /* PSigner.mm */,
+				D7334030205FF46F00BC05DD /* Class.m */,
+				D7334031205FF46F00BC05DD /* PCert.h */,
+				D7334032205FF46F00BC05DD /* PCert.mm */,
+				D7334033205FF46F00BC05DD /* PCerts.h */,
+				D7334034205FF46F00BC05DD /* PCerts.mm */,
+				D7334035205FF46F00BC05DD /* PCipher.h */,
+				D7334036205FF46F00BC05DD /* PCipher.mm */,
+				D7334037205FF46F00BC05DD /* PCsp.h */,
+				D7334038205FF46F00BC05DD /* PCsp.mm */,
+				D7334039205FF46F00BC05DD /* PSigner.h */,
+				D733403A205FF46F00BC05DD /* PSigner.mm */,
 			);
 			name = cryptoPro;
 			path = src/cryptoPro;
 			sourceTree = "<group>";
 		};
-		D73D9DB5205A872900E63BE0 /* crypto */ = {
+		D733403B205FF46F00BC05DD /* crypto */ = {
 			isa = PBXGroup;
 			children = (
-				D73D9DB6205A872900E63BE0 /* WCert.h */,
-				D73D9DB7205A872900E63BE0 /* WCert.mm */,
-				D73D9DB8205A872900E63BE0 /* WCertsList.h */,
-				D73D9DB9205A872900E63BE0 /* WCertsList.mm */,
-				D73D9DBA205A872900E63BE0 /* WCipher.h */,
-				D73D9DBB205A872900E63BE0 /* WCipher.mm */,
-				D73D9DBC205A872900E63BE0 /* WHelp.h */,
-				D73D9DBD205A872900E63BE0 /* WHelp.mm */,
-				D73D9DBE205A872900E63BE0 /* WHelper.m */,
-				D73D9DBF205A872900E63BE0 /* WSigner.h */,
-				D73D9DC0205A872900E63BE0 /* WSigner.mm */,
+				D733403C205FF46F00BC05DD /* WCert.h */,
+				D733403D205FF46F00BC05DD /* WCert.mm */,
+				D733403E205FF46F00BC05DD /* WCipher.h */,
+				D733403F205FF46F00BC05DD /* WCipher.mm */,
+				D7334040205FF46F00BC05DD /* WHelp.h */,
+				D7334041205FF46F00BC05DD /* WHelp.mm */,
+				D7334042205FF46F00BC05DD /* WHelper.m */,
+				D7334043205FF46F00BC05DD /* WSigner.h */,
+				D7334044205FF46F00BC05DD /* WSigner.mm */,
+				D7334045205FF46F00BC05DD /* WStore.h */,
+				D7334046205FF46F00BC05DD /* WStore.mm */,
 			);
 			name = crypto;
 			path = src/crypto;
@@ -1877,21 +1877,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D73D9DC7205A872900E63BE0 /* WCert.mm in Sources */,
-				D73D9DCC205A872900E63BE0 /* WSigner.mm in Sources */,
-				D73D9DC2205A872900E63BE0 /* PCert.mm in Sources */,
-				D73D9DCA205A872900E63BE0 /* WHelp.mm in Sources */,
-				D73D9DC3205A872900E63BE0 /* PCerts.mm in Sources */,
-				D73D9DCB205A872900E63BE0 /* WHelper.m in Sources */,
-				D73D9DA0205A86D800E63BE0 /* CertsList.mm in Sources */,
-				D73D9D9F205A86D800E63BE0 /* globalHelper.mm in Sources */,
+				D733404D205FF47000BC05DD /* WCert.mm in Sources */,
+				D7334051205FF47000BC05DD /* WSigner.mm in Sources */,
+				D7334048205FF47000BC05DD /* PCert.mm in Sources */,
+				D7334049205FF47000BC05DD /* PCerts.mm in Sources */,
+				D7334029205FF45A00BC05DD /* globalHelper.mm in Sources */,
+				D7334052205FF47000BC05DD /* WStore.mm in Sources */,
+				D733402A205FF45A00BC05DD /* CertsList.mm in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				D73D9DC4205A872900E63BE0 /* PCipher.mm in Sources */,
-				D73D9DC9205A872900E63BE0 /* WCipher.mm in Sources */,
-				D73D9DC5205A872900E63BE0 /* PCsp.mm in Sources */,
-				D73D9DC1205A872900E63BE0 /* Class.m in Sources */,
-				D73D9DC8205A872900E63BE0 /* WCertsList.mm in Sources */,
-				D73D9DC6205A872900E63BE0 /* PSigner.mm in Sources */,
+				D733404A205FF47000BC05DD /* PCipher.mm in Sources */,
+				D733404B205FF47000BC05DD /* PCsp.mm in Sources */,
+				D733404E205FF47000BC05DD /* WCipher.mm in Sources */,
+				D7334050205FF47000BC05DD /* WHelper.m in Sources */,
+				D733404F205FF47000BC05DD /* WHelp.mm in Sources */,
+				D7334047205FF47000BC05DD /* Class.m in Sources */,
+				D733404C205FF47000BC05DD /* PSigner.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

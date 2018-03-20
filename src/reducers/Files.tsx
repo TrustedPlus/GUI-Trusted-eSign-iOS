@@ -1,4 +1,5 @@
-import { READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR, ADD_FILES,
+import { READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR,
+         ADD_FILES, ADD_FILES_SUCCESS, ADD_FILES_ERROR,
          SIGN_FILE, SIGN_FILE_ERROR, SIGN_FILE_SUCCESS, SIGN_FILE_END,
          VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END,
          ENCODE_FILES, ENCODE_FILES_SUCCESS, ENCODE_FILES_ERROR, ENCODE_FILES_END,
@@ -52,13 +53,27 @@ export function Files(state = initialState, action) {
         };
     case READ_FILES_ERROR:
       return {
-        ...state
+        ...state,
+        isFetching: false
       };
     case ADD_FILES:
       return {
         ...state,
+        isFetching: true
+      };
+    case ADD_FILES_SUCCESS:
+      return {
+        ...state,
         log: logAddrecord(state.log, action.payload, "Добавление файла"),
-        lastlog: new Date() + ""
+        lastlog: new Date() + "",
+        isFetching: false
+      };
+    case ADD_FILES_ERROR:
+      return {
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Добавление файла не удалось"),
+        lastlog: new Date() + "",
+        isFetching: false
       };
     case SIGN_FILE:
       return {

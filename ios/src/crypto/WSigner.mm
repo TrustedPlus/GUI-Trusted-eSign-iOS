@@ -41,10 +41,10 @@ RCT_EXPORT_METHOD(signFile: (NSString *)infilenameCert: (NSString *)formatCert: 
     TrustedHandle<Bio> outFile = new Bio(BIO_TYPE_FILE, outfile, "wb");
     sd->write(outFile, DataFormat::BASE64);
     
-    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
 
@@ -74,11 +74,15 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)infilenameCert: (NSString *)formatCert
     signer->setCertificate(cert);
     
     bool b = signer->verify(sd->getContent());
-    
-    callback(@[[NSNull null], [NSNumber numberWithInt:(b)]]);
+   if (b == true){
+      callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
+   }
+   else{
+      callback(@[[NSNull null], [NSNumber numberWithInt: 0]]);
+   }
   }
   catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
 */
@@ -95,8 +99,10 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
     filterByCert->setSerial(new std::string(pSerialNumber));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
-    if (pic->length() <= 0)
-      callback(@[[@"Not find certificate!" copy], [NSNull null]]);
+    if (pic->length() <= 0){
+      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
+      return;
+    }
     
     TrustedHandle<PkiItem> pi = new PkiItem();
     pi = pic->items(0);
@@ -107,6 +113,10 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
     TrustedHandle<Filter> filterByKey = new Filter();
     filterByKey->setHash(pi->certKey);
     TrustedHandle<PkiItemCollection> picKey = g_storeCrypto->find(filterByKey);
+    if (picKey->length() <= 0){
+      callback(@[[@"No private key found for this certificate in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
+      return;
+    }
     TrustedHandle<PkiItem> piKey = picKey->items(0);
     TrustedHandle<Key> hkey = g_storeCrypto->getItemKey(piKey);
     
@@ -125,10 +135,10 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
     TrustedHandle<Bio> outFile = new Bio(BIO_TYPE_FILE, outfile, "wb");
     sd->write(outFile, DataFormat::BASE64);
     
-    callback(@[[NSNull null], [NSNumber numberWithInt:(true)]]);
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
 
@@ -146,8 +156,10 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)issuerName: (NSString *)serialNumber: 
     filterByCert->setSerial(new std::string(pSerialNumber));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
-    if (pic->length() <= 0)
-      callback(@[[@"Not find certificate!" copy], [NSNull null]]);
+    if (pic->length() <= 0){
+      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
+      return;
+    }
     
     TrustedHandle<PkiItem> pi = new PkiItem();
     pi = pic->items(0);
@@ -169,7 +181,12 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)issuerName: (NSString *)serialNumber: 
     
     bool b = signer->verify(sd->getContent());
     
-    callback(@[[NSNull null], [NSNumber numberWithInt:(b)]]);
+    if (b == true){
+      callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
+    }
+    else{
+      callback(@[[NSNull null], [NSNumber numberWithInt: 0]]);
+    }
   }
   catch (TrustedHandle<Exception> e){
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);

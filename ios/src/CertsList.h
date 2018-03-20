@@ -1,7 +1,7 @@
 #ifndef CertsList_h
 #define CertsList_h
 
-#include "crypto/WCertsList.h"
+#include "crypto/WStore.h"
 #include "cert.h"
 #include "storehelper.h"
 #include "pkistore.h"

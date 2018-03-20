@@ -9,6 +9,8 @@
 #ifndef PCert_h
 #define PCert_h
 
+#include "provider_system.h"
+
 #import <Foundation/Foundation.h>
 #import "React/RCTBridgeModule.h"
 #import <CPROCSP/CPROCSP.h>

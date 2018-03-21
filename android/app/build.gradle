@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.prototype_trusted_ios"
+        applicationId "com.gui_trusted_esign_ios"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

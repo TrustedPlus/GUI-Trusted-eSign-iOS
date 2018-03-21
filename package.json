@@ -1,5 +1,5 @@
 {
-  "name": "Prototype_Trusted_IOS",
+  "name": "GUI_Trusted_eSign_IOS",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,14 +7,14 @@
     "test": "jest"
   },
   "dependencies": {
-    "react": "16.2.0",
-    "react-native": "0.53.3"
+    "react": "16.3.0-alpha.2",
+    "react-native": "0.54.2"
   },
   "devDependencies": {
-    "babel-jest": "22.4.1",
+    "babel-jest": "23.0.0-alpha.0",
     "babel-preset-react-native": "4.0.0",
     "jest": "22.4.2",
-    "react-test-renderer": "16.2.0"
+    "react-test-renderer": "16.3.0-alpha.2"
   },
   "jest": {
     "preset": "react-native"

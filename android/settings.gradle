@@ -1,3 +1,3 @@
-rootProject.name = 'Prototype_Trusted_IOS'
+rootProject.name = 'GUI_Trusted_eSign_IOS'
 
 include ':app'

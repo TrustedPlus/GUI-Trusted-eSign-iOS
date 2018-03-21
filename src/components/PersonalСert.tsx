@@ -11,7 +11,7 @@ import { PropertiesCert} from "./PropertiesCert";
 interface PersonalСertProps {
   navigation: any;
   pesronalCertKeys: any;
-  readCertKeys(string): any;
+  readCertKeys(): any;
 }
 
 class PersonalСert extends React.Component<PersonalСertProps> {
@@ -22,13 +22,15 @@ class PersonalСert extends React.Component<PersonalСertProps> {
 
   ShowList(img) {
     return (
-      this.props.pesronalCertKeys.map((file, key) => <ListMenu
+      this.props.pesronalCertKeys.map((cert, key) => <ListMenu
         key = {key}
-        title={file.name}
-        note = {file.mtime}
+        title = {cert.issuerFriendlyName}
+        note = {cert.organizationName}
         img = {img[key]}
         personal
-        nav={() => this.props.navigation.navigate("PropertiesCert", { cert: file, where: "personal" })} />));
+        issuerName = {cert.issuerName}
+        serialNumber = {cert.serialNumber}
+        nav={() => this.props.navigation.navigate("PropertiesCert", { cert: cert})} />));
   }
 
   render() {
@@ -62,7 +64,7 @@ class PersonalСert extends React.Component<PersonalСertProps> {
   }
 
   componentDidMount() {
-    this.props.readCertKeys("sig");
+    this.props.readCertKeys();
   }
 }
 

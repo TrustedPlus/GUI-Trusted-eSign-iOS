@@ -18,11 +18,11 @@ interface EncryptionProps {
   files: any;
   otherCert: any;
   isFetching: boolean;
-  footerAction(any): void;
+  footerAction(key: number): void;
   footerClose(): void;
   readFiles(): void;
-  readCertKeys(string): void;
-  addFiles(...any): void;
+  readCertKeys(): void;
+  addFiles(uri: string, type: string, fileName: string, fileSize: number): void;
 }
 
 class Encryption extends React.Component<EncryptionProps> {
@@ -108,7 +108,7 @@ class Encryption extends React.Component<EncryptionProps> {
         <Headers title="Шифрование/расшифрование" goBack={() => goBack() }/>
           <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_title}>Сертификаты получателей</Text>
-            <Button transparent style={styles.sign_enc_button} onPress={() => {readCertKeys("enc"); navigate("SelectOtherСert");  } }>
+            <Button transparent style={styles.sign_enc_button} onPress={() => {readCertKeys(); navigate("SelectOtherСert");  } }>
               <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")}/>
             </Button>
           </View>
@@ -132,8 +132,8 @@ class Encryption extends React.Component<EncryptionProps> {
   }
 
   componentDidMount() {
-    if (this.props.footer.arrButton.length !== 0) this.props.footerClose();
-    if (this.props.files.length === 0) this.props.readFiles();
+    if (this.props.footer.arrButton.length !== 0) { this.props.footerClose(); }
+    if (this.props.files.length === 0) { this.props.readFiles(); }
   }
 }
 

@@ -13,25 +13,15 @@ interface IFile {
 export function signFile(files: IFile[], personalCert, footer) {
     return function action(dispatch) {
         dispatch({type: SIGN_FILE});
-       /* if (personalCert.title === "") {
+        if (personalCert.title === "") {
             dispatch({type: SIGN_FILE_END});
-        } else { */
+        } else {
             for (let i = 0; i < footer.arrButton.length; i++) {
                 let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
                 RNFS.writeFile(path + ".sig", "", "utf8");
-              /*  let format;
-                switch (personalCert.extension) {
-                    case "cer":
-                        format = "DER";
-                        break;
-                    case "crt":
-                        format = "BASE64";
-                        break;
-                    default: break;
-                } */
                 NativeModules.WSigner.signFile(
-                    "/1.2.840.113549.1.9.1=pfx@gmail.com/2.5.4.6=RU/2.5.4.8=pfx_obl/2.5.4.7=pfx_gor/2.5.4.10=pfx_org/2.5.4.3=pfx",
-                    "295B3C3E989D82DC",
+                    personalCert.issuerName,
+                    personalCert.serialNumber,
                             path + "." + files[footer.arrButton[i]].extension,
                             path + ".sig",
                             (err, signFile) => {
@@ -46,31 +36,21 @@ export function signFile(files: IFile[], personalCert, footer) {
                                 }
                             });
             }
-      //  }
+        }
     };
 }
 
 export function verifySign(files: IFile[], personalCert, footer) {
     return function action(dispatch) {
         dispatch({type: VERIFY_SIGN});
-        /*if (personalCert.title === "") {
+        if (personalCert.title === "") {
             dispatch({type: VERIFY_SIGN_END});
         } else {
-            let format;
-            switch (personalCert.extension) {
-                case "cer":
-                    format = "DER";
-                    break;
-                case "crt":
-                    format = "BASE64";
-                    break;
-                default: break;
-            }*/
             for (let i = 0; i < footer.arrButton.length; i++) {
                 let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
                 NativeModules.WSigner.verifySign(
-                "/1.2.840.113549.1.9.1=pfx@gmail.com/2.5.4.6=RU/2.5.4.8=pfx_obl/2.5.4.7=pfx_gor/2.5.4.10=pfx_org/2.5.4.3=pfx",
-                "295B3C3E989D82DC",
+                    personalCert.issuerName,
+                    personalCert.serialNumber,
                             path + "." + files[footer.arrButton[i]].extension,
                             (err, verify) => {
                                 if (err === null) {
@@ -83,6 +63,6 @@ export function verifySign(files: IFile[], personalCert, footer) {
                                 }
                         });
             }
-       // }
+        }
     };
 }

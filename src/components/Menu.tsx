@@ -30,7 +30,7 @@ interface MainProps {
   files: any;
   pesronalCertKeys: any;
   lastlog: string;
-  readCertKeys(string): any;
+  readCertKeys(): any;
   readFiles(): any;
 }
 
@@ -84,25 +84,16 @@ class Main extends React.Component<MainProps> {
   }
 
   componentDidMount() {
-    if (this.props.pesronalCertKeys.length === 0) this.props.readCertKeys("sig");
-    if (this.props.files.length === 0) this.props.readFiles();
-    NativeModules.CertsList.pathToStore(
-      "/Users/dev/Downloads/Users\ 9/admin/Desktop/Prototype_Trusted_IOS/ios/tests/store",
-      (err, label) => {
-      null;
-    });
-    NativeModules.CertsList.showCerts(
-      (err, label) => {
-      console.log(label);
-    });
-    NativeModules.CertsList.getCountsOfCertsInCryptoStore(
+    if (this.props.files.length === 0) { this.props.readFiles(); }
+    /*NativeModules.CertsList.getCountsOfCertsInCryptoStore(
       (count) => {
       console.log("количество сертификатов в хранилище crypto: " + count);
     });
     NativeModules.CertsList.getCountsOfCertsInCryptoCSPStore(
       (count) => {
       console.log("количество сертификатов в хранилище CSP: " + count);
-    });
+    }); */
+    if (this.props.pesronalCertKeys.length === 0) { this.props.readCertKeys(); }
   }
 }
 

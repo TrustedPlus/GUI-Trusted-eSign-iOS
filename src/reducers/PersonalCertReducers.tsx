@@ -4,7 +4,8 @@ const initialState = {
   title: "",
   img: "",
   note: "",
-  extension: ""
+  issuerName: "",
+  serialNumber: ""
 };
 
 export function personalCert (state = initialState, action) {
@@ -15,7 +16,8 @@ export function personalCert (state = initialState, action) {
         title: action.payload[0],
         img: action.payload[1],
         note: action.payload[2],
-        extension: action.payload[3]
+        issuerName: action.payload[3],
+        serialNumber: action.payload[4]
       };
     default:
       return state;

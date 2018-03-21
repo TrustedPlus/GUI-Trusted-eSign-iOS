@@ -8,7 +8,7 @@ export function footerAction(idButton) {
   return {
     type: FOOTER_ACTION,
     payload: idButton
-  };
+  }; 
 }
 
 export function footerClose() {
@@ -17,17 +17,17 @@ export function footerClose() {
   };
 }
 
-export function personalCertAdd(title, img, note, extension) {
+export function personalCertAdd(title, img, note, issuerName, serialNumber) {
   return {
     type: PERSONAL_CERT_ACTION,
-    payload: [title, img, note, extension]
+    payload: [title, img, note, issuerName, serialNumber]
   };
 }
 
-export function otherCertAdd(title, img, note, extension) {
+export function otherCertAdd(title, img, note, issuerName, serialNumber) {
   return {
     type: OTHER_CERT_ACTION,
-    payload: [title, img, note, extension]
+    payload: [title, img, note, issuerName, serialNumber]
   };
 }
 
@@ -111,4 +111,5 @@ export function addFiles(uri, type, fileName, fileSize) {
       err => dispatch({type: ADD_FILES_ERROR, payload: name})
     );
   };
+  
 }

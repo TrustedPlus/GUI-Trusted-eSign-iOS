@@ -11,7 +11,7 @@ import { PropertiesCert} from "./PropertiesCert";
 interface OtherСertProps {
   navigation: any;
   otherCertKeys: any;
-  readCertKeys(string): any;
+  readCertKeys(): any;
 }
 
 class OtherСert extends React.Component<OtherСertProps> {
@@ -22,13 +22,13 @@ class OtherСert extends React.Component<OtherСertProps> {
 
   ShowList(img) {
     return (
-      this.props.otherCertKeys.map((file, key) => <ListMenu
+      this.props.otherCertKeys.map((cert, key) => <ListMenu
         key = {key}
-        title={file.name}
-        note = {file.mtime}
+        title={cert.name}
+        note = {cert.mtime}
         img = {img[key]}
         other
-        nav={() => this.props.navigation.navigate("PropertiesCert", { cert: file, where: "other" })} />));
+        nav={() => this.props.navigation.navigate("PropertiesCert", { cert: cert })} />));
   }
 
   render() {
@@ -62,7 +62,7 @@ class OtherСert extends React.Component<OtherСertProps> {
   }
 
   componentDidMount() {
-    this.props.readCertKeys("enc");
+    this.props.readCertKeys();
   }
 }
 

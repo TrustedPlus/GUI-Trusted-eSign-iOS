@@ -19,14 +19,16 @@ class SelectPersonalСert extends React.Component<SelectPersonalСertProps> {
 
   ShowList(img) {
     return (
-      this.props.pesronalCertKeys.map((file, key) => <ListMenu
+      this.props.pesronalCertKeys.map((cert, key) => <ListMenu
         key = {key}
-        title={file.name}
-        note = {file.mtime}
+        title = {cert.issuerFriendlyName}
+        note = {cert.organizationName}
         img = {img[key]}
         personal
-        extension = {file.extension}
-        nav={() => this.props.navigation.goBack()} />));
+        issuerName = {cert.issuerName}
+        serialNumber = {cert.serialNumber}
+        /*extension = {cert.extension}*/
+    nav={() => this.props.navigation.goBack()} />));
   }
 
   render() {

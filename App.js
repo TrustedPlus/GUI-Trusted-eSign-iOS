@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Platform, StyleSheet, Text, Button, View, ScrollView } from 'react-native';
 import {NativeModules} from "react-native";
 
-var number = 0;
+var number = 7;
 
 export default class App extends React.Component<{}> {
     constructor(props) {
@@ -57,6 +57,7 @@ export default class App extends React.Component<{}> {
         this.onPressCSP_encryptFile = this.onPressCSP_encryptFile.bind(this);
         this.onPressCSP_decryptFile = this.onPressCSP_decryptFile.bind(this);
         this.onPressCSP_importPFX = this.onPressCSP_importPFX.bind(this);
+        this.onPressCSP_exportPFX = this.onPressCSP_exportPFX.bind(this);
         this.onPressCSP_deleteCertInStore = this.onPressCSP_deleteCertInStore.bind(this);
         this.onPressCSP_enumProviders= this.onPressCSP_enumProviders.bind(this);
         this.onPressCSP_enumContainers = this.onPressCSP_enumContainers.bind(this);
@@ -66,7 +67,7 @@ export default class App extends React.Component<{}> {
     componentDidMount() {
       //задает путь к хранилищу crypto
       NativeModules.CertsList.pathToStore(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/store",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/store",
         (err, label) => {
         this.setState({errorLabel: err, resultLabel: label});
       });
@@ -123,7 +124,7 @@ export default class App extends React.Component<{}> {
     //запись сертификата в хранилище crypto
     onPressSaveCertToStore(){
       NativeModules.WCert.saveCertToStore(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/cert\ and\ key/rsa_notkey.cer", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/rsa_notkey.cer", 
         "BASE64", 
         "MY", 
         (err, saveCert) => {
@@ -142,7 +143,7 @@ export default class App extends React.Component<{}> {
     //запись ключа в хранилище crypto
     onPressSaveKeyToStore(){
       NativeModules.WCert.saveKeyToStore(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/cert\ and\ key/cert1.key", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/cert1.key", 
         "BASE64", 
         "", 
         (err, saveKey) => {
@@ -151,7 +152,7 @@ export default class App extends React.Component<{}> {
     }
     //сохранение сертификата в файл, загруженного в память при использовании функции Load
     onPressSave(){
-      NativeModules.WCert.Save("/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/cert\ and\ key/RsaCert.cer", "BASE64", (err, save) => {
+      NativeModules.WCert.Save("/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/RsaCert.cer", "BASE64", (err, save) => {
         this.setState({errorLabel: err, resultLabel: save}, function() {console.log("State", this.state); });
       });
     }
@@ -215,8 +216,8 @@ export default class App extends React.Component<{}> {
       NativeModules.WSigner.signFile(
         this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/cert\ and\ key/input.txt", 
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/cert\ and\ key/output.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/input.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/output.txt", 
         (err, signFile) => {
         this.setState({errorLabel: err, resultLabel: signFile}, function() {console.log("State", this.state); });
       });
@@ -226,7 +227,7 @@ export default class App extends React.Component<{}> {
       NativeModules.WSigner.verifySign(
         this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/cert\ and\ key/output.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/output.txt", 
         (err, verify) => {
         this.setState({errorLabel: err, resultLabel: verify}, function() {console.log("State", this.state); });
       });
@@ -234,8 +235,8 @@ export default class App extends React.Component<{}> {
     //симметричное шифрование файла
     onPressEncrypt() {
       NativeModules.WCipher.EncSymmetric(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/encrypt/input.txt", 
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/encrypt/encrypt.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/input.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/encrypt.txt", 
         (err, encrypt) => {
         this.setState({errorLabel: err, resultLabel: encrypt}, function() {console.log("State", this.state); });
       });
@@ -243,8 +244,8 @@ export default class App extends React.Component<{}> {
     //симметричное дешифрование файла
     onPressDecrypt() {
       NativeModules.WCipher.DecSymmetric(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/encrypt/encrypt.txt", 
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/encrypt/output.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/encrypt.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/output.txt", 
         (err, decrypt) => {
         this.setState({errorLabel: err, resultLabel: decrypt}, function() {console.log("State", this.state); });
       });
@@ -252,8 +253,8 @@ export default class App extends React.Component<{}> {
     //асимметричное шифрование файла
     onPressEncryptA() {
       NativeModules.WCipher.EncAssymmetric(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/encrypt/input.txt", 
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/encrypt/encrypt.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/input.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/encrypt.txt", 
         this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         (err, encrypt) => {
@@ -263,8 +264,8 @@ export default class App extends React.Component<{}> {
     //асимметричное дешифрование файла
     onPressDecryptA() {
       NativeModules.WCipher.DecAssymmetric(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/encrypt/encrypt.txt", 
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/encrypt/output.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/encrypt.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/output.txt", 
         this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         (err, decrypt) => {
@@ -274,8 +275,8 @@ export default class App extends React.Component<{}> {
     //импорт PKCS12 из файла, не поддерживает p7b
     onPressImportPKCS12(){
       NativeModules.WPkcs12.ImportPKCS12(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/cert\ and\ key/pfx.pfx",
-        "12345678",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/p12.pfx",
+        "",
         "",
         (err, imp) => { 
           this.setState({errorLabel: err, resultLabel: imp}, function() {console.log("State", this.state); });
@@ -288,7 +289,7 @@ export default class App extends React.Component<{}> {
         this.state.certsLabel[number]["serialNumber"],
         "12345678",
         "name",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/cert\ and\ key/export_pfx.pfx",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/export_pfx.pfx",
         (err, exp) => { 
           this.setState({errorLabel: err, resultLabel: exp}, function() {console.log("State", this.state); });
       });
@@ -302,8 +303,8 @@ export default class App extends React.Component<{}> {
         this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_sign/input_attach.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_sign/input_attach.sig.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.sig.txt", 
         (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
@@ -311,7 +312,7 @@ export default class App extends React.Component<{}> {
     //проверка подписи
     onPressCSP_verifyAttachSign() {
       NativeModules.PSigner.verify(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_sign/input_attach.sig.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.sig.txt", 
         (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
@@ -322,8 +323,8 @@ export default class App extends React.Component<{}> {
         this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_sign/input.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_sign/input.sig.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input.sig.txt", 
         (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
@@ -331,8 +332,8 @@ export default class App extends React.Component<{}> {
     //проверка подписи
     onPressCSP_verifySign() {
       NativeModules.PSigner.verifySign(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_sign/input.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_sign/input.sig.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input.sig.txt", 
         (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
@@ -343,13 +344,13 @@ export default class App extends React.Component<{}> {
         this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/input.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/enc.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/sessionSV.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/sessionEncryptedKey.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/sessionMacKey.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/vector.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/encryptionParam.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/input.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/enc.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionSV.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionEncryptedKey.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionMacKey.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/vector.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/encryptionParam.txt", 
         (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
@@ -360,13 +361,13 @@ export default class App extends React.Component<{}> {
         this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/enc.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/dec.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/sessionSV.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/sessionEncryptedKey.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/sessionMacKey.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/vector.txt",
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/CSP_encrypt/encryptionParam.txt", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/input.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/enc.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionSV.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionEncryptedKey.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionMacKey.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/vector.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/encryptionParam.txt", 
         (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
@@ -374,8 +375,21 @@ export default class App extends React.Component<{}> {
     //импорт PFX - добавление сертификата и ключа в хранилище КриптоПРО (в PFX - ОДИН сертификат и ОДИН ключ)
     onPressCSP_importPFX() {
       NativeModules.PCerts.importPFX(
-        "/Users/admin/Desktop/Prototype_Trusted_IOS/ios/tests/cert\ and\ key/GOST_cryptoARM.pfx", 
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/GOST_cryptoARM.pfx", 
         "12345678", 
+        (err, label) => {
+        this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
+      });
+    }
+    //экспорт PFX - эскопртирование сертификата и ключа из хранилище КриптоПРО
+    onPressCSP_exportPFX() {
+      NativeModules.PCerts.exportPFX(
+        this.state.certsLabel[number]["issuerName"], 
+        this.state.certsLabel[number]["serialNumber"],
+        this.state.certsLabel[number]["category"],
+        "true",
+        "12345678",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/GOST_CSP_pfx.pfx", 
         (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
@@ -469,6 +483,7 @@ export default class App extends React.Component<{}> {
         <Button onPress={this.onPressCSP_encryptFile} title="encrypt" color="green"/>
         <Button onPress={this.onPressCSP_decryptFile} title="decrypt" color="green"/>
         <Button onPress={this.onPressCSP_importPFX} title="importPFX" color="green"/>
+        <Button onPress={this.onPressCSP_exportPFX} title="exportPFX" color="green"/>
         <Button onPress={this.onPressCSP_deleteCertInStore} title="deleteCertInStore" color="green"/>
         <Button onPress={this.onPressCSP_enumProviders} title="enumProviders" color="green"/>
         <Button onPress={this.onPressCSP_enumContainers} title="enumContainers" color="green"/>

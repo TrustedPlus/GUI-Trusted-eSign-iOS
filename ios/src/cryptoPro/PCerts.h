@@ -9,6 +9,10 @@
 #ifndef PCerts_h
 #define PCerts_h
 
+#include "cert.h"
+#include "pki/pkcs12.h"
+#include "../globalHelper.h"
+
 #import <Foundation/Foundation.h>
 #import "React/RCTBridgeModule.h"
 #import <CPROCSP/CPROCSP.h>

@@ -66,7 +66,7 @@ RCT_EXPORT_METHOD(ExportPKCS12: (NSString *)issuerName: (NSString *)serialNumber
     TrustedHandle<CertificateCollection> ca = chain->buildChain(hcert, hcerts);
     //create pkcs12
     TrustedHandle<Pkcs12> pkcs12 = new Pkcs12();
-    pkcs12->create(hcert, hkey, ca, pPwd, pName);
+    pkcs12 = pkcs12->create(hcert, hkey, ca, pPwd, pName);
     
     TrustedHandle<Bio> out = new Bio(BIO_TYPE_FILE, pFilename, "wb");
     pkcs12->write(out);

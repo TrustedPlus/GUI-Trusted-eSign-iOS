@@ -2,3 +2,4 @@
 .DS_Store
 ios/tests/*
 node_modules/*
+ios/.DS_Store

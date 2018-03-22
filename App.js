@@ -49,6 +49,8 @@ export default class App extends React.Component<{}> {
         this.onPressDecryptA = this.onPressDecryptA.bind(this);
         this.onPressImportPKCS12 = this.onPressImportPKCS12.bind(this);
         this.onPressExportPKCS12 = this.onPressExportPKCS12.bind(this);
+        this.onPressLoadCRL = this.onPressLoadCRL.bind(this);
+        this.onPressVerifyChain = this.onPressVerifyChain.bind(this);
 
         this.onPressCSP_attachSignFile = this.onPressCSP_attachSignFile.bind(this);
         this.onPressCSP_verifyAttachSign = this.onPressCSP_verifyAttachSign.bind(this);
@@ -115,7 +117,6 @@ export default class App extends React.Component<{}> {
     //загрузка из хранилища
     onPressLoad(){
       NativeModules.WCert.Load(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         (err, load) => {
         this.setState({errorLabel: err, resultLabel: load, hasPrivateKey: this.state.certsLabel[number]["hasPrivateKey"]}, function() {console.log("State", this.state); });
@@ -134,7 +135,6 @@ export default class App extends React.Component<{}> {
     //удаление сертификата из хранилище crypto
     onPressDeleteCertInStore(){
       NativeModules.WCert.deleteCertInStore(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         (err, deleteCert) => {
         this.setState({errorLabel: err, resultLabel: deleteCert}, function() {console.log("State", this.state); });
@@ -214,7 +214,6 @@ export default class App extends React.Component<{}> {
     //подпись файла
     onPressSignFile() {
       NativeModules.WSigner.signFile(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/input.txt", 
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/output.txt", 
@@ -225,7 +224,6 @@ export default class App extends React.Component<{}> {
     //проверка подписи
     onPressVerify() {
       NativeModules.WSigner.verifySign(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/output.txt", 
         (err, verify) => {
@@ -253,10 +251,9 @@ export default class App extends React.Component<{}> {
     //асимметричное шифрование файла
     onPressEncryptA() {
       NativeModules.WCipher.EncAssymmetric(
+        this.state.certsLabel[number]["serialNumber"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/input.txt", 
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/encrypt.txt", 
-        this.state.certsLabel[number]["issuerName"], 
-        this.state.certsLabel[number]["serialNumber"],
         (err, encrypt) => {
         this.setState({errorLabel: err, resultLabel: encrypt}, function() {console.log("State", this.state); });
       });
@@ -264,10 +261,9 @@ export default class App extends React.Component<{}> {
     //асимметричное дешифрование файла
     onPressDecryptA() {
       NativeModules.WCipher.DecAssymmetric(
+        this.state.certsLabel[number]["serialNumber"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/encrypt.txt", 
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/output.txt", 
-        this.state.certsLabel[number]["issuerName"], 
-        this.state.certsLabel[number]["serialNumber"],
         (err, decrypt) => {
         this.setState({errorLabel: err, resultLabel: decrypt}, function() {console.log("State", this.state); });
       });
@@ -285,7 +281,6 @@ export default class App extends React.Component<{}> {
     //экспорт PKCS12 в файл, не поддерживает p7b
     onPressExportPKCS12(){
       NativeModules.WPkcs12.ExportPKCS12(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         "12345678",
         "name",
@@ -294,13 +289,29 @@ export default class App extends React.Component<{}> {
           this.setState({errorLabel: err, resultLabel: exp}, function() {console.log("State", this.state); });
       });
     }
+    //загрузка файла отзыва сертификатов в хранилище crypto
+    onPressLoadCRL(){
+      NativeModules.WCrl.saveCRLToStore(
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/test.crl", 
+        "DER",
+        (err, saveCert) => {
+        this.setState({errorLabel: err, resultLabel: saveCert}, function() {console.log("State", this.state); });
+      });
+    }
+    //проверка сертификата на отзыв
+    onPressVerifyChain(){
+      NativeModules.WCrl.verifyChain(
+        this.state.certsLabel[number]["serialNumber"],
+        (err, saveCert) => {
+        this.setState({errorLabel: err, resultLabel: saveCert}, function() {console.log("State", this.state); });
+      });
+    }
 /*
  *  CRYPTOPRO CSP    
 */
     //подпись файла
     onPressCSP_attachSignFile() {
       NativeModules.PSigner.attachSign(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.txt",
@@ -320,7 +331,6 @@ export default class App extends React.Component<{}> {
     //подпись файла
     onPressCSP_signFile() {
       NativeModules.PSigner.signFile(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input.txt",
@@ -341,7 +351,6 @@ export default class App extends React.Component<{}> {
     //шифрование файла
     onPressCSP_encryptFile() {
       NativeModules.PCipher.encFile(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/input.txt",
@@ -358,11 +367,10 @@ export default class App extends React.Component<{}> {
     //дешифрование файла
     onPressCSP_decryptFile() {
       NativeModules.PCipher.decFile(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/input.txt",
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/enc.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/dec.txt",
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionSV.txt",
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionEncryptedKey.txt",
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionMacKey.txt",
@@ -384,7 +392,6 @@ export default class App extends React.Component<{}> {
     //экспорт PFX - эскопртирование сертификата и ключа из хранилище КриптоПРО
     onPressCSP_exportPFX() {
       NativeModules.PCerts.exportPFX(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
         "true",
@@ -397,7 +404,6 @@ export default class App extends React.Component<{}> {
     //удаление сертификата под номером number из хранилища КриптоПро, если он найден
     onPressCSP_deleteCertInStore(){
       NativeModules.PCert.deleteCertInStore(
-        this.state.certsLabel[number]["issuerName"], 
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
         (err, label) => {
@@ -448,6 +454,8 @@ export default class App extends React.Component<{}> {
 
         <Button onPress={this.onPressLoad} title="Load" color="green"/>
         <Button onPress={this.onPressSave} title="Save" color="green"/>
+        <Button onPress={this.onPressLoadCRL} title="LoadCRL" color="green"/>
+        <Button onPress={this.onPressVerifyChain} title="VerifyChain" color="green"/>
         <Button onPress={this.onPressSignFile} title="sign file" color="#841584"/>
         <Button onPress={this.onPressVerify} title="verify" color="#841584"/>
         <Button onPress={this.onPressEncrypt} title="encrypt" color="#841584"/>

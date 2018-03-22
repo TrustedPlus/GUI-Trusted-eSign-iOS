@@ -5,13 +5,11 @@
 RCT_EXPORT_MODULE();
 
 //загрузка из хранилища
-RCT_EXPORT_METHOD(Load: (NSString *)issuerName: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(Load: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
   char *pSerialNumber = (char *) [serialNumber UTF8String];
   try{
     TrustedHandle<Filter> filterByCert = new Filter();
     
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
@@ -78,7 +76,7 @@ RCT_EXPORT_METHOD(saveCertToStore: (NSString *)inCert: (NSString *)inFormat: (NS
     inf = new Bio(BIO_TYPE_FILE, infileCert, "rb");
     cert->read(inf, format);
     /*
-     добавить. если такой сертификат существует, то: спросить менять ли? или менять не спрашивая? или не менять.
+     добавить. если такой сертификат существует, то: спросить менять ли? или менять, не спрашивая? или не менять?
      */
     char *category = (char *) [inCategory UTF8String];
     g_storeCrypto->addPkiObject(g_prov, new std::string(category), cert);
@@ -102,7 +100,7 @@ RCT_EXPORT_METHOD(saveKeyToStore: (NSString *)inKey: (NSString *)inFormat: (NSSt
     bioInKey = new Bio(BIO_TYPE_FILE, infileKey, "rb");
     key->readPrivateKey(bioInKey, format, new std::string(""));
     /*
-     добавить. если такой key существует, то: спросить менять ли? или менять не спрашивая? или не менять.
+     добавить. если такой key существует, то: спросить менять ли? или менять, не спрашивая? или не менять?
      */
     char *password = (char *) [inPassword UTF8String];
     g_storeCrypto->addPkiObject(g_prov, key, new std::string(password));
@@ -142,14 +140,12 @@ RCT_EXPORT_METHOD(Save: (NSString *)pathToSaveCert:  (NSString *)format:  (RCTRe
   }
 }
 //удаление сертификата из хранилища
-RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)issuerName: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
   char *pSerialNumber = (char *) [serialNumber UTF8String];
   try{
     OpenSSL::run();
     TrustedHandle<Filter> filterByCert = new Filter();
     
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
@@ -451,7 +447,6 @@ RCT_EXPORT_METHOD(isCA: (RCTResponseSenderBlock)callback){
 -(int) hasCertInStore: (TrustedHandle<Certificate>) cert{
   try {
     TrustedHandle<Filter> filterByCert = new Filter();
-    filterByCert->setIssuerName(cert->getIssuerName());
     filterByCert->setSerial(cert->getSerialNumber());
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() == 0)

@@ -3,10 +3,9 @@
 @implementation PCipher
 
 RCT_EXPORT_MODULE();
-//добавить сертификат и поиск ключа у этого сертификата
-RCT_EXPORT_METHOD(encFile: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)encFile: (NSString *)nsSessionSV: (NSString *)nsSessionEncryptedKey: (NSString *)nsSessionMacKey: (NSString *)nsVector: (NSString *)nsEncryptionParam: (RCTResponseSenderBlock)callback) {
+
+RCT_EXPORT_METHOD(encFile: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)encFile: (NSString *)nsSessionSV: (NSString *)nsSessionEncryptedKey: (NSString *)nsSessionMacKey: (NSString *)nsVector: (NSString *)nsEncryptionParam: (RCTResponseSenderBlock)callback) {
   
-  char *pIssuerName = (char *) [issuerName UTF8String];
   char *pSerialNumber = (char *) [serialNumber UTF8String];
   char *pCategory = (char *) [category UTF8String];
   
@@ -104,7 +103,6 @@ RCT_EXPORT_METHOD(encFile: (NSString *)issuerName: (NSString *)serialNumber: (NS
     return;
   }
   TrustedHandle<Filter> filterByCert = new Filter();
-  filterByCert->setIssuerName(new std::string(pIssuerName));
   filterByCert->setSerial(new std::string(pSerialNumber));
   TrustedHandle<PkiItemCollection> pic = g_picCSP->find(filterByCert);
   if (pic->length() <= 0){
@@ -370,8 +368,7 @@ RCT_EXPORT_METHOD(encFile: (NSString *)issuerName: (NSString *)serialNumber: (NS
   callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
 }
 
-RCT_EXPORT_METHOD(decFile: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)category: (NSString *)encFile: (NSString *)decFile: (NSString *)nsSessionSV: (NSString *)nsSessionEncryptedKey: (NSString *)nsSessionMacKey: (NSString *)nsVector: (NSString *)nsEncryptionParam: (RCTResponseSenderBlock)callback) {
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(decFile: (NSString *)serialNumber: (NSString *)category: (NSString *)encFile: (NSString *)decFile: (NSString *)nsSessionSV: (NSString *)nsSessionEncryptedKey: (NSString *)nsSessionMacKey: (NSString *)nsVector: (NSString *)nsEncryptionParam: (RCTResponseSenderBlock)callback) {
   char *pSerialNumber = (char *) [serialNumber UTF8String];
   char *pCategory = (char *) [category UTF8String];
   
@@ -482,7 +479,6 @@ RCT_EXPORT_METHOD(decFile: (NSString *)issuerName: (NSString *)serialNumber: (NS
     return;
   }
   TrustedHandle<Filter> filterByCert = new Filter();
-  filterByCert->setIssuerName(new std::string(pIssuerName));
   filterByCert->setSerial(new std::string(pSerialNumber));
   TrustedHandle<PkiItemCollection> pic = g_picCSP->find(filterByCert);
   if (pic->length() <= 0){

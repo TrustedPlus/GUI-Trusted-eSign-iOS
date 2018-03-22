@@ -83,6 +83,7 @@
 		845880CE2062434D00E87828 /* WStore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 845880C62062434D00E87828 /* WStore.mm */; };
 		845880D12062435600E87828 /* globalHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 845880D02062435600E87828 /* globalHelper.mm */; };
 		845880D42062435F00E87828 /* CertsList.mm in Sources */ = {isa = PBXBuildFile; fileRef = 845880D32062435F00E87828 /* CertsList.mm */; };
+		845880D72062955800E87828 /* WCrl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 845880D62062955800E87828 /* WCrl.mm */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 /* End PBXBuildFile section */
 
@@ -449,6 +450,8 @@
 		845880D02062435600E87828 /* globalHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = globalHelper.mm; path = src/globalHelper.mm; sourceTree = "<group>"; };
 		845880D22062435F00E87828 /* CertsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CertsList.h; path = src/CertsList.h; sourceTree = "<group>"; };
 		845880D32062435F00E87828 /* CertsList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CertsList.mm; path = src/CertsList.mm; sourceTree = "<group>"; };
+		845880D52062954300E87828 /* WCrl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WCrl.h; path = src/crypto/WCrl.h; sourceTree = "<group>"; };
+		845880D62062955800E87828 /* WCrl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = WCrl.mm; path = src/crypto/WCrl.mm; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -788,6 +791,8 @@
 				845880C12062434D00E87828 /* WSigner.mm */,
 				845880BD2062434C00E87828 /* WStore.h */,
 				845880C62062434D00E87828 /* WStore.mm */,
+				845880D52062954300E87828 /* WCrl.h */,
+				845880D62062955800E87828 /* WCrl.mm */,
 			);
 			name = crypto;
 			sourceTree = "<group>";
@@ -1367,6 +1372,7 @@
 				845880D12062435600E87828 /* globalHelper.mm in Sources */,
 				845880C82062434D00E87828 /* WPkcs12.mm in Sources */,
 				845880B82062434000E87828 /* PCsp.mm in Sources */,
+				845880D72062955800E87828 /* WCrl.mm in Sources */,
 				845880CC2062434D00E87828 /* WCert.mm in Sources */,
 				845880BA2062434000E87828 /* PCipher.mm in Sources */,
 				845880B72062434000E87828 /* PSigner.mm in Sources */,

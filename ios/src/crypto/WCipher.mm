@@ -125,16 +125,13 @@ RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSS
   }
 }
 */
-RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)inFile: (NSString *)encFile: (NSString *)issuerName: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)serialNumber: (NSString *)inFile: (NSString *)encFile: (RCTResponseSenderBlock)callback){
   char *pSerialNumber = (char *) [serialNumber UTF8String];
-  
   try{
     OpenSSL::run();
     //read cert file
     TrustedHandle<Filter> filterByCert = new Filter();
     
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
@@ -170,15 +167,13 @@ RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)inFile: (NSString *)encFile: (NSSt
   }
 }
 
-RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSString *)issuerName: (NSString *)serialNumber:(RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)serialNumber: (NSString *)encFile: (NSString *)decFile:(RCTResponseSenderBlock)callback){
   try{
-    char *pIssuerName = (char *) [issuerName UTF8String];
     char *pSerialNumber = (char *) [serialNumber UTF8String];
     OpenSSL::run();
     
     //read cert file
     TrustedHandle<Filter> filterByCert = new Filter();
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){

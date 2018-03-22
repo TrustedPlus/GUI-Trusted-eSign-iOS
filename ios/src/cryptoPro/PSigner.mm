@@ -4,8 +4,7 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(signFile: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
   char *pSerialNumber = (char *) [serialNumber UTF8String];
   char *pCategory = (char *) [category UTF8String];
   
@@ -59,7 +58,6 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
   }
   
   TrustedHandle<Filter> filterByCert = new Filter();
-  filterByCert->setIssuerName(new std::string(pIssuerName));
   filterByCert->setSerial(new std::string(pSerialNumber));
   TrustedHandle<PkiItemCollection> pic = g_picCSP->find(filterByCert);
   if (pic->length() <= 0){
@@ -294,8 +292,7 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)inputFile: (NSString *)signFile: (RCTR
 }
 
 
-RCT_EXPORT_METHOD(attachSign: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)category:(NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(attachSign: (NSString *)serialNumber: (NSString *)category:(NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
   char *pSerialNumber = (char *) [serialNumber UTF8String];
   char *pCategory = (char *) [category UTF8String];
   
@@ -346,7 +343,6 @@ RCT_EXPORT_METHOD(attachSign: (NSString *)issuerName: (NSString *)serialNumber: 
   }
   
   TrustedHandle<Filter> filterByCert = new Filter();
-  filterByCert->setIssuerName(new std::string(pIssuerName));
   filterByCert->setSerial(new std::string(pSerialNumber));
   TrustedHandle<PkiItemCollection> pic = g_picCSP->find(filterByCert);
   if (pic->length() <= 0){

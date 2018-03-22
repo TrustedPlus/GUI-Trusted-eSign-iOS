@@ -5,13 +5,12 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)category: (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)serialNumber: (NSString *)category: (RCTResponseSenderBlock)callback){
   try{
     //Установить лицензию можно с помощью
     //support_registry_put_string( "\\license\\ProductID\\{407E5BA7-6406-40BF-A4DC-3654B8F584C1}\\ProductID", SN ) )
     //Ограниченно проверить - с помощью
     //CryptGetProvParam (PP_LICENSE)
-    char *pIssuerName = (char *) [issuerName UTF8String];
     char *pSerialNumber = (char *) [serialNumber UTF8String];
     char *pCategory = (char *) [category UTF8String];
     
@@ -26,7 +25,6 @@ RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)issuerName: (NSString *)serialN
     }
     
     TrustedHandle<Filter> filterByCert = new Filter();
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
     TrustedHandle<PkiItemCollection> pic = g_picCSP->find(filterByCert);
     if (pic->length() <= 0){

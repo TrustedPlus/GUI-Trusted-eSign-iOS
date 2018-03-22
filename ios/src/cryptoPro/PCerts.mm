@@ -49,8 +49,7 @@ RCT_EXPORT_METHOD(importPFX: (NSString *)pathToPFX: (NSString *)password: (RCTRe
   callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
 }
 
-RCT_EXPORT_METHOD(exportPFX: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)category: (NSString *)exportPrivateKey: (NSString *)password: (NSString *)pathToFile: (RCTResponseSenderBlock)callback){
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(exportPFX: (NSString *)serialNumber: (NSString *)category: (NSString *)exportPrivateKey: (NSString *)password: (NSString *)pathToFile: (RCTResponseSenderBlock)callback){
   char *pSerialNumber = (char *) [serialNumber UTF8String];
   char *pCategory = (char *) [category UTF8String];
   char *pExportPrivateKey = (char *) [exportPrivateKey UTF8String];
@@ -83,7 +82,6 @@ RCT_EXPORT_METHOD(exportPFX: (NSString *)issuerName: (NSString *)serialNumber: (
     }
     
     TrustedHandle<Filter> filterByCert = new Filter();
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
     TrustedHandle<PkiItemCollection> pic = g_picCSP->find(filterByCert);
     if (pic->length() <= 0){

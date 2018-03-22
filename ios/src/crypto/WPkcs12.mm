@@ -4,15 +4,13 @@
 
 RCT_EXPORT_MODULE();
 /*
- * issuerName
  * serialNumber
  * password - пароль для pkcs12
  * name - имя pkcs12
  * filename - путь к файлу, куда будет экспортирован pkcs12
  */
 //экспорт pkcs12
-RCT_EXPORT_METHOD(ExportPKCS12: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)password: (NSString *)name: (NSString *)filename: (RCTResponseSenderBlock)callback){
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(ExportPKCS12: (NSString *)serialNumber: (NSString *)password: (NSString *)name: (NSString *)filename: (RCTResponseSenderBlock)callback){
   char *pSerialNumber = (char *) [serialNumber UTF8String];
   char *pPwd = (char *) [password UTF8String];
   char *pName = (char *) [name UTF8String];
@@ -23,7 +21,6 @@ RCT_EXPORT_METHOD(ExportPKCS12: (NSString *)issuerName: (NSString *)serialNumber
     //read cert file
     TrustedHandle<Filter> filterByCert = new Filter();
     
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);

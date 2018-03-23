@@ -45,6 +45,14 @@ RCT_EXPORT_METHOD(importPFX: (NSString *)pathToPFX: (NSString *)password: (RCTRe
       }
       CertCloseStore(hStore, 0);
     }
+    else{
+      callback(@[[@"Not find certificate in pfx file!" copy], [NSNumber numberWithInt: 0]]);
+      return;
+    }
+  }
+  else{
+    callback(@[[@"Incorrect password!" copy], [NSNumber numberWithInt: 0]]);
+    return;
   }
   callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
 }

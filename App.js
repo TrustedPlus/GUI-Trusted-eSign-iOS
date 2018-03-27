@@ -31,7 +31,10 @@ export default class App extends React.Component<{}> {
             getSignatureAlgorithLabel: "",
             getSignatureDigestAlgorithmLabel: "",
             getOrganizationNameLabel: "",            
-            hasPrivateKey: ""
+            hasPrivateKey: "",
+            
+            providerListCSPLabel: "",
+            containerListCSPLabel: ""
         });
         this.onPressUpdate = this.onPressUpdate.bind(this);
 
@@ -52,18 +55,21 @@ export default class App extends React.Component<{}> {
         this.onPressLoadCRL = this.onPressLoadCRL.bind(this);
         this.onPressVerifyChain = this.onPressVerifyChain.bind(this);
 
-        this.onPressCSP_attachSignFile = this.onPressCSP_attachSignFile.bind(this);
-        this.onPressCSP_verifyAttachSign = this.onPressCSP_verifyAttachSign.bind(this);
         this.onPressCSP_signFile = this.onPressCSP_signFile.bind(this);
         this.onPressCSP_verifySign = this.onPressCSP_verifySign.bind(this);
         this.onPressCSP_encryptFile = this.onPressCSP_encryptFile.bind(this);
         this.onPressCSP_decryptFile = this.onPressCSP_decryptFile.bind(this);
         this.onPressCSP_importPFX = this.onPressCSP_importPFX.bind(this);
         this.onPressCSP_exportPFX = this.onPressCSP_exportPFX.bind(this);
+        this.onPressCSP_addCert = this.onPressCSP_addCert.bind(this);
         this.onPressCSP_deleteCertInStore = this.onPressCSP_deleteCertInStore.bind(this);
         this.onPressCSP_enumProviders= this.onPressCSP_enumProviders.bind(this);
         this.onPressCSP_enumContainers = this.onPressCSP_enumContainers.bind(this);
-        this.onPressCSP_getCertificateFromContainer = this.onPressCSP_getCertificateFromContainer.bind(this);
+        this.onPressCSP_deleteContainer = this.onPressCSP_deleteContainer.bind(this);
+        this.onPressCSp_getContainerNameByCertificate = this.onPressCSp_getContainerNameByCertificate.bind(this);
+
+        this.onPressCSp_attachSignFileNew = this.onPressCSp_attachSignFileNew.bind(this);
+        this.onPressCSp_verifyAttachSignFileNew = this.onPressCSp_verifyAttachSignFileNew.bind(this);
     }
     //загрузка из хранилища(crypto and cryptoPro) всех сертификатов
     componentDidMount() {
@@ -268,7 +274,7 @@ export default class App extends React.Component<{}> {
         this.setState({errorLabel: err, resultLabel: decrypt}, function() {console.log("State", this.state); });
       });
     }
-    //импорт PKCS12 из файла, не поддерживает p7b
+    //импорт PKCS12 из файла
     onPressImportPKCS12(){
       NativeModules.WPkcs12.ImportPKCS12(
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/p12.pfx",
@@ -278,7 +284,7 @@ export default class App extends React.Component<{}> {
           this.setState({errorLabel: err, resultLabel: imp}, function() {console.log("State", this.state); });
       });
     }
-    //экспорт PKCS12 в файл, не поддерживает p7b
+    //экспорт PKCS12 в файл
     onPressExportPKCS12(){
       NativeModules.WPkcs12.ExportPKCS12(
         this.state.certsLabel[number]["serialNumber"],
@@ -310,25 +316,6 @@ export default class App extends React.Component<{}> {
  *  CRYPTOPRO CSP    
 */
     //подпись файла
-    onPressCSP_attachSignFile() {
-      NativeModules.PSigner.attachSign(
-        this.state.certsLabel[number]["serialNumber"],
-        this.state.certsLabel[number]["category"],
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.sig.txt", 
-        (err, label) => {
-        this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
-      });
-    }
-    //проверка подписи
-    onPressCSP_verifyAttachSign() {
-      NativeModules.PSigner.verify(
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.sig.txt", 
-        (err, label) => {
-        this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
-      });
-    }
-    //подпись файла
     onPressCSP_signFile() {
       NativeModules.PSigner.signFile(
         this.state.certsLabel[number]["serialNumber"],
@@ -355,11 +342,6 @@ export default class App extends React.Component<{}> {
         this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/input.txt",
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/enc.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionSV.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionEncryptedKey.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionMacKey.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/vector.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/encryptionParam.txt", 
         (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
@@ -371,11 +353,6 @@ export default class App extends React.Component<{}> {
         this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/enc.txt",
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/dec.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionSV.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionEncryptedKey.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/sessionMacKey.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/vector.txt",
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/encryptionParam.txt", 
         (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
@@ -401,6 +378,16 @@ export default class App extends React.Component<{}> {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
     }
+    //добавление сертификата в хранилище криптоПРО
+    onPressCSP_addCert() {
+      NativeModules.PCert.addCert(
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/gost_onlyCert.cer",
+        "BASE64",
+        "My", 
+        (err, label) => {
+        this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
+      });
+    }
     //удаление сертификата под номером number из хранилища КриптоПро, если он найден
     onPressCSP_deleteCertInStore(){
       NativeModules.PCert.deleteCertInStore(
@@ -410,22 +397,59 @@ export default class App extends React.Component<{}> {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
     }
-
+    //возвращает массив криптопровайдеров cryptoPro CSP 
     onPressCSP_enumProviders() {
       NativeModules.PCsp.enumProviders(
+        (err, label) => {
+        this.setState({errorCSPLabel: err, providerListCSPLabel: label}, function() {console.log("State", this.state); });
+      });
+    }
+    //возвращает массив контейнеров созданных на основе входного криптопровайдера
+    onPressCSP_enumContainers() { 
+      NativeModules.PCsp.enumContainers(
+        this.state.providerListCSPLabel[2]["type"],
+        this.state.providerListCSPLabel[2]["provider"],
+        (err, label) => {
+        this.setState({errorCSPLabel: err, containerListCSPLabel: label}, function() {console.log("State", this.state); });
+      });
+    }
+    //удаление контейнера из хранилища cryptoPro CSP
+    onPressCSP_deleteContainer(){
+      NativeModules.PCsp.deleteContainer(
+        this.state.containerListCSPLabel[0]["unique"],//"HDIMAGE\\\\de2f8166.000\\5BCD",
+        this.state.providerListCSPLabel[0]["type"],//"75", 
+        this.state.providerListCSPLabel[0]["provider"],//"Crypto-Pro GOST R 34.10-2012 KC1 CSP", 
         (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
     }
-
-    onPressCSP_enumContainers() {
-      NativeModules.PCsp.enumContainers("75", "Crypto-Pro GOST R 34.10-2001 KC1 CSP", (err, label) => {
+    //получение имени контейнера по сертификату
+    onPressCSp_getContainerNameByCertificate(){
+      NativeModules.PCsp.getContainerNameByCertificate(
+        this.state.certsLabel[number]["serialNumber"],
+        this.state.certsLabel[number]["category"],
+        (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
     }
-
-    onPressCSP_getCertificateFromContainer() {
-      NativeModules.PCsp.getCertificateFromContainer("HDIMAGE\\\\de2f8166.000\\5BCD", "75", "Crypto-Pro GOST R 34.10-2001 KC1 CSP", (err, label) => {
+    //подпись файла
+    onPressCSp_attachSignFileNew(){
+      NativeModules.PSigner.attachSignFile(
+        this.state.certsLabel[number]["serialNumber"],
+        this.state.certsLabel[number]["category"],
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.txt",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.sig.txt", 
+        (err, label) => {
+        this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
+      });
+    }
+    //проверка подписи
+    onPressCSp_verifyAttachSignFileNew(){
+      NativeModules.PSigner.verifyAttachSignFile(
+        this.state.certsLabel[number]["serialNumber"],
+        this.state.certsLabel[number]["category"],        
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.sig.txt", 
+        (err, label) => {
         this.setState({errorCSPLabel: err, resultCSPLabel: label}, function() {console.log("State", this.state); });
       });
     }
@@ -484,18 +508,21 @@ export default class App extends React.Component<{}> {
         <Text style={styles.instructions}> error:  {this.state.errorCSPLabel} </Text>
         <Text style={styles.instructions}> result:  {this.state.resultCSPLabel} </Text>
         {this.getText()}
-        <Button onPress={this.onPressCSP_attachSignFile} title="Attach sign file." color="green"/>
-        <Button onPress={this.onPressCSP_verifyAttachSign} title="Attach verify sign:" color="green"/>
         <Button onPress={this.onPressCSP_signFile} title="sign" color="green"/>
         <Button onPress={this.onPressCSP_verifySign} title="verify" color="green"/>
         <Button onPress={this.onPressCSP_encryptFile} title="encrypt" color="green"/>
         <Button onPress={this.onPressCSP_decryptFile} title="decrypt" color="green"/>
         <Button onPress={this.onPressCSP_importPFX} title="importPFX" color="green"/>
         <Button onPress={this.onPressCSP_exportPFX} title="exportPFX" color="green"/>
+        <Button onPress={this.onPressCSP_addCert} title="addCert" color="green"/>
         <Button onPress={this.onPressCSP_deleteCertInStore} title="deleteCertInStore" color="green"/>
         <Button onPress={this.onPressCSP_enumProviders} title="enumProviders" color="green"/>
         <Button onPress={this.onPressCSP_enumContainers} title="enumContainers" color="green"/>
-        <Button onPress={this.onPressCSP_getCertificateFromContainer} title="getCertificateFromContainer" color="green"/>
+        <Button onPress={this.onPressCSP_deleteContainer} title="deleteContainer" color="green"/>
+        <Button onPress={this.onPressCSp_getContainerNameByCertificate} title="getContainerNameByCertificate" color="green"/>
+
+        <Button onPress={this.onPressCSp_attachSignFileNew} title="attachSignFileNew" color="green"/>
+        <Button onPress={this.onPressCSp_verifyAttachSignFileNew} title="verifyAttachSignFileNew" color="green"/>
         </ScrollView>
     );
   }

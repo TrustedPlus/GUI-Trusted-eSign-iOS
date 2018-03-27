@@ -20,6 +20,9 @@
 #import "map"
 #import "vector"
 
+#include "PHelp.h"
+#include "../globalHelper.h"
+
 #define MY_ENCODING_TYPE  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 #define TYPE_DER  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 

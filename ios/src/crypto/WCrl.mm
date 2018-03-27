@@ -43,8 +43,7 @@ RCT_EXPORT_METHOD(verifyChain: (NSString *)serialNumber: (RCTResponseSenderBlock
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
-      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCrl, NULL, "This certificate was not found in the 'crypto' store!");
     }
     
     TrustedHandle<PkiItem> pi = new PkiItem();
@@ -59,8 +58,7 @@ RCT_EXPORT_METHOD(verifyChain: (NSString *)serialNumber: (RCTResponseSenderBlock
     filterByTrustCerts->setCategory(new std::string("TRUST"));
     TrustedHandle<PkiItemCollection> picTrustCerts = g_storeCrypto->find(filterByTrustCerts);
     if (picTrustCerts->length() <= 0){
-      callback(@[[@"This certificates was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCrl, NULL, "This certificate was not found in the 'crypto' store!");
     }
     TrustedHandle<CertificateCollection> hcerts = new CertificateCollection();
     for (int i = 0; i < picTrustCerts->length(); i++){

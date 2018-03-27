@@ -5,32 +5,36 @@
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(showCerts: (RCTResponseSenderBlock)callback){
-  NSMutableArray *listCertsCryptoPro = [NSMutableArray array];
-  PCsp *csp = [[PCsp alloc] init];
-  listCertsCryptoPro = csp.UnloadCertsFromStore; //заполнение списка сертификатов из контейнеров CryptoPro
-  countCSPCerts = (int)listCertsCryptoPro.count;
-  
-  if (g_prov.isEmpty()){
-    callback(@[[@"init provider_system error!" copy], [NSNumber numberWithInt: 0]]);
-    return;
+  try{
+    NSMutableArray *listCertsCryptoPro = [NSMutableArray array];
+    PCsp *csp = [[PCsp alloc] init];
+    listCertsCryptoPro = csp.UnloadCertsFromStore; //заполнение списка сертификатов из контейнеров CryptoPro
+    countCSPCerts = (int)listCertsCryptoPro.count;
+    
+    if (g_prov.isEmpty()){
+      THROW_EXCEPTION(0, CertsList, NULL, "init provider_system error!");
+    }
+    NSMutableArray *listCertsCrypto = [NSMutableArray array];
+    WStore *wStore = [[WStore alloc] init];
+    listCertsCrypto = [wStore UnloadCertsFromStore];//заполнение списка сертификатов из контейнеров crypto модуля
+    countCryptoCerts = (int) listCertsCrypto.count;
+    
+    /* объединение 2-х NSArray */
+    [listCerts removeAllObjects];
+    listCerts = [NSMutableArray arrayWithArray:listCertsCrypto];
+    [listCerts addObjectsFromArray: listCertsCryptoPro];
+    
+    callback(@[[NSNull null], [listCerts copy]]);
   }
-  NSMutableArray *listCertsCrypto = [NSMutableArray array];
-  WStore *wStore = [[WStore alloc] init];
-  listCertsCrypto = [wStore UnloadCertsFromStore];//заполнение списка сертификатов из контейнеров crypto модуля
-  countCryptoCerts = (int) listCertsCrypto.count;
-  
-  /* объединение 2-х NSArray */
-  [listCerts removeAllObjects];
-  listCerts = [NSMutableArray arrayWithArray:listCertsCrypto];
-  [listCerts addObjectsFromArray: listCertsCryptoPro];
-  
-  callback(@[[NSNull null], [listCerts copy]]);
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
+  }
 }
 
 RCT_EXPORT_METHOD(providerInit: (RCTResponseSenderBlock)callback){
   try{
     if (strcmp(g_pathToStore.c_str(), "") == 0){
-      callback(@[[@"init provider error! Input path to store incorrect." copy], [NSNumber numberWithInt: 0]]);
+      THROW_EXCEPTION(0, CertsList, NULL, "init provider error! Input path to store incorrect!");
     }
     else{
       g_prov = new Provider_System(new std::string(g_pathToStore));

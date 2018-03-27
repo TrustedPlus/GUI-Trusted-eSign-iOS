@@ -136,8 +136,7 @@ RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)serialNumber: (NSString *)inFile: 
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
-      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCipher, NULL, "This certificate was not found in the 'crypto' store!");
     }
     
     TrustedHandle<PkiItem> pi = new PkiItem();
@@ -177,8 +176,7 @@ RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)serialNumber: (NSString *)encFile:
     filterByCert->setSerial(new std::string(pSerialNumber));
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
-      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCipher, NULL, "This certificate was not found in the 'crypto' store!");
     }
     TrustedHandle<PkiItem> pi = new PkiItem();
     pi = pic->items(0);
@@ -189,8 +187,7 @@ RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)serialNumber: (NSString *)encFile:
     filterByKey->setHash(pi->certKey);
     TrustedHandle<PkiItemCollection> picKey = g_storeCrypto->find(filterByKey);
     if (picKey->length() <= 0){
-      callback(@[[@"No private key found for this certificate in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCipher, NULL, "No private key found for this certificate in the 'crypto' store!");
     }
     TrustedHandle<PkiItem> piKey = picKey->items(0);
     TrustedHandle<Key> hkey = g_storeCrypto->getItemKey(piKey);

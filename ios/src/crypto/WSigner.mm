@@ -96,8 +96,7 @@ RCT_EXPORT_METHOD(signFile: (NSString *)serialNumber: (NSString *)infilenameCont
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
-      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WSigner, NULL, "This certificates was not found in the 'crypto' store!");
     }
     
     TrustedHandle<PkiItem> pi = new PkiItem();
@@ -110,8 +109,7 @@ RCT_EXPORT_METHOD(signFile: (NSString *)serialNumber: (NSString *)infilenameCont
     filterByKey->setHash(pi->certKey);
     TrustedHandle<PkiItemCollection> picKey = g_storeCrypto->find(filterByKey);
     if (picKey->length() <= 0){
-      callback(@[[@"No private key found for this certificate in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WSigner, NULL, "No private key found for this certificate in the 'crypto' store!");
     }
     TrustedHandle<PkiItem> piKey = picKey->items(0);
     TrustedHandle<Key> hkey = g_storeCrypto->getItemKey(piKey);
@@ -151,8 +149,7 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)serialNumber: (NSString *)checkfilenam
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
-      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WSigner, NULL, "This certificate was not found in the 'crypto' store!");
     }
     
     TrustedHandle<PkiItem> pi = new PkiItem();

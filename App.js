@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Platform, StyleSheet, Text, Button, View, ScrollView } from 'react-native';
 import {NativeModules} from "react-native";
 
-var number = 7;
+var number = 10;
 
 export default class App extends React.Component<{}> {
     constructor(props) {
@@ -37,6 +37,7 @@ export default class App extends React.Component<{}> {
             containerListCSPLabel: ""
         });
         this.onPressUpdate = this.onPressUpdate.bind(this);
+        this.onPress_isGostCert = this.onPress_isGostCert.bind(this);
 
         this.onPressLoad = this.onPressLoad.bind(this);
         this.onPressSaveCertToStore = this.onPressSaveCertToStore.bind(this);
@@ -115,6 +116,16 @@ export default class App extends React.Component<{}> {
       NativeModules.CertsList.getCountsOfCertsInCryptoCSPStore(
         (count) => {
         this.setState({countCSPCertsInStore: count});
+      });
+    }
+    //функция определения алгоритма подписи входного сертификата (принадлежность к ГОСТ)
+    onPress_isGostCert() {
+      NativeModules.CertsList.isGostCert(
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/gost_onlyCert.cer",
+        //"/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/cert1.crt",
+        "BASE64",
+        (err, label) => {
+        this.setState({errorLabel: err, resultLabel: label}, function() {console.log("State", this.state); });
       });
     }
 /*
@@ -277,8 +288,9 @@ export default class App extends React.Component<{}> {
     //импорт PKCS12 из файла
     onPressImportPKCS12(){
       NativeModules.WPkcs12.ImportPKCS12(
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/p12.pfx",
-        "",
+       // "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/p12.pfx",
+       "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/GOST_cryptoARM.pfx",  
+       "12345678",
         "",
         (err, imp) => { 
           this.setState({errorLabel: err, resultLabel: imp}, function() {console.log("State", this.state); });
@@ -381,7 +393,7 @@ export default class App extends React.Component<{}> {
     //добавление сертификата в хранилище криптоПРО
     onPressCSP_addCert() {
       NativeModules.PCert.addCert(
-        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/gost_onlyCert.cer",
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/gost12_strong.cer",
         "BASE64",
         "My", 
         (err, label) => {
@@ -472,6 +484,7 @@ export default class App extends React.Component<{}> {
         <Text style={styles.instructions}> countCryptoCertsInStore:  {this.state.countCryptoCertsInStore} </Text>
         <Text style={styles.instructions}> countCSPCertsInStore:  {this.state.countCSPCertsInStore} </Text>
         <Button onPress={this.onPressUpdate} title="update" color="green"/>
+        <Button onPress={this.onPress_isGostCert} title="isGostCert" color="green"/>
         <Button onPress={this.onPressSaveCertToStore} title="saveCertToStore" color="green"/>
         <Button onPress={this.onPressDeleteCertInStore} title="deleteCertToStore" color="green"/>
         <Button onPress={this.onPressSaveKeyToStore} title="saveKeyToStore" color="green"/>

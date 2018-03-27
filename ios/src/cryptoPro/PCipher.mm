@@ -21,7 +21,24 @@ RCT_EXPORT_METHOD(encFile: (NSString *)serialNumber: (NSString *)category: (NSSt
     PCCERT_CONTEXT pUserCert = NULL;
     pUserCert = findCertInCSPStore(serialNumber, category);
     
+    DWORD dwSize;
+    CSP_BOOL bResult = FALSE;
+    CRYPT_KEY_PROV_INFO *pProvInfo = NULL;
+    bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, NULL, &dwSize);
+    if (bResult) {
+      free(pProvInfo);
+      pProvInfo = (CRYPT_KEY_PROV_INFO *)malloc(dwSize);
+      if (pProvInfo) {
+        bResult = CertGetCertificateContextProperty(pUserCert, CERT_KEY_PROV_INFO_PROP_ID, pProvInfo, &dwSize);
+      }
+    }
+    
+    if(!bResult){
+      THROW_EXCEPTION(0, PSigner, NULL, "No certificates with private key link.");
+    }
+    
     // получение дескриптора криптографического провайдера.
+    // !!!!!!     выбор алгоритма PROV_GOST_2012_256
     if(!CryptAcquireContext(&hCryptProv, 0, NULL, PROV_GOST_2012_256, CRYPT_VERIFYCONTEXT)){
       THROW_EXCEPTION(0, PCipher, NULL, "Cryptographic context could not be acquired.");
     }

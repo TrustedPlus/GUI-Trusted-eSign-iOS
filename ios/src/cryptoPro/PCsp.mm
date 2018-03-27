@@ -52,7 +52,18 @@
             arrayPropertyCert[@"thumbprint"] = @(hcert->getThumbprint()->c_str());
             arrayPropertyCert[@"publicKeyAlgorithm"] = @(hcert->getPublicKeyAlgorithm()->c_str());
             arrayPropertyCert[@"signatureAlgorithm"] = @(hcert->getSignatureAlgorithm()->c_str());
-            arrayPropertyCert[@"signatureDigestAlgorithm"] = @(hcert->getSignatureDigestAlgorithm()->c_str());
+            
+            if ((strncmp(hcert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.3", 17)) && (strncmp(hcert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.2", 17))){
+              arrayPropertyCert[@"signatureDigestAlgorithm"] = @(hcert->getSignatureDigestAlgorithm()->c_str());
+            }
+            else{
+              if (strncmp(hcert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.3", 17)){
+                arrayPropertyCert[@"signatureDigestAlgorithm"] = @("ГОСТ Р 34.11-2012 512 бит");
+              }
+              else{
+                arrayPropertyCert[@"signatureDigestAlgorithm"] = @("ГОСТ Р 34.11-2012 256 бит");
+              }
+            }
             arrayPropertyCert[@"organizationName"] = @(hcert->getOrganizationName()->c_str());
             arrayPropertyCert[@"keyUsage"] = @(hcert->getKeyUsage());
             arrayPropertyCert[@"selfSigned"] = @(hcert->isSelfSigned());
@@ -105,7 +116,9 @@ TrustedHandle<PkiItem> objectToPKIItem(TrustedHandle<Certificate> cert){
     item->certSerial = cert->getSerialNumber();
     item->certOrganizationName = cert->getOrganizationName();
     item->certSignatureAlgorithm = cert->getSignatureAlgorithm();
-    item->certSignatureDigestAlgorithm = cert->getSignatureDigestAlgorithm();
+    if ((strncmp(item->certSignatureAlgorithm->c_str(), "1.2.643.7.1.1.3.3", 17)) && (strncmp(item->certSignatureAlgorithm->c_str(), "1.2.643.7.1.1.3.2", 17))){
+      item->certSignatureDigestAlgorithm = cert->getSignatureDigestAlgorithm();
+    }
     item->certPublicKeyAlgorithm = cert->getPublicKeyAlgorithm();
     
     item->certNotBefore = cert->getNotBefore();

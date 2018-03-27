@@ -63,4 +63,42 @@ RCT_EXPORT_METHOD(getCountsOfCertsInCryptoCSPStore: (RCTResponseSenderBlock)call
   callback(@[[NSNumber numberWithInt: countCSPCerts]]);
 }
 
+RCT_EXPORT_METHOD(isGostCert: (NSString *)pathCert:  (NSString *)format: (RCTResponseSenderBlock)callback){
+  try{
+    char *pPathCert = (char *) [pathCert UTF8String];
+    char *pFormat = (char *) [format UTF8String];
+    TrustedHandle<Certificate> cert = new Certificate();
+    TrustedHandle<Bio> in = NULL;
+    DataFormat::DATA_FORMAT data_format;
+    if (strcmp(pFormat, "DER") == 0)
+      data_format = DataFormat::DER;
+    else{
+      if (strcmp(pFormat, "BASE64") == 0)
+        data_format = DataFormat::BASE64;
+      else{
+        THROW_EXCEPTION(0, CertsList, NULL, "Error input format!");
+      }
+    }
+    in = new Bio(BIO_TYPE_FILE, pPathCert, "rb");
+    cert->read(in, data_format);
+    
+    X509_ALGOR *sigalg = cert->internal()->sig_alg;
+    TrustedHandle<OID> str_oid = (new Algorithm(sigalg))->getTypeId();
+    TrustedHandle<std::string> str_2 = str_oid->toString();
+
+    if (str_2->c_str() == NULL) {
+      THROW_OPENSSL_EXCEPTION(0, CertsList, NULL, "undefined algorithm!");
+    }
+    if ((strcmp(str_2->c_str(), "1.2.643.7.1.1.3.3") == 0) || (strcmp(str_2->c_str(), "1.2.643.7.1.1.3.2") == 0) || (strcmp(str_2->c_str(), "1.2.643.2.2.3") == 0) || (strcmp(str_2->c_str(), "1.2.643.2.2.3") == 0)){
+      callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
+    }
+    else{
+      callback(@[[NSNull null], [NSNumber numberWithInt: 0]]);
+    }
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+}
+
 @end

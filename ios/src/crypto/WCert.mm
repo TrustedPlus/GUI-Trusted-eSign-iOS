@@ -137,13 +137,15 @@ RCT_EXPORT_METHOD(Save: (NSString *)pathToSaveCert:  (NSString *)format:  (RCTRe
   }
 }
 //удаление сертификата из хранилища
-RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)serialNumber: (NSString *)category: (RCTResponseSenderBlock)callback){
   char *pSerialNumber = (char *) [serialNumber UTF8String];
+  char *pCategory = (char *) [category UTF8String];
   try{
     OpenSSL::run();
     TrustedHandle<Filter> filterByCert = new Filter();
     
     filterByCert->setSerial(new std::string(pSerialNumber));
+    filterByCert->setCategory(new std::string(pCategory));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
@@ -421,35 +423,6 @@ RCT_EXPORT_METHOD(isCA: (RCTResponseSenderBlock)callback){
   }
   catch (TrustedHandle<Exception> e){
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
-  }
-}
-//проверка наличия у сертификата закрытого ключа (1 - есть, 0 - нет)
--(int) hasCertInStore: (TrustedHandle<Certificate>) cert{
-  try {
-    TrustedHandle<Filter> filterByCert = new Filter();
-    filterByCert->setSerial(cert->getSerialNumber());
-    TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
-    if (pic->length() == 0)
-      return 0;
-    else
-      return 1;
-  } catch (TrustedHandle<Exception> e) {
-    throw e;
-  }
-}
-//высчитывание хэша
-void bin_to_strhex(unsigned char *bin, unsigned int binsz, char **result){
-  char hex_str[] = "0123456789abcdef";
-  unsigned int  i;
-  
-  *result = (char *)malloc(binsz * 2 + 1);
-  (*result)[binsz * 2] = 0;
-  
-  if (!binsz)  return;
-  
-  for (i = 0; i < binsz; i++){
-    (*result)[i * 2 + 0] = hex_str[(bin[i] >> 4) & 0x0F];
-    (*result)[i * 2 + 1] = hex_str[(bin[i]) & 0x0F];
   }
 }
 

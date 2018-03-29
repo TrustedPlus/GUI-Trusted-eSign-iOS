@@ -323,8 +323,8 @@ void PkiStore::addProvider(::TrustedHandle<Provider> provider) {
 					BN_print(bioBN, pkey->pkey.dsa->pub_key);
 				else
 #ifndef OPENSSL_NO_CTGOSTCP
-					if (pkey->type == NID_id_GostR3410_94 || pkey->type == NID_id_GostR3410_2001
-						|| pkey->type == NID_id_tc26_gost3410_12_256 || pkey->type == NID_id_tc26_gost3410_12_512)
+					if (pkey->type == NID_id_GostR3410_94 || pkey->type == NID_id_GostR3410_2001)
+						//|| pkey->type == NID_id_tc26_gost3410_12_256 || pkey->type == NID_id_tc26_gost3410_12_512)
 					{
 						EC_KEY *tkey;
 						const EC_POINT *pubkey = NULL;
@@ -537,8 +537,8 @@ void PkiStore::addProvider(::TrustedHandle<Provider> provider) {
 					BN_print(bioBN, pkey->pkey.dsa->pub_key);
 				else
 #ifndef OPENSSL_NO_CTGOSTCP
-					if (pkey->type == NID_id_GostR3410_94 || pkey->type == NID_id_GostR3410_2001
-						|| pkey->type == NID_id_tc26_gost3410_12_256 || pkey->type == NID_id_tc26_gost3410_12_512)
+					if (pkey->type == NID_id_GostR3410_94 || pkey->type == NID_id_GostR3410_2001)
+						//|| pkey->type == NID_id_tc26_gost3410_12_256 || pkey->type == NID_id_tc26_gost3410_12_512)
 					{
 						::TrustedHandle<Bio> pPub = new Bio(BIO_TYPE_MEM, "");
 

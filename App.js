@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Platform, StyleSheet, Text, Button, View, ScrollView } from 'react-native';
 import {NativeModules} from "react-native";
 
-var number = 10;
+var number = 9;
 
 export default class App extends React.Component<{}> {
     constructor(props) {
@@ -75,7 +75,7 @@ export default class App extends React.Component<{}> {
     //загрузка из хранилища(crypto and cryptoPro) всех сертификатов
     componentDidMount() {
       //задает путь к хранилищу crypto
-      NativeModules.CertsList.pathToStore(
+      NativeModules.CertsList.setPathToStore(
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/store",
         (err, label) => {
         this.setState({errorLabel: err, resultLabel: label});
@@ -153,6 +153,7 @@ export default class App extends React.Component<{}> {
     onPressDeleteCertInStore(){
       NativeModules.WCert.deleteCertInStore(
         this.state.certsLabel[number]["serialNumber"],
+        this.state.certsLabel[number]["category"],
         (err, deleteCert) => {
         this.setState({errorLabel: err, resultLabel: deleteCert}, function() {console.log("State", this.state); });
       });
@@ -230,8 +231,9 @@ export default class App extends React.Component<{}> {
     }
     //подпись файла
     onPressSignFile() {
-      NativeModules.WSigner.signFile(
+      NativeModules.WSigner.sign(
         this.state.certsLabel[number]["serialNumber"],
+        this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/input.txt", 
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/output.txt", 
         (err, signFile) => {
@@ -240,8 +242,9 @@ export default class App extends React.Component<{}> {
     }
     //проверка подписи
     onPressVerify() {
-      NativeModules.WSigner.verifySign(
+      NativeModules.WSigner.verify(
         this.state.certsLabel[number]["serialNumber"],
+        this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/output.txt", 
         (err, verify) => {
         this.setState({errorLabel: err, resultLabel: verify}, function() {console.log("State", this.state); });
@@ -249,7 +252,7 @@ export default class App extends React.Component<{}> {
     }
     //симметричное шифрование файла
     onPressEncrypt() {
-      NativeModules.WCipher.EncSymmetric(
+      NativeModules.WCipher.encryptSymmetric(
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/input.txt", 
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/encrypt.txt", 
         (err, encrypt) => {
@@ -258,7 +261,7 @@ export default class App extends React.Component<{}> {
     }
     //симметричное дешифрование файла
     onPressDecrypt() {
-      NativeModules.WCipher.DecSymmetric(
+      NativeModules.WCipher.decryptSymmetric(
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/encrypt.txt", 
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/output.txt", 
         (err, decrypt) => {
@@ -267,8 +270,9 @@ export default class App extends React.Component<{}> {
     }
     //асимметричное шифрование файла
     onPressEncryptA() {
-      NativeModules.WCipher.EncAssymmetric(
+      NativeModules.WCipher.encrypt(
         this.state.certsLabel[number]["serialNumber"],
+        this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/input.txt", 
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/encrypt.txt", 
         (err, encrypt) => {
@@ -277,8 +281,9 @@ export default class App extends React.Component<{}> {
     }
     //асимметричное дешифрование файла
     onPressDecryptA() {
-      NativeModules.WCipher.DecAssymmetric(
+      NativeModules.WCipher.decrypt(
         this.state.certsLabel[number]["serialNumber"],
+        this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/encrypt.txt", 
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/encrypt/output.txt", 
         (err, decrypt) => {
@@ -287,10 +292,9 @@ export default class App extends React.Component<{}> {
     }
     //импорт PKCS12 из файла
     onPressImportPKCS12(){
-      NativeModules.WPkcs12.ImportPKCS12(
-       // "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/p12.pfx",
-       "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/GOST_cryptoARM.pfx",  
-       "12345678",
+      NativeModules.WPkcs12.importPFX(
+        "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/p12.pfx",
+        "",
         "",
         (err, imp) => { 
           this.setState({errorLabel: err, resultLabel: imp}, function() {console.log("State", this.state); });
@@ -298,10 +302,11 @@ export default class App extends React.Component<{}> {
     }
     //экспорт PKCS12 в файл
     onPressExportPKCS12(){
-      NativeModules.WPkcs12.ExportPKCS12(
+      NativeModules.WPkcs12.exportPFX(
         this.state.certsLabel[number]["serialNumber"],
+        this.state.certsLabel[number]["category"],
+        false,
         "12345678",
-        "name",
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/export_pfx.pfx",
         (err, exp) => { 
           this.setState({errorLabel: err, resultLabel: exp}, function() {console.log("State", this.state); });
@@ -349,7 +354,7 @@ export default class App extends React.Component<{}> {
     }
     //шифрование файла
     onPressCSP_encryptFile() {
-      NativeModules.PCipher.encFile(
+      NativeModules.PCipher.encrypt(
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/input.txt",
@@ -360,7 +365,7 @@ export default class App extends React.Component<{}> {
     }
     //дешифрование файла
     onPressCSP_decryptFile() {
-      NativeModules.PCipher.decFile(
+      NativeModules.PCipher.decrypt(
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_encrypt/enc.txt",
@@ -383,7 +388,7 @@ export default class App extends React.Component<{}> {
       NativeModules.PCerts.exportPFX(
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
-        "true",
+        true,
         "12345678",
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/GOST_CSP_pfx.pfx", 
         (err, label) => {
@@ -392,7 +397,7 @@ export default class App extends React.Component<{}> {
     }
     //добавление сертификата в хранилище криптоПРО
     onPressCSP_addCert() {
-      NativeModules.PCert.addCert(
+      NativeModules.PCert.saveCertToStore(
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/cert\ and\ key/gost12_strong.cer",
         "BASE64",
         "My", 
@@ -446,7 +451,7 @@ export default class App extends React.Component<{}> {
     }
     //подпись файла
     onPressCSp_attachSignFileNew(){
-      NativeModules.PSigner.attachSignFile(
+      NativeModules.PSigner.sign(
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.txt",
@@ -457,7 +462,7 @@ export default class App extends React.Component<{}> {
     }
     //проверка подписи
     onPressCSp_verifyAttachSignFileNew(){
-      NativeModules.PSigner.verifyAttachSignFile(
+      NativeModules.PSigner.verify(
         this.state.certsLabel[number]["serialNumber"],
         this.state.certsLabel[number]["category"],        
         "/Users/admin/Documents/GitHub/GUI-Trusted-eSign-iOS/ios/tests/CSP_sign/input_attach.sig.txt", 

@@ -18,7 +18,7 @@ RCT_EXPORT_METHOD(saveCRLToStore: (NSString *)filename: (NSString *)inFormat: (R
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
-
+/*
 RCT_EXPORT_METHOD(save: (NSString *)filename: (NSString *)inFormat: (RCTResponseSenderBlock)callback){
   char *pFilename = (char *)  [filename UTF8String];
   try{
@@ -32,7 +32,7 @@ RCT_EXPORT_METHOD(save: (NSString *)filename: (NSString *)inFormat: (RCTResponse
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
-
+*/
 RCT_EXPORT_METHOD(verifyChain: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
   try{
     char *pSerialNumber = (char *) [serialNumber UTF8String];

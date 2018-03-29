@@ -4,7 +4,7 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(encFile: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)encFile:  (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(encrypt: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)encFile:  (RCTResponseSenderBlock)callback){
   try{
     static DWORD cbEncryptedBlob;
     static BYTE *pbEncryptedBlob = NULL;
@@ -94,7 +94,7 @@ RCT_EXPORT_METHOD(encFile: (NSString *)serialNumber: (NSString *)category: (NSSt
   }
 }
 
-RCT_EXPORT_METHOD(decFile: (NSString *)serialNumber: (NSString *)category: (NSString *)encFile: (NSString *)decFile:  (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(decrypt: (NSString *)serialNumber: (NSString *)category: (NSString *)encFile: (NSString *)decFile:  (RCTResponseSenderBlock)callback){
   try{
     DWORD cbDecryptedMessage;
     CRYPT_DECRYPT_MESSAGE_PARA  decryptParams;

@@ -3,7 +3,7 @@
 @implementation PSigner
 
 RCT_EXPORT_MODULE();
-//THROW_EXCEPTION(0, PSigner, NULL, "CertDeleteCertificateFromStore failed: Code: %d", CSP_GetLastError());
+
 RCT_EXPORT_METHOD(signFile: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)outputFile: (RCTResponseSenderBlock)callback) {
   try{
     char *outfile = (char *) [outputFile UTF8String];
@@ -172,7 +172,7 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)inputFile: (NSString *)signFile: (RCTR
   }
 }
 
-RCT_EXPORT_METHOD(attachSignFile: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)signFile: (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSString *)inputFile: (NSString *)signFile: (RCTResponseSenderBlock)callback){
   try{
     static DWORD cbEncodedBlob;
     static BYTE *pbEncodedBlob = NULL;
@@ -296,7 +296,7 @@ RCT_EXPORT_METHOD(attachSignFile: (NSString *)serialNumber: (NSString *)category
   }
 }
 
-RCT_EXPORT_METHOD(verifyAttachSignFile: (NSString *)serialNumber: (NSString *)category: (NSString *)signFile: (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(verify: (NSString *)serialNumber: (NSString *)category: (NSString *)signFile: (RCTResponseSenderBlock)callback){
   try{
     //найти сертификат и проверить наличие у него закрытого ключа
     PCCERT_CONTEXT pUserCert = NULL;

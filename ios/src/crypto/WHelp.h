@@ -12,11 +12,16 @@
 #import <Foundation/Foundation.h>
 #import "React/RCTBridgeModule.h"
 #include "pki.h"
+#include "cert.h"
+#include "storehelper.h"
+#include "../globalHelper.h"
 
 @interface WHelp : NSObject <RCTBridgeModule>
 
 DataFormat::DATA_FORMAT NSStringToDataFormat(NSString *nsformat);
-  
+int hasCertInStore(TrustedHandle<Certificate> cert);                      //проверка наличия сертификата в хранилище.
+void bin_to_strhex(unsigned char *bin, unsigned int binsz, char **result);//высчитывание хэша
+
 @end
 
 #endif /* WHelp_h */

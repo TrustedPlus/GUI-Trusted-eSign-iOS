@@ -48,7 +48,7 @@ RCT_EXPORT_METHOD(providerInit: (RCTResponseSenderBlock)callback){
   }
 }
 
-RCT_EXPORT_METHOD(pathToStore: (NSString *)path: (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(setPathToStore: (NSString *)path: (RCTResponseSenderBlock)callback){
   char *pPath = (char *) [path UTF8String];
   g_pathToStore = *new std::string(pPath);
   

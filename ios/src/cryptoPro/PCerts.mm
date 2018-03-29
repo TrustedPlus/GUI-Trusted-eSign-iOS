@@ -59,8 +59,7 @@ RCT_EXPORT_METHOD(importPFX: (NSString *)pathToPFX: (NSString *)password: (RCTRe
   }
 }
 
-RCT_EXPORT_METHOD(exportPFX: (NSString *)serialNumber: (NSString *)category: (NSString *)exportPrivateKey: (NSString *)password: (NSString *)pathToFile: (RCTResponseSenderBlock)callback){
-  char *pExportPrivateKey = (char *) [exportPrivateKey UTF8String];
+RCT_EXPORT_METHOD(exportPFX: (NSString *)serialNumber: (NSString *)category: (BOOL)exportPrivateKey: (NSString *)password: (NSString *)pathToFile: (RCTResponseSenderBlock)callback){
   char *pPwd = (char *) [password UTF8String];
   char *pPathToFile = (char *) [pathToFile UTF8String];
   
@@ -72,7 +71,7 @@ RCT_EXPORT_METHOD(exportPFX: (NSString *)serialNumber: (NSString *)category: (NS
     PKCS12 *p12 = NULL;
     TrustedHandle<Pkcs12> resP12;
     
-    if (pExportPrivateKey) {
+    if (exportPrivateKey) {
       dwFlags = EXPORT_PRIVATE_KEYS | REPORT_NOT_ABLE_TO_EXPORT_PRIVATE_KEY;
     }
     

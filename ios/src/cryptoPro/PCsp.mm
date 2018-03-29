@@ -119,6 +119,14 @@ TrustedHandle<PkiItem> objectToPKIItem(TrustedHandle<Certificate> cert){
     if ((strncmp(item->certSignatureAlgorithm->c_str(), "1.2.643.7.1.1.3.3", 17)) && (strncmp(item->certSignatureAlgorithm->c_str(), "1.2.643.7.1.1.3.2", 17))){
       item->certSignatureDigestAlgorithm = cert->getSignatureDigestAlgorithm();
     }
+    else{
+      if (strncmp(item->certSignatureAlgorithm->c_str(), "1.2.643.7.1.1.3.3", 17)){
+        item->certSignatureDigestAlgorithm = new std::string("ГОСТ Р 34.11-2012 512 бит");
+      }
+      else{
+        item->certSignatureDigestAlgorithm = new std::string("ГОСТ Р 34.11-2012 256 бит");
+      }
+    }
     item->certPublicKeyAlgorithm = cert->getPublicKeyAlgorithm();
     
     item->certNotBefore = cert->getNotBefore();

@@ -4,7 +4,7 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(addCert: (NSString *)pathToFie: (NSString *)format: (NSString *)category: (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(saveCertToStore: (NSString *)pathToFie: (NSString *)format: (NSString *)category: (RCTResponseSenderBlock)callback){
   try{
     //считывание сертификата из файла
     char *pPathCert = (char *) [pathToFie UTF8String];

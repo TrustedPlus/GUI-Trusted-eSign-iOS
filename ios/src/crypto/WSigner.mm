@@ -84,15 +84,17 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)infilenameCert: (NSString *)formatCert
   }
 }
 */
-RCT_EXPORT_METHOD(signFile: (NSString *)serialNumber: (NSString *)infilenameContext: (NSString *)outfilename:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSString *)infilename: (NSString *)outfilename:(RCTResponseSenderBlock)callback) {
   try{
     OpenSSL::run();
     char *pSerialNumber = (char *) [serialNumber UTF8String];
+    char *pCategory = (char *) [category UTF8String];
     
     //read cert file
     TrustedHandle<Filter> filterByCert = new Filter();
     
     filterByCert->setSerial(new std::string(pSerialNumber));
+    filterByCert->setCategory(new std::string(pCategory));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
@@ -119,7 +121,7 @@ RCT_EXPORT_METHOD(signFile: (NSString *)serialNumber: (NSString *)infilenameCont
     
     TrustedHandle<Signer> signer =  sd->createSigner(cert, hkey);
     
-    char *infile = (char *) [infilenameContext UTF8String];
+    char *infile = (char *) [infilename UTF8String];
     TrustedHandle<Bio> value = new Bio(BIO_TYPE_FILE, infile, "rb");
     sd->setContent(value);
     
@@ -136,16 +138,18 @@ RCT_EXPORT_METHOD(signFile: (NSString *)serialNumber: (NSString *)infilenameCont
   }
 }
 
-RCT_EXPORT_METHOD(verifySign: (NSString *)serialNumber: (NSString *)checkfilename:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(verify: (NSString *)serialNumber: (NSString *)category: (NSString *)checkfilename:(RCTResponseSenderBlock)callback) {
   try{
     OpenSSL::run();
     
     char *pSerialNumber = (char *) [serialNumber UTF8String];
+    char *pCategory = (char *) [category UTF8String];
     
     //read cert file
     TrustedHandle<Filter> filterByCert = new Filter();
     
     filterByCert->setSerial(new std::string(pSerialNumber));
+    filterByCert->setCategory(new std::string(pCategory));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){

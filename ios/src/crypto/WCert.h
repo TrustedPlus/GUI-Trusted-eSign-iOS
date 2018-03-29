@@ -22,9 +22,6 @@
 @interface WCert : NSObject <RCTBridgeModule>{
   TrustedHandle<Certificate> cert;
 }
--(int) hasCertInStore: (TrustedHandle<Certificate>) cert; //проверка наличия сертификата в хранилище.
-
-void bin_to_strhex(unsigned char *bin, unsigned int binsz, char **result);
 
 @end
 

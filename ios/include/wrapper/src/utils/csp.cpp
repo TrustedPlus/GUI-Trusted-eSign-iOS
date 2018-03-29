@@ -487,7 +487,7 @@ std::vector<ProviderProps> Csp::enumProviders() {
 	}
 }
 
-std::vector<::TrustedHandle<std::string>> Csp::enumContainers(int provType, ::TrustedHandle<std::string> provName) {
+std::vector< ::TrustedHandle<std::string> > Csp::enumContainers(int provType, ::TrustedHandle<std::string> provName) {
 	//LOGGER_FN();
 
 	try {

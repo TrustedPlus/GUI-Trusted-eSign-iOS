@@ -42,7 +42,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
     if (email !== null) {
       email = (email[0].replace("1.2.840.113549.1.9.1=", ""));
       email = (email.replace("/", ""));
-    } else email = "не назначен";
+    } else { email = "не назначен"; }
     return (
       <Container style={styles.container}>
         <Headers title="Свойства сертфиката" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>

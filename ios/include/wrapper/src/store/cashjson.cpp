@@ -109,7 +109,7 @@ CashJson::CashJson(::TrustedHandle<std::string> fileName){
 		THROW_EXCEPTION(0, CashJson, e, "Error export json");
 	}	
 }
-
+/*
 void CashJson::importJson(::TrustedHandle<PkiItem> item){
 	LOGGER_FN();
 
@@ -182,3 +182,4 @@ void CashJson::importJson(::TrustedHandle<PkiItem> item){
 		THROW_EXCEPTION(0, CashJson, e, "Error import json");
 	}
 }
+*/

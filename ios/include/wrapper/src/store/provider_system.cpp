@@ -42,6 +42,7 @@ void Provider_System::init(::TrustedHandle<std::string> folder){
 		"MY",
 		"OTHERS",
 		"TRUST",
+		"ADDRESSBOOK",
 		"CRL"
 	};
 

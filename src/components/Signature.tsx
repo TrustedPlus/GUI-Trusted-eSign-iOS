@@ -29,7 +29,6 @@ interface SignatureProps {
     footer: any;
     personalCert: any;
     files: IFile[];
-    certKeys: any;
     isFetching: boolean;
     footerAction(key: number): void;
     footerClose(): void;
@@ -96,7 +95,8 @@ class Signature extends React.Component<SignatureProps> {
         }
 
         let img = [];
-        for (let i = 0; i < files.length; i++) { // какое расширение у файлов
+        let length = files.length;
+        for (let i = 0; i < length; i++) { // какое расширение у файлов
             switch (files[i].extension) {
                 case "pdf":
                     img[i] = require("../../imgs/general/file_pdf.png"); break;

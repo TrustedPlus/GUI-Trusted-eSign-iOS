@@ -123,9 +123,9 @@ public:
 	void setSerial(::TrustedHandle<std::string> serial);
 	void setIsValid(bool isValid);
 public:
-	std::vector<::TrustedHandle<std::string> > types; /* CRL | CERTIFICATE | KEY | REQUEST (optional) */
-	std::vector<::TrustedHandle<std::string> > providers; /* SYSTEM, MICROSOFT, CRYPTOPRO, TSL, PKCS11, TRUSTEDNET (optional) */
-	std::vector<::TrustedHandle<std::string> > categorys; /* MY, OTHER, CA, TRUSTED (optional) */
+  std::vector< ::TrustedHandle<std::string> > types; /* CRL | CERTIFICATE | KEY | REQUEST (optional) */
+  std::vector< ::TrustedHandle<std::string> > providers; /* SYSTEM, MICROSOFT, CRYPTOPRO, TSL, PKCS11, TRUSTEDNET (optional) */
+  std::vector< ::TrustedHandle<std::string> > categorys; /* MY, OTHER, CA, TRUSTED (optional) */
 	::TrustedHandle<std::string> hash; /* SHA-1 hash (optional) */
 	::TrustedHandle<std::string> subjectName;
 	::TrustedHandle<std::string> subjectFriendlyName;
@@ -171,7 +171,7 @@ public:
 	int length();
 	void push(::TrustedHandle<Provider> v);
 protected:
-	std::vector<::TrustedHandle<Provider> > _items;
+  std::vector< ::TrustedHandle<Provider> > _items;
 };
 
 #endif //STOREHELPER_H_INCLUDED

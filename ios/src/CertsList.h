@@ -5,6 +5,7 @@
 #include "cert.h"
 #include "storehelper.h"
 #include "pkistore.h"
+#include "globalHelper.h"
 #import <Foundation/Foundation.h>
 #import "React/RCTBridgeModule.h"
 #import <CPROCSP/CPROCSP.h>

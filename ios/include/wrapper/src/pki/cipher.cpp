@@ -195,14 +195,6 @@ void Cipher::encrypt(::TrustedHandle<Bio> inSource, ::TrustedHandle<Bio> outEnc,
 				THROW_OPENSSL_EXCEPTION(0, Cipher, NULL, "Error get pubkey");
 			}
 
-#ifndef OPENSSL_NO_CTGOSTCP
-			if (pkey->type == NID_id_GostR3410_94 || pkey->type == NID_id_GostR3410_2001
-				|| pkey->type == NID_id_tc26_gost3410_12_256 || pkey->type == NID_id_tc26_gost3410_12_512)
-			{
-				LOGGER_OPENSSL(EVP_get_cipherbyname);
-				cipher = EVP_get_cipherbyname(SN_id_Gost28147_89);
-			}
-#endif
 			if (pkey->type == NID_id_GostR3410_94 || pkey->type == NID_id_GostR3410_2001) {
 				LOGGER_OPENSSL(EVP_get_cipherbyname);
 				cipher = EVP_get_cipherbyname(SN_id_Gost28147_89);

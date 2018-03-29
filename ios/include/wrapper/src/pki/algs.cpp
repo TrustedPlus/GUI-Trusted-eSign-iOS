@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "../../include/algs.h"
+#include "../../include/wrapper/pki/algs.h"
 
 int AlgorithmCollection::length() {
 	LOGGER_FN();
@@ -17,7 +17,7 @@ int AlgorithmCollection::length() {
 
 	LOGGER_OPENSSL(sk_X509_ALGOR_value);
 	X509_ALGOR *res = sk_X509_ALGOR_value(this->internal(), index);
-	return new Algorithm(res, this->::TrustedHandle());
+	return new Algorithm(res, this->TrustedHandle());
 }
 
 void AlgorithmCollection::push(::TrustedHandle<Algorithm>item) {
@@ -36,7 +36,7 @@ void AlgorithmCollection::push(::TrustedHandle<Algorithm>item) {
 
 	LOGGER_OPENSSL(sk_X509_ALGOR_push);
 	sk_X509_ALGOR_push(this->internal(), algcpy->internal());
-	algcpy->setParent(this->::TrustedHandle());
+	algcpy->setParent(this->TrustedHandle());
 }
 
 void AlgorithmCollection::pop() {

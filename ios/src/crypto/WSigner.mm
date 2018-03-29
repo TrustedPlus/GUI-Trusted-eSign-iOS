@@ -1,6 +1,4 @@
 #include "WSigner.h"
-#include "WHelp.h"
-#include "../globalHelper.h"
 
 @implementation WSigner
 
@@ -86,22 +84,21 @@ RCT_EXPORT_METHOD(verifySign: (NSString *)infilenameCert: (NSString *)formatCert
   }
 }
 */
-RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)infilenameContext: (NSString *)outfilename:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSString *)infilename: (NSString *)outfilename:(RCTResponseSenderBlock)callback) {
   try{
     OpenSSL::run();
-    char *pIssuerName = (char *) [issuerName UTF8String];
     char *pSerialNumber = (char *) [serialNumber UTF8String];
+    char *pCategory = (char *) [category UTF8String];
     
     //read cert file
     TrustedHandle<Filter> filterByCert = new Filter();
     
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
+    filterByCert->setCategory(new std::string(pCategory));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
-      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WSigner, NULL, "This certificates was not found in the 'crypto' store!");
     }
     
     TrustedHandle<PkiItem> pi = new PkiItem();
@@ -114,8 +111,7 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
     filterByKey->setHash(pi->certKey);
     TrustedHandle<PkiItemCollection> picKey = g_storeCrypto->find(filterByKey);
     if (picKey->length() <= 0){
-      callback(@[[@"No private key found for this certificate in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WSigner, NULL, "No private key found for this certificate in the 'crypto' store!");
     }
     TrustedHandle<PkiItem> piKey = picKey->items(0);
     TrustedHandle<Key> hkey = g_storeCrypto->getItemKey(piKey);
@@ -125,7 +121,7 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
     
     TrustedHandle<Signer> signer =  sd->createSigner(cert, hkey);
     
-    char *infile = (char *) [infilenameContext UTF8String];
+    char *infile = (char *) [infilename UTF8String];
     TrustedHandle<Bio> value = new Bio(BIO_TYPE_FILE, infile, "rb");
     sd->setContent(value);
     
@@ -142,23 +138,22 @@ RCT_EXPORT_METHOD(signFile: (NSString *)issuerName: (NSString *)serialNumber: (N
   }
 }
 
-RCT_EXPORT_METHOD(verifySign: (NSString *)issuerName: (NSString *)serialNumber: (NSString *)checkfilename:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(verify: (NSString *)serialNumber: (NSString *)category: (NSString *)checkfilename:(RCTResponseSenderBlock)callback) {
   try{
     OpenSSL::run();
     
-    char *pIssuerName = (char *) [issuerName UTF8String];
     char *pSerialNumber = (char *) [serialNumber UTF8String];
+    char *pCategory = (char *) [category UTF8String];
     
     //read cert file
     TrustedHandle<Filter> filterByCert = new Filter();
     
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
+    filterByCert->setCategory(new std::string(pCategory));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
-      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WSigner, NULL, "This certificate was not found in the 'crypto' store!");
     }
     
     TrustedHandle<PkiItem> pi = new PkiItem();

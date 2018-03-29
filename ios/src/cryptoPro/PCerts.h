@@ -9,6 +9,11 @@
 #ifndef PCerts_h
 #define PCerts_h
 
+#include "cert.h"
+#include "pki/pkcs12.h"
+#include "../globalHelper.h"
+#include "PHelp.h"
+
 #import <Foundation/Foundation.h>
 #import "React/RCTBridgeModule.h"
 #import <CPROCSP/CPROCSP.h>
@@ -25,10 +30,6 @@
 @interface PCerts : NSObject <RCTBridgeModule>{
   std::map<std::string, std::vector<PCCERT_CONTEXT>> allCerts;
 }
-
-//TrustedHandle<Certificate> certs;//список сертификатов из хранилища криптоПро
-//1) первоначальное добавление в certs
-//2) функция заполнения certs из всех контейнеров криптоПро и при добавлении(удалении) изменялось содержимое certs
 
 @end
 

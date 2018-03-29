@@ -30,6 +30,7 @@ class PersonalСert extends React.Component<PersonalСertProps> {
         personal
         issuerName = {cert.issuerName}
         serialNumber = {cert.serialNumber}
+        rightimg = {cert.hasPrivateKey ? require("../../imgs/general/key_icon.png") : null}
         nav={() => this.props.navigation.navigate("PropertiesCert", { cert: cert})} />));
   }
 

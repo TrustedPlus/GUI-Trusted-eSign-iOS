@@ -10,6 +10,8 @@
 #include "cipher.h"
 #include "openssl.h"
 #include "signers.h"
+#include "WHelp.h"
+#include "../globalHelper.h"
 
 @interface WSigner : NSObject <RCTBridgeModule>
 

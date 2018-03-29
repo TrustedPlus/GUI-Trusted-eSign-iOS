@@ -4,6 +4,7 @@ import { READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR,
          VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END,
          ENCODE_FILES, ENCODE_FILES_SUCCESS, ENCODE_FILES_ERROR, ENCODE_FILES_END,
          DECODE_FILES, DECODE_FILES_SUCCESS, DECODE_FILES_ERROR, DECODE_FILES_END,
+         ADD_CERT_OR_KEY, ADD_CERT_SUCCESS, ADD_CERT_ERROR, ADD_KEY_SUCCESS, ADD_KEY_ERROR,
          CLEAR_LOG} from "../constants";
 
 const initialState = {
@@ -74,6 +75,34 @@ export function Files(state = initialState, action) {
         log: logAddrecord(state.log, action.payload, "Добавление файла не удалось"),
         lastlog: new Date() + "",
         isFetching: false
+      };
+    case ADD_CERT_OR_KEY:
+      return {
+        ...state,
+      };
+    case ADD_CERT_SUCCESS:
+      return {
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Добавление сертификата"),
+        lastlog: new Date() + "",
+      };
+    case ADD_CERT_ERROR:
+      return {
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Добавление сертификата не удалось"),
+        lastlog: new Date() + "",
+      };
+    case ADD_KEY_SUCCESS:
+      return {
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Добавление ключа"),
+        lastlog: new Date() + "",
+      };
+    case ADD_KEY_ERROR:
+      return {
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Добавление ключа не удалось"),
+        lastlog: new Date() + "",
       };
     case SIGN_FILE:
       return {

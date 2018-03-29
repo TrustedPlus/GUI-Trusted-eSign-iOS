@@ -29,7 +29,7 @@ public:
 	::TrustedHandle<std::string> getCPCSPSecurityLvl();
 
 	std::vector<ProviderProps> enumProviders();
-	std::vector<::TrustedHandle<std::string>> enumContainers(int provType, ::TrustedHandle<std::string> provName);
+  std::vector< ::TrustedHandle<std::string> > enumContainers(int provType, ::TrustedHandle<std::string> provName);
 	::TrustedHandle<Certificate> getCertifiacteFromContainer(::TrustedHandle<std::string> contName, int provType, ::TrustedHandle<std::string> provName);
 	::TrustedHandle<std::string> getContainerNameByCertificate(::TrustedHandle<Certificate> cert, ::TrustedHandle<std::string> category);
 	void installCertifiacteFromContainer(::TrustedHandle<std::string> contName, int provType, ::TrustedHandle<std::string> provName);

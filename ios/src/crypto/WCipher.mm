@@ -6,7 +6,7 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(EncSymmetric: (NSString *)infilename:(NSString *)outfilename:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(encryptSymmetric: (NSString *)infilename:(NSString *)encfilename:(RCTResponseSenderBlock)callback) {
   try{
     OpenSSL::run();
     
@@ -18,10 +18,10 @@ RCT_EXPORT_METHOD(EncSymmetric: (NSString *)infilename:(NSString *)outfilename:(
     char *infile = (char *) [infilename UTF8String];
     TrustedHandle<Bio> inFile = new Bio(BIO_TYPE_FILE, infile, "rb");
     
-    char *outfile = (char *) [outfilename UTF8String];
-    TrustedHandle<Bio> outFile = new Bio(BIO_TYPE_FILE, outfile, "wb");
+    char *encfile = (char *) [encfilename UTF8String];
+    TrustedHandle<Bio> encFile = new Bio(BIO_TYPE_FILE, encfile, "wb");
     
-    ch->encrypt(inFile, outFile, DataFormat::BASE64);
+    ch->encrypt(inFile, encFile, DataFormat::BASE64);
     
     callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
@@ -30,7 +30,7 @@ RCT_EXPORT_METHOD(EncSymmetric: (NSString *)infilename:(NSString *)outfilename:(
   }
 }
 
-RCT_EXPORT_METHOD(DecSymmetric: (NSString *)encFile: (NSString *)decFile: (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(decryptSymmetric: (NSString *)encFile: (NSString *)decFile: (RCTResponseSenderBlock)callback){
   try{
     OpenSSL::run();
     
@@ -53,94 +53,21 @@ RCT_EXPORT_METHOD(DecSymmetric: (NSString *)encFile: (NSString *)decFile: (RCTRe
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
-/*
-RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)inFile: (NSString *)encFile: (NSString *)certFile: (NSString *)formatCert: (RCTResponseSenderBlock)callback){
-  try{
-    OpenSSL::run();
-    
-    //read cert file
-    char *infileCert = (char *) [certFile UTF8String];
-    TrustedHandle<Certificate> cert = new Certificate();
-    TrustedHandle<Bio> inf = NULL;
-    DataFormat::DATA_FORMAT format = NSStringToDataFormat(formatCert);
-    inf = new Bio(BIO_TYPE_FILE, infileCert, "rb");
-    cert->read(inf, format);
-    
-    TrustedHandle<Cipher> ch = new Cipher();
-    TrustedHandle<CertificateCollection> certs = new CertificateCollection();
-    certs->push(cert);
-    ch->addRecipientsCerts(certs);
-    
-    char *infile = (char *) [inFile UTF8String];
-    TrustedHandle<Bio> bioInFile = new Bio(BIO_TYPE_FILE, infile, "rb");
-    
-    char *encfile = (char *) [encFile UTF8String];
-    TrustedHandle<Bio> bioEncFile = new Bio(BIO_TYPE_FILE, encfile, "wb");
-    
-    ch->encrypt(bioInFile, bioEncFile, format);
-    
-    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
-  }
-  catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
-  }
-}
 
-RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSString *)certFile: (NSString *)formatCert: (NSString *)keyFile: (NSString *)formatKey:(RCTResponseSenderBlock)callback){
-  try{
-    OpenSSL::run();
-    
-    //read cert file
-    char *infileCert = (char *) [certFile UTF8String];
-    TrustedHandle<Certificate> cert = new Certificate();
-    TrustedHandle<Bio> inf = NULL;
-    DataFormat::DATA_FORMAT format = NSStringToDataFormat(formatCert);
-    inf = new Bio(BIO_TYPE_FILE, infileCert, "rb");
-    cert->read(inf, format);
-    
-    //read key file
-    char *infileKey = (char *) [keyFile UTF8String];
-    TrustedHandle<Key> key = new Key();
-    TrustedHandle<Bio> inKey = NULL;
-    format = NSStringToDataFormat(formatKey);
-    inKey = new Bio(BIO_TYPE_FILE, infileKey, "rb");
-    key->readPrivateKey(inKey, format, new std::string(""));
-    
-    TrustedHandle<Cipher> ch = new Cipher();
-    ch->setRecipientCert(cert);
-    ch->setPrivKey(key);
-    
-    char *encfile = (char *) [encFile UTF8String];
-    TrustedHandle<Bio> bioEncFile = new Bio(BIO_TYPE_FILE, encfile, "rb");
-    
-    char *decfile = (char *) [decFile UTF8String];
-    TrustedHandle<Bio> bioDecFile = new Bio(BIO_TYPE_FILE, decfile, "wb");
-    
-    ch->decrypt(bioEncFile, bioDecFile, format);
-    
-    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
-  }
-  catch (TrustedHandle<Exception> e){
-    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
-  }
-}
-*/
-RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)inFile: (NSString *)encFile: (NSString *)issuerName: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(encrypt: (NSString *)serialNumber: (NSString *)category: (NSString *)inFile: (NSString *)encFile: (RCTResponseSenderBlock)callback){
   char *pSerialNumber = (char *) [serialNumber UTF8String];
-  
+  char *pCategory = (char *) [category UTF8String];
   try{
     OpenSSL::run();
     //read cert file
     TrustedHandle<Filter> filterByCert = new Filter();
     
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
+    filterByCert->setCategory(new std::string(pCategory));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
-      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCipher, NULL, "This certificate was not found in the 'crypto' store!");
     }
     
     TrustedHandle<PkiItem> pi = new PkiItem();
@@ -170,20 +97,19 @@ RCT_EXPORT_METHOD(EncAssymmetric: (NSString *)inFile: (NSString *)encFile: (NSSt
   }
 }
 
-RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSString *)issuerName: (NSString *)serialNumber:(RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(decrypt: (NSString *)serialNumber: (NSString *)category: (NSString *)encFile: (NSString *)decFile:(RCTResponseSenderBlock)callback){
   try{
-    char *pIssuerName = (char *) [issuerName UTF8String];
     char *pSerialNumber = (char *) [serialNumber UTF8String];
+    char *pCategory = (char *) [category UTF8String];
     OpenSSL::run();
     
     //read cert file
     TrustedHandle<Filter> filterByCert = new Filter();
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
+    filterByCert->setCategory(new std::string(pCategory));
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
-      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCipher, NULL, "This certificate was not found in the 'crypto' store!");
     }
     TrustedHandle<PkiItem> pi = new PkiItem();
     pi = pic->items(0);
@@ -194,8 +120,7 @@ RCT_EXPORT_METHOD(DecAssymmetric: (NSString *)encFile: (NSString *)decFile: (NSS
     filterByKey->setHash(pi->certKey);
     TrustedHandle<PkiItemCollection> picKey = g_storeCrypto->find(filterByKey);
     if (picKey->length() <= 0){
-      callback(@[[@"No private key found for this certificate in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCipher, NULL, "No private key found for this certificate in the 'crypto' store!");
     }
     TrustedHandle<PkiItem> piKey = picKey->items(0);
     TrustedHandle<Key> hkey = g_storeCrypto->getItemKey(piKey);

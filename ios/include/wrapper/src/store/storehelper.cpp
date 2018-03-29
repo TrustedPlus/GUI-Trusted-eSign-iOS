@@ -11,7 +11,7 @@
 ProviderCollection::ProviderCollection(){
 	LOGGER_FN();
 
-	_items = std::vector<::TrustedHandle<Provider> >();
+  _items = std::vector< ::TrustedHandle<Provider> >();
 }
 
 ProviderCollection::~ProviderCollection(){
@@ -367,9 +367,9 @@ void PkiItemCollection::push(PkiItem &v){
 Filter::Filter(){
 	LOGGER_FN();
 
-	types = std::vector<::TrustedHandle<std::string>>();
-	providers = std::vector<::TrustedHandle<std::string>>();
-	categorys = std::vector<::TrustedHandle<std::string>>();
+  types = std::vector< ::TrustedHandle<std::string> >();
+  providers = std::vector< ::TrustedHandle<std::string> >();
+  categorys = std::vector< ::TrustedHandle<std::string> >();
 	isValid = true;
 	hash = NULL;
 	subjectName = NULL;

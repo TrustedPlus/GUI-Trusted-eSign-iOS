@@ -42,7 +42,7 @@ void Pkcs12::write(::TrustedHandle<Bio> out){
 		PKCS12 *p12 = NULL;
 
 		LOGGER_OPENSSL(PKCS12_create);
-		p12 = PKCS12_create(pass, name, key->internal(), cert->internal(), NULL, 0, 0, 0, 0, 0);
+		p12 = PKCS12_create(pass, name, key->internal(), cert->internal(), ca->internal(), 0, 0, 0, 0, 0);
 		if (!p12) {
 			THROW_OPENSSL_EXCEPTION(0, Pkcs12, NULL, "Error creating PKCS#12 structure");
 		}

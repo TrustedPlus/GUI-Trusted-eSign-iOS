@@ -5,9 +5,9 @@
 - (NSMutableArray*) UnloadCertsFromStore{
   arrayPkiStore = [NSMutableArray array];
   try{
-    TrustedHandle<Provider> prov = new Provider_System(new std::string(g_pathToStore));    
     g_storeCrypto = new PkiStore(new std::string(g_pathToStore));
-    g_storeCrypto->addProvider(prov); //загрузка сертификатов и "ключей" этого криптопровайдера. Загрузка из хранилища по пути pathToStore
+    g_prov = new Provider_System(new std::string(g_pathToStore));
+    g_storeCrypto->addProvider(g_prov); //загрузка сертификатов и "ключей" этого криптопровайдера. Загрузка из хранилища по пути pathToStore
     TrustedHandle<PkiItemCollection> pic = new PkiItemCollection();
     pic = g_storeCrypto->getItems();                                    //список PKI обьектов
     

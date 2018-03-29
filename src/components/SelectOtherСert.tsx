@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 
 interface SelectOtherСertProps {
   navigation: any;
-  otherCertKeys: any;
+  pesronalCertKeys: any;
 }
 
 class SelectOtherСert extends React.Component<SelectOtherСertProps> {
@@ -19,21 +19,24 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps> {
 
   ShowList(img) {
     return (
-      this.props.otherCertKeys.map((file, key) => <ListMenu
+      this.props.pesronalCertKeys.map((cert, key) => <ListMenu
         key = {key}
-        title={file.name}
-        note = {file.mtime}
+        title={cert.issuerFriendlyName}
+        note = {cert.organizationName}
         img = {img[key]}
         other
+        issuerName = {cert.issuerName}
+        serialNumber = {cert.serialNumber}
+        rightimg = {cert.hasPrivateKey ? require("../../imgs/general/key_icon.png") : null}
         nav={() => this.props.navigation.goBack()} />));
   }
 
   render() {
-    const { otherCertKeys} = this.props;
+    const { pesronalCertKeys} = this.props;
     const { goBack } = this.props.navigation;
     let img = [];
-    for (let i = 0; i < otherCertKeys.length; i++) { // какое расширение у файлов
-      switch (otherCertKeys[i].extension) {
+    for (let i = 0; i < pesronalCertKeys.length; i++) { // какое расширение у файлов
+      switch (pesronalCertKeys[i].extension) {
         default:
           img[i] = require("../../imgs/general/cert2_ok_icon.png"); break;
       }
@@ -60,7 +63,7 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps> {
 
 function mapStateToProps(state) {
   return {
-    otherCertKeys: state.certKeys.otherCertKeys
+    pesronalCertKeys: state.certKeys.pesronalCertKeys
   };
 }
 

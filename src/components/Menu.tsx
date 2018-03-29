@@ -85,7 +85,7 @@ class Main extends React.Component<MainProps> {
 
   componentDidMount() {
     if (this.props.files.length === 0) { this.props.readFiles(); }
-    /*NativeModules.CertsList.getCountsOfCertsInCryptoStore(
+    /* NativeModules.CertsList.getCountsOfCertsInCryptoStore(
       (count) => {
       console.log("количество сертификатов в хранилище crypto: " + count);
     });

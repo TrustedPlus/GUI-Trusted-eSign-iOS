@@ -5,13 +5,11 @@
 RCT_EXPORT_MODULE();
 
 //загрузка из хранилища
-RCT_EXPORT_METHOD(Load: (NSString *)issuerName: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(Load: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
   char *pSerialNumber = (char *) [serialNumber UTF8String];
   try{
     TrustedHandle<Filter> filterByCert = new Filter();
     
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
@@ -22,7 +20,7 @@ RCT_EXPORT_METHOD(Load: (NSString *)issuerName: (NSString *)serialNumber: (RCTRe
       pic = g_picCSP->find(filterByCert);
       
       if (pic->length() <= 0){//если сертификат не найден в хранилище cryptoPro
-        callback(@[[@"Not find certificate!" copy], [NSNumber numberWithInt: 0]]);
+        THROW_EXCEPTION(0, WCert, NULL, "Not find certificate!");
       }
       
       pi = pic->items(0);
@@ -52,8 +50,7 @@ RCT_EXPORT_METHOD(LoadFromFile: (NSString *)pathCert:  (NSString *)format: (RCTR
       if (strncmp(pFormat, "BASE64", 6) == 0)
         data_format = DataFormat::BASE64;
       else{
-        callback(@[[@"Error input format!" copy], [NSNumber numberWithInt: 0]]);
-        return;
+        THROW_EXCEPTION(0, WCert, NULL, "Error input format!");
       }
     }
     in = new Bio(BIO_TYPE_FILE, pPathCert, "rb");
@@ -69,7 +66,6 @@ RCT_EXPORT_METHOD(saveCertToStore: (NSString *)inCert: (NSString *)inFormat: (NS
   try{
     OpenSSL::run();
     TrustedHandle<std::string> folder = new std::string(g_pathToStore);
-    TrustedHandle<Provider> prov = new Provider_System(folder);
     
     //read cert file
     char *infileCert = (char *) [inCert UTF8String];
@@ -79,10 +75,10 @@ RCT_EXPORT_METHOD(saveCertToStore: (NSString *)inCert: (NSString *)inFormat: (NS
     inf = new Bio(BIO_TYPE_FILE, infileCert, "rb");
     cert->read(inf, format);
     /*
-     добавить. если такой сертификат существует, то: спросить менять ли? или менять не спрашивая? или не менять.
+     добавить. если такой сертификат существует, то: спросить менять ли? или менять, не спрашивая? или не менять?
      */
     char *category = (char *) [inCategory UTF8String];
-    g_storeCrypto->addPkiObject(prov, new std::string(category), cert);
+    g_storeCrypto->addPkiObject(g_prov, new std::string(category), cert);
     callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){
@@ -94,7 +90,6 @@ RCT_EXPORT_METHOD(saveKeyToStore: (NSString *)inKey: (NSString *)inFormat: (NSSt
   try{
     OpenSSL::run();
     TrustedHandle<std::string> folder = new std::string(g_pathToStore);
-    TrustedHandle<Provider> prov = new Provider_System(folder);
     
     //read cert file
     char *infileKey = (char *) [inKey UTF8String];
@@ -104,10 +99,10 @@ RCT_EXPORT_METHOD(saveKeyToStore: (NSString *)inKey: (NSString *)inFormat: (NSSt
     bioInKey = new Bio(BIO_TYPE_FILE, infileKey, "rb");
     key->readPrivateKey(bioInKey, format, new std::string(""));
     /*
-     добавить. если такой key существует, то: спросить менять ли? или менять не спрашивая? или не менять.
+     добавить. если такой key существует, то: спросить менять ли? или менять, не спрашивая? или не менять?
      */
     char *password = (char *) [inPassword UTF8String];
-    g_storeCrypto->addPkiObject(prov, key, new std::string(password));
+    g_storeCrypto->addPkiObject(g_prov, key, new std::string(password));
     callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){
@@ -126,14 +121,12 @@ RCT_EXPORT_METHOD(Save: (NSString *)pathToSaveCert:  (NSString *)format:  (RCTRe
       if (strncmp(pFormat, "BASE64", 6) == 0)
         data_format = DataFormat::BASE64;
       else{
-        callback(@[[@"Error input format!" copy], [NSNumber numberWithInt: 0]]);
-        return;
+        THROW_EXCEPTION(0, WCert, NULL, "Error input format!");
       }
     }
     TrustedHandle<Bio> out = new Bio(BIO_TYPE_FILE, pPathToSaveCert, "wb");
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded.");
     }
     cert->write(out, data_format);
     out->flush();
@@ -144,20 +137,19 @@ RCT_EXPORT_METHOD(Save: (NSString *)pathToSaveCert:  (NSString *)format:  (RCTRe
   }
 }
 //удаление сертификата из хранилища
-RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)issuerName: (NSString *)serialNumber: (RCTResponseSenderBlock)callback){
-  char *pIssuerName = (char *) [issuerName UTF8String];
+RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)serialNumber: (NSString *)category: (RCTResponseSenderBlock)callback){
   char *pSerialNumber = (char *) [serialNumber UTF8String];
+  char *pCategory = (char *) [category UTF8String];
   try{
     OpenSSL::run();
     TrustedHandle<Filter> filterByCert = new Filter();
     
-    filterByCert->setIssuerName(new std::string(pIssuerName));
     filterByCert->setSerial(new std::string(pSerialNumber));
+    filterByCert->setCategory(new std::string(pCategory));
     
     TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
     if (pic->length() <= 0){
-      callback(@[[@"This certificate was not found in the 'crypto' store!" copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "This certificate was not found in the 'crypto' store!");
     }
     else{
       TrustedHandle<PkiItem> pi = new PkiItem();
@@ -205,7 +197,7 @@ RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)issuerName: (NSString *)serialN
         callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
       }
       else{
-        callback(@[[@"Error removing certificate." copy], [NSNumber numberWithInt: 0]]);
+        THROW_EXCEPTION(0, WCert, NULL, "Error removing certificate!");
       }
     }
   }
@@ -217,8 +209,7 @@ RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)issuerName: (NSString *)serialN
 RCT_EXPORT_METHOD(getVersion: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     callback(@[[NSNull null], [NSNumber numberWithInt: (cert->getVersion() + 1)]]);
   }
@@ -230,8 +221,7 @@ RCT_EXPORT_METHOD(getVersion: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getSerialNumber: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsSerialNumber = @(cert->getSerialNumber()->c_str());
     callback(@[[NSNull null], [nsSerialNumber copy]]);
@@ -244,8 +234,7 @@ RCT_EXPORT_METHOD(getSerialNumber: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getNotBefore: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsBefore = @(cert->getNotBefore()->c_str());
     callback(@[[NSNull null], [nsBefore copy]]);
@@ -258,8 +247,7 @@ RCT_EXPORT_METHOD(getNotBefore: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getNotAfter: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsAfter = @(cert->getNotAfter()->c_str());
     callback(@[[NSNull null], [nsAfter copy]]);
@@ -272,8 +260,7 @@ RCT_EXPORT_METHOD(getNotAfter: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getIssuerFriendlyName: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsIssuerFriendlyName = @(cert->getIssuerFriendlyName()->c_str());
     callback(@[[NSNull null], [nsIssuerFriendlyName copy]]);
@@ -286,8 +273,7 @@ RCT_EXPORT_METHOD(getIssuerFriendlyName: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getIssuerName: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsIssuerName = @(cert->getIssuerName()->c_str());
     callback(@[[NSNull null], [nsIssuerName copy]]);
@@ -300,8 +286,7 @@ RCT_EXPORT_METHOD(getIssuerName: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getSubjectFriendlyName: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsSubjectFriendlyName = @(cert->getSubjectFriendlyName()->c_str());
     callback(@[[NSNull null], [nsSubjectFriendlyName copy]]);
@@ -314,8 +299,7 @@ RCT_EXPORT_METHOD(getSubjectFriendlyName: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getSubjectName: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsSubjectName = @(cert->getSubjectName()->c_str());
     callback(@[[NSNull null], [nsSubjectName copy]]);
@@ -328,12 +312,12 @@ RCT_EXPORT_METHOD(getSubjectName: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getThumbprint: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsThumbprint = @(cert->getThumbprint()->c_str());
-    if (nsThumbprint == nil)
-      callback(@[[@("Thumbprint is not define") copy], [NSNumber numberWithInt: 0]]);
+    if (nsThumbprint == nil){
+      THROW_EXCEPTION(0, WCert, NULL, "Thumbprint is not define!");
+    }
     else
       callback(@[[NSNull null], [nsThumbprint copy]]);
   }
@@ -345,8 +329,7 @@ RCT_EXPORT_METHOD(getThumbprint: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getPublicKeyAlgorithm: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsPublicKeyAlgorithm = @(cert->getPublicKeyAlgorithm()->c_str());
     callback(@[[NSNull null], [nsPublicKeyAlgorithm copy]]);
@@ -359,8 +342,7 @@ RCT_EXPORT_METHOD(getPublicKeyAlgorithm: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getSignatureAlgorithm: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsSignatureAlgorithm = @(cert->getSignatureAlgorithm()->c_str());
     callback(@[[NSNull null], [nsSignatureAlgorithm copy]]);
@@ -373,8 +355,7 @@ RCT_EXPORT_METHOD(getSignatureAlgorithm: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getSignatureDigestAlgorithm: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsSignatureDigestAlgorithm = @(cert->getSignatureDigestAlgorithm()->c_str());
     callback(@[[NSNull null], [nsSignatureDigestAlgorithm copy]]);
@@ -387,8 +368,7 @@ RCT_EXPORT_METHOD(getSignatureDigestAlgorithm: (RCTResponseSenderBlock)callback)
 RCT_EXPORT_METHOD(getOrganizationName: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     NSString* nsOrganizationName = @(cert->getOrganizationName()->c_str());
     callback(@[[NSNull null], [nsOrganizationName copy]]);
@@ -401,8 +381,7 @@ RCT_EXPORT_METHOD(getOrganizationName: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getType: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     callback(@[[NSNull null], [NSNumber numberWithInt: cert->getType()]]);
   }
@@ -414,8 +393,7 @@ RCT_EXPORT_METHOD(getType: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getKeyUsage: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     callback(@[[NSNull null], [NSNumber numberWithInt: cert->getKeyUsage()]]);
   }
@@ -427,8 +405,7 @@ RCT_EXPORT_METHOD(getKeyUsage: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getSelfSigned: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     callback(@[[NSNull null], [NSNumber numberWithInt: cert->isSelfSigned()]]);
   }
@@ -440,43 +417,12 @@ RCT_EXPORT_METHOD(getSelfSigned: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(isCA: (RCTResponseSenderBlock)callback){
   try{
     if (cert.isEmpty()){
-      callback(@[[@"Certificate not loaded." copy], [NSNumber numberWithInt: 0]]);
-      return;
+      THROW_EXCEPTION(0, WCert, NULL, "Certificate not loaded!");
     }
     callback(@[[NSNull null], [NSNumber numberWithInt: cert->isCA()]]);
   }
   catch (TrustedHandle<Exception> e){
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
-  }
-}
-//проверка наличия у сертификата закрытого ключа (1 - есть, 0 - нет)
--(int) hasCertInStore: (TrustedHandle<Certificate>) cert{
-  try {
-    TrustedHandle<Filter> filterByCert = new Filter();
-    filterByCert->setIssuerName(cert->getIssuerName());
-    filterByCert->setSerial(cert->getSerialNumber());
-    TrustedHandle<PkiItemCollection> pic = g_storeCrypto->find(filterByCert);
-    if (pic->length() == 0)
-      return 0;
-    else
-      return 1;
-  } catch (TrustedHandle<Exception> e) {
-    throw e;
-  }
-}
-//высчитывание хэша
-void bin_to_strhex(unsigned char *bin, unsigned int binsz, char **result){
-  char hex_str[] = "0123456789abcdef";
-  unsigned int  i;
-  
-  *result = (char *)malloc(binsz * 2 + 1);
-  (*result)[binsz * 2] = 0;
-  
-  if (!binsz)  return;
-  
-  for (i = 0; i < binsz; i++){
-    (*result)[i * 2 + 0] = hex_str[(bin[i] >> 4) & 0x0F];
-    (*result)[i * 2 + 1] = hex_str[(bin[i]) & 0x0F];
   }
 }
 

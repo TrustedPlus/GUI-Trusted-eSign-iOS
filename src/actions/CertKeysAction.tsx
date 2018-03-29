@@ -5,10 +5,14 @@ import { NativeModules } from "react-native";
 export function readCertKeys() {
   return function action(dispatch) {
     dispatch({type: READ_CERT_KEY});
-    NativeModules.CertsList.pathToStore(
-      "/Users/dev/Downloads/Users\ 9/admin/Desktop/Prototype_Trusted_IOS/ios/tests/store",
+    NativeModules.CertsList.setPathToStore(
+      RNFS.DocumentDirectoryPath + "/store",
       (err, label) => {
       null;
+    });
+    NativeModules.CertsList.providerInit(
+      (err, label) => {
+      null ;
     });
     NativeModules.CertsList.showCerts(
       (err, label) => {

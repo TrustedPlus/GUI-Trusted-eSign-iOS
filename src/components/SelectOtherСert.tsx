@@ -1,14 +1,18 @@
 import * as React from "react";
-import {Container, Header, Item, Input, List, Content, Icon, Text } from "native-base";
+import {Container, Header, Item, Input, List, Content, Button, Icon, Text } from "native-base";
+import {Image} from "react-native";
 import {Headers} from "./Headers";
 import ListMenu from "./ListMenu";
 import {styles} from "../styles";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { addCert } from "../actions/index";
+import { DocumentPicker, DocumentPickerUtil } from "react-native-document-picker";
 
 interface SelectOtherСertProps {
   navigation: any;
   pesronalCertKeys: any;
+  addCert(uri: string, type: string, fileName: string, fileSize: number): void;
 }
 
 class SelectOtherСert extends React.Component<SelectOtherСertProps> {
@@ -29,6 +33,14 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps> {
         serialNumber = {cert.serialNumber}
         rightimg = {cert.hasPrivateKey ? require("../../imgs/general/key_icon.png") : null}
         nav={() => this.props.navigation.goBack()} />));
+  }
+
+  documentPicker() {
+    DocumentPicker.show({
+        filetype: ["public.item"]
+    }, (error: any, res: any) => {
+        this.props.addCert(res.uri, res.type, res.fileName, res.fileSize);
+    });
   }
 
   render() {
@@ -56,6 +68,9 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps> {
           {this.ShowList(img)}
         </List>
         </Content>
+        <Button transparent style={{position: "absolute", bottom: 40, right: 30}} onPress={() => { this.documentPicker(); }}>
+          <Image style={{width: 60, height: 60}}source={require("../../imgs/general/add_icon.png")} />
+        </Button>
       </Container>
     );
   }
@@ -64,6 +79,12 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps> {
 function mapStateToProps(state) {
   return {
     pesronalCertKeys: state.certKeys.pesronalCertKeys
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addCert: bindActionCreators(addCert, dispatch)
   };
 }
 

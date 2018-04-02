@@ -5,7 +5,9 @@ import { READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR,
          ENCODE_FILES, ENCODE_FILES_SUCCESS, ENCODE_FILES_ERROR, ENCODE_FILES_END,
          DECODE_FILES, DECODE_FILES_SUCCESS, DECODE_FILES_ERROR, DECODE_FILES_END,
          ADD_CERT_OR_KEY, ADD_CERT_SUCCESS, ADD_CERT_ERROR, ADD_KEY_SUCCESS, ADD_KEY_ERROR,
-         CLEAR_LOG} from "../constants";
+         SET_PATH_TO_STOR_ERROR, PROVIDER_INIT_ERROR, READ_CERT_KEY_ERROR,
+         UPLOAD_FILES, UPLOAD_FILES_SUCCESS, UPLOAD_FILES_ERROR, UPLOAD_FILES_END,
+         CLEAR_LOG, CLEAR_FILES} from "../constants";
 
 const initialState = {
   files: [],
@@ -41,6 +43,46 @@ function logAddrecord(oldLog, name, record: string) {
 
 export function Files(state = initialState, action) {
   switch (action.type) {
+    case SET_PATH_TO_STOR_ERROR:
+      return{
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Указание пути до хранилища не увенчалось успехом"),
+        lastlog: new Date() + "",
+      };
+    case UPLOAD_FILES:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case UPLOAD_FILES_SUCCESS:
+      return {
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Успешная отправка файла"),
+        lastlog: new Date() + ""
+      };
+    case UPLOAD_FILES_ERROR:
+      return {
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Отправка файла не удалась"),
+        lastlog: new Date() + ""
+      };
+    case UPLOAD_FILES_END:
+      return {
+        ...state,
+        isFetching: false
+      };
+    case PROVIDER_INIT_ERROR:
+      return{
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Инициализация провайдера не увенчалась успехом"),
+        lastlog: new Date() + "",
+      };
+    case READ_CERT_KEY_ERROR:
+      return {
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Ошибка чтения ключа или сертификата"),
+        lastlog: new Date() + "",
+      };
     case READ_FILES:
       return {
         ...state,
@@ -199,6 +241,11 @@ export function Files(state = initialState, action) {
         ...state,
         log: [],
         lastlog: ""
+      };
+    case CLEAR_FILES:
+      return {
+        ...state,
+        files: []
       };
     default:
       return state;

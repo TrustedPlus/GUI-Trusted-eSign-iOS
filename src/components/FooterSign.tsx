@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import { NativeModules } from "react-native";
 import {signFile, verifySign} from "../actions/SignVerifyAction";
 import {EncAssymmetric, DecAssymmetric} from "../actions/EncDecAction";
+import {uploadFile} from "../actions/UploadFileAction";
 import * as RNFS from "react-native-fs";
 
 interface IFile {
@@ -25,12 +26,13 @@ interface FooterSignProps {
     verifySign?(files: IFile[], otherCert: string[], footer: string[]): void;
     EncAssymmetric?(files: IFile[], otherCert: string[], footer: string[]): void;
     DecAssymmetric?(files: IFile[], otherCert: string[], footer: string[]): void;
+    uploadFile?(files: IFile[], footer: string[]): void;
 }
 
 class FooterSign extends React.Component<FooterSignProps> {
 
     render() {
-        const {files, personalCert, otherCert, verifySign, signFile, EncAssymmetric, DecAssymmetric} = this.props;
+        const {files, personalCert, otherCert, verifySign, signFile, EncAssymmetric, DecAssymmetric, uploadFile} = this.props;
         let footer = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
             footer = <FooterTab style={styles.container}>
@@ -58,7 +60,7 @@ class FooterSign extends React.Component<FooterSignProps> {
             <Footer>
                 {footer}
                 <FooterTab style={styles.container}>
-                <Button vertical>
+                <Button vertical onPress={() => uploadFile(files, this.props.footer)}>
                     <Icon style={{color: "black"}} name="navigate" />
                     <Text style={{color: "black",  width: 110}}>Отправить</Text>
                 </Button>
@@ -85,7 +87,8 @@ function mapDispatchToProps (dispatch) {
         signFile: bindActionCreators(signFile, dispatch),
         verifySign: bindActionCreators(verifySign, dispatch),
         EncAssymmetric: bindActionCreators(EncAssymmetric, dispatch),
-        DecAssymmetric: bindActionCreators(DecAssymmetric, dispatch)
+        DecAssymmetric: bindActionCreators(DecAssymmetric, dispatch),
+        uploadFile: bindActionCreators(uploadFile, dispatch)
     };
   }
 

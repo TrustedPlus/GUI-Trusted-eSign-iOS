@@ -1,4 +1,4 @@
-import { READ_CERT_KEY, READ_PERSONAL_CERT_KEY_SUCCESS, READ_OTHER_CERT_KEY_SUCCESS, READ_CERT_KEY_ERROR } from "../constants";
+import { READ_CERT_KEY, READ_PERSONAL_CERT_KEY_SUCCESS, READ_OTHER_CERT_KEY_SUCCESS } from "../constants";
 
 export interface Certificate {
 
@@ -30,10 +30,6 @@ export function CertKeys(state: CertKeysStore = initialState, action): CertKeysS
           ...state,
           otherCertKeys: action.payload
         };
-    case READ_CERT_KEY_ERROR:
-      return {
-        ...state
-      };
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 import {
     FOOTER_ACTION, FOOTER_CLOSE, PERSONAL_CERT_ACTION, OTHER_CERT_ACTION, CLEAR_LOG,
     READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR,
-    ADD_FILES, ADD_FILES_SUCCESS, ADD_FILES_ERROR,
+    ADD_FILES, ADD_FILES_SUCCESS, ADD_FILES_ERROR, CLEAR_FILES,
     ADD_CERT_OR_KEY, ADD_CERT_SUCCESS, ADD_CERT_ERROR, ADD_KEY_SUCCESS, ADD_KEY_ERROR
 } from "../constants";
 import * as RNFS from "react-native-fs";
@@ -35,14 +35,24 @@ export function otherCertAdd(title, img, note, issuerName, serialNumber) {
     };
 }
 
+export function clearFiles() {
+    return {
+        type: CLEAR_FILES
+    };
+}
+
 export function readFiles() {
     return function action(dispatch) {
         dispatch({ type: READ_FILES });
         RNFS.mkdir(RNFS.DocumentDirectoryPath + "/Files").then(
             response => {
-                const request = RNFS.readDir(RNFS.DocumentDirectoryPath + "/Files");
+                const request = RNFS.readDir(RNFS.DocumentDirectoryPath + "/Files"); // "/cprocsp/users/stores"
                 return request.then(
-                    response => dispatch(readFilesSuccess(response)),
+                    response => {
+                        dispatch(clearFiles());
+                        dispatch(footerClose());
+                        dispatch(readFilesSuccess(response));
+                    },
                     err => dispatch({ type: READ_FILES_ERROR })
                 );
             },
@@ -85,13 +95,15 @@ export function readFilesSuccess(file) {
             seconds = "" + file[i].mtime.getSeconds();
             if (seconds.length === 1) { seconds = "0" + seconds; }
             if (name === "") {
-                k++;
+                // k++;
+                name = extension;
+                extension = 0;
+                filearr[i - k] = { name, extension, date, month, year, hours, minutes, seconds, verify };
             } else {
                 filearr[i - k] = { name, extension, date, month, year, hours, minutes, seconds, verify };
             }
         }
         dispatch({ type: READ_FILES_SUCCESS, payload: filearr });
-        dispatch(footerClose());
     };
 }
 
@@ -147,7 +159,7 @@ export function addCert(uri, type, fileName, fileSize) {
                             "MY",
                             (err, saveCert) => {
                                 if (err) {
-                                    dispatch({ type: ADD_CERT_ERROR, payload: name });
+                                    dispatch({ type: ADD_CERT_ERROR, payload: err });
                                 } else {
                                     dispatch({ type: ADD_CERT_SUCCESS, payload: name });
                                     dispatch(readCertKeys());
@@ -164,10 +176,8 @@ export function addCert(uri, type, fileName, fileSize) {
                     "12345678",
                     (err, imp) => {
                         if (err) {
-                            console.log(err);
-                            dispatch({ type: ADD_CERT_ERROR, payload: name });
+                            dispatch({ type: ADD_CERT_ERROR, payload: err });
                         } else {
-                            console.log(imp);
                             dispatch({ type: ADD_CERT_SUCCESS, payload: name });
                             dispatch(readCertKeys());
                         }
@@ -191,7 +201,7 @@ export function addCert(uri, type, fileName, fileSize) {
                     "",
                     (err, saveKey) => {
                         if (err) {
-                            dispatch({ type: ADD_KEY_ERROR, payload: name });
+                            dispatch({ type: ADD_KEY_ERROR, payload: err });
                         } else {
                             dispatch({ type: ADD_KEY_SUCCESS, payload: name });
                             dispatch(readCertKeys());

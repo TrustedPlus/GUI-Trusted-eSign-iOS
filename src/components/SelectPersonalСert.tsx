@@ -41,7 +41,7 @@ class SelectPersonalСert extends React.Component<SelectPersonalСertProps> {
     }, (error: any, res: any) => {
         this.props.addCert(res.uri, res.type, res.fileName, res.fileSize);
     });
-}
+  }
 
   render() {
     const { pesronalCertKeys} = this.props;

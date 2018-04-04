@@ -5,7 +5,7 @@
 #import "React/RCTBridgeModule.h"
 #import <string.h>
 
-#include "pki/pkcs12.h"
+#include "wrapper/include/wrapper/pki/pkcs12.h"
 #include "cert.h"
 #include "signed_data.h"
 #include "key.h"

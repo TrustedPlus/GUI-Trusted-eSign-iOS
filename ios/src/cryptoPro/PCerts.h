@@ -10,7 +10,7 @@
 #define PCerts_h
 
 #include "cert.h"
-#include "pki/pkcs12.h"
+#include "wrapper/include/wrapper/pki/pkcs12.h"
 #include "../globalHelper.h"
 #include "PHelp.h"
 

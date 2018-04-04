@@ -20,10 +20,10 @@ export function readCertKeys() {
             });
         NativeModules.CertsList.showCerts(
             (err, label) => {
-                if (label.length) {
-                    dispatch({ type: READ_PERSONAL_CERT_KEY_SUCCESS, payload: label });
-                } else {
+                if (err) {
                     dispatch({ type: READ_CERT_KEY_ERROR, payload: err });
+                } else {
+                    dispatch({ type: READ_PERSONAL_CERT_KEY_SUCCESS, payload: label });
                 }
             });
     };

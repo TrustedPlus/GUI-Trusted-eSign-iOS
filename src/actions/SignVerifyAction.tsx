@@ -18,26 +18,43 @@ export function signFile(files: IFile[], personalCert, footer) {
         if (personalCert.title === "") {
             dispatch({ type: SIGN_FILE_END });
         } else {
-            for (let i = 0; i < footer.arrButton.length; i++) {
-                let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
-                RNFS.writeFile(path + ".sig", "", "utf8");
-                NativeModules.WSigner.sign(
-                    personalCert.serialNumber,
-                    "MY",
-                    path + "." + files[footer.arrButton[i]].extension,
-                    path + ".sig",
-                    (err, signFile) => {
-                        if (err === null) {
-                            dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
-                        } else {
-                            dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name });
-                        }
-                        if (i + 1 === footer.arrButton.length) {
-                            dispatch({ type: SIGN_FILE_END });
-                            dispatch(readFiles());
-                        }
-                    });
+            if (personalCert.provider === "CRYPTOPRO") {
+                for (let i = 0; i < footer.arrButton.length; i++) {
+                    let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
+                    RNFS.writeFile(path + ".sig", "", "utf8");
+                    NativeModules.PSigner.sign(
+                        personalCert.serialNumber,
+                        "MY",
+                        path + "." + files[footer.arrButton[i]].extension,
+                        path + ".sig",
+                        (err, signFile) => {
+                            if (err) {
+                                dispatch({ type: SIGN_FILE_ERROR, payload: err });
+                            } else {
+                                dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
+                            }
+                        });
+                }
+            } else {
+                for (let i = 0; i < footer.arrButton.length; i++) {
+                    let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
+                    RNFS.writeFile(path + ".sig", "", "utf8");
+                    NativeModules.WSigner.sign(
+                        personalCert.serialNumber,
+                        "MY",
+                        path + "." + files[footer.arrButton[i]].extension,
+                        path + ".sig",
+                        (err, signFile) => {
+                            if (err) {
+                                dispatch({ type: SIGN_FILE_ERROR, payload: err });
+                            } else {
+                                dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
+                            }
+                        });
+                }
             }
+            dispatch({ type: SIGN_FILE_END });
+            dispatch(readFiles());
         }
     };
 }
@@ -48,23 +65,38 @@ export function verifySign(files: IFile[], personalCert, footer) {
         if (personalCert.title === "") {
             dispatch({ type: VERIFY_SIGN_END });
         } else {
-            for (let i = 0; i < footer.arrButton.length; i++) {
-                let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
-                NativeModules.WSigner.verify(
-                    personalCert.serialNumber,
-                    "MY",
-                    path + "." + files[footer.arrButton[i]].extension,
-                    (err, verify) => {
-                        if (err === null) {
-                            dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
-                        } else {
-                            dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
-                        }
-                        if (i + 1 === footer.arrButton.length) {
-                            dispatch({ type: VERIFY_SIGN_END });
-                        }
-                    });
+            if (personalCert.provider === "CRYPTOPRO") {
+                for (let i = 0; i < footer.arrButton.length; i++) {
+                    let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
+                    NativeModules.PSigner.verify(
+                        personalCert.serialNumber,
+                        "MY",
+                        path + "." + files[footer.arrButton[i]].extension,
+                        (err, verify) => {
+                            if (err) {
+                                dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+                            } else {
+                                dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
+                            }
+                        });
+                }
+            } else {
+                for (let i = 0; i < footer.arrButton.length; i++) {
+                    let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
+                    NativeModules.WSigner.verify(
+                        personalCert.serialNumber,
+                        "MY",
+                        path + "." + files[footer.arrButton[i]].extension,
+                        (err, verify) => {
+                            if (err) {
+                                dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+                            } else {
+                                dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
+                            }
+                        });
+                }
             }
+            dispatch({ type: VERIFY_SIGN_END });
         }
     };
 }

@@ -20,9 +20,10 @@ interface ListItemProps {
     issuerName?: string;
     serialNumber?: string;
     other?: boolean;
+    provider?: string;
     nav(): void;
-    personalCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string): void;
-    otherCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string): void;
+    personalCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string): void;
+    otherCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string): void;
 }
 
 class ListMenu extends React.Component<ListItemProps, any> {
@@ -35,10 +36,10 @@ class ListMenu extends React.Component<ListItemProps, any> {
     onPress() {
         if (this.props.checkbox) { this.state.active ? this.setState({active: false}) : this.setState({active: true}); }
         if (this.props.personal) {
-            this.props.personalCertAdd(this.props.title, this.props.img, this.props.note, this.props.issuerName, this.props.serialNumber);
+            this.props.personalCertAdd(this.props.title, this.props.img, this.props.note, this.props.issuerName, this.props.serialNumber, this.props.provider);
         }
         if (this.props.other) {
-            this.props.otherCertAdd(this.props.title, this.props.img, this.props.note, this.props.issuerName, this.props.serialNumber);
+            this.props.otherCertAdd(this.props.title, this.props.img, this.props.note, this.props.issuerName, this.props.serialNumber, this.props.provider);
         }
         this.props.nav();
     }

@@ -7,6 +7,7 @@ import { READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR,
          ADD_CERT_OR_KEY, ADD_CERT_SUCCESS, ADD_CERT_ERROR, ADD_KEY_SUCCESS, ADD_KEY_ERROR,
          SET_PATH_TO_STOR_ERROR, PROVIDER_INIT_ERROR, READ_CERT_KEY_ERROR,
          UPLOAD_FILES, UPLOAD_FILES_SUCCESS, UPLOAD_FILES_ERROR, UPLOAD_FILES_END,
+         DELETE_FILES, DELETE_FILES_SUCCESS, DELETE_FILES_ERROR, DELETE_FILES_END,
          CLEAR_LOG, CLEAR_FILES} from "../constants";
 
 const initialState = {
@@ -67,6 +68,28 @@ export function Files(state = initialState, action) {
         lastlog: new Date() + ""
       };
     case UPLOAD_FILES_END:
+      return {
+        ...state,
+        isFetching: false
+      };
+    case DELETE_FILES:
+      return {
+        ...state,
+        isFetching: true
+      };
+    case DELETE_FILES_SUCCESS:
+      return {
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Успешное удаление файла"),
+        lastlog: new Date() + ""
+      };
+    case DELETE_FILES_ERROR:
+      return {
+        ...state,
+        log: logAddrecord(state.log, action.payload, "Удаление файла не удалось"),
+        lastlog: new Date() + ""
+      };
+    case DELETE_FILES_END:
       return {
         ...state,
         isFetching: false
@@ -190,6 +213,7 @@ export function Files(state = initialState, action) {
     case VERIFY_SIGN_END:
       return {
         ...state,
+        files: state.files,
         isFetching: false
       };
     case ENCODE_FILES:

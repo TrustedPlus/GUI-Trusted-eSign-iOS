@@ -57,6 +57,7 @@
 		ABB64D2398F240A796B6CFE2 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2EFB124FE39F4DC2A3DD4396 /* MaterialCommunityIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		CBA4BA79D75F4761858A6DDA /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 552BA437549D4B59ADC352CD /* FontAwesome.ttf */; };
+		D75781302073C7C5002DB7F6 /* license.enc in Resources */ = {isa = PBXBuildFile; fileRef = D757812F2073C7C5002DB7F6 /* license.enc */; };
 		D77C8578205BAAA8000003F1 /* libRNDocumentPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7EE8BA4205AB75500395904 /* libRNDocumentPicker.a */; };
 		D7BD4943204EA3C80006EAC0 /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7BF3203B103F00619470 /* CPROCSP.framework */; };
 		D7BD4944204EA3F90006EAC0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D7CA7C36203B143700619470 /* libz.tbd */; };
@@ -579,6 +580,7 @@
 		B7EBE5778A2E48BA877B44CC /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		D3283234CB444E7197B4DEDF /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		D6C5CE7296D24E7DB8534B86 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "rubicon-icon-font.ttf"; path = "../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
+		D757812F2073C7C5002DB7F6 /* license.enc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = license.enc; path = CPROCSP.framework/license.enc; sourceTree = "<group>"; };
 		D77C8623205BB6A9000003F1 /* CryptoARM_GOST.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CryptoARM_GOST.entitlements; path = CryptoARM_GOST/CryptoARM_GOST.entitlements; sourceTree = "<group>"; };
 		D7BD4986204EB80C0006EAC0 /* PaneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PaneViewController.xib; path = CPROCSP.framework/Resources/PaneViewController.xib; sourceTree = "<group>"; };
 		D7BD4987204EB80C0006EAC0 /* RequestSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RequestSelectionViewController.xib; path = CPROCSP.framework/Resources/RequestSelectionViewController.xib; sourceTree = "<group>"; };
@@ -927,6 +929,7 @@
 		05E84DAD111C425F967D24F7 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D757812F2073C7C5002DB7F6 /* license.enc */,
 				D7BD4A40204EB8160006EAC0 /* en.lproj */,
 				D7BD4A41204EB8160006EAC0 /* ru.lproj */,
 				D7BD49E2204EB80F0006EAC0 /* config.ini */,
@@ -2159,6 +2162,7 @@
 				D7CB77A2206D2EDD0024BFDA /* .gitignore in Resources */,
 				D7BD4A03204EB8100006EAC0 /* librdrpcsc.cat in Resources */,
 				D7BD4A14204EB8100006EAC0 /* libcsp.cat in Resources */,
+				D75781302073C7C5002DB7F6 /* license.enc in Resources */,
 				D7BD49EE204EB8100006EAC0 /* kis_1 in Resources */,
 				6CD32F49E8354680B1C44DBC /* Octicons.ttf in Resources */,
 				D7BD4A20204EB8100006EAC0 /* librdrdsrf.cat in Resources */,

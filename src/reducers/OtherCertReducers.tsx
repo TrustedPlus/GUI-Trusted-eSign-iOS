@@ -5,7 +5,8 @@ const initialState = {
   img: "",
   note: "",
   issuerName: "",
-  serialNumber: ""
+  serialNumber: "",
+  provider: ""
 };
 
 export function otherCert (state = initialState, action) {
@@ -17,7 +18,8 @@ export function otherCert (state = initialState, action) {
         img: action.payload[1],
         note: action.payload[2],
         issuerName: action.payload[3],
-        serialNumber: action.payload[4]
+        serialNumber: action.payload[4],
+        provider: action.payload[5]
       };
     default:
       return state;

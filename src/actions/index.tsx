@@ -21,17 +21,17 @@ export function footerClose() {
     };
 }
 
-export function personalCertAdd(title, img, note, issuerName, serialNumber) {
+export function personalCertAdd(title, img, note, issuerName, serialNumber, provider) {
     return {
         type: PERSONAL_CERT_ACTION,
-        payload: [title, img, note, issuerName, serialNumber]
+        payload: [title, img, note, issuerName, serialNumber, provider]
     };
 }
 
-export function otherCertAdd(title, img, note, issuerName, serialNumber) {
+export function otherCertAdd(title, img, note, issuerName, serialNumber, provider) {
     return {
         type: OTHER_CERT_ACTION,
-        payload: [title, img, note, issuerName, serialNumber]
+        payload: [title, img, note, issuerName, serialNumber, provider]
     };
 }
 
@@ -138,6 +138,21 @@ export function addCert(uri, type, fileName, fileSize) {
         name = fileName.substring(0, point);
         extension = fileName.substring(point + 1);
         switch (extension) {
+            case "pfx": {
+                let certPath = decodeURIComponent(uri.replace("file:///", "/"));
+                NativeModules.PCerts.importPFX(
+                    certPath,
+                    "12345678",
+                    (err, imp) => {
+                        if (err) {
+                            dispatch({ type: ADD_CERT_ERROR, payload: err });
+                        } else {
+                            dispatch({ type: ADD_CERT_SUCCESS, payload: name });
+                            dispatch(readCertKeys());
+                        }
+                    });
+                break;
+            }
             case "cer":
             case "crt": {
                 let certPath = decodeURIComponent(uri.replace("file:///", "/"));
@@ -168,21 +183,6 @@ export function addCert(uri, type, fileName, fileSize) {
                     },
                     err => { dispatch({ type: ADD_CERT_ERROR, payload: name }); }
                 );
-            }
-            case "pfx": {
-                let certPath = decodeURIComponent(uri.replace("file:///", "/"));
-                NativeModules.PCerts.importPFX(
-                    certPath,
-                    "12345678",
-                    (err, imp) => {
-                        if (err) {
-                            dispatch({ type: ADD_CERT_ERROR, payload: err });
-                        } else {
-                            dispatch({ type: ADD_CERT_SUCCESS, payload: name });
-                            dispatch(readCertKeys());
-                        }
-                    });
-                break;
             }
             case "key": {
                 let certPath = decodeURIComponent(uri.replace("file:///", "/"));

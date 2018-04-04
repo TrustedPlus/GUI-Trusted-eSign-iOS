@@ -29,6 +29,7 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps> {
         note = {cert.organizationName}
         img = {img[key]}
         other
+        provider = {cert.provider}
         issuerName = {cert.issuerName}
         serialNumber = {cert.serialNumber}
         rightimg = {cert.hasPrivateKey ? require("../../imgs/general/key_icon.png") : null}

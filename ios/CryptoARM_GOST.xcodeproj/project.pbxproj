@@ -150,6 +150,8 @@
 		D7CB77CA206D2EDD0024BFDA /* storehelper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7CB779D206D2EDD0024BFDA /* storehelper.cpp */; };
 		D7CB77CB206D2EDD0024BFDA /* csp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7CB779F206D2EDD0024BFDA /* csp.cpp */; };
 		D7CB77CC206D2EDD0024BFDA /* jwt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7CB77A0206D2EDD0024BFDA /* jwt.cpp */; };
+		D7E3C13420761179008E21C2 /* splash_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7E3C13220761178008E21C2 /* splash_icon.png */; };
+		D7E3C13520761179008E21C2 /* splash_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = D7E3C13320761179008E21C2 /* splash_screen.png */; };
 		E1D9C8CDE73D41E4A3F67813 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 487BBB9560EA486A93BD4003 /* Ionicons.ttf */; };
 		EA6E5C678A234535957D37B1 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3E9F35C7B6E42768B14AB35 /* Zocial.ttf */; };
 		EFD8B399E03140A1BC45C7C3 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B112937A183433480B170BD /* MaterialIcons.ttf */; };
@@ -469,12 +471,12 @@
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* CryptoARM_GOSTTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CryptoARM_GOSTTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* КриптоАРМ ГОСТTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "КриптоАРМ ГОСТTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* CryptoARM_GOSTTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CryptoARM_GOSTTests.m; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* CryptoARM_GOST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CryptoARM_GOST.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* КриптоАРМ ГОСТ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "КриптоАРМ ГОСТ.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CryptoARM_GOST/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = CryptoARM_GOST/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -674,6 +676,8 @@
 		D7CB779F206D2EDD0024BFDA /* csp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = csp.cpp; sourceTree = "<group>"; };
 		D7CB77A0206D2EDD0024BFDA /* jwt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jwt.cpp; sourceTree = "<group>"; };
 		D7CB77A1206D2EDD0024BFDA /* WinCryptEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WinCryptEx.h; sourceTree = "<group>"; };
+		D7E3C13220761178008E21C2 /* splash_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash_icon.png; path = ../imgs/general/splash_icon.png; sourceTree = "<group>"; };
+		D7E3C13320761179008E21C2 /* splash_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash_screen.png; path = ../imgs/general/splash_screen.png; sourceTree = "<group>"; };
 		DE712CC8B62642A3B0319877 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -876,6 +880,8 @@
 		13B07FAE1A68108700A75B9A /* CryptoARM_GOST */ = {
 			isa = PBXGroup;
 			children = (
+				D7E3C13220761178008E21C2 /* splash_icon.png */,
+				D7E3C13320761179008E21C2 /* splash_screen.png */,
 				D7CB73C6206D13E80024BFDA /* CertsList.h */,
 				D7CB73C8206D13E80024BFDA /* CertsList.mm */,
 				D7CB73C7206D13E80024BFDA /* globalHelper.h */,
@@ -999,8 +1005,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* CryptoARM_GOST.app */,
-				00E356EE1AD99517003FC87E /* CryptoARM_GOSTTests.xctest */,
+				13B07F961A680F5B00A75B9A /* КриптоАРМ ГОСТ.app */,
+				00E356EE1AD99517003FC87E /* КриптоАРМ ГОСТTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* CryptoARM_GOST-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* CryptoARM_GOST-tvOSTests.xctest */,
 			);
@@ -1354,7 +1360,7 @@
 			);
 			name = CryptoARM_GOSTTests;
 			productName = CryptoARM_GOSTTests;
-			productReference = 00E356EE1AD99517003FC87E /* CryptoARM_GOSTTests.xctest */;
+			productReference = 00E356EE1AD99517003FC87E /* КриптоАРМ ГОСТTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		13B07F861A680F5B00A75B9A /* CryptoARM_GOST */ = {
@@ -1372,7 +1378,7 @@
 			);
 			name = CryptoARM_GOST;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* CryptoARM_GOST.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* КриптоАРМ ГОСТ.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D02E47A1E0B4A5D006451C7 /* CryptoARM_GOST-tvOS */ = {
@@ -1837,6 +1843,7 @@
 				D7BD49E7204EB8100006EAC0 /* PaneViewController.xib in Resources */,
 				D7BD49E9204EB8100006EAC0 /* TemplateSelectionViewController.xib in Resources */,
 				D7BD4A37204EB8100006EAC0 /* CPROCertviewViewControllerIPhone.xib in Resources */,
+				D7E3C13520761179008E21C2 /* splash_screen.png in Resources */,
 				3FC3965ADC1F462D8820C75F /* Entypo.ttf in Resources */,
 				D7BD49EA204EB8100006EAC0 /* CPROCertviewViewController.xib in Resources */,
 				D7BD49EC204EB8100006EAC0 /* CPCAViewController.xib in Resources */,
@@ -1880,6 +1887,7 @@
 				737E6D6A0EDA4E2FAF7D11A6 /* Roboto_medium.ttf in Resources */,
 				172C2D509C6A487ABD321719 /* Roboto.ttf in Resources */,
 				D7BD4A35204EB8100006EAC0 /* RndmBioViewController.xib in Resources */,
+				D7E3C13420761179008E21C2 /* splash_icon.png in Resources */,
 				261F8AB1DF344A27B4A156C6 /* rubicon-icon-font.ttf in Resources */,
 				088DE1A49BD94B3D93F72143 /* SimpleLineIcons.ttf in Resources */,
 				D7BD4A36204EB8100006EAC0 /* RequestSelectionViewControllerIPhone.xib in Resources */,
@@ -2443,6 +2451,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALIDATE_PRODUCT = YES;

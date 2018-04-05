@@ -29,7 +29,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "CryptoARM_GOST.app"
+               BuildableName = "&#x41a;&#x440;&#x438;&#x43f;&#x442;&#x43e;&#x410;&#x420;&#x41c; &#x413;&#x41e;&#x421;&#x422;.app"
                BlueprintName = "CryptoARM_GOST"
                ReferencedContainer = "container:CryptoARM_GOST.xcodeproj">
             </BuildableReference>
@@ -72,7 +72,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "CryptoARM_GOST.app"
+            BuildableName = "&#x41a;&#x440;&#x438;&#x43f;&#x442;&#x43e;&#x410;&#x420;&#x41c; &#x413;&#x41e;&#x421;&#x422;.app"
             BlueprintName = "CryptoARM_GOST"
             ReferencedContainer = "container:CryptoARM_GOST.xcodeproj">
          </BuildableReference>
@@ -115,7 +115,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "CryptoARM_GOST.app"
+            BuildableName = "&#x41a;&#x440;&#x438;&#x43f;&#x442;&#x43e;&#x410;&#x420;&#x41c; &#x413;&#x41e;&#x421;&#x422;.app"
             BlueprintName = "CryptoARM_GOST"
             ReferencedContainer = "container:CryptoARM_GOST.xcodeproj">
          </BuildableReference>

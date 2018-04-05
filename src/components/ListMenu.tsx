@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Left, Body, ListItem, Thumbnail} from "native-base";
-import {Text, Image} from "react-native";
+import {Left, Body, ListItem, Thumbnail, Text} from "native-base";
+import {Image} from "react-native";
 import {styles} from "../styles";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";

@@ -9,6 +9,7 @@ import {
 interface IFile {
     mtime: string;
     extension: string;
+    extensionAll: string;
     name: string;
 }
 
@@ -18,6 +19,7 @@ export function signFile(files: IFile[], personalCert, footer) {
         if (personalCert.title === "") {
             dispatch({ type: SIGN_FILE_END });
         } else {
+            console.log(RNFS.DocumentDirectoryPath);
             if (personalCert.provider === "CRYPTOPRO") {
                 for (let i = 0; i < footer.arrButton.length; i++) {
                     let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
@@ -25,8 +27,8 @@ export function signFile(files: IFile[], personalCert, footer) {
                     NativeModules.PSigner.sign(
                         personalCert.serialNumber,
                         "MY",
-                        path + "." + files[footer.arrButton[i]].extension,
-                        path + ".sig",
+                        path + "." + files[footer.arrButton[i]].extensionAll,
+                        path + "." + files[footer.arrButton[i]].extensionAll + ".sig",
                         (err, signFile) => {
                             if (err) {
                                 dispatch({ type: SIGN_FILE_ERROR, payload: err });
@@ -42,8 +44,8 @@ export function signFile(files: IFile[], personalCert, footer) {
                     NativeModules.WSigner.sign(
                         personalCert.serialNumber,
                         "MY",
-                        path + "." + files[footer.arrButton[i]].extension,
-                        path + ".sig",
+                        path + "." + files[footer.arrButton[i]].extensionAll,
+                        path + "." + files[footer.arrButton[i]].extensionAll + ".sig",
                         (err, signFile) => {
                             if (err) {
                                 dispatch({ type: SIGN_FILE_ERROR, payload: err });
@@ -65,6 +67,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
         if (personalCert.title === "") {
             dispatch({ type: VERIFY_SIGN_END });
         } else {
+            console.log(RNFS.DocumentDirectoryPath);
             if (personalCert.provider === "CRYPTOPRO") {
                 for (let i = 0; i < footer.arrButton.length; i++) {
                     if (files[footer.arrButton[i]].extension !== "sig") { Alert.alert("Файл '" + files[footer.arrButton[i]].name + "' не является подписью"); continue; }
@@ -72,7 +75,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
                     NativeModules.PSigner.verify(
                         personalCert.serialNumber,
                         "MY",
-                        path + "." + files[footer.arrButton[i]].extension,
+                        path + "." + files[footer.arrButton[i]].extensionAll,
                         (err, verify) => {
                             if (err) {
                                 dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
@@ -88,7 +91,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
                     NativeModules.WSigner.verify(
                         personalCert.serialNumber,
                         "MY",
-                        path + "." + files[footer.arrButton[i]].extension,
+                        path + "." + files[footer.arrButton[i]].extensionAll,
                         (err, verify) => {
                             if (err) {
                                 dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });

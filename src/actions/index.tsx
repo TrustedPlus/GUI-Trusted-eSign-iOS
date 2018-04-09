@@ -63,13 +63,15 @@ export function readFiles() {
 
 export function readFilesSuccess(file) {
     return function action(dispatch) {
-        let filearr = [], point, name, extension, date, month, year, hours, minutes, time, seconds, verify = 0;
+        let filearr = [], point, name, extensionAll, extension, date, month, year, hours, minutes, time, seconds, verify = 0;
         let length = file.length;
         let k = 0;
         for (let i = 0; i < length; i++) {
             point = file[i].name.indexOf(".");
             name = file[i].name.substring(0, point);
-            extension = file[i].name.substring(point + 1);
+            extensionAll = file[i].name.substring(point + 1);
+            point = extensionAll.lastIndexOf(".");
+            extension = extensionAll.substring(point + 1);
             date = file[i].mtime.getDate();
             month = file[i].mtime.getMonth();
             switch (month) {
@@ -98,9 +100,9 @@ export function readFilesSuccess(file) {
                 // k++;
                 name = extension;
                 extension = 0;
-                filearr[i - k] = { name, extension, date, month, year, hours, minutes, seconds, verify };
+                filearr[i - k] = { name, extension, extensionAll, date, month, year, hours, minutes, seconds, verify };
             } else {
-                filearr[i - k] = { name, extension, date, month, year, hours, minutes, seconds, verify };
+                filearr[i - k] = { name, extension, extensionAll, date, month, year, hours, minutes, seconds, verify };
             }
         }
         dispatch({ type: READ_FILES_SUCCESS, payload: filearr });

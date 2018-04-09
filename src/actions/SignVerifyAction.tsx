@@ -1,5 +1,5 @@
 import * as RNFS from "react-native-fs";
-import { NativeModules } from "react-native";
+import { NativeModules, Alert } from "react-native";
 import { readFiles } from "../actions/index";
 import {
     SIGN_FILE, SIGN_FILE_SUCCESS, SIGN_FILE_ERROR, SIGN_FILE_END,
@@ -67,6 +67,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
         } else {
             if (personalCert.provider === "CRYPTOPRO") {
                 for (let i = 0; i < footer.arrButton.length; i++) {
+                    if (files[footer.arrButton[i]].extension !== "sig") { Alert.alert("Файл '" + files[footer.arrButton[i]].name + "' не является подписью"); continue; }
                     let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
                     NativeModules.PSigner.verify(
                         personalCert.serialNumber,
@@ -82,6 +83,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
                 }
             } else {
                 for (let i = 0; i < footer.arrButton.length; i++) {
+                    if (files[footer.arrButton[i]].extension !== "sig") { Alert.alert("Файл '" + files[footer.arrButton[i]].name + "' не является подписью"); continue; }
                     let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
                     NativeModules.WSigner.verify(
                         personalCert.serialNumber,

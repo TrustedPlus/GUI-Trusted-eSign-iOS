@@ -1,7 +1,9 @@
 import * as React from "react";
-import {Container, Header, List, Content} from "native-base";
+import {Container, List, Content} from "native-base";
 import {Headers} from "./Headers";
 import ListMenu from "./ListMenu";
+import PersonalСert from "./PersonalСert";
+import OtherСert from "./OtherCert";
 import {styles} from "../styles";
 
 interface CertificateProps {
@@ -21,13 +23,13 @@ export class Certificate extends React.Component<CertificateProps> {
         <Headers title="Сертификаты" goBack={() => goBack()}/>
         <Content>
           <List>
-            <ListMenu title="КриптоПро Cloud ООО ТЕНЗОР" img={require("../../imgs/general/certificates_menu_icon.png" )}
+            <ListMenu title="Личные сертификаты" img={require("../../imgs/general/certificates_menu_icon.png" )}
+              arrow nav={() => navigate("PersonalСert")}/>
+            <ListMenu title="Сертификаты других пользователей" img={require("../../imgs/general/certificates_menu_icon.png")}
+              arrow nav={() => navigate("OtherСert")}/>
+            <ListMenu title="Промежуточные сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
               arrow nav={() => null}/>
-            <ListMenu title="КриптоПро Cloud TEST" img={require("../../imgs/general/certificates_menu_icon.png")}
-              arrow nav={() => null}/>
-            <ListMenu title="Локальное хранилище" img={require("../../imgs/general/certificates_menu_icon.png")}
-              arrow nav={() => null}/>
-            <ListMenu title="SD Card Alladin" img={require("../../imgs/general/certificates_menu_icon.png")}
+            <ListMenu title="Доверенные корневые сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
               arrow nav={() => null}/>
           </List>
         </Content>

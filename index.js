@@ -9,6 +9,8 @@ import thunk from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
 import { PersistGate } from 'redux-persist/integration/react';
+import * as RNFS from "react-native-fs";
+import { NativeModules } from "react-native";
 
 const persistConfig = {
     key: 'root',
@@ -26,6 +28,15 @@ class MainApp extends React.Component {
 
     componentDidMount() {
         console.disableYellowBox = true;
+        NativeModules.CertsList.setPathToStore(
+            RNFS.DocumentDirectoryPath + "/store",
+            (err, label) => {
+                null;
+            });
+        NativeModules.CertsList.providerInit(
+            (err, label) => {
+                null;
+            });
     }
     render() {
         return(

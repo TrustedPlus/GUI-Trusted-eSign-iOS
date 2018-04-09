@@ -48,7 +48,7 @@ export function Files(state = initialState, action) {
       return{
         ...state,
         log: logAddrecord(state.log, action.payload, "Указание пути до хранилища не увенчалось успехом"),
-        lastlog: new Date() + "",
+        lastlog: new Date() + ""
       };
     case UPLOAD_FILES:
       return {
@@ -98,13 +98,13 @@ export function Files(state = initialState, action) {
       return{
         ...state,
         log: logAddrecord(state.log, action.payload, "Инициализация провайдера не увенчалась успехом"),
-        lastlog: new Date() + "",
+        lastlog: new Date() + ""
       };
     case READ_CERT_KEY_ERROR:
       return {
         ...state,
         log: logAddrecord(state.log, action.payload, "Ошибка чтения ключа или сертификата"),
-        lastlog: new Date() + "",
+        lastlog: new Date() + ""
       };
     case READ_FILES:
       return {
@@ -149,25 +149,25 @@ export function Files(state = initialState, action) {
       return {
         ...state,
         log: logAddrecord(state.log, action.payload, "Добавление сертификата"),
-        lastlog: new Date() + "",
+        lastlog: new Date() + ""
       };
     case ADD_CERT_ERROR:
       return {
         ...state,
         log: logAddrecord(state.log, action.payload, "Добавление сертификата не удалось"),
-        lastlog: new Date() + "",
+        lastlog: new Date() + ""
       };
     case ADD_KEY_SUCCESS:
       return {
         ...state,
         log: logAddrecord(state.log, action.payload, "Добавление ключа"),
-        lastlog: new Date() + "",
+        lastlog: new Date() + ""
       };
     case ADD_KEY_ERROR:
       return {
         ...state,
         log: logAddrecord(state.log, action.payload, "Добавление ключа не удалось"),
-        lastlog: new Date() + "",
+        lastlog: new Date() + ""
       };
     case SIGN_FILE:
       return {

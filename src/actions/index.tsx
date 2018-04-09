@@ -159,15 +159,6 @@ export function addCert(uri, type, fileName, fileSize) {
                 const read = RNFS.read(certPath, 2, 0, "utf8");
                 return read.then(
                     response => {
-                        NativeModules.CertsList.setPathToStore(
-                            RNFS.DocumentDirectoryPath + "/store",
-                            (err, label) => {
-                                null;
-                            });
-                        NativeModules.CertsList.providerInit(
-                            (err, label) => {
-                                null;
-                            });
                         NativeModules.WCert.saveCertToStore(
                             certPath,
                             response === "--" ? "BASE64" : "DER",
@@ -186,15 +177,6 @@ export function addCert(uri, type, fileName, fileSize) {
             }
             case "key": {
                 let certPath = decodeURIComponent(uri.replace("file:///", "/"));
-                NativeModules.CertsList.setPathToStore(
-                    RNFS.DocumentDirectoryPath + "/store",
-                    (err, label) => {
-                        null;
-                    });
-                NativeModules.CertsList.providerInit(
-                    (err, label) => {
-                        null;
-                    });
                 NativeModules.WCert.saveKeyToStore(
                     certPath,
                     "BASE64",

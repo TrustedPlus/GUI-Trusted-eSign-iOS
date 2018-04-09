@@ -63,7 +63,7 @@ class Encryption extends React.Component<EncryptionProps> {
 
     documentPicker() {
         DocumentPicker.show({
-            filetype: [DocumentPickerUtil.allFiles()]
+            filetype: ["public.item"]
         }, (error: any, res: any) => {
             this.props.addFiles(res.uri, res.type, res.fileName, res.fileSize);
             /*console.log(
@@ -124,7 +124,7 @@ class Encryption extends React.Component<EncryptionProps> {
         }
         return (
             <Container style={styles.container}>
-                <Headers title="Шифрование/расшифрование" goBack={() => goBack()} />
+                <Headers title="Шифрование / Расшифрование" goBack={() => goBack()} />
                 <View style={styles.sign_enc_view}>
                     <Text style={styles.sign_enc_title}>Сертификаты получателей</Text>
                     <Button transparent style={styles.sign_enc_button} onPress={() => { readCertKeys(); navigate("SelectOtherСert"); }}>

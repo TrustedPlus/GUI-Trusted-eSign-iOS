@@ -9,6 +9,7 @@ import {
 interface IFile {
     mtime: string;
     extension: string;
+    extensionAll: string;
     name: string;
 }
 
@@ -20,12 +21,12 @@ export function encAssymmetric(files: IFile[], otherCert, footer) {
         } else {
             if (otherCert.provider === "CRYPTOPRO") {
                 for (let i = 0; i < footer.arrButton.length; i++) {
-                    let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
+                    let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
                     RNFS.writeFile(path + ".enc", "", "utf8");
                     NativeModules.PCipher.encrypt(
                         otherCert.serialNumber,
                         "MY",
-                        path + "." + files[footer.arrButton[i]].extension,
+                        path,
                         path + ".enc",
                         (err, encrypt) => {
                             if (err) {
@@ -37,12 +38,12 @@ export function encAssymmetric(files: IFile[], otherCert, footer) {
                 }
             } else {
                 for (let i = 0; i < footer.arrButton.length; i++) {
-                    let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
+                    let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
                     RNFS.writeFile(path + ".enc", "", "utf8");
                     NativeModules.WCipher.encrypt(
                         otherCert.serialNumber,
                         "MY",
-                        path + "." + files[footer.arrButton[i]].extension,
+                        path,
                         path + ".enc",
                         (err, encrypt) => {
                             if (err) {
@@ -68,12 +69,14 @@ export function decAssymmetric(files: IFile[], otherCert, footer) {
             if (otherCert.provider === "CRYPTOPRO") {
                 for (let i = 0; i < footer.arrButton.length; i++) {
                     let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
-                    RNFS.writeFile(path + ".txt", "", "utf8");
+                    let point = files[footer.arrButton[i]].extensionAll.lastIndexOf(".");
+                    let extension = files[footer.arrButton[i]].extensionAll.substring(0, point);
+                    RNFS.writeFile(path + "." + extension, "", "utf8");
                     NativeModules.PCipher.decrypt(
                         otherCert.serialNumber,
                         "MY",
-                        path + "." + files[footer.arrButton[i]].extension,
-                        path + ".txt",
+                        path + "." + files[footer.arrButton[i]].extensionAll,
+                        path + "." + extension,
                         (err, decrypt) => {
                             if (err) {
                                 dispatch({ type: DECODE_FILES_ERROR, payload: err });
@@ -85,12 +88,14 @@ export function decAssymmetric(files: IFile[], otherCert, footer) {
             } else {
                 for (let i = 0; i < footer.arrButton.length; i++) {
                     let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
-                    RNFS.writeFile(path + ".txt", "", "utf8");
+                    let point = files[footer.arrButton[i]].extensionAll.lastIndexOf(".");
+                    let extension = files[footer.arrButton[i]].extensionAll.substring(0, point);
+                    RNFS.writeFile(path + "." + extension, "", "utf8");
                     NativeModules.WCipher.decrypt(
                         otherCert.serialNumber,
                         "MY",
-                        path + "." + files[footer.arrButton[i]].extension,
-                        path + ".txt",
+                        path + "." + files[footer.arrButton[i]].extensionAll,
+                        path + "." + extension,
                         (err, decrypt) => {
                             if (err) {
                                 dispatch({ type: DECODE_FILES_ERROR, payload: err });

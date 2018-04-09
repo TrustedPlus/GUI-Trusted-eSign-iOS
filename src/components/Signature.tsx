@@ -64,7 +64,7 @@ class Signature extends React.Component<SignatureProps> {
 
     documentPicker() {
         DocumentPicker.show({
-            filetype: [DocumentPickerUtil.allFiles()]
+            filetype: ["public.item"]
         }, (error: any, res: any) => {
             this.props.addFiles(res.uri, res.type, res.fileName, res.fileSize);
             /*console.log(
@@ -126,7 +126,7 @@ class Signature extends React.Component<SignatureProps> {
         }
         return (
             <Container style={styles.container}>
-                <Headers title="Подпись/проверка" goBack={() => goBack()} />
+                <Headers title="Подпись / Проверка" goBack={() => goBack()} />
                 <View style={styles.sign_enc_view}>
                     <Text style={styles.sign_enc_title}>Сертификат подписи</Text>
                     <Button transparent onPress={() => { readCertKeys(); navigate("SelectPersonalСert"); }} style={styles.sign_enc_button}>

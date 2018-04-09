@@ -9,6 +9,7 @@ import {
 interface IFile {
     mtime: string;
     extension: string;
+    extensionAll: string;
     name: string;
 }
 
@@ -38,7 +39,7 @@ export function uploadFile(files: IFile[], footer) {
                     });*/
                 Share.share({
                     // message: "BAM: we're helping your business with awesome React Native apps",
-                    url: RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extension
+                    url: RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll
                     // title: "Wow, did you see that?"
                 }).then(
                     result => dispatch({ type: UPLOAD_FILES_SUCCESS, payload: files[footer.arrButton[i]].name })
@@ -63,7 +64,7 @@ export function deleteFile(files: IFile[], footer) {
             return dispatch({ type: DELETE_FILES_END });
         } else {
             for (let i = 0; i < footer.arrButton.length; i++) {
-                let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extension;
+                let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
                 RNFS.unlink(path)
                     .then(() => {
                         dispatch({ type: DELETE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });

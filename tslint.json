@@ -1,0 +1,49 @@
+{
+  "rules": {
+      "comment-format": [
+          true,
+          "check-space"
+      ],
+      "indent": [
+          true,
+          "spaces"
+      ],
+      "no-duplicate-variable": true,
+      "no-unused-expression": false,
+      "no-unused-variable": true,
+      "no-var-keyword": true,
+      "one-line": [
+          true,
+          "check-catch",
+          "check-else",
+          "check-open-brace",
+          "check-whitespace"
+      ],
+      "no-trailing-whitespace": true,
+      "curly": true,
+      "class-name": true,
+      "quotemark": [
+          true,
+          "double",
+          "jsx-double"
+      ],
+      "semicolon": [
+          true,
+          "always"
+      ],
+      "triple-equals": true,
+      "variable-name": [
+          true,
+          "ban-keywords"
+      ],
+      "interface-name": false,
+      "whitespace": [
+          true,
+          "check-branch",
+          "check-decl",
+          "check-operator",
+          "check-separator",
+          "check-type"
+      ]
+  }
+}

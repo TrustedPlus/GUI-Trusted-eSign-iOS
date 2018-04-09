@@ -1,0 +1,16 @@
+android/app/build
+
+android/.grandle
+
+android/local.properties
+
+node_modules
+
+ios/build
+
+build
+
+.DS_Store
+android/.idea/.name
+
+ios/CryptoARM_GOST.xcodeproj/

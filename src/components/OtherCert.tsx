@@ -45,7 +45,7 @@ class OtherСert extends React.Component<OtherСertProps> {
 
     return (
       <Container style={styles.container}>
-        <Headers title="Выберите сертификат" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
+        <Headers title="Сертификаты других пользователей" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
         <Header searchBar>
           <Item>
             <Icon name="ios-search" />

@@ -64,7 +64,7 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps, SelectOthe
             point = res.fileName.indexOf(".");
             extension = res.fileName.substring(point + 1);
             if (extension === "pfx") {
-                this.setState({ promptVisible: true, uri: res.uri, type: res.type, fileName: res.fileName, fileSize: res.fileSize});
+                this.setState({ promptVisible: true, uri: res.uri, type: res.type, fileName: res.fileName, fileSize: res.fileSize });
             } else {
                 this.props.addCert(res.uri, res.type, res.fileName, res.fileSize, null);
             }
@@ -81,7 +81,6 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps, SelectOthe
                     img[i] = require("../../imgs/general/cert2_ok_icon.png"); break;
             }
         }
-
         return (
             <Container style={styles.container}>
                 <Headers title="Выберите сертификат" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()} />
@@ -101,7 +100,10 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps, SelectOthe
                 </Button>
                 <Prompt
                     title="Введите пароль для сертификата"
+                    textInputProps={{secureTextEntry: true}}
                     visible={this.state.promptVisible}
+                    submitText="Ввести"
+                    cancelText="Отмена"
                     onCancel={() => {
                         this.setState({
                             promptVisible: false

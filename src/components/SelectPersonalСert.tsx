@@ -81,7 +81,6 @@ class SelectPersonalСert extends React.Component<SelectPersonalСertProps, Sele
                     img[i] = require("../../imgs/general/cert2_ok_icon.png"); break;
             }
         }
-
         return (
             <Container style={styles.container}>
                 <Headers title="Выберите сертификат" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()} />
@@ -102,6 +101,9 @@ class SelectPersonalСert extends React.Component<SelectPersonalСertProps, Sele
                 <Prompt
                     title="Введите пароль для сертификата"
                     visible={this.state.promptVisible}
+                    submitText="Ввести"
+                    cancelText="Отмена"
+                    textInputProps={{secureTextEntry: true}}
                     onCancel={() => {
                         this.setState({
                             promptVisible: false

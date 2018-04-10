@@ -21,36 +21,13 @@ export function uploadFile(files: IFile[], footer) {
         } else {
             for (let i = 0; i < footer.arrButton.length; i++) {
                 let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
-                /*NativeModules.WCipher.encrypt(
-                    otherCert.serialNumber,
-                    "MY",
-                    path + "." + files[footer.arrButton[i]].extension,
-                    path + ".enc",
-                    (err, encrypt) => {
-                        if (err === null) {
-                            dispatch({ type: UPLOAD_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
-                        } else {
-                            dispatch({ type: UPLOAD_FILES_ERROR, payload: files[footer.arrButton[i]].name });
-                        }
-                        if (i + 1 === footer.arrButton.length) {
-                            dispatch({ type: UPLOAD_FILES_END });
-                            dispatch(readFiles());
-                        }
-                    });*/
                 Share.share({
-                    // message: "BAM: we're helping your business with awesome React Native apps",
                     url: RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll
-                    // title: "Wow, did you see that?"
                 }).then(
                     result => dispatch({ type: UPLOAD_FILES_SUCCESS, payload: files[footer.arrButton[i]].name })
                 ).catch(
                     errorMsg => dispatch({ type: UPLOAD_FILES_ERROR, payload: errorMsg })
-                ); /*, {
-                        // Android only:
-                        // dialogTitle: "Share BAM goodness",
-                        // iOS only:
-                        // excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"]
-                      });*/
+                );
             }
             dispatch({ type: UPLOAD_FILES_END });
         }
@@ -64,7 +41,12 @@ export function deleteFile(files: IFile[], footer) {
             return dispatch({ type: DELETE_FILES_END });
         } else {
             for (let i = 0; i < footer.arrButton.length; i++) {
-                let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+                let path;
+                if (files[footer.arrButton[i]].extension) {
+                    path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+                } else {
+                    path = RNFS.DocumentDirectoryPath + "/Files/." + files[footer.arrButton[i]].name;
+                }
                 RNFS.unlink(path)
                     .then(() => {
                         dispatch({ type: DELETE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });

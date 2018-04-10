@@ -130,7 +130,7 @@ class Signature extends React.Component<SignatureProps> {
         if (this.props.footer.arrButton.length) { // выбраны ли файлы
             footer = <FooterSign sign />;
             selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>
-                выбран(о) {this.props.footer.arrButton.length} файл(ов)</Text>;
+                выбрано файлов: {this.props.footer.arrButton.length} </Text>;
         } else {
             if (files.length) {
                 selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>

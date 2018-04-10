@@ -1,7 +1,6 @@
 import * as React from "react";
 import { DrawerNavigator } from "react-navigation";
 import {menu} from "./components/Menu";
-import {Diagnostic} from "./components/Diagnostic";
 import Signature from "./components/Signature";
 import Encryption from "./components/Encryption";
 import {Certificate} from "./components/Certificate";
@@ -13,9 +12,8 @@ import {Help} from "./components/Help";
 import { createStore } from "redux";
 import reducers from "./reducers";
 
-export const App = DrawerNavigator({
+export const App = menu; /*DrawerNavigator({
   Menu: { screen: menu},
-  Diagnostic: { screen: Diagnostic },
   Signature: { screen: Signature },
   Encryption: { screen: Encryption },
   Certificate: { screen: Certificate },
@@ -26,4 +24,4 @@ export const App = DrawerNavigator({
 },
 {
   contentComponent: props => <SideBar {...props} />
-});
+});*/

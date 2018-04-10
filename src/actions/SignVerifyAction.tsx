@@ -19,7 +19,6 @@ export function signFile(files: IFile[], personalCert, footer) {
         if (personalCert.title === "") {
             dispatch({ type: SIGN_FILE_END });
         } else {
-            console.log(RNFS.DocumentDirectoryPath);
             if (personalCert.provider === "CRYPTOPRO") {
                 for (let i = 0; i < footer.arrButton.length; i++) {
                     let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
@@ -67,7 +66,6 @@ export function verifySign(files: IFile[], personalCert, footer) {
         if (personalCert.title === "") {
             dispatch({ type: VERIFY_SIGN_END });
         } else {
-            console.log(RNFS.DocumentDirectoryPath);
             if (personalCert.provider === "CRYPTOPRO") {
                 for (let i = 0; i < footer.arrButton.length; i++) {
                     if (files[footer.arrButton[i]].extension !== "sig") { Alert.alert("Файл '" + files[footer.arrButton[i]].name + "' не является подписью"); continue; }

@@ -5,7 +5,7 @@ import {
     ADD_CERT_OR_KEY, ADD_CERT_SUCCESS, ADD_CERT_ERROR, ADD_KEY_SUCCESS, ADD_KEY_ERROR
 } from "../constants";
 import * as RNFS from "react-native-fs";
-import { NativeModules } from "react-native";
+import { NativeModules, Alert } from "react-native";
 import { readCertKeys } from "./CertKeysAction";
 
 export function footerAction(idButton) {
@@ -127,7 +127,10 @@ export function addFiles(uri, type, fileName, fileSize) {
                 dispatch({ type: ADD_FILES_SUCCESS, payload: name });
                 dispatch(readFiles());
             },
-            err => dispatch({ type: ADD_FILES_ERROR, payload: name })
+            err => {
+                dispatch({ type: ADD_FILES_ERROR, payload: name });
+                Alert.alert(err);
+            }
         );
     };
 }
@@ -148,6 +151,7 @@ export function addCert(uri, type, fileName, fileSize, password) {
                     (err, imp) => {
                         if (err) {
                             dispatch({ type: ADD_CERT_ERROR, payload: err });
+                            Alert.alert(err);
                         } else {
                             dispatch({ type: ADD_CERT_SUCCESS, payload: name });
                             dispatch(readCertKeys());
@@ -168,13 +172,14 @@ export function addCert(uri, type, fileName, fileSize, password) {
                             (err, saveCert) => {
                                 if (err) {
                                     dispatch({ type: ADD_CERT_ERROR, payload: err });
+                                    Alert.alert(err);
                                 } else {
                                     dispatch({ type: ADD_CERT_SUCCESS, payload: name });
                                     dispatch(readCertKeys());
                                 }
                             });
                     },
-                    err => { dispatch({ type: ADD_CERT_ERROR, payload: name }); }
+                    err => { dispatch({ type: ADD_CERT_ERROR, payload: name }); Alert.alert(err); }
                 );
             }
             case "key": {
@@ -186,6 +191,7 @@ export function addCert(uri, type, fileName, fileSize, password) {
                     (err, saveKey) => {
                         if (err) {
                             dispatch({ type: ADD_KEY_ERROR, payload: err });
+                            Alert.alert(err);
                         } else {
                             dispatch({ type: ADD_KEY_SUCCESS, payload: name });
                             dispatch(readCertKeys());

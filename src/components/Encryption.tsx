@@ -130,7 +130,7 @@ class Encryption extends React.Component<EncryptionProps> {
         if (this.props.footer.arrButton.length) { // выбраны ли файлы
             footer = <FooterSign encrypt />;
             selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey" }}>
-                выбран(о) {this.props.footer.arrButton.length} файл(ов)</Text>;
+                выбрано файлов: {this.props.footer.arrButton.length}</Text>;
         } else {
             if (files.length) {
                 selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>

@@ -36,38 +36,38 @@ class FooterSign extends React.Component<FooterSignProps> {
         const {files, personalCert, otherCert, verifySign, signFile, encAssymmetric, decAssymmetric, uploadFile, deleteFile} = this.props;
         let footer = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
-            footer = <FooterTab style={styles.container}>
+            footer = <FooterTab style={{backgroundColor: "#be3817"}}>
                     <Button vertical onPress={() => encAssymmetric(files, otherCert, this.props.footer)}>
-                        <Icon style={{color: "black"}} name="apps" />
-                        <Text style={{color: "black", width: 130}}>Зашифровать</Text>
+                        <Icon style={{color: "white"}} name="apps" />
+                        <Text style={{color: "white", width: 130}}>Зашифровать</Text>
                     </Button>
                     <Button vertical onPress={() => decAssymmetric(files, otherCert, this.props.footer)}>
-                        <Icon style={{color: "black"}} name="camera" />
-                        <Text style={{color: "black", width: 140}}>{/*Архивировать*/}Расшифровать</Text>
+                        <Icon style={{color: "white"}} name="camera" />
+                        <Text style={{color: "white", width: 140}}>{/*Архивировать*/}Расшифровать</Text>
                     </Button></FooterTab>;
         }
         if (this.props.sign) { // если футер для мастера подписи
-            footer = <FooterTab style={styles.container}>
+            footer = <FooterTab style={{backgroundColor: "#be3817"}}>
                     <Button vertical onPress={() => verifySign(files, personalCert, this.props.footer)}>
-                        <Icon style={{color: "black"}} name="apps" />
-                        <Text style={{color: "black", width: 110}}>Проверить</Text>
+                        <Icon style={{color: "white"}} name="apps" />
+                        <Text style={{color: "white", width: 110}}>Проверить</Text>
                     </Button>
                     <Button vertical onPress={() => signFile(files, personalCert, this.props.footer)}>
-                        <Icon style={{color: "black"}} name="camera"/>
-                        <Text style={{color: "black", width: 110}}>Подписать</Text>
+                        <Icon style={{color: "white"}} name="camera"/>
+                        <Text style={{color: "white", width: 110}}>Подписать</Text>
                     </Button></FooterTab>;
         }
         return(
             <Footer>
                 {footer}
-                <FooterTab style={styles.container}>
+                <FooterTab style={{backgroundColor: "#be3817"}}>
                 <Button vertical onPress={() => uploadFile(files, this.props.footer)}>
-                    <Icon style={{color: "black"}} name="navigate" />
-                    <Text style={{color: "black",  width: 110}}>Отправить</Text>
+                    <Icon style={{color: "white"}} name="navigate" />
+                    <Text style={{color: "white",  width: 110}}>Отправить</Text>
                 </Button>
                 <Button vertical onPress={() => deleteFile(files, this.props.footer)}>
-                    <Icon style={{color: "black"}} name="person" />
-                    <Text style={{color: "black"}}>Удалить</Text>
+                    <Icon style={{color: "white"}} name="person" />
+                    <Text style={{color: "white"}}>Удалить</Text>
                 </Button></FooterTab>
             </Footer>
         );

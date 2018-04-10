@@ -11,23 +11,7 @@ interface PropertiesCertProps {
   cert: string;
 }
 
-interface PropertiesCertState {
-  getVersionLabel: string;
-  getSerialNumberLabel: string;
-  getNotBeforeLabel: string;
-  getNotAfterLabel: string;
-  getIssuerFriendlyNameLabel: string;
-  getIssuerNameLabel: string;
-  getSubjectFriendlyNameLabel: string;
-  getSubjectNameLabel: string;
-  getPublicKeyAlgorithmLabel: string;
-  getSignatureAlgorithLabel: string;
-  getSignatureDigestAlgorithmLabel: string;
-  getOrganizationNameLabel: string;
-  getThumbprintLabel: string;
-}
-
-export class PropertiesCert extends React.Component<PropertiesCertProps, PropertiesCertState> {
+export class PropertiesCert extends React.Component<PropertiesCertProps> {
 
   static navigationOptions = {
     header: null

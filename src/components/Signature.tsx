@@ -80,7 +80,7 @@ class Signature extends React.Component<SignatureProps> {
         const { footerAction, footerClose, files, isFetching, readFiles, readCertKeys, personalCert } = this.props;
         const { navigate, goBack } = this.props.navigation;
 
-        let certificate, icon;
+        let certificate, icon, filesView;
         if (personalCert.title) { // выбран ли сертификат
             certificate = <List>
                 <ListMenu title={personalCert.title} img={personalCert.img}
@@ -93,7 +93,6 @@ class Signature extends React.Component<SignatureProps> {
             </View>;
             icon = require("../../imgs/general/add_icon.png");
         }
-
         let img = [];
         let length = files.length;
         for (let i = 0; i < length; i++) { // какое расширение у файлов
@@ -111,8 +110,20 @@ class Signature extends React.Component<SignatureProps> {
                 case "enc":
                     img[i] = require("../../imgs/general/file_enc.png"); break;
                 default:
-                    img[i] = require("../../imgs/general/file_pdf.png"); break;
+                    break;
             }
+        }
+        if (files.length) {
+            filesView = <ScrollView refreshControl={
+                <RefreshControl refreshing={isFetching}
+                    onRefresh={() => readFiles()}
+                />}>
+                <List>{this.showList(img)}</List>
+            </ScrollView>;
+        } else {
+            filesView = <View style={styles.sign_enc_view}>
+                <Text style={styles.sign_enc_prompt}>[Добавьте файлы]</Text>
+            </View>;
         }
 
         let footer, selectFiles = null;
@@ -121,8 +132,12 @@ class Signature extends React.Component<SignatureProps> {
             selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>
                 выбран(о) {this.props.footer.arrButton.length} файл(ов)</Text>;
         } else {
-            selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>
-                всего файлов: {files.length}</Text>;
+            if (files.length) {
+                selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>
+                    всего файлов: {files.length}</Text>;
+            } else {
+                selectFiles = null;
+            }
         }
         return (
             <Container style={styles.container}>
@@ -141,12 +156,7 @@ class Signature extends React.Component<SignatureProps> {
                         <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
                     </Button>
                 </View>
-                <ScrollView refreshControl={
-                    <RefreshControl refreshing={isFetching}
-                        onRefresh={() => readFiles()}
-                    />}>
-                    <List>{this.showList(img)}</List>
-                </ScrollView>
+                {filesView}
                 {footer}
             </Container>
         );

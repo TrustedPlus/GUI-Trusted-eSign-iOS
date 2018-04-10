@@ -132,7 +132,7 @@ export function addFiles(uri, type, fileName, fileSize) {
     };
 }
 
-export function addCert(uri, type, fileName, fileSize) {
+export function addCert(uri, type, fileName, fileSize, password) {
     return function action(dispatch) {
         dispatch({ type: ADD_CERT_OR_KEY });
         let point, name, extension;
@@ -144,7 +144,7 @@ export function addCert(uri, type, fileName, fileSize) {
                 let certPath = decodeURIComponent(uri.replace("file:///", "/"));
                 NativeModules.PCerts.importPFX(
                     certPath,
-                    "12345678",
+                    password,
                     (err, imp) => {
                         if (err) {
                             dispatch({ type: ADD_CERT_ERROR, payload: err });

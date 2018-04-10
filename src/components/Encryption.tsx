@@ -79,7 +79,7 @@ class Encryption extends React.Component<EncryptionProps> {
         const { footerAction, footerClose, files, readFiles, readCertKeys, otherCert, isFetching } = this.props;
         const { navigate, goBack } = this.props.navigation;
 
-        let certificate, icon;
+        let certificate, icon, filesView;
         if (otherCert.title) { // выбран ли сертификат
             certificate = <List>
                 <ListMenu title={otherCert.title} img={otherCert.img}
@@ -113,14 +113,31 @@ class Encryption extends React.Component<EncryptionProps> {
             }
         }
 
+        if (files.length) {
+            filesView = <ScrollView refreshControl={
+                <RefreshControl refreshing={isFetching}
+                    onRefresh={() => readFiles()}
+                />}>
+                <List>{this.showList(img)}</List>
+            </ScrollView>;
+        } else {
+            filesView = <View style={styles.sign_enc_view}>
+                <Text style={styles.sign_enc_prompt}>[Добавьте файлы]</Text>
+            </View>;
+        }
+
         let footer, selectFiles = null;
         if (this.props.footer.arrButton.length) { // выбраны ли файлы
             footer = <FooterSign encrypt />;
             selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey" }}>
                 выбран(о) {this.props.footer.arrButton.length} файл(ов)</Text>;
         } else {
-            selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>
-                всего файлов: {files.length}</Text>;
+            if (files.length) {
+                selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>
+                    всего файлов: {files.length}</Text>;
+            } else {
+                selectFiles = null;
+            }
         }
         return (
             <Container style={styles.container}>
@@ -139,12 +156,7 @@ class Encryption extends React.Component<EncryptionProps> {
                         <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
                     </Button>
                 </View>
-                <ScrollView refreshControl={
-                    <RefreshControl refreshing={isFetching}
-                        onRefresh={() => readFiles()}
-                    />}>
-                    {this.showList(img)}
-                </ScrollView>
+                {filesView}
                 {footer}
             </Container>
         );

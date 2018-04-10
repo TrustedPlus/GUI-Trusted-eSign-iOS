@@ -23,7 +23,7 @@ export function signFile(files: IFile[], personalCert, footer) {
             if (personalCert.provider === "CRYPTOPRO") {
                 for (let i = 0; i < footer.arrButton.length; i++) {
                     let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
-                    RNFS.writeFile(path + ".sig", "", "utf8");
+                    RNFS.writeFile(path + "." + files[footer.arrButton[i]].extensionAll + ".sig", "", "utf8");
                     NativeModules.PSigner.sign(
                         personalCert.serialNumber,
                         "MY",

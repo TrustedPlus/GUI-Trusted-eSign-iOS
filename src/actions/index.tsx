@@ -8,10 +8,10 @@ import * as RNFS from "react-native-fs";
 import { NativeModules, Alert } from "react-native";
 import { readCertKeys } from "./CertKeysAction";
 
-export function footerAction(idButton) {
+export function footerAction(idButton, extension) {
     return {
         type: FOOTER_ACTION,
-        payload: idButton
+        payload: {idButton, extension}
     };
 }
 
@@ -200,6 +200,7 @@ export function addCert(uri, type, fileName, fileSize, password) {
                 break;
             }
             default: {
+                Alert.alert("Неподдерживаемое расширение сертификата");
                 break;
             }
         }

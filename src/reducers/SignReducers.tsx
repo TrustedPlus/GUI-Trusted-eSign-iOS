@@ -9,14 +9,14 @@ const initialState: FooterReducerStore = {
   arrButton: [] // массив выбраных файлов
 };
 
-function arrButtonFunc(oldButtonArray, action: AnyAction) {
+function arrButtonFunc(oldButtonArray, idButton: number) {
 
-  let index = oldButtonArray.indexOf(action.payload);
+  let index = oldButtonArray.indexOf(idButton);
   if (index !== -1) {
     oldButtonArray.splice(index, 1); // удаление из массива
     return oldButtonArray;
   }
-  oldButtonArray.push(action.payload);
+  oldButtonArray.push(idButton);
   return oldButtonArray; // добавление в массив
 }
 
@@ -25,7 +25,7 @@ export default function Footer(state = initialState, action: AnyAction): FooterR
     case FOOTER_ACTION:
       return {
         ...state,
-        arrButton: arrButtonFunc(state.arrButton, action)
+        arrButton: arrButtonFunc(state.arrButton, action.payload.idButton)
       };
     case FOOTER_CLOSE:
       return {

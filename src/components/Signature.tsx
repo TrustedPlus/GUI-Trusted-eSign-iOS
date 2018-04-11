@@ -30,7 +30,7 @@ interface SignatureProps {
     personalCert: any;
     files: IFile[];
     isFetching: boolean;
-    footerAction(key: number): void;
+    footerAction(key: number, extension: string): void;
     footerClose(): void;
     readFiles(): void;
     readCertKeys(): void;
@@ -59,7 +59,7 @@ class Signature extends React.Component<SignatureProps> {
                 verify={file.verify}
                 img={img[key]}
                 checkbox
-                nav={() => this.props.footerAction(key)} />));
+                nav={() => this.props.footerAction(key, file.extension)} />));
     }
 
     documentPicker() {

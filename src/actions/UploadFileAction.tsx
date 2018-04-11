@@ -51,7 +51,6 @@ export function deleteFile(files: IFile[], footer) {
                     .then(() => {
                         dispatch({ type: DELETE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
                     })
-                    // `unlink` will throw an error, if the item to unlink does not exist
                     .catch((err) => {
                         dispatch({ type: DELETE_FILES_ERROR, payload: err });
                     });

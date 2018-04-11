@@ -65,16 +65,16 @@ class Main extends React.Component<MainProps> {
         </Header>
         <Content>
           <List>
-            <ListMenu title="Диагностика приложения" img={require("../../imgs/general/diagnostic_main_icon.png" )}
-              note="ошибок: 0" rightnote="замечаний: 0" nav={() => navigate("Diagnostic")}/>
+            {/*<ListMenu title="Диагностика приложения" img={require("../../imgs/general/diagnostic_main_icon.png" )}
+              note="ошибок: 0" rightnote="замечаний: 0" nav={() => navigate("Diagnostic")}/>*/}
             <ListMenu title="Подпись / Проверка подписи" img={require("../../imgs/general/sign_main_icon.png")}
               note={length} nav={() => navigate("Signature")}/>
             <ListMenu title="Шифрование / Расшифрование" img={require("../../imgs/general/encode_main_icon.png")}
               note={length} nav={() => navigate("Encryption")}/>
             <ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
               note={persCert} nav={() => navigate("Certificate")}/>
-            <ListMenu title="Управление хранилищами" img={require("../../imgs/general/stores_main_icon.png")}
-              note="подключенных хранилищ: 2" nav={() => navigate("Repository")}/>
+            {/*<ListMenu title="Управление хранилищами" img={require("../../imgs/general/stores_main_icon.png")}
+              note="подключенных хранилищ: 2" nav={() => navigate("Repository")}/>*/}
             <ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
               note={lastlognote} nav={() => navigate("Journal")}/>
           </List>

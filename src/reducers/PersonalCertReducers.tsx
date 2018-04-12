@@ -1,12 +1,12 @@
 import { PERSONAL_CERT_ACTION} from "../constants";
 
 const initialState = {
-  title: "",
-  img: "",
-  note: "",
-  issuerName: "",
-  serialNumber: "",
-  provider: ""
+  title: null,
+  img: null,
+  note: null,
+  issuerName: null,
+  serialNumber: null,
+  provider: null
 };
 
 export function personalCert (state = initialState, action) {

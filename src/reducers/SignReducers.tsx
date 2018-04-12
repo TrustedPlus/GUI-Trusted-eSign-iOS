@@ -1,36 +1,38 @@
 import { AnyAction } from "redux";
 import { FOOTER_ACTION, FOOTER_CLOSE} from "../constants";
 
-interface FooterReducerStore {
-  arrButton: any[];
-}
-
-const initialState: FooterReducerStore = {
-  arrButton: [] // массив выбраных файлов
+const initialState = {
+  arrButton: [], // массив выбраных файлов
+  arrExtension: []
 };
 
-function arrButtonFunc(oldButtonArray, idButton: number) {
+function footer_action(oldState, payload: {idButton: number, extension: string}) {
 
-  let index = oldButtonArray.indexOf(idButton);
+  let index = oldState.arrButton.indexOf(payload.idButton);
   if (index !== -1) {
-    oldButtonArray.splice(index, 1); // удаление из массива
-    return oldButtonArray;
+    oldState.arrButton.splice(index, 1); // удаление из массива
+    oldState.arrExtension.splice(index, 1);
+    return oldState;
   }
-  oldButtonArray.push(idButton);
-  return oldButtonArray; // добавление в массив
+  oldState.arrButton.push(payload.idButton);
+  oldState.arrExtension.push(payload.extension);
+  return oldState; // добавление в массив
 }
 
-export default function Footer(state = initialState, action: AnyAction): FooterReducerStore {
+export default function Footer(state = initialState, action: AnyAction) {
   switch (action.type) {
     case FOOTER_ACTION:
+      let newState = footer_action(state, action.payload);
       return {
         ...state,
-        arrButton: arrButtonFunc(state.arrButton, action.payload.idButton)
+        arrButton: newState.arrButton,
+        arrExtension: newState.arrExtension
       };
     case FOOTER_CLOSE:
       return {
         ...state,
-        arrButton: []
+        arrButton: [],
+        arrExtension: []
       };
     default:
       return state;

@@ -1,15 +1,15 @@
 import * as React from "react";
-import { Container, View, Content, Button, Body, Text, List } from "native-base";
+import { Container, View, List, Content, Button, Body, Text } from "native-base";
 import { Image, RefreshControl, ScrollView } from "react-native";
 import { Headers } from "./Headers";
 import { styles } from "../styles";
+import SelectOtherСert from "./SelectOtherСert";
+import ListMenu from "./ListMenu";
 import { bindActionCreators } from "redux";
+import FooterSign from "./FooterSign";
 import { connect } from "react-redux";
 import { footerAction, footerClose, readFiles, addFiles } from "../actions/index";
-import ListMenu from "./ListMenu";
-import FooterSign from "./FooterSign";
 import { readCertKeys } from "../actions/CertKeysAction";
-import SelectOtherСert from "./SelectOtherСert";
 import { DocumentPicker, DocumentPickerUtil } from "react-native-document-picker";
 
 interface IFile {
@@ -30,7 +30,7 @@ interface EncryptionProps {
     otherCert: any;
     files: IFile[];
     isFetching: boolean;
-    footerAction(key: number): void;
+    footerAction(key: number, extension: string): void;
     footerClose(): void;
     readFiles(): void;
     readCertKeys(): void;
@@ -58,7 +58,7 @@ class Encryption extends React.Component<EncryptionProps> {
                 note={file.date + " " + file.month + " " + file.year + ", " + file.hours + ":" + file.minutes + ":" + file.seconds}
                 img={img[key]}
                 checkbox
-                nav={() => this.props.footerAction(key)} />));
+                nav={() => this.props.footerAction(key, file.extension)} />));
     }
 
     documentPicker() {

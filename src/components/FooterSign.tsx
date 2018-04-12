@@ -1,13 +1,14 @@
 import * as React from "react";
-import {Footer, FooterTab, Button, Icon, Text} from "native-base";
-import {styles} from "../styles";
-import {bindActionCreators} from "redux";
-import {connect} from "react-redux";
-import { NativeModules } from "react-native";
-import {signFile, verifySign} from "../actions/SignVerifyAction";
-import {encAssymmetric, decAssymmetric} from "../actions/EncDecAction";
-import {uploadFile, deleteFile} from "../actions/UploadFileAction";
+import { Footer, FooterTab, Button, Icon, Text } from "native-base";
+import { styles } from "../styles";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { NativeModules, View } from "react-native";
+import { signFile, verifySign } from "../actions/SignVerifyAction";
+import { encAssymmetric, decAssymmetric } from "../actions/EncDecAction";
+import { uploadFile, deleteFile } from "../actions/UploadFileAction";
 import * as RNFS from "react-native-fs";
+import { FooterButton } from "./FooterButton";
 
 interface IFile {
     mtime: string;
@@ -33,57 +34,54 @@ interface FooterSignProps {
 class FooterSign extends React.Component<FooterSignProps> {
 
     render() {
-        const {files, personalCert, otherCert, verifySign, signFile, encAssymmetric, decAssymmetric, uploadFile, deleteFile} = this.props;
-        let footer = null;
+        const { files, personalCert, otherCert, verifySign, signFile, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer} = this.props;
+        let footerleft = null;
+        let isddisabled = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
-            footer = <FooterTab style={{backgroundColor: "#be3817"}}>
-                    <Button vertical onPress={() => encAssymmetric(files, otherCert, this.props.footer)}>
-                        <Icon style={{color: "white"}} name="apps" />
-                        <Text style={{color: "white", width: 130}}>Зашифровать</Text>
-                    </Button>
-                    <Button vertical onPress={() => decAssymmetric(files, otherCert, this.props.footer)}>
-                        <Icon style={{color: "white"}} name="camera" />
-                        <Text style={{color: "white", width: 140}}>{/*Архивировать*/}Расшифровать</Text>
-                    </Button></FooterTab>;
+            if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "enc").length ) {
+                isddisabled = "enc";
+            }
+            if (!otherCert.title) {
+                isddisabled = "noCert";
+            }
+            footerleft = <FooterTab style={styles.footer}>
+                <FooterButton title="Зашифровать" disabled={isddisabled === "noCert" ? true : false } icon="apps" nav={() => encAssymmetric(files, otherCert, footer)} />
+                <FooterButton title="Расшифровать" disabled={isddisabled === "enc" ? false : true } icon="camera" nav={() => decAssymmetric(files, otherCert, footer)} /></FooterTab>;
         }
         if (this.props.sign) { // если футер для мастера подписи
-            footer = <FooterTab style={{backgroundColor: "#be3817"}}>
-                    <Button vertical onPress={() => verifySign(files, personalCert, this.props.footer)}>
-                        <Icon style={{color: "white"}} name="apps" />
-                        <Text style={{color: "white", width: 110}}>Проверить</Text>
-                    </Button>
-                    <Button vertical onPress={() => signFile(files, personalCert, this.props.footer)}>
-                        <Icon style={{color: "white"}} name="camera"/>
-                        <Text style={{color: "white", width: 110}}>Подписать</Text>
-                    </Button></FooterTab>;
+            if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "sig").length ) {
+                isddisabled = "sig";
+            }
+            if (!personalCert.title) {
+                isddisabled = "noCert";
+            }
+            footerleft = <FooterTab style={styles.footer}>
+                <FooterButton title="Проверить" disabled={isddisabled === "sig" ? false : true } icon="apps" nav={() => verifySign(files, personalCert, footer)} />
+                <FooterButton title="Подписать" disabled={isddisabled === "noCert" ? true : false } icon="camera" nav={() => signFile(files, personalCert, footer)} />
+            </FooterTab>;
         }
-        return(
+        return (
             <Footer>
-                {footer}
-                <FooterTab style={{backgroundColor: "#be3817"}}>
-                <Button vertical onPress={() => uploadFile(files, this.props.footer)}>
-                    <Icon style={{color: "white"}} name="navigate" />
-                    <Text style={{color: "white",  width: 110}}>Отправить</Text>
-                </Button>
-                <Button vertical onPress={() => deleteFile(files, this.props.footer)}>
-                    <Icon style={{color: "white"}} name="person" />
-                    <Text style={{color: "white"}}>Удалить</Text>
-                </Button></FooterTab>
+                {footerleft}
+                <FooterTab style={styles.footer}>
+                    <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true } icon="navigate" nav={() => uploadFile(files, footer)} />
+                    <FooterButton title="Удалить" icon="person" nav={() => deleteFile(files, footer)} />
+                </FooterTab>;
             </Footer>
         );
     }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
     return {
-      files: state.files.files,
-      footer: state.footer,
-      personalCert: state.personalCert,
-      otherCert: state.otherCert
+        files: state.files.files,
+        footer: state.footer,
+        personalCert: state.personalCert,
+        otherCert: state.otherCert
     };
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
     return {
         signFile: bindActionCreators(signFile, dispatch),
         verifySign: bindActionCreators(verifySign, dispatch),
@@ -92,6 +90,6 @@ function mapDispatchToProps (dispatch) {
         uploadFile: bindActionCreators(uploadFile, dispatch),
         deleteFile: bindActionCreators(deleteFile, dispatch)
     };
-  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(FooterSign);

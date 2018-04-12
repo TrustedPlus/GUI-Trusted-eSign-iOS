@@ -11,15 +11,11 @@ interface HeadersProps {
 
 export class Headers extends React.Component<HeadersProps> {
 
-    onPress() {
-        this.props.goBack();
-    }
-
     render() {
         return (
             <Header style={styles.header}>
                 <Left style={styles.left}>
-                    <Button transparent onPress={this.onPress.bind(this)}>
+                    <Button transparent onPress={() => this.props.goBack()}>
                         <Image style={styles.headerImage}
                         source={this.props.src ? this.props.src : require("../../imgs/general/home_icon.png")}/>
                     </Button>

@@ -278,6 +278,9 @@ extern "C" {
 # define TLSEXT_signature_rsa                            1
 # define TLSEXT_signature_dsa                            2
 # define TLSEXT_signature_ecdsa                          3
+# define TLSEXT_signature_gost94_tmp			171 // TODO: временное значение, т.к. в п.5.5 ТК26TLS значение не утверждено
+# define TLSEXT_signature_gost12_256_tmp		172 // FIXME: временное значение, т.к. в п.5.5 ТК26TLS значение не утверждено
+# define TLSEXT_signature_gost12_512_tmp		173 // FIX ME: временное значение, т.к. в п.5.5 ТК26TLS значение не утверждено
 
 /* Total number of different signature algorithms */
 # define TLSEXT_signature_num                            4
@@ -289,6 +292,9 @@ extern "C" {
 # define TLSEXT_hash_sha256                              4
 # define TLSEXT_hash_sha384                              5
 # define TLSEXT_hash_sha512                              6
+# define TLSEXT_hash_gost94_tmp			181 // TODO: временное значение, т.к. в п.5.5 ТК26TLS значение не утверждено
+# define TLSEXT_hash_gost12_256_tmp		182 // FIXME: временное значение, т.к. в п.5.5 ТК26TLS значение не утверждено
+# define TLSEXT_hash_gost12_512_tmp		183 // FIX ME: временное значение, т.к. в п.5.5 ТК26TLS значение не утверждено
 
 /* Total number of different digest algorithms */
 
@@ -722,6 +728,8 @@ SSL_CTX_callback_ctrl(ssl,SSL_CTRL_SET_TLSEXT_TICKET_KEY_CB,(void (*)(void))cb)
 # define TLS_CT_ECDSA_FIXED_ECDH         66
 # define TLS_CT_GOST94_SIGN              21
 # define TLS_CT_GOST01_SIGN              22
+# define TLS_CT_GOST12_256				 238 // TODO: его значение в ТК26TLS не определено, но КриптоПро TLS посылает такое число
+# define TLS_CT_GOST12_512				 239 // FIXME: его значение в ТК26TLS не определено, но КриптоПро TLS посылает такое число
 /*
  * when correcting this number, correct also SSL3_CT_NUMBER in ssl3.h (see
  * comment there)

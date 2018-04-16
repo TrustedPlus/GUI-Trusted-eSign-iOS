@@ -145,9 +145,10 @@ export function addCert(uri, type, fileName, fileSize, password) {
         switch (extension) {
             case "pfx": {
                 let certPath = decodeURIComponent(uri.replace("file:///", "/"));
-                NativeModules.PCerts.importPFX(
+                NativeModules.Wrap_Pkcs12.importPFX(
                     certPath,
                     password,
+                    "",
                     (err, imp) => {
                         if (err) {
                             dispatch({ type: ADD_CERT_ERROR, payload: err });
@@ -165,7 +166,7 @@ export function addCert(uri, type, fileName, fileSize, password) {
                 const read = RNFS.read(certPath, 2, 0, "utf8");
                 return read.then(
                     response => {
-                        NativeModules.WCert.saveCertToStore(
+                        NativeModules.Wrap_Cert.saveCertToStore(
                             certPath,
                             response === "--" ? "BASE64" : "DER",
                             "MY",
@@ -184,7 +185,7 @@ export function addCert(uri, type, fileName, fileSize, password) {
             }
             case "key": {
                 let certPath = decodeURIComponent(uri.replace("file:///", "/"));
-                NativeModules.WCert.saveKeyToStore(
+                NativeModules.Wrap_Cert.saveKeyToStore(
                     certPath,
                     "BASE64",
                     "",

@@ -28,12 +28,8 @@ class MainApp extends React.Component {
 
     componentDidMount() {
         console.disableYellowBox = true;
-        NativeModules.CertsList.setPathToStore(
+        NativeModules.Wrap_Main.init(
             RNFS.DocumentDirectoryPath + "/store",
-            (err, label) => {
-                null;
-            });
-        NativeModules.CertsList.providerInit(
             (err, label) => {
                 null;
             });

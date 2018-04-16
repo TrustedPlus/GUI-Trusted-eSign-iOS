@@ -1,6 +1,5 @@
 import * as React from "react";
 import {Container, ListItem, View, List, Content, Text } from "native-base";
-import {NativeModules} from "react-native";
 import {Image} from "react-native";
 import {Headers} from "./Headers";
 import {styles} from "../styles";

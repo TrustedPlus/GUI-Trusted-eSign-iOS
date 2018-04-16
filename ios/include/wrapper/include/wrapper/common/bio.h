@@ -4,6 +4,7 @@
 #define  COMMON_BIO_H_INCLUDED
 
 #include <openssl/bio.h>
+#include "openssl/bio.h"
 
 #define BIO_BUFFER_SIZE 1024 * 64
 

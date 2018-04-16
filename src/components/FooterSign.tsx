@@ -3,7 +3,7 @@ import { Footer, FooterTab, Button, Icon, Text } from "native-base";
 import { styles } from "../styles";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { NativeModules, View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { signFile, verifySign } from "../actions/SignVerifyAction";
 import { encAssymmetric, decAssymmetric } from "../actions/EncDecAction";
 import { uploadFile, deleteFile } from "../actions/UploadFileAction";
@@ -33,6 +33,10 @@ interface FooterSignProps {
 
 class FooterSign extends React.Component<FooterSignProps> {
 
+    unsignFile() {
+        console.log("Снятие подписи");
+    }
+
     render() {
         const { files, personalCert, otherCert, verifySign, signFile, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer} = this.props;
         let footerleft = null;
@@ -44,9 +48,16 @@ class FooterSign extends React.Component<FooterSignProps> {
             if (!otherCert.title) {
                 isddisabled = "noCert";
             }
-            footerleft = <FooterTab style={styles.footer}>
-                <FooterButton title="Зашифровать" disabled={isddisabled === "noCert" ? true : false } icon="apps" nav={() => encAssymmetric(files, otherCert, footer)} />
-                <FooterButton title="Расшифровать" disabled={isddisabled === "enc" ? false : true } icon="camera" nav={() => decAssymmetric(files, otherCert, footer)} /></FooterTab>;
+            footerleft = <FooterTab>
+                <FooterButton title="Зашифровать"
+                              disabled={isddisabled === "noCert" ? true : false }
+                              icon="apps"
+                              nav={() => encAssymmetric(files, otherCert, footer)} />
+                <FooterButton title="Расшифровать"
+                              disabled={isddisabled === "enc" ? false : true }
+                              icon="camera"
+                              nav={() => decAssymmetric(files, otherCert, footer)} />
+                         </FooterTab>;
         }
         if (this.props.sign) { // если футер для мастера подписи
             if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "sig").length ) {
@@ -55,18 +66,30 @@ class FooterSign extends React.Component<FooterSignProps> {
             if (!personalCert.title) {
                 isddisabled = "noCert";
             }
-            footerleft = <FooterTab style={styles.footer}>
-                <FooterButton title="Проверить" disabled={isddisabled === "sig" ? false : true } icon="apps" nav={() => verifySign(files, personalCert, footer)} />
-                <FooterButton title="Подписать" disabled={isddisabled === "noCert" ? true : false } icon="camera" nav={() => signFile(files, personalCert, footer)} />
+            footerleft = <FooterTab>
+                <FooterButton title="Проверить"
+                              disabled={isddisabled === "sig" ? false : true }
+                              icon="apps"
+                              nav={() => verifySign(files, personalCert, footer)} />
+                <FooterButton title="Подписать"
+                              disabled={isddisabled === "noCert" ? true : false }
+                              icon="camera"
+                              nav={() => signFile(files, personalCert, footer)}/>
+                {isddisabled === "sig" ? <FooterButton title="Снять"
+                              disabled={isddisabled === "noCert" ? true : false }
+                              icon="camera"
+                              nav={() => this.unsignFile() }/> : null}
             </FooterTab>;
         }
         return (
             <Footer>
+                <ScrollView horizontal>
                 {footerleft}
-                <FooterTab style={styles.footer}>
+                <FooterTab>
                     <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true } icon="navigate" nav={() => uploadFile(files, footer)} />
                     <FooterButton title="Удалить" icon="person" nav={() => deleteFile(files, footer)} />
                 </FooterTab>;
+                </ScrollView>
             </Footer>
         );
     }

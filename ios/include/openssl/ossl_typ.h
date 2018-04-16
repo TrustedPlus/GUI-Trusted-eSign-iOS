@@ -106,12 +106,24 @@ typedef struct ASN1_ITEM_st ASN1_ITEM;
 typedef struct asn1_pctx_st ASN1_PCTX;
 
 # ifdef OPENSSL_SYS_WIN32
-#  undef X509_NAME
-#  undef X509_EXTENSIONS
-#  undef X509_CERT_PAIR
-#  undef PKCS7_ISSUER_AND_SERIAL
-#  undef OCSP_REQUEST
-#  undef OCSP_RESPONSE
+# ifdef X509_NAME
+# error Include Trusted SSL headers before wincrypt.h or undefine X509_NAME first
+# endif
+# ifdef X509_EXTENSIONS
+# error Include Trusted SSL headers before wincrypt.h or undefine X509_EXTENSIONS first
+# endif
+# ifdef X509_CERT_PAIR
+# error Include Trusted SSL headers before wincrypt.h or undefine X509_CERT_PAIR first
+# endif
+# ifdef PKCS7_ISSUER_AND_SERIAL
+# error Include Trusted SSL headers before wincrypt.h or undefine PKCS7_ISSUER_AND_SERIAL first
+# endif
+# ifdef OCSP_REQUEST
+# error Include Trusted SSL headers before wincrypt.h or undefine OCSP_REQUEST first
+# endif
+# ifdef OCSP_RESPONSE
+# error Include Trusted SSL headers before wincrypt.h or undefine OCSP_RESPONSE first
+# endif
 # endif
 
 # ifdef BIGNUM

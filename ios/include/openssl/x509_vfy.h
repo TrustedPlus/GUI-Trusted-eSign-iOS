@@ -646,6 +646,12 @@ STACK_OF(POLICYQUALINFO) *X509_policy_node_get0_qualifiers(const
 const X509_POLICY_NODE *X509_policy_node_get0_parent(const X509_POLICY_NODE
                                                      *node);
 
+
+
+//akid checking setup
+void X509_set_check_only_key_id(int iValue);
+
+
 #ifdef  __cplusplus
 }
 #endif

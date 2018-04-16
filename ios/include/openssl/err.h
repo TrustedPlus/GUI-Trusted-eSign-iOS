@@ -198,6 +198,10 @@ typedef struct err_state_st {
 # define ERR_LIB_HMAC            48
 # define ERR_LIB_JPAKE           49
 
+#ifndef TRUSTEDSSL_NO_LICENSING
+# define ERR_LIB_CTLICENSE       99     
+#endif // TRUSTEDSSL_NO_LICENSING
+
 # define ERR_LIB_USER            128
 
 # define SYSerr(f,r)  ERR_PUT_error(ERR_LIB_SYS,(f),(r),__FILE__,__LINE__)
@@ -234,6 +238,11 @@ typedef struct err_state_st {
 # define HMACerr(f,r) ERR_PUT_error(ERR_LIB_HMAC,(f),(r),__FILE__,__LINE__)
 # define JPAKEerr(f,r) ERR_PUT_error(ERR_LIB_JPAKE,(f),(r),__FILE__,__LINE__)
 
+#ifndef TRUSTEDSSL_NO_LICENSING
+# define CTLICENSEerr(f,r) ERR_PUT_error(ERR_LIB_CTLICENSE,(f),(r),__FILE__,__LINE__)
+#endif // TRUSTEDSSL_NO_LICENSING
+
+
 /*
  * Borland C seems too stupid to be able to shift and do longs in the
  * pre-processor :-(
@@ -258,7 +267,6 @@ typedef struct err_state_st {
 # define SYS_F_WSASTARTUP        9/* Winsock stuff */
 # define SYS_F_OPENDIR           10
 # define SYS_F_FREAD             11
-# define SYS_F_FFLUSH            18
 
 /* reasons */
 # define ERR_R_SYS_LIB   ERR_LIB_SYS/* 2 */

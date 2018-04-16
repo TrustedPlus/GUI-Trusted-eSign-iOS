@@ -7,6 +7,8 @@
 #include "../common/common.h"
 #include "../pki/cert.h"
 
+#include <CPROCSP/WinCryptEx.h>
+
 struct ProviderProps {
 	int type;
 	::TrustedHandle<std::string> name;

@@ -143,6 +143,28 @@
 #ifndef HEADER_SSL_H
 # define HEADER_SSL_H
 
+#if (_MSC_VER >= 1400) && defined(TRUSTEDTLS_LIBSSL_MANIFEST_DEPENDENCY)
+
+#define TRUSTEDTLS_LIBSSL_ASSEMBLY_NAME "CifrovieTehnologii.TrustedTLS.SSL"
+#define TRUSTEDTLS_LIBSSL_ASSEMBLY_VERSION "3.0.0.0"
+#define TRUSTEDTLS_LIBSSL_ASSEMBLY_PUBKEYTOKEN "a9b3f42962e3aa3a"
+
+#if defined(_M_IX86)
+#define TRUSTEDTLS_LIBSSL_ASSEMBLY_ARCH "x86"
+#elif defined(_M_AMD64)
+#define TRUSTEDTLS_LIBSSL_ASSEMBLY_ARCH "amd64"
+#else
+#error "Update processorArchitecture for current platform"
+#endif
+
+#pragma comment(linker,"/manifestdependency:\"type='win32' " \
+        "name='" TRUSTEDTLS_LIBSSL_ASSEMBLY_NAME "' " \
+        "version='" TRUSTEDTLS_LIBSSL_ASSEMBLY_VERSION "' " \
+        "processorArchitecture='" TRUSTEDTLS_LIBSSL_ASSEMBLY_ARCH "' " \
+        "publicKeyToken='" TRUSTEDTLS_LIBSSL_ASSEMBLY_PUBKEYTOKEN "'\"")
+
+#endif // (_MSC_VER >= 1400) && defined(TRUSTEDTLS_LIBSSL_MANIFEST_DEPENDENCY)
+
 # include <openssl/e_os2.h>
 
 # ifndef OPENSSL_NO_COMP
@@ -266,6 +288,7 @@ extern "C" {
 # define SSL_TXT_aPSK            "aPSK"
 # define SSL_TXT_aGOST94 "aGOST94"
 # define SSL_TXT_aGOST01 "aGOST01"
+#define SSL_TXT_aGOST12 "aGOST12"
 # define SSL_TXT_aGOST  "aGOST"
 # define SSL_TXT_aSRP            "aSRP"
 
@@ -297,6 +320,8 @@ extern "C" {
 # define SSL_TXT_CAMELLIA128     "CAMELLIA128"
 # define SSL_TXT_CAMELLIA256     "CAMELLIA256"
 # define SSL_TXT_CAMELLIA        "CAMELLIA"
+# define SSL_TXT_eGOST89		 "eGOST89"
+# define SSL_TXT_eGOST			 "eGOST"
 
 # define SSL_TXT_MD5             "MD5"
 # define SSL_TXT_SHA1            "SHA1"
@@ -305,6 +330,8 @@ extern "C" {
 # define SSL_TXT_GOST89MAC               "GOST89MAC"
 # define SSL_TXT_SHA256          "SHA256"
 # define SSL_TXT_SHA384          "SHA384"
+#define SSL_TXT_GOST12_256MAC		"GOST12_256MAC" 
+#define SSL_TXT_GOST12_512MAC		"GOST12_512MAC" 
 
 # define SSL_TXT_SSLV2           "SSLv2"
 # define SSL_TXT_SSLV3           "SSLv3"
@@ -2427,6 +2454,9 @@ X509 *SSL_get_certificate(const SSL *ssl);
 /*
  * EVP_PKEY
  */ struct evp_pkey_st *SSL_get_privatekey(const SSL *ssl);
+
+X509 *SSL_get_certificate2(const SSL *ssl, int idx);
+EVP_PKEY *SSL_get_privatekey2(SSL *ssl, int idx);
 
 X509 *SSL_CTX_get0_certificate(const SSL_CTX *ctx);
 EVP_PKEY *SSL_CTX_get0_privatekey(const SSL_CTX *ctx);

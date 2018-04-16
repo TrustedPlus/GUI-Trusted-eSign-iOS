@@ -731,6 +731,12 @@
 #  define NID_ms_code_com                 135
 #  define OBJ_ms_code_com                 1L,3L,6L,1L,4L,1L,311L,2L,1L,22L
 
+#define SN_ms_ctl			"certTrustList"
+#define LN_ms_ctl			"Microsoft Certificate Trust List"
+#define NID_ms_ctl			973
+#define OBJ_ms_ctl			1L,3L,6L,1L,4L,1L,311L,10L,1L
+
+
 #  define SN_ms_ctl_sign                  "msCTLSign"
 #  define LN_ms_ctl_sign                  "Microsoft Trust List Signing"
 #  define NID_ms_ctl_sign                 136
@@ -960,6 +966,27 @@
 #  define NID_OCSP_sign                   180
 #  define OBJ_OCSP_sign                   OBJ_id_kp,9L
 # endif                         /* USE_OBJ_MAC */
+
+
+#define SN_INN          				  "INN"
+#define LN_INN          				  "INN"
+#define NID_INN         				  974
+#define OBJ_INN         				  1L,2L,643L,3L,131L,1L,1L
+
+#define SN_OGRN         				  "OGRN"
+#define LN_OGRN         				  "OGRN"
+#define NID_OGRN                		  975
+#define OBJ_OGRN                		  1L,2L,643L,100L,1L
+
+#define SN_OGRNIP               		  "OGRNIP"
+#define LN_OGRNIP               		  "OGRNIP"
+#define NID_OGRNIP              		  976
+#define OBJ_OGRNIP              		  1L,2L,643L,100L,5L
+
+#define SN_SNILS                		  "SNILS"
+#define LN_SNILS                		  "SNILS"
+#define NID_SNILS               		  977
+#define OBJ_SNILS               		  1L,2L,643L,100L,3L
 
 # include <openssl/bio.h>
 # include <openssl/asn1.h>

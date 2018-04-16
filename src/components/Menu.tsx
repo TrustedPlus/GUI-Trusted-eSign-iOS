@@ -23,7 +23,6 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {readCertKeys} from "../actions/CertKeysAction";
 import {readFiles} from "../actions/index";
-import {NativeModules} from "react-native";
 
 interface MainProps {
   navigation: any;
@@ -85,14 +84,6 @@ class Main extends React.Component<MainProps> {
 
   componentDidMount() {
     if (this.props.files.length === 0) { this.props.readFiles(); }
-    /* NativeModules.CertsList.getCountsOfCertsInCryptoStore(
-      (count) => {
-      console.log("количество сертификатов в хранилище crypto: " + count);
-    });
-    NativeModules.CertsList.getCountsOfCertsInCryptoCSPStore(
-      (count) => {
-      console.log("количество сертификатов в хранилище CSP: " + count);
-    }); */
     if (this.props.pesronalCertKeys.length === 0) { this.props.readCertKeys(); }
   }
 }

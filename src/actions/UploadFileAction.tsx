@@ -1,5 +1,5 @@
 import * as RNFS from "react-native-fs";
-import { NativeModules, Share } from "react-native";
+import { Share } from "react-native";
 import { readFiles } from "../actions/index";
 import {
     UPLOAD_FILES, UPLOAD_FILES_SUCCESS, UPLOAD_FILES_ERROR, UPLOAD_FILES_END,

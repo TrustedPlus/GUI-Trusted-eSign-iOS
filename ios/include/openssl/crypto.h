@@ -117,6 +117,28 @@
 #ifndef HEADER_CRYPTO_H
 # define HEADER_CRYPTO_H
 
+#if (_MSC_VER >= 1400) && defined(TRUSTEDTLS_LIBCRYPTO_MANIFEST_DEPENDENCY)
+
+#define TRUSTEDTLS_LIBCRYPTO_ASSEMBLY_NAME "CifrovieTehnologii.TrustedTLS.Crypto"
+#define TRUSTEDTLS_LIBCRYPTO_ASSEMBLY_VERSION "3.0.0.0"
+#define TRUSTEDTLS_LIBCRYPTO_ASSEMBLY_PUBKEYTOKEN "a9b3f42962e3aa3a"
+
+#if defined(_M_IX86)
+#define TRUSTEDTLS_LIBCRYPTO_ASSEMBLY_ARCH "x86"
+#elif defined(_M_AMD64)
+#define TRUSTEDTLS_LIBCRYPTO_ASSEMBLY_ARCH "amd64"
+#else
+#error "Update processorArchitecture for current platform"
+#endif
+
+#pragma comment(linker,"/manifestdependency:\"type='win32' " \
+        "name='" TRUSTEDTLS_LIBCRYPTO_ASSEMBLY_NAME "' " \
+        "version='" TRUSTEDTLS_LIBCRYPTO_ASSEMBLY_VERSION "' " \
+        "processorArchitecture='" TRUSTEDTLS_LIBCRYPTO_ASSEMBLY_ARCH "' " \
+        "publicKeyToken='" TRUSTEDTLS_LIBCRYPTO_ASSEMBLY_PUBKEYTOKEN "'\"")
+
+#endif // (_MSC_VER >= 1400) && defined(TRUSTEDTLS_LIBCRYPTO_MANIFEST_DEPENDENCY)
+
 # include <stdlib.h>
 
 # include <openssl/e_os2.h>

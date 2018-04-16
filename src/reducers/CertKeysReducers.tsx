@@ -1,20 +1,11 @@
 import { READ_CERT_KEY, READ_PERSONAL_CERT_KEY_SUCCESS, READ_OTHER_CERT_KEY_SUCCESS } from "../constants";
 
-export interface Certificate {
-
-}
-
-interface CertKeysStore {
-  pesronalCertKeys: Certificate[];
-  otherCertKeys: Certificate[];
-}
-
-const initialState: CertKeysStore = {
+const initialState = {
   pesronalCertKeys: [],
   otherCertKeys: []
 };
 
-export function CertKeys(state: CertKeysStore = initialState, action): CertKeysStore {
+export function CertKeys(state = initialState, action) {
   switch (action.type) {
     case READ_CERT_KEY:
       return {

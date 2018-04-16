@@ -66,6 +66,7 @@ extern "C" {
 #endif
 
 typedef struct CMS_ContentInfo_st CMS_ContentInfo;
+typedef struct CMS_SignedData_st CMS_SignedData; // moved from cms_lcl.h
 typedef struct CMS_SignerInfo_st CMS_SignerInfo;
 typedef struct CMS_CertificateChoices CMS_CertificateChoices;
 typedef struct CMS_RevocationInfoChoice_st CMS_RevocationInfoChoice;
@@ -81,6 +82,14 @@ DECLARE_STACK_OF(CMS_RecipientEncryptedKey)
 DECLARE_ASN1_FUNCTIONS(CMS_ContentInfo)
 DECLARE_ASN1_FUNCTIONS(CMS_ReceiptRequest)
 DECLARE_ASN1_PRINT_FUNCTION(CMS_ContentInfo)
+
+DECLARE_ASN1_ITEM(CMS_SignerInfo) // moved from cms_lcl.h
+DECLARE_ASN1_ITEM(CMS_Attributes_Sign) // moved from cms_lcl.h
+DECLARE_ASN1_ITEM(CMS_Attributes_Verify) // moved from cms_lcl.h
+typedef struct CMS_SignerIdentifier_st CMS_SignerIdentifier; // moved from cms_lcl.h
+int cms_set1_SignerIdentifier(CMS_SignerIdentifier *sid, X509 *cert, int type); // moved from cms_lcl.h
+void cms_DigestAlgorithm_set(X509_ALGOR *alg, const EVP_MD *md); // moved from cms_lcl.h
+CMS_SignedData *cms_signed_data_init(CMS_ContentInfo *cms); //moved from static
 
 # define CMS_SIGNERINFO_ISSUER_SERIAL    0
 # define CMS_SIGNERINFO_KEYIDENTIFIER    1

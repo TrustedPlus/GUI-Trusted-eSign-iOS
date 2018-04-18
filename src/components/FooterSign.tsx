@@ -38,62 +38,99 @@ class FooterSign extends React.Component<FooterSignProps> {
     }
 
     render() {
-        const { files, personalCert, otherCert, verifySign, signFile, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer} = this.props;
+        const { files, personalCert, otherCert, verifySign, signFile, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer } = this.props;
         let footerleft = null;
         let isddisabled = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
-            if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "enc").length ) {
+            if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "enc").length) {
                 isddisabled = "enc";
             }
             if (!otherCert.title) {
                 isddisabled = "noCert";
             }
-            footerleft = <FooterTab>
+            footerleft = <FooterTab style={styles.footer}>
                 <FooterButton title="Зашифровать"
-                              disabled={isddisabled === "noCert" ? true : false }
-                              icon="apps"
-                              nav={() => encAssymmetric(files, otherCert, footer)} />
+                    disabled={isddisabled === "noCert" ? true : false}
+                    icon="apps"
+                    nav={() => encAssymmetric(files, otherCert, footer)} />
                 <FooterButton title="Расшифровать"
-                              disabled={isddisabled === "enc" ? false : true }
-                              icon="camera"
-                              nav={() => decAssymmetric(files, otherCert, footer)} />
-                         </FooterTab>;
+                    disabled={isddisabled === "enc" ? false : true}
+                    icon="camera"
+                    nav={() => decAssymmetric(files, otherCert, footer)} />
+            </FooterTab>;
         }
         if (this.props.sign) { // если футер для мастера подписи
-            if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "sig").length ) {
+            if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "sig").length) {
                 isddisabled = "sig";
             }
             if (!personalCert.title) {
                 isddisabled = "noCert";
             }
-            footerleft = <FooterTab>
+            footerleft = <FooterTab style={styles.footer}>
                 <FooterButton title="Проверить"
-                              disabled={isddisabled === "sig" ? false : true }
-                              icon="apps"
-                              nav={() => verifySign(files, personalCert, footer)} />
+                    disabled={isddisabled === "sig" ? false : true}
+                    icon="apps"
+                    nav={() => verifySign(files, personalCert, footer)} />
                 <FooterButton title="Подписать"
+                    disabled={isddisabled === "noCert" ? true : false}
+                    icon="camera"
+                    nav={() => signFile(files, personalCert, footer)} />
+                { /*isddisabled === "sig" ? <FooterButton title="Снять"
                               disabled={isddisabled === "noCert" ? true : false }
                               icon="camera"
-                              nav={() => signFile(files, personalCert, footer)}/>
-                {isddisabled === "sig" ? <FooterButton title="Снять"
-                              disabled={isddisabled === "noCert" ? true : false }
-                              icon="camera"
-                              nav={() => this.unsignFile() }/> : null}
+        nav={() => this.unsignFile() }/> : null*/}
             </FooterTab>;
         }
+        // const buttons: SomeButton[] = [{ title: "Foo" }, { title: "Bar", disabled: true }];
         return (
             <Footer>
-                <ScrollView horizontal>
                 {footerleft}
-                <FooterTab>
-                    <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true } icon="navigate" nav={() => uploadFile(files, footer)} />
+                {/*<SomeFooterTab button={buttons} />*/}
+                <FooterTab style={styles.footer}>
+                    <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="navigate" nav={() => uploadFile(files, footer)} />
                     <FooterButton title="Удалить" icon="person" nav={() => deleteFile(files, footer)} />
                 </FooterTab>;
-                </ScrollView>
             </Footer>
         );
     }
 }
+/*
+interface SomeButton {
+    title?: string;
+    disabled?: boolean;
+    onClick?: Function;
+}
+interface SomeFooterTabProps {
+    button?: SomeButton[];
+}
+
+class SomeFooterTab extends React.PureComponent<SomeFooterTabProps> {
+    render() {
+        return (
+            <Footer>
+                {
+                    this.props.button.map((btn) => {
+                        return (
+                            <FooterButton
+                                title={btn.title}
+                                disabled={btn.disabled}
+                                nav={() => btn.onClick} />
+                        );
+                    })
+                }
+            </Footer>
+        );
+    }
+}
+
+class SuperClass extends React.PureComponent {
+    render() {
+        return (
+            <FooterSign encrypt={}>
+            </FooterSign>
+        );
+    }
+} */
 
 function mapStateToProps(state) {
     return {

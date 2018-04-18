@@ -129,7 +129,7 @@ export function addFiles(uri, type, fileName, fileSize) {
             },
             err => {
                 dispatch({ type: ADD_FILES_ERROR, payload: name });
-                Alert.alert(err);
+                Alert.alert("Ошибка при добавлении файла");
             }
         );
     };
@@ -152,7 +152,7 @@ export function addCert(uri, type, fileName, fileSize, password) {
                     (err, imp) => {
                         if (err) {
                             dispatch({ type: ADD_CERT_ERROR, payload: err });
-                            Alert.alert(err);
+                            Alert.alert("Ошибка при добавлении сертификата");
                         } else {
                             dispatch({ type: ADD_CERT_SUCCESS, payload: name });
                             dispatch(readCertKeys());
@@ -173,7 +173,7 @@ export function addCert(uri, type, fileName, fileSize, password) {
                             (err, saveCert) => {
                                 if (err) {
                                     dispatch({ type: ADD_CERT_ERROR, payload: err });
-                                    Alert.alert(err);
+                                    Alert.alert("Ошибка при добавлении сертификата");
                                 } else {
                                     dispatch({ type: ADD_CERT_SUCCESS, payload: name });
                                     dispatch(readCertKeys());
@@ -192,7 +192,7 @@ export function addCert(uri, type, fileName, fileSize, password) {
                     (err, saveKey) => {
                         if (err) {
                             dispatch({ type: ADD_KEY_ERROR, payload: err });
-                            Alert.alert(err);
+                            Alert.alert("Ошибка при добавлении ключа");
                         } else {
                             dispatch({ type: ADD_KEY_SUCCESS, payload: name });
                             dispatch(readCertKeys());

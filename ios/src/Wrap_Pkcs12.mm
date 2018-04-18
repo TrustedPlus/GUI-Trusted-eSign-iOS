@@ -14,12 +14,12 @@ RCT_EXPORT_METHOD(exportPFX: (NSString *)serialNumber: (NSString *)category: (NS
   try{
     
 #ifdef ProvOpenSSL
-    if (strncmp(prov, "SYSTEM", 6) == 0){
+    if (strcmp(prov, "SYSTEM") == 0){
       [ossl_Pkcs12 exportPFX:pSerialNumber :pCategory :exportPrivateKey :pPwd :pFilename ];
     }
 #endif
 #ifdef ProvCryptoPro
-    if (strncmp(prov, "CRYPTOPRO", 9) == 0){
+    if (strcmp(prov, "CRYPTOPRO") == 0){
       [csp_Certs exportPFX:pSerialNumber :pCategory :exportPrivateKey :pPwd :pFilename];
     }
 #endif

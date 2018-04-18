@@ -22,7 +22,7 @@ class PersonalСert extends React.Component<PersonalСertProps> {
 
   ShowList(img) {
     return (
-      this.props.pesronalCertKeys.map((cert, key) => <ListMenu
+      this.props.pesronalCertKeys.map((cert, key) => (cert.category.toUpperCase() === "MY") ? <ListMenu
         key = {key}
         title = {cert.issuerFriendlyName}
         note = {cert.organizationName}
@@ -31,7 +31,7 @@ class PersonalСert extends React.Component<PersonalСertProps> {
         issuerName = {cert.issuerName}
         serialNumber = {cert.serialNumber}
         rightimg = {cert.hasPrivateKey ? require("../../imgs/general/key_icon.png") : null}
-        nav={() => this.props.navigation.navigate("PropertiesCert", { cert: cert})} />));
+        nav={() => this.props.navigation.navigate("PropertiesCert", { cert: cert})} /> : null));
   }
 
   render() {

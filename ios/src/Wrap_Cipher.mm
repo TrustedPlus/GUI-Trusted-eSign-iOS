@@ -48,12 +48,12 @@ RCT_EXPORT_METHOD(encrypt: (NSString *)serialNumber: (NSString *)category: (NSSt
     
     BOOL b = false;
 #ifdef ProvOpenSSL
-   if (strncmp(prov, "SYSTEM", 6) == 0){
+   if (strcmp(prov, "SYSTEM") == 0){
       b = [ossl_Cipher encrypt:pSerialNumber :pCategory :infile :encfile];
     }
 #endif
 #ifdef ProvCryptoPro
-    if (strncmp(prov, "CRYPTOPRO", 9) == 0){
+    if (strcmp(prov, "CRYPTOPRO") == 0){
       b = [csp_Cipher encrypt:pSerialNumber :pCategory :infile :encfile];
     }
 #endif
@@ -74,12 +74,12 @@ RCT_EXPORT_METHOD(decrypt: (NSString *)serialNumber: (NSString *)category: (NSSt
   try{
     BOOL b = false;
 #ifdef ProvOpenSSL
-    if (strncmp(prov, "SYSTEM", 6) == 0){
+    if (strcmp(prov, "SYSTEM") == 0){
       b = [ossl_Cipher decrypt:pSerialNumber :pCategory :encfile :decfile];
     }
 #endif
 #ifdef ProvCryptoPro
-    if (strncmp(prov, "CRYPTOPRO", 9) == 0){
+    if (strcmp(prov, "CRYPTOPRO") == 0){
       b = [csp_Cipher decrypt:pSerialNumber :pCategory :encfile :decfile];
     }
 #endif

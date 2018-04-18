@@ -23,15 +23,29 @@
 #define MY_ENCODING_TYPE  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 #define TYPE_DER  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 
-@interface CSP_Signer : NSObject
+@interface CSP_Signer : NSObject{
+    struct infoCSPStruct {
+        bool status;
+        TrustedHandle<Certificate> cert;
+    };
+}
 
 -(BOOL)sign :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile;
 -(BOOL)verify :(char *)serialNumber :(char *)category :(char *)signFile;
 
-
+//attached/detached подпись, в зависимости от detached
 -(BOOL)doSign :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile :(BOOL)detached;
--(BOOL)doVerify :(IN char *)szFile :(IN char *)szSignatureFile;
+//проверка detached подписи
+-(BOOL)doVerify :(char *)inputFile :(char *)signFile;
+//проверка attached подписи
 -(BOOL)doVerifyAttach :(IN char *)szSignatureFile;
+-(BOOL)unSign :(char *)signFile :(char *)outFile;
+
+-(BOOL)SignMessage :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile;
+-(BOOL)CosignMessage :(char *)serialNumber :(char *)category :(char *)signFile;
+-(BOOL)VerifyCosignedMessage :(char *)signFile;
+-(BOOL)DeCosignMessage :(char *)signFile :(char *)outFile;
+-(std::vector<infoCSPStruct>)GetSignInfo :(char *)signFile;
 
 
 @end

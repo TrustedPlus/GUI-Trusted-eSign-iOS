@@ -31,7 +31,7 @@ class MainApp extends React.Component {
         NativeModules.Wrap_Main.init(
             RNFS.DocumentDirectoryPath + "/store",
             (err, label) => {
-                null;
+                console.log(err);
             });
     }
     render() {

@@ -21,6 +21,7 @@
 }
 
 -(BOOL) sign :(char *)serialNumber :(char *)category :(char *)infilename :(char *)outfilename;
+-(BOOL) coSignMessage :(char *)serial :(char *)category :(char *)signfilename :(char *)format;
 -(BOOL) unSign :(char *)checkfilename :(char *)outfilename :(char *)format;
 -(BOOL) verify :(char *)checkfilename :(char *)format;
 -(std::vector<infoStruct>) getSignInfo :(char *)checkfilename :(char *)format;

@@ -13,7 +13,7 @@ export class FooterButton extends React.Component<FooterButtonProps> {
 
     render() {
         return (
-                <Button disabled={this.props.disabled} style={[{borderRadius: 0, width: 120}, styles.footer]} vertical onPress={() => this.props.nav()}>
+                <Button disabled={this.props.disabled} style={{borderRadius: 0}} vertical onPress={() => this.props.nav()}>
                     <Icon style={{ color: "white", width: 150, textAlign: "center"  }} name={this.props.icon} />
                     <Text style={{ color: "white", width: 150, textAlign: "center" }}>{this.props.title}</Text>
                 </Button>

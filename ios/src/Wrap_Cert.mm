@@ -84,13 +84,13 @@ RCT_EXPORT_METHOD(load: (NSString *)serialNumber: (NSString *)provider: (RCTResp
     BOOL b = false;
     
 #ifdef ProvOpenSSL
-    if (strncmp(prov, "SYSTEM", 6) == 0){
+    if (strcmp(prov, "SYSTEM") == 0){
       b = [ossl_Cert load:pSerialNumber];
       typeProv = 1;
     }
 #endif
 #ifdef ProvCryptoPro
-    if (strncmp(prov, "CRYPTOPRO", 9) == 0){
+    if (strcmp(prov, "CRYPTOPRO") == 0){
       b = [csp_Cert load:pSerialNumber];
       typeProv = 2;
     }
@@ -156,12 +156,12 @@ RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)serialNumber: (NSString *)categ
     BOOL b = false;
     
 #ifdef ProvOpenSSL
-    if (strncmp(prov, "SYSTEM", 6) == 0){
+    if (strcmp(prov, "SYSTEM") == 0){
       b = [ossl_Cert deleteCertInStore:pSerialNumber :pCategory];
     }
 #endif
 #ifdef ProvCryptoPro
-    if (strncmp(prov, "CRYPTOPRO", 9) == 0){
+    if (strcmp(prov, "CRYPTOPRO") == 0){
       b = [csp_Cert deleteCertInStore:pSerialNumber :pCategory];
     }
 #endif

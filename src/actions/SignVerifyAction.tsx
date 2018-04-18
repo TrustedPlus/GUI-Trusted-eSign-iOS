@@ -49,10 +49,9 @@ export function verifySign(files: IFile[], personalCert, footer) {
             dispatch({ type: VERIFY_SIGN_END });
         } else {
             for (let i = 0; i < footer.arrButton.length; i++) {
-                if (files[footer.arrButton[i]].extension !== "sig") { Alert.alert("Файл '" + files[footer.arrButton[i]].name + "' не является подписью"); continue; }
                 let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
-                const read = RNFS.read(path, 2, 0, "utf8");
-                return read.then(
+                const read = RNFS.read(path, 2, 0, "base64");
+                read.then(
                     response => {
                         NativeModules.Wrap_Signer.verify(
                             path,
@@ -60,12 +59,13 @@ export function verifySign(files: IFile[], personalCert, footer) {
                             (err, verify) => {
                                 if (err) {
                                     dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+                                    Alert.alert(err);
                                 } else {
                                     dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
                                 }
                             });
                     },
-                    err => { dispatch({ type: VERIFY_SIGN_ERROR, payload: err }); Alert.alert(err); });
+                    err => Alert.alert("" + err));
             }
             dispatch({ type: VERIFY_SIGN_END });
         }

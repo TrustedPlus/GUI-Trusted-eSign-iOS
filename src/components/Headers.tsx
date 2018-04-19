@@ -5,7 +5,6 @@ import {styles} from "../styles";
 
 interface HeadersProps {
     title: string;
-    src?: any;
     goBack(): void;
   }
 
@@ -17,17 +16,17 @@ export class Headers extends React.Component<HeadersProps> {
                 <Left style={styles.left}>
                     <Button transparent onPress={() => this.props.goBack()}>
                         <Image style={styles.headerImage}
-                        source={this.props.src ? this.props.src : require("../../imgs/general/home_icon.png")}/>
+                        source={require("../../imgs/general/back_icon.png")}/>
                     </Button>
                 </Left>
                 <Body>
                     <Title><Text style={{color: "white" }}>{this.props.title}</Text></Title>
                 </Body>
-                <Right style={styles.right}>
+                {/*<Right style={styles.right}>
                     <Button transparent>
                         <Image style={styles.headerImage} source={require("../../imgs/general/contextm_menu_icon.png")}/>
                     </Button>
-                </Right>
+        </Right>*/}
             </Header>
         );
     }

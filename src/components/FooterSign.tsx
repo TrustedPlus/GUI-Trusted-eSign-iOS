@@ -40,39 +40,42 @@ class FooterSign extends React.Component<FooterSignProps> {
     render() {
         const { files, personalCert, otherCert, verifySign, signFile, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer } = this.props;
         let footerleft = null;
-        let isddisabled = null;
+        let certIsNotNull, isSign, isDec, isEnc = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
+            if (footer.arrExtension.filter(extension => extension === "enc").length !== 0) {
+                isEnc = "enc";
+            }
             if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "enc").length) {
-                isddisabled = "enc";
+                isDec = "dec";
             }
             if (!otherCert.title) {
-                isddisabled = "noCert";
+                certIsNotNull = "noCert";
             }
             footerleft = <FooterTab style={styles.footer}>
                 <FooterButton title="Зашифровать"
-                    disabled={isddisabled === "noCert" ? true : false}
-                    icon="apps"
+                    disabled={certIsNotNull === "noCert" ? true : (isEnc === "enc" ? true : false) }
+                    icon="ios-key"
                     nav={() => encAssymmetric(files, otherCert, footer)} />
                 <FooterButton title="Расшифровать"
-                    disabled={isddisabled === "enc" ? false : true}
-                    icon="camera"
+                    disabled={ certIsNotNull === "noCert" ? true : (isDec === "dec" ? false : true)}
+                    icon="md-lock"
                     nav={() => decAssymmetric(files, otherCert, footer)} />
             </FooterTab>;
         }
         if (this.props.sign) { // если футер для мастера подписи
-            if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "sig").length) {
-                isddisabled = "sig";
-            }
             if (!personalCert.title) {
-                isddisabled = "noCert";
+                certIsNotNull = "noCert";
+            }
+            if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "sig").length) {
+                isSign = "sig";
             }
             footerleft = <FooterTab style={styles.footer}>
                 <FooterButton title="Проверить"
-                    disabled={isddisabled === "sig" ? false : true}
+                    disabled={isSign === "sig" ? false : true}
                     icon="apps"
                     nav={() => verifySign(files, personalCert, footer)} />
                 <FooterButton title="Подписать"
-                    disabled={isddisabled === "noCert" ? true : false}
+                    disabled={certIsNotNull === "noCert" ? true : false}
                     icon="camera"
                     nav={() => signFile(files, personalCert, footer)} />
                 { /*isddisabled === "sig" ? <FooterButton title="Снять"
@@ -88,7 +91,7 @@ class FooterSign extends React.Component<FooterSignProps> {
                 {/*<SomeFooterTab button={buttons} />*/}
                 <FooterTab style={styles.footer}>
                     <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="navigate" nav={() => uploadFile(files, footer)} />
-                    <FooterButton title="Удалить" icon="person" nav={() => deleteFile(files, footer)} />
+                    <FooterButton title="Удалить" icon="md-trash" nav={() => deleteFile(files, footer)} />
                 </FooterTab>;
             </Footer>
         );

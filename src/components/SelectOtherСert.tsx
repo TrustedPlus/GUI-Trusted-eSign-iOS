@@ -83,7 +83,7 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps, SelectOthe
         }
         return (
             <Container style={styles.container}>
-                <Headers title="Выберите сертификат" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()} />
+                <Headers title="Выберите сертификат" goBack={() => goBack()} />
                 <Header searchBar>
                     <Item>
                         <Icon name="ios-search" />

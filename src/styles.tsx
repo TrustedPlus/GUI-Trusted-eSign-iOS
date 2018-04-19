@@ -8,11 +8,11 @@ export const styles = StyleSheet.create({
     backgroundColor: "#be3817"
   },
   headerImage: {
-    width: 30,
-    height: 30
+    width: 35,
+    height: 35
   },
   left: {
-    maxWidth: 50
+    maxWidth: 25
   },
   right: {
     maxWidth: 50

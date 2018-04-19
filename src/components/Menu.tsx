@@ -48,19 +48,19 @@ class Main extends React.Component<MainProps> {
     return (
       <Container style={styles.container}>
          <Header style={styles.header}>
-          <Left style={styles.left}>
+          {/*<Left style={styles.left}>
             <Button transparent onPress={() => navigate("DrawerOpen")}>
               <Image style={styles.headerImage} source={require("../../imgs/general/sidebar_icon.png")}/>
             </Button>
-          </Left>
+    </Left>*/}
           <Body>
             <Title><Text style={{color: "white" }}>КриптоАрм ГОСТ</Text></Title>
           </Body>
-          <Right style={styles.right}>
+          {/*<Right style={styles.right}>
             <Button transparent>
               <Image style={styles.headerImage} source={require("../../imgs/general/setting_icon.png")}/>
             </Button>
-          </Right>
+  </Right>*/}
         </Header>
         <Content>
           <List>

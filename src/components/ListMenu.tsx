@@ -49,18 +49,12 @@ class ListMenu extends React.Component<ListItemProps, any> {
         if (this.props.rightimg) { // условие на изображение справа
             rightimg = <Thumbnail small square style={{position: "absolute", right: 15, top: 15}} source={this.props.rightimg}/>;
         }
-        let verify = null;
-        if (this.props.verify === 1) {
-            verify = <Image style={{position: "absolute", width: 25, height: 25, left: 40}} source={require("../../imgs/checkmark.png")}/>;
-        }
-        if (this.props.verify === -1) {
-            verify = <Image style={{position: "absolute", width: 25, height: 25, left: 40}} source={require("../../imgs/cross.png")}/>;
-        }
         return(
         <ListItem style={[styles.listItem, this.state.active ? {backgroundColor: "lightgrey"} : null]} avatar onPress={this.onPress.bind(this)} >
             <Left>
                 <Thumbnail square style={styles.thumbnail} source={this.props.img}/>
-                {verify}
+                {this.props.verify === 1 ? <Image style={{position: "absolute", width: 25, height: 25, left: 40}} source={require("../../imgs/checkmark.png")}/> : null}
+                {this.props.verify === -1 ? <Image style={{position: "absolute", width: 25, height: 25, left: 40}} source={require("../../imgs/cross.png")}/> : null}
             </Left>
             <Body>
                 <Text style={styles.listItemText}>{this.props.title}</Text>

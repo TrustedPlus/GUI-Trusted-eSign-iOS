@@ -28,7 +28,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
     } else { email = "не назначен"; }
     return (
       <Container style={styles.container}>
-        <Headers title="Свойства сертфиката" src={require("../../imgs/general/back_icon.png")} goBack={() => goBack()}/>
+        <Headers title="Свойства сертфиката" goBack={() => goBack()}/>
         <Content style={{backgroundColor: "white"}}>
         <View>
           <Image style={styles.prop_cert_img} source={require("../../imgs/general/cert_ok_icon.png")}/>

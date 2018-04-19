@@ -163,7 +163,7 @@ export function addCert(uri, type, fileName, fileSize, password) {
             case "cer":
             case "crt": {
                 let certPath = decodeURIComponent(uri.replace("file:///", "/"));
-                const read = RNFS.read(certPath, 2, 0, "utf8");
+                const read = RNFS.read(certPath, 2, 0, "base64");
                 return read.then(
                     response => {
                         NativeModules.Wrap_Cert.saveCertToStore(

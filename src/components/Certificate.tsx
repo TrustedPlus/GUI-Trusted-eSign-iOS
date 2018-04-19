@@ -25,12 +25,12 @@ export class Certificate extends React.Component<CertificateProps> {
           <List>
             <ListMenu title="Личные сертификаты" img={require("../../imgs/general/certificates_menu_icon.png" )}
               arrow nav={() => navigate("PersonalСert")}/>
-            <ListMenu title="Сертификаты других пользователей" img={require("../../imgs/general/certificates_menu_icon.png")}
+            {/*<ListMenu title="Сертификаты других пользователей" img={require("../../imgs/general/certificates_menu_icon.png")}
               arrow nav={() => navigate("OtherСert")}/>
             <ListMenu title="Промежуточные сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
               arrow nav={() => null}/>
             <ListMenu title="Доверенные корневые сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
-              arrow nav={() => null}/>
+    arrow nav={() => null}/>*/}
           </List>
         </Content>
       </Container>

@@ -49,12 +49,12 @@ class PersonalСert extends React.Component<PersonalСertProps> {
     return (
       <Container style={styles.container}>
         <Headers title="Личные сертификаты" goBack={() => goBack()}/>
-        <Header searchBar>
+        {/*<Header searchBar>
           <Item>
             <Icon name="ios-search" />
             <Input placeholder="Поиск" />
           </Item>
-        </Header>
+        </Header>*/}
         <Content>
         <List>
           {this.ShowList(img)}

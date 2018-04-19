@@ -40,7 +40,7 @@ class FooterSign extends React.Component<FooterSignProps> {
     render() {
         const { files, personalCert, otherCert, verifySign, signFile, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer } = this.props;
         let footerleft = null;
-        let certIsNotNull, isSign, isDec, isEnc = null;
+        let certIsNotNull, isSign, isDec, isEnc, allIsSign = null;
         if (this.props.encrypt) { // если футер для мастера шифрования
             if (footer.arrExtension.filter(extension => extension === "enc").length !== 0) {
                 isEnc = "enc";
@@ -67,15 +67,18 @@ class FooterSign extends React.Component<FooterSignProps> {
                 certIsNotNull = "noCert";
             }
             if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "sig").length) {
+                allIsSign = "sig";
+            }
+            if (footer.arrExtension.filter(extension => extension === "sig").length !== 0) {
                 isSign = "sig";
             }
             footerleft = <FooterTab style={styles.footer}>
                 <FooterButton title="Проверить"
-                    disabled={isSign === "sig" ? false : true}
+                    disabled={allIsSign === "sig" ? false : true}
                     icon="apps"
                     nav={() => verifySign(files, personalCert, footer)} />
                 <FooterButton title="Подписать"
-                    disabled={certIsNotNull === "noCert" ? true : false}
+                    disabled={certIsNotNull === "noCert" ? true : (isSign === "sig" ? true : false)}
                     icon="camera"
                     nav={() => signFile(files, personalCert, footer)} />
                 { /*isddisabled === "sig" ? <FooterButton title="Снять"

@@ -43,7 +43,7 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps, SelectOthe
 
     ShowList(img) {
         return (
-            this.props.pesronalCertKeys.map((cert, key) => <ListMenu
+            this.props.pesronalCertKeys.map((cert, key) => ((cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey !== 0)) ? <ListMenu
                 key={key}
                 title={cert.issuerFriendlyName}
                 note={cert.organizationName}
@@ -53,7 +53,7 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps, SelectOthe
                 issuerName={cert.issuerName}
                 serialNumber={cert.serialNumber}
                 rightimg={cert.hasPrivateKey ? require("../../imgs/general/key_icon.png") : null}
-                nav={() => this.props.navigation.goBack()} />));
+                nav={() => this.props.navigation.goBack()} /> : null));
     }
 
     documentPicker() {

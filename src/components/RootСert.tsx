@@ -8,13 +8,13 @@ import { connect } from "react-redux";
 import { readCertKeys} from "../actions/CertKeysAction";
 import { PropertiesCert} from "./PropertiesCert";
 
-interface PersonalСertProps {
+interface RootСertProps {
   navigation: any;
   pesronalCertKeys: any;
   readCertKeys(): any;
 }
 
-class PersonalСert extends React.Component<PersonalСertProps> {
+class RootСert extends React.Component<RootСertProps> {
 
   static navigationOptions = {
     header: null
@@ -22,7 +22,7 @@ class PersonalСert extends React.Component<PersonalСertProps> {
 
   ShowList(img) {
     return (
-      this.props.pesronalCertKeys.map((cert, key) => (cert.category.toUpperCase() === "MY") ? <ListMenu
+      this.props.pesronalCertKeys.map((cert, key) => (cert.category.toUpperCase() === "ROOT") ? <ListMenu
         key = {key}
         title = {cert.subjectFriendlyName}
         note = {cert.organizationName}
@@ -47,7 +47,7 @@ class PersonalСert extends React.Component<PersonalСertProps> {
 
     return (
       <Container style={styles.container}>
-        <Headers title="Личные сертификаты" goBack={() => goBack()}/>
+        <Headers title="Доверенные корневые сертификаты" goBack={() => goBack()}/>
         {/*<Header searchBar>
           <Item>
             <Icon name="ios-search" />
@@ -80,4 +80,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PersonalСert);
+export default connect(mapStateToProps, mapDispatchToProps)(RootСert);

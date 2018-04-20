@@ -54,11 +54,11 @@ class FooterSign extends React.Component<FooterSignProps> {
             footerleft = <FooterTab style={styles.footer}>
                 <FooterButton title="Зашифровать"
                     disabled={certIsNotNull === "noCert" ? true : (isEnc === "enc" ? true : false) }
-                    icon="ios-key"
+                    icon="md-lock"
                     nav={() => encAssymmetric(files, otherCert, footer)} />
                 <FooterButton title="Расшифровать"
                     disabled={ certIsNotNull === "noCert" ? true : (isDec === "dec" ? false : true)}
-                    icon="md-lock"
+                    icon="md-unlock"
                     nav={() => decAssymmetric(files, otherCert, footer)} />
             </FooterTab>;
         }
@@ -75,11 +75,11 @@ class FooterSign extends React.Component<FooterSignProps> {
             footerleft = <FooterTab style={styles.footer}>
                 <FooterButton title="Проверить"
                     disabled={allIsSign === "sig" ? false : true}
-                    icon="apps"
+                    icon="md-done-all"
                     nav={() => verifySign(files, personalCert, footer)} />
                 <FooterButton title="Подписать"
                     disabled={certIsNotNull === "noCert" ? true : (isSign === "sig" ? true : false)}
-                    icon="camera"
+                    icon="md-create"
                     nav={() => signFile(files, personalCert, footer)} />
                 { /*isddisabled === "sig" ? <FooterButton title="Снять"
                               disabled={isddisabled === "noCert" ? true : false }
@@ -93,7 +93,7 @@ class FooterSign extends React.Component<FooterSignProps> {
                 {footerleft}
                 {/*<SomeFooterTab button={buttons} />*/}
                 <FooterTab style={styles.footer}>
-                    <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="navigate" nav={() => uploadFile(files, footer)} />
+                    <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />
                     <FooterButton title="Удалить" icon="md-trash" nav={() => deleteFile(files, footer)} />
                 </FooterTab>;
             </Footer>

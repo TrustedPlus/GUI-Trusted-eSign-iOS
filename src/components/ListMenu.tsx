@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Left, Body, ListItem, Thumbnail, Text} from "native-base";
+import {Left, Right, Body, ListItem, Thumbnail, Text, Icon} from "native-base";
 import {Image} from "react-native";
 import {styles} from "../styles";
 import {bindActionCreators} from "redux";
@@ -60,10 +60,9 @@ class ListMenu extends React.Component<ListItemProps, any> {
                 <Text style={styles.listItemText}>{this.props.title}</Text>
                 <Text note style={{rightimg} ? {width: "80%"} : {}}>{this.props.note}</Text>
                 <Text note style={{position: "absolute", right: 25, bottom: 10}}>{this.props.rightnote}</Text>
-                {this.props.arrow ? <Text note style={{position: "absolute", right: 15, top: "50%"}}> > </Text> : null}
                 {rightimg}
             </Body>
-
+            {this.props.arrow ? <Right><Icon style={{position: "absolute", right: 15, top: "50%"}} name="arrow-forward" /> </Right> : null}
         </ListItem>
         );
     }

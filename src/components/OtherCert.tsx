@@ -27,7 +27,6 @@ class OtherСert extends React.Component<OtherСertProps> {
         title={cert.name}
         note = {cert.mtime}
         img = {img[key]}
-        other
         nav={() => this.props.navigation.navigate("PropertiesCert", { cert: cert })} />));
   }
 

@@ -45,7 +45,7 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps, SelectOthe
         return (
             this.props.pesronalCertKeys.map((cert, key) => ((cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey !== 0)) ? <ListMenu
                 key={key}
-                title={cert.issuerFriendlyName}
+                title={cert.subjectFriendlyName}
                 note={cert.organizationName}
                 provider={cert.provider}
                 img={img[key]}
@@ -84,12 +84,12 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps, SelectOthe
         return (
             <Container style={styles.container}>
                 <Headers title="Выберите сертификат" goBack={() => goBack()} />
-                <Header searchBar>
+                {/*<Header searchBar>
                     <Item>
                         <Icon name="ios-search" />
                         <Input placeholder="Поиск" />
                     </Item>
-                </Header>
+                </Header>*/}
                 <Content>
                     <List>
                         {this.ShowList(img)}

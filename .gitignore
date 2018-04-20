@@ -14,3 +14,9 @@ build
 android/.idea/.name
 
 ios/CryptoARM_GOST.xcodeproj/
+
+ios/libs
+
+ios/libs_for_emulator
+
+ios/libs_for_real_device

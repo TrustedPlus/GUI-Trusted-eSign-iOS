@@ -15,6 +15,7 @@ import {Help} from "./Help";
 import {DescriptionError} from "./DescriptionError";
 import {Headers} from "./Headers";
 import PersonalСert from "./PersonalСert";
+import RootСert from "./RootСert";
 import OtherСert from "./OtherCert";
 import {PropertiesCert} from "./PropertiesCert";
 import SelectPersonalСert from "./SelectPersonalСert";
@@ -43,7 +44,7 @@ class Main extends React.Component<MainProps> {
     const { navigate } = this.props.navigation;
     const {files, pesronalCertKeys, lastlog} = this.props;
     let length = "выбрано файлов: " + files.length;
-    let persCert = "личных сертификатов: " + pesronalCertKeys.length;
+    let persCert = "сертификатов: " + pesronalCertKeys.length;
     let lastlognote = lastlog ? "последняя запись: " + lastlog : "действий не совершалось";
     return (
       <Container style={styles.container}>
@@ -115,6 +116,7 @@ export const menu = StackNavigator({
   Help: { screen: Help},
   DescriptionError: { screen: DescriptionError},
   PersonalСert: {screen: PersonalСert},
+  RootСert: {screen: RootСert},
   OtherСert: {screen: OtherСert},
   PropertiesCert: {screen: PropertiesCert},
   SelectPersonalСert: {screen: SelectPersonalСert},

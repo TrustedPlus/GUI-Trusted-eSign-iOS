@@ -28,6 +28,7 @@ export function signFile(files: IFile[], personalCert, footer) {
                     personalCert.provider,
                     path,
                     path + ".sig",
+                    "BASE64",
                     (err, signFile) => {
                         if (err) {
                             dispatch({ type: SIGN_FILE_ERROR, payload: err });

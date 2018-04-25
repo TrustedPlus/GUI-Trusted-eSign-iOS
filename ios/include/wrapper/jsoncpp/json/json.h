@@ -1930,7 +1930,7 @@ public:
       - Drop the "null" string from the writer's output for nullValues.
         Strictly speaking, this is not valid JSON. But when the output is being
         fed to a browser's Javascript, it makes for smaller output and the
-        browser can ::TrustedHandle the output just fine.
+        browser can handle the output just fine.
     - "useSpecialFloats": false or true
       - If true, outputs non-finite floating point values in the following way:
         NaN values as "NaN", positive infinity as "Infinity", and negative infinity
@@ -1997,7 +1997,7 @@ public:
   /** \brief Drop the "null" string from the writer's output for nullValues.
    * Strictly speaking, this is not valid JSON. But when the output is being
    * fed to a browser's Javascript, it makes for smaller output and the
-   * browser can ::TrustedHandle the output just fine.
+   * browser can handle the output just fine.
    */
   void dropNullPlaceholders();
 

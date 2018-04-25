@@ -9,6 +9,8 @@
 #ifndef CSP_Certs_h
 #define CSP_Certs_h
 
+#include "CSP_Helper.h"
+
 #include "cert.h"
 #include "pkcs12.h"
 
@@ -23,8 +25,6 @@
 #include <iostream>
 #include "vector"
 #include "map"
-
-#include "CSP_Helper.h"
 
 @interface CSP_Certs : NSObject{
   std::map<std::string, std::vector<PCCERT_CONTEXT>> allCerts;

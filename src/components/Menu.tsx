@@ -24,6 +24,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {readCertKeys} from "../actions/CertKeysAction";
 import {readFiles} from "../actions/index";
+import {CreateCertificate} from "./CreateCertificate";
 
 interface MainProps {
   navigation: any;
@@ -65,6 +66,8 @@ class Main extends React.Component<MainProps> {
         </Header>
         <Content>
           <List>
+            <ListMenu title="Создание самоподписанного сертификата" img={require("../../imgs/general/sign_main_icon.png")}
+              nav={() => navigate("CreateCertificate")}/>
             {/*<ListMenu title="Диагностика приложения" img={require("../../imgs/general/diagnostic_main_icon.png" )}
               note="ошибок: 0" rightnote="замечаний: 0" nav={() => navigate("Diagnostic")}/>*/}
             <ListMenu title="Подпись / Проверка подписи" img={require("../../imgs/general/sign_main_icon.png")}
@@ -120,5 +123,6 @@ export const menu = StackNavigator({
   OtherСert: {screen: OtherСert},
   PropertiesCert: {screen: PropertiesCert},
   SelectPersonalСert: {screen: SelectPersonalСert},
-  SelectOtherСert: {screen: SelectOtherСert}
+  SelectOtherСert: {screen: SelectOtherСert},
+  CreateCertificate: {screen: CreateCertificate}
 });

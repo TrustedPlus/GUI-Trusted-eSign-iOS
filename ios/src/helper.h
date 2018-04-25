@@ -22,6 +22,7 @@ extern const char * providerIOS;
 #include <OSSL/Ossl_Pkcs12.h>
 #include <OSSL/Ossl_Cipher.h>
 #include <OSSL/Ossl_Signer.h>
+#include <OSSL/Ossl_CertRequest.h>
 #endif
 #ifdef ProvCryptoPro
 #include <CSP/CSP_Main.h>
@@ -30,6 +31,7 @@ extern const char * providerIOS;
 #include <CSP/CSP_Certs.h>
 #include <CSP/CSP_Cipher.h>
 #include <CSP/CSP_Signer.h>
+//#include <CSP/CSP_CertRequest.h>
 #endif
 
 #ifdef ProvOpenSSL
@@ -38,6 +40,7 @@ extern Ossl_Cert *ossl_Cert;
 extern Ossl_Pkcs12 *ossl_Pkcs12;
 extern Ossl_Cipher *ossl_Cipher;
 extern Ossl_Signer *ossl_Signer;
+extern Ossl_CertRequest *ossl_CertRequest;
 #endif
 #ifdef ProvCryptoPro
 extern CSP_Main *csp_Main;
@@ -45,6 +48,7 @@ extern CSP_Cert *csp_Cert;
 extern CSP_Certs *csp_Certs;
 extern CSP_Cipher *csp_Cipher;
 extern CSP_Signer *csp_Signer;
+//extern CSP_CertRequest *csp_CertRequest;
 #endif
 
 BOOL isGostCert(char *pathCert, char *format);

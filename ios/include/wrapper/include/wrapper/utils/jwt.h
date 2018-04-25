@@ -2,7 +2,7 @@
 #define UTIL_JWT_INCLUDED
 
 #ifndef JWT_NO_LICENSE
-	//#include <openssl/ctlicense.h>
+	#include <openssl/ctlicense.h>
 #endif
 
 #include "../common/common.h"
@@ -14,6 +14,9 @@ public:
 
 	int checkLicense();
 	int checkLicense(::TrustedHandle<std::string> lic);
+	//int checkTrialLicense();
+	//int getExpirationTime(::TrustedHandle<std::string> lic);
+	//int getTrialExpirationTime();
 };
 
 #endif //!UTIL_JWT_INCLUDED 

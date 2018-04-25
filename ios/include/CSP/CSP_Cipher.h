@@ -9,6 +9,8 @@
 #ifndef CSP_Cipher_h
 #define CSP_Cipher_h
 
+#include "CSP_Helper.h"
+
 #include "cert.h"
 #import <Foundation/Foundation.h>
 #import <CPROCSP/CPROCSP.h>
@@ -18,16 +20,14 @@
 #import "map"
 #import "vector"
 
-#include "CSP_Helper.h"
-
 #define MY_ENCODING_TYPE  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 #define TYPE_DER  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 
 @interface CSP_Cipher : NSObject
 
--(BOOL)encrypt :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)encFile;
--(BOOL)decrypt :(char *)serialNumber :(char *)category :(char *)encFile :(char *)decFile;
-    
+-(BOOL)encrypt :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)encFile :(char *)format;
+-(BOOL)decrypt :(char *)serialNumber :(char *)category :(char *)encFile :(char *)format :(char *)decFile;
+
 @end
 
 #endif /* CSP_Cipher_h */

@@ -30,6 +30,7 @@ public:
 	::TrustedHandle<Attribute> unsignedAttributes(int index, int location);
 	::TrustedHandle<Attribute> unsignedAttributes(::TrustedHandle<OID> oid);
 	::TrustedHandle<Attribute> unsignedAttributes(::TrustedHandle<OID> oid, int location);
+	::TrustedHandle<std::string> getSigningTime();
 	void sign();
 	bool verify();
 	bool verify(::TrustedHandle<Bio> content);

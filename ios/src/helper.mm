@@ -17,6 +17,7 @@ const char * providerIOS = "IOS";
   Ossl_Pkcs12 *ossl_Pkcs12 = [[Ossl_Pkcs12 alloc] init];
   Ossl_Cipher *ossl_Cipher = [[Ossl_Cipher alloc] init];
   Ossl_Signer *ossl_Signer = [[Ossl_Signer alloc] init];
+  Ossl_CertRequest *ossl_CertRequest = [[Ossl_CertRequest alloc] init];
 #endif
 #ifdef ProvCryptoPro
   CSP_Main *csp_Main = [[CSP_Main alloc] init];
@@ -24,6 +25,7 @@ const char * providerIOS = "IOS";
   CSP_Certs *csp_Certs = [[CSP_Certs alloc] init];
   CSP_Cipher *csp_Cipher = [[CSP_Cipher alloc] init];
   CSP_Signer *csp_Signer = [[CSP_Signer alloc] init];
+  //CSP_CertRequest *csp_CertRequest = [[CSP_CertRequest alloc] init];
 #endif
 
 BOOL isGostCert(char *pathCert, char *format){

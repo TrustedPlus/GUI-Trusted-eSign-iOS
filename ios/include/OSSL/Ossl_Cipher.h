@@ -12,10 +12,10 @@
 
 @interface Ossl_Cipher : NSObject
 
--(BOOL) encryptSymmetric :(char *)infilename :(char *)encfilename;
--(BOOL) decryptSymmetric :(char *)encFile :(char *)decFile;
--(BOOL) encrypt :(char *)serialNumber :(char *)category :(char *)inFile :(char *)encFile;
--(BOOL) decrypt :(char *)serialNumber :(char *)category :(char *)encFile :(char *)decFile;
+-(BOOL) encryptSymmetric :(char *)infilename :(char *)encfilename :(char *)format;
+-(BOOL) decryptSymmetric :(char *)encFile :(char *)decFile :(char *)format;
+-(BOOL) encrypt :(char *)serialNumber :(char *)category :(char *)inFile :(char *)encFile :(char *)format;
+-(BOOL) decrypt :(char *)serialNumber :(char *)category :(char *)encFile :(char *)format :(char *)decFile;
 
 @end
 

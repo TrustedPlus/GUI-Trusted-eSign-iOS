@@ -3,7 +3,7 @@
 #ifndef COMMON_OPENSSL_T_H_INCLUDED
 #define  COMMON_OPENSSL_T_H_INCLUDED
 
-#include "./bio.h"
+#include "bio.h"
 
 class CTWRAPPER_API OpenSSL{
 	public:

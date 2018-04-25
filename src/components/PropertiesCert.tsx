@@ -21,31 +21,34 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
     const cert = params ? params.cert : null;
     const { navigate, goBack } = this.props.navigation;
     console.log(cert);
-    let subjectFriendlyName = (cert.subjectName.match(/2.5.4.3=[^\/]{1,}/));
-    if (subjectFriendlyName !== null) {
-      subjectFriendlyName = (subjectFriendlyName[0].replace("2.5.4.3=", ""));
-    }
-    let subjectEmail = (cert.subjectName.match(/1.2.840.113549.1.9.1=[^\/]{1,}\//));
-    if (subjectEmail !== null) {
-      subjectEmail = (subjectEmail[0].replace("1.2.840.113549.1.9.1=", ""));
-      subjectEmail = (subjectEmail.replace("/", ""));
-    }
-    let subjectCountry = (cert.subjectName.match(/2.5.4.6=[^\/]{1,}\//));
-    if (subjectCountry !== null) {
-      subjectCountry = (subjectCountry[0].replace("2.5.4.6=", ""));
-      subjectCountry = (subjectCountry.replace("/", ""));
-    }
+    let subjectFriendlyName, subjectEmail, subjectCountry, subjectRegion, subjectCity;
+    if (!cert.selfSigned) {
+      subjectFriendlyName = (cert.subjectName.match(/2.5.4.3=[^\/]{1,}/));
+      if (subjectFriendlyName !== null) {
+        subjectFriendlyName = (subjectFriendlyName[0].replace("2.5.4.3=", ""));
+      }
+      subjectEmail = (cert.subjectName.match(/1.2.840.113549.1.9.1=[^\/]{1,}\//));
+      if (subjectEmail !== null) {
+        subjectEmail = (subjectEmail[0].replace("1.2.840.113549.1.9.1=", ""));
+        subjectEmail = (subjectEmail.replace("/", ""));
+      }
+      subjectCountry = (cert.subjectName.match(/2.5.4.6=[^\/]{1,}\//));
+      if (subjectCountry !== null) {
+        subjectCountry = (subjectCountry[0].replace("2.5.4.6=", ""));
+        subjectCountry = (subjectCountry.replace("/", ""));
+      }
 
-    let subjectRegion = (cert.subjectName.match(/2.5.4.8=[^\/]{1,}\//));
-    if (subjectRegion !== null) {
-      subjectRegion = (subjectRegion[0].replace("2.5.4.8=", ""));
-      subjectRegion = (subjectRegion.replace("/", ""));
-    }
+      subjectRegion = (cert.subjectName.match(/2.5.4.8=[^\/]{1,}\//));
+      if (subjectRegion !== null) {
+        subjectRegion = (subjectRegion[0].replace("2.5.4.8=", ""));
+        subjectRegion = (subjectRegion.replace("/", ""));
+      }
 
-    let subjectCity = (cert.subjectName.match(/2.5.4.7=[^\/]{1,}\//));
-    if (subjectCity !== null) {
-      subjectCity = (subjectCity[0].replace("2.5.4.7=", ""));
-      subjectCity = (subjectCity.replace("/", ""));
+      subjectCity = (cert.subjectName.match(/2.5.4.7=[^\/]{1,}\//));
+      if (subjectCity !== null) {
+        subjectCity = (subjectCity[0].replace("2.5.4.7=", ""));
+        subjectCity = (subjectCity.replace("/", ""));
+      }
     }
     let issuerEmail = (cert.issuerName.match(/1.2.840.113549.1.9.1=[^\/]{1,}\//));
     if (issuerEmail !== null) {
@@ -84,6 +87,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
           </Text>
         </View>
         <List>
+          { cert.selfSigned ? null : <>
           <ListItem itemHeader first>
             <Text>Владелец</Text>
           </ListItem>
@@ -111,8 +115,9 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
             <Text>Город:</Text>
             <Text style={styles.prop_cert_righttext}>{subjectCity}</Text>
           </ListItem> : null}
+          </>}
           <ListItem itemHeader>
-            <Text>Издатель</Text>
+            <Text>Издатель {cert.selfSigned ? "и владелец" : null }</Text>
           </ListItem>
           {cert.issuerFriendlyName ? <ListItem last>
             <Text>Имя:</Text>

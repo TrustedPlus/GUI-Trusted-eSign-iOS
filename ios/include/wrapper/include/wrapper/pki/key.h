@@ -1,6 +1,8 @@
 #ifndef CMS_PKI_KEY_H_INCLUDED
 #define  CMS_PKI_KEY_H_INCLUDED
 
+#include <vector>
+
 #include <openssl/evp.h>
 
 #include "../common/common.h"
@@ -44,10 +46,9 @@ public:
 	void readPublicKey(::TrustedHandle<Bio> in, DataFormat::DATA_FORMAT format);
 	void writePublicKey(::TrustedHandle<Bio> out, DataFormat::DATA_FORMAT format);
 
-	::TrustedHandle<Key> generate(DataFormat::DATA_FORMAT format, PublicExponent::Public_Exponent pubEx, int keySize);
+	::TrustedHandle<Key> generate(::TrustedHandle<std::string> algorithm, std::vector<std::string> pkeyopt);
 	int compare(::TrustedHandle<Key> key);
 	::TrustedHandle<Key> duplicate();
 };
 
 #endif
-

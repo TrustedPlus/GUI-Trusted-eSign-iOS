@@ -4,23 +4,24 @@
 
 RCT_EXPORT_MODULE();
 //+
-RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (NSString *)infilename: (NSString *)outfilename: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (NSString *)infilename: (NSString *)outfilename: (NSString *)format: (RCTResponseSenderBlock)callback) {
   try{
     char *pSerialNumber = (char *) [serialNumber UTF8String];
     char *pCategory = (char *) [category UTF8String];
     char *prov = (char *) [provider UTF8String];
     char *infile = (char *) [infilename UTF8String];
     char *outfile = (char *) [outfilename UTF8String];
+    char *pFormat = (char *) [format UTF8String];
     BOOL b = false;
 #ifdef ProvOpenSSL
     if (strcmp(prov, "SYSTEM") == 0){
-      b = [ossl_Signer sign:pSerialNumber :pCategory :infile :outfile ];
+      b = [ossl_Signer sign:pSerialNumber :pCategory :infile :outfile :pFormat];
     }
 #endif
 #ifdef ProvCryptoPro
     if (strcmp(prov, "CRYPTOPRO") == 0){
       //b = [csp_Signer doSign:pSerialNumber :pCategory :infile :outfile :FALSE];
-      b = [csp_Signer SignMessage:pSerialNumber :pCategory :infile :outfile];
+      b = [csp_Signer SignMessage:pSerialNumber :pCategory :infile :outfile :pFormat];
     }
 #endif
     
@@ -47,7 +48,7 @@ RCT_EXPORT_METHOD(coSign: (NSString *)serialNumber: (NSString *)category: (NSStr
 #endif
 #ifdef ProvCryptoPro
     if (strcmp(prov, "CRYPTOPRO") == 0){
-      b = [csp_Signer CosignMessage:pSerialNumber :pCategory :signfile];
+      b = [csp_Signer CosignMessage:pSerialNumber :pCategory :signfile :pFormat];
     }
 #endif
     
@@ -59,7 +60,7 @@ RCT_EXPORT_METHOD(coSign: (NSString *)serialNumber: (NSString *)category: (NSStr
 }
 
 //+-
-RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)outfilename: (NSString *)format:(RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString *)outfilename:(RCTResponseSenderBlock)callback) {
   try{
     char *infile = (char *) [infilename UTF8String];
     char *outfile = (char *) [outfilename UTF8String];
@@ -68,12 +69,12 @@ RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)outfilename: (NSSt
 
 #ifdef ProvOpenSSL
     try{
-      b = [ossl_Signer unSign:infile :outfile :pFormat ];
+      b = [ossl_Signer unSign:infile :pFormat :outfile];
     }
     catch (TrustedHandle<Exception> e){
 #endif
 #ifdef ProvCryptoPro
-      b = [csp_Signer DeCosignMessage:infile :outfile];
+      b = [csp_Signer DeCosignMessage:infile :pFormat :outfile];
 #endif
     }
     
@@ -98,7 +99,7 @@ RCT_EXPORT_METHOD(verify: (NSString *)checkfilename: (NSString *)format: (RCTRes
 #endif
 #ifdef ProvCryptoPro
       //b = [csp_Signer doVerifyAttach:inFileName];
-      b = [csp_Signer VerifyCosignedMessage:inFileName];
+      b = [csp_Signer VerifyCosignedMessage:inFileName :inFormat];
 #endif
     }
     
@@ -135,7 +136,7 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)checkfilename: (NSString *)format: (R
 #endif
 #ifdef ProvCryptoPro
       [arrayInfoAboutSigners removeAllObjects];
-      std::vector<infoCSPStruct> vec = [csp_Signer GetSignInfo:inFileName];
+      std::vector<infoCSPStruct> vec = [csp_Signer GetSignInfo:inFileName :inFormat];
       for (int i = 0; i < vec.size(); i++){
         NSMutableDictionary *arrayInfoAboutSigner = [NSMutableDictionary dictionary];
         if (vec[i].status)
@@ -143,11 +144,11 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)checkfilename: (NSString *)format: (R
         else
           arrayInfoAboutSigner[@"status"] = @("0");
         
-        if ((strncmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.3", 17)) && (strncmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.2", 17))){
+        if ((!(strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.3") == 0)) && (!(strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.2") == 0))){
           arrayInfoAboutSigner[@"signatureAlgorithm"] = @(vec[i].cert->getSignatureAlgorithm()->c_str());
         }
         else{
-          if (strncmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.3", 17)){
+          if (strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.3") == 0){
             arrayInfoAboutSigner[@"signatureAlgorithm"] = @("GOST R 34.11-2012 512");
           }
           else{

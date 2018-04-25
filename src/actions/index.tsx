@@ -135,7 +135,7 @@ export function addFiles(uri, type, fileName, fileSize) {
     };
 }
 
-export function addCert(uri, type, fileName, fileSize, password) {
+export function addCert(uri, fileName?, password?) {
     return function action(dispatch) {
         dispatch({ type: ADD_CERT_OR_KEY });
         let point, name, extension;
@@ -163,7 +163,7 @@ export function addCert(uri, type, fileName, fileSize, password) {
             case "cer":
             case "crt": {
                 let certPath = decodeURIComponent(uri.replace("file:///", "/"));
-                const read = RNFS.read(certPath, 2, 0, "base64");
+                const read = RNFS.read(certPath, 2, 0, "utf8");
                 return read.then(
                     response => {
                         NativeModules.Wrap_Cert.saveCertToStore(

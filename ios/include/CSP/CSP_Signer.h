@@ -9,6 +9,8 @@
 #ifndef CSP_Signer_h
 #define CSP_Signer_h
 
+#include "CSP_Helper.h"
+
 #include "cert.h"
 #import <Foundation/Foundation.h>
 #import <CPROCSP/CPROCSP.h>
@@ -17,8 +19,6 @@
 #import "stdio.h"
 #import "map"
 #import "vector"
-
-#include "CSP_Helper.h"
 
 #define MY_ENCODING_TYPE  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 #define TYPE_DER  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
@@ -29,7 +29,7 @@
         TrustedHandle<Certificate> cert;
     };
 }
-
+/*
 -(BOOL)sign :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile;
 -(BOOL)verify :(char *)serialNumber :(char *)category :(char *)signFile;
 
@@ -39,14 +39,13 @@
 -(BOOL)doVerify :(char *)inputFile :(char *)signFile;
 //проверка attached подписи
 -(BOOL)doVerifyAttach :(IN char *)szSignatureFile;
--(BOOL)unSign :(char *)signFile :(char *)outFile;
+-(BOOL)unSign :(char *)signFile :(char *)outFile;*/
 
--(BOOL)SignMessage :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile;
--(BOOL)CosignMessage :(char *)serialNumber :(char *)category :(char *)signFile;
--(BOOL)VerifyCosignedMessage :(char *)signFile;
--(BOOL)DeCosignMessage :(char *)signFile :(char *)outFile;
--(std::vector<infoCSPStruct>)GetSignInfo :(char *)signFile;
-
+-(BOOL)SignMessage :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile :(char *)outFileFormat;
+-(BOOL)CosignMessage :(char *)serialNumber :(char *)category :(char *)signFile :(char *)format;
+-(BOOL)VerifyCosignedMessage :(char *)signFile :(char *)format;
+-(BOOL)DeCosignMessage :(char *)signFile :(char *)inFileFormat :(char *)outFile;
+-(std::vector<infoCSPStruct>)GetSignInfo :(char *)signFile :(char *)format;
 
 @end
 

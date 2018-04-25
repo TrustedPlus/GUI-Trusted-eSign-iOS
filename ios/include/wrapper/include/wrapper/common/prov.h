@@ -15,11 +15,11 @@ public:
 	~Provider();
 
 	void name(char *v);
-	::TrustedHandle<std::string> name();
+	Handle<std::string> name();
 	void type(int v);
 	int type();
 protected:
-	::TrustedHandle<std::string> _name;
+	Handle<std::string> _name;
 	int _type;
 };
 
@@ -28,9 +28,9 @@ public:
 	ProviderCollection();
 	~ProviderCollection();
 
-	::TrustedHandle<Provider> items(int index);
+	Handle<Provider> items(int index);
 	int length();
-	void push(::TrustedHandle<Provider> v);
+	void push(Handle<Provider> v);
 	void push(Provider &v);
 protected:
 	std::vector<Provider> _items;

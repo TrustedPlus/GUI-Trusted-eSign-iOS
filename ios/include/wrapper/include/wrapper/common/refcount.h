@@ -181,9 +181,9 @@ T& RCPtr<T>::operator*() const {
 }
 
 /******************************************************************************
- *                  Template Class ::TrustedHandle (from pp. 209-210)                   *
+ *                  Template Class TrustedHandle (from pp. 209-210)                   *
  *                                                                             *
- * The code for ::TrustedHandle has changed over the years in response to errors        *
+ * The code for TrustedHandle has changed over the years in response to errors        *
  * both in the original source code as well as in the subsequent fixes.  You   *
  * can find a complete list of changes at the More Effective C++ errata page.  *
  * The code here is accurate as of the 13th printing of the book.              *
@@ -233,6 +233,13 @@ private:
 
 template<class T>
 void TrustedHandle<T>::init() {
+	//  if (counter->isShareable() == false) {
+	//    T *oldValue = counter->pointee;
+	//    counter = new CountHolder;
+	////    counter->pointee = oldValue ? new T(*oldValue) : 0; - not applicable for abstract classes
+	//    counter->pointee = oldValue ? oldValue->clone() : 0;
+	//  }
+
 	counter->addReference();
 }
 

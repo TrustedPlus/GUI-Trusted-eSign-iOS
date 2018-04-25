@@ -4,7 +4,6 @@
 #define  COMMON_BIO_H_INCLUDED
 
 #include <openssl/bio.h>
-#include "openssl/bio.h"
 
 #define BIO_BUFFER_SIZE 1024 * 64
 
@@ -19,9 +18,9 @@ public:
 	void reset();
 
 	void write(const std::string&buf);
-	void write(::TrustedHandle<std::string> buf);
+	void write(TrustedHandle<std::string> buf);
 	void flush();
-	::TrustedHandle<std::string> read(int size = -1);
+	TrustedHandle<std::string> read(int size = -1);
 
 	int type();
 

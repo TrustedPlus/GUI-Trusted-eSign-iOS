@@ -28,7 +28,7 @@ class CTWRAPPER_API Logger{
 public:
 	Logger(){ init(); };
 	~Logger();
-	//::TrustedHandle<std::string> filename(const char*path);
+	//TrustedHandle<std::string> filename(const char*path);
 	void write(LoggerLevel::LOGGER_LEVEL level, const char* fn, const char *msg, ...);
 	void write(LoggerLevel::LOGGER_LEVEL level, const char* fn, const char *msg, va_list);
 	void start(const char *filename, int levels);
@@ -47,8 +47,8 @@ protected:
 public:
 	int levels;
 protected: 
-	::TrustedHandle<std::string> _filename;
-	//::TrustedHandle<std::ofstream> _file;
+	TrustedHandle<std::string> _filename;
+	//TrustedHandle<std::ofstream> _file;
 	FILE* _file;
 };
 
@@ -87,7 +87,7 @@ public:
 	LoggerFunction(Logger *logger, const char *fn);
 	~LoggerFunction();
 protected:
-	::TrustedHandle<std::string> _fn = NULL;
+	TrustedHandle<std::string> _fn = NULL;
 	Logger *_logger = NULL;
 };
 #endif //!COMMON_LOG_H_INCLUDE

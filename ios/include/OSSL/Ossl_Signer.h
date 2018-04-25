@@ -20,9 +20,9 @@
     };
 }
 
--(BOOL) sign :(char *)serialNumber :(char *)category :(char *)infilename :(char *)outfilename;
+-(BOOL) sign :(char *)serialNumber :(char *)category :(char *)infilename :(char *)outfilename :(char *)format;
 -(BOOL) coSignMessage :(char *)serial :(char *)category :(char *)signfilename :(char *)format;
--(BOOL) unSign :(char *)checkfilename :(char *)outfilename :(char *)format;
+-(BOOL) unSign :(char *)checkfilename :(char *)format :(char *)outfilename;
 -(BOOL) verify :(char *)checkfilename :(char *)format;
 -(std::vector<infoStruct>) getSignInfo :(char *)checkfilename :(char *)format;
 

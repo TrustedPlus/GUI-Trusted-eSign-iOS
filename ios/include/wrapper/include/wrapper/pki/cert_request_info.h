@@ -21,6 +21,10 @@ public:
 	void setSubject(::TrustedHandle<std::string> x509Name);
 	void setSubjectPublicKey(::TrustedHandle<Key> key);
 	void setVersion(long version);
+
+	::TrustedHandle<std::string> getSubject();
+	::TrustedHandle<Key> getPublicKey();
+	long getVersion();
 };
 
 #endif

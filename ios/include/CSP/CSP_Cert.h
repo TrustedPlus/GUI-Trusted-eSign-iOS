@@ -9,6 +9,8 @@
 #ifndef CSP_Cert_h
 #define CSP_Cert_h
 
+#include "CSP_Helper.h"
+
 #include "provider_system.h"
 
 #import <Foundation/Foundation.h>
@@ -19,8 +21,6 @@
 #import "map"
 #import "vector"
 
-#include "CSP_Helper.h"
-
 #define MY_ENCODING_TYPE  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 #define TYPE_DER  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 
@@ -30,10 +30,10 @@
 }
 
 -(bool) load :(char *)serialNumber;                                                 //загрузка из хранилища
--(bool) loadFromFile :(char *)pathCert: (char *)format;                             //загрузка из файла
+-(bool) loadFromFile :(char *)pathCert :(char *)format;                             //загрузка из файла
 -(bool) saveCertToStore :(char *)pathToFie :(char *)format :(char *)category;       //сохраниние сертификата в хранилище из файла
 -(bool) deleteCertInStore :(char *)serialNumber :(char *)category;                  //удаление сертификата из хранилища
--(bool) save :(char *)pathToSaveCert: (char *)format: (char *)category;             //экспорт сертификата в файл из памяти
+-(bool) save :(char *)pathToSaveCert :(char *)format :(char *)category;             //экспорт сертификата в файл из памяти
 -(long) getVersion;
 -(TrustedHandle<std::string>) getSerialNumber;
 -(TrustedHandle<std::string>) getNotBefore;

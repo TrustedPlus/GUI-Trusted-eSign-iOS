@@ -25,6 +25,7 @@ public:
 
 	// Properties
 	void setContent(::TrustedHandle<Bio> value);
+	void freeContent();
 	::TrustedHandle<Bio> getContent();
 	int getFlags();
 	void setFlags(int v);

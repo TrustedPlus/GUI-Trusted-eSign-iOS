@@ -28,6 +28,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer) {
                     otherCert.provider,
                     path,
                     path + ".enc",
+                    "BASE64",
                     (err, encrypt) => {
                         if (err) {
                             Alert.alert(err);
@@ -59,6 +60,7 @@ export function decAssymmetric(files: IFile[], otherCert, footer) {
                     "MY",
                     otherCert.provider,
                     path + "." + files[footer.arrButton[i]].extensionAll,
+                    "BASE64",
                     path + "." + extension,
                     (err, decrypt) => {
                         if (err) {

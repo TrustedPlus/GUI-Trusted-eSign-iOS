@@ -22,7 +22,7 @@ class RootСert extends React.Component<RootСertProps> {
 
   ShowList(img) {
     return (
-      this.props.pesronalCertKeys.map((cert, key) => (cert.category.toUpperCase() === "ROOT") ? <ListMenu
+      this.props.pesronalCertKeys.map((cert, key) => ((cert.category.toUpperCase() === "ROOT") || (cert.category.toUpperCase() === "TRUST")) ? <ListMenu
         key = {key}
         title = {cert.subjectFriendlyName}
         note = {cert.organizationName}

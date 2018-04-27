@@ -13,15 +13,13 @@ import Prompt from "rn-prompt";
 interface SelectPersonalСertProps {
     navigation: any;
     pesronalCertKeys: any;
-    addCert(uri: string, type: string, fileName: string, fileSize: number, password: string): void;
+    addCert(uri: string, fileName: string, password: string): void;
 }
 
 interface SelectPersonalСertState {
     promptVisible: boolean;
     uri: string;
-    type: string;
     fileName: string;
-    fileSize: number;
 }
 
 class SelectPersonalСert extends React.Component<SelectPersonalСertProps, SelectPersonalСertState> {
@@ -35,9 +33,7 @@ class SelectPersonalСert extends React.Component<SelectPersonalСertProps, Sele
         this.state = {
             promptVisible: false,
             uri: "",
-            type: "",
             fileName: "",
-            fileSize: 0,
         };
     }
 
@@ -64,9 +60,9 @@ class SelectPersonalСert extends React.Component<SelectPersonalСertProps, Sele
             point = res.fileName.indexOf(".");
             extension = res.fileName.substring(point + 1);
             if (extension === "pfx") {
-                this.setState({ promptVisible: true, uri: res.uri, type: res.type, fileName: res.fileName, fileSize: res.fileSize });
+                this.setState({ promptVisible: true, uri: res.uri, fileName: res.fileName });
             } else {
-                this.props.addCert(res.uri, res.type, res.fileName, res.fileSize, null);
+                this.props.addCert(res.uri, res.fileName, null);
             }
         });
     }
@@ -113,7 +109,7 @@ class SelectPersonalСert extends React.Component<SelectPersonalСertProps, Sele
                         this.setState({
                             promptVisible: false
                         });
-                        addCert(this.state.uri, this.state.type, this.state.fileName, this.state.fileSize, password);
+                        addCert(this.state.uri, this.state.fileName, password);
                     }
                     } />
             </Container>

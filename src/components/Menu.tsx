@@ -66,7 +66,7 @@ class Main extends React.Component<MainProps> {
         </Header>
         <Content>
           <List>
-            <ListMenu title="Создание самоподписанного сертификата" img={require("../../imgs/general/sign_main_icon.png")}
+            <ListMenu title="Создание самоподписанного сертификата" img={require("../../imgs/general/create_certificates_main_icon.png")}
               nav={() => navigate("CreateCertificate")}/>
             {/*<ListMenu title="Диагностика приложения" img={require("../../imgs/general/diagnostic_main_icon.png" )}
               note="ошибок: 0" rightnote="замечаний: 0" nav={() => navigate("Diagnostic")}/>*/}

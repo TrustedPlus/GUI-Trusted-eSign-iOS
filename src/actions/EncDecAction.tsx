@@ -24,7 +24,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer) {
                 RNFS.writeFile(path + ".enc", "", "utf8");
                 NativeModules.Wrap_Cipher.encrypt(
                     otherCert.serialNumber,
-                    "MY",
+                    otherCert.category,
                     otherCert.provider,
                     path,
                     path + ".enc",
@@ -57,7 +57,7 @@ export function decAssymmetric(files: IFile[], otherCert, footer) {
                 RNFS.writeFile(path + "." + extension, "", "utf8");
                 NativeModules.Wrap_Cipher.decrypt(
                     otherCert.serialNumber,
-                    "MY",
+                    otherCert.category,
                     otherCert.provider,
                     path + "." + files[footer.arrButton[i]].extensionAll,
                     "BASE64",

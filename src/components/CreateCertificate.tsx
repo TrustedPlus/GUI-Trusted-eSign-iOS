@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Container, Item, CheckBox, Input, Footer, FooterTab, Button, List, ListItem, Header, Title, Text, Content, Icon, Right, Body, Left, Form, NativeBase } from "native-base";
+import { Container, Item, CheckBox, Label, Input, Footer, FooterTab, Button, List, ListItem, Header, Title, Text, Content, Icon, Right, Body, Left, Form, NativeBase } from "native-base";
 import { Headers } from "./Headers";
 import { styles } from "../styles";
 import { View, Slider, Switch, Alert, NativeModules, Picker } from "react-native";
 import * as RNFS from "react-native-fs";
-const ModalDropdown = require("react-native-modal-dropdown");
+import { Dropdown } from "react-native-material-dropdown";
 
 interface ListWithSwitchProps {
    text: string;
@@ -37,7 +37,7 @@ interface ListWithModalDropdownProps {
    text: string;
    defaultValue: string;
    changeValue: any;
-   options: string[];
+   options: any;
 }
 
 class ListWithModalDropdown extends React.Component<ListWithModalDropdownProps> {
@@ -45,20 +45,11 @@ class ListWithModalDropdown extends React.Component<ListWithModalDropdownProps> 
    render() {
       return (
          <List>
-            <ListItem icon >
-               <Body>
-                  <Text>{this.props.text}</Text>
-               </Body>
-               <Right>
-                  <ModalDropdown defaultValue={this.props.defaultValue}
-                                 onSelect={this.props.changeValue}
-                                 options={this.props.options}
-                                 textStyle={{fontSize: 16}}
-                                 dropdownStyle={{width: 230}}
-                                 dropdownTextStyle={{fontSize: 16}}
-                                 />
-               </Right>
-            </ListItem>
+            <Dropdown
+               onChangeText={this.props.changeValue}
+               value={this.props.defaultValue}
+               label={this.props.text}
+               data={this.props.options} />
          </List>
       );
    }
@@ -67,21 +58,13 @@ class ListWithModalDropdown extends React.Component<ListWithModalDropdownProps> 
 interface CreateCertificateState {
    algorithm: any;
    keyLength: number;
-   hideKeyProp: boolean;
-   dataEncipherment: boolean;
-   keyAgreement: boolean;
-   keyCertSign: boolean;
-   decipherOnly: boolean;
-   encipherOnly: boolean;
-   digitalSignature: boolean;
-   nonRepudiation: boolean;
-   cRLSign: boolean;
-   keyEncipherment: boolean;
-   keyAssignment: boolean;
+   keyAssignment: number;
+   certAssignment: boolean;
    server_auth: boolean;
    client_auth: boolean;
    code_sign: boolean;
    email_protection: boolean;
+   cert_template: number;
    CN: string;
    email: string;
    org: string;
@@ -89,7 +72,6 @@ interface CreateCertificateState {
    obl: string;
    country: string;
    errorInputCN: boolean;
-   errorInputEmail: boolean;
    errorInputCountry: boolean;
 }
 
@@ -108,29 +90,20 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
       this.state = {
          algorithm: "RSA",
          keyLength: 512,
-         hideKeyProp: true,
-         dataEncipherment: true,
-         keyAgreement: true,
-         keyCertSign: true,
-         decipherOnly: false,
-         encipherOnly: false,
-         digitalSignature: true,
-         nonRepudiation: true,
-         cRLSign: false,
-         keyEncipherment: false,
-         keyAssignment: true,
+         keyAssignment: 0,
+         certAssignment: true,
          server_auth: false,
          client_auth: true,
          code_sign: false,
          email_protection: true,
+         cert_template: 0,
          CN: "",
          email: "",
          org: "",
          city: "",
          obl: "",
-         country: "",
+         country: "RU",
          errorInputCN: false,
-         errorInputEmail: false,
          errorInputCountry: false
       };
       this.onPressCertRequest = this.onPressCertRequest.bind(this);
@@ -143,59 +116,64 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
    }
 
    onPressCertRequest() {
-      if ((this.state.CN !== "") || (this.state.email !== "") || (this.state.country !== "")) {
-      NativeModules.Wrap_CertRequest.genRequestOnCert(
-         "RSA",
-         Number(this.state.keyLength),
-         // использование ключа
-         [this.state.dataEncipherment, // шифрование
-         this.state.keyAgreement, // согласование
-         this.state.keyCertSign, // подпись сертификатов
-         this.state.decipherOnly, // только расшифрование
-         this.state.encipherOnly, // только шифрование
-         this.state.digitalSignature, // подпись
-         this.state.nonRepudiation, // неотрекаемость
-         this.state.cRLSign, // автономное подписание списка отзывов
-         this.state.keyEncipherment], // шифрование ключа
-         //  назначение сертификата (EKU)
-         [this.state.server_auth, // проверка подлинности сервера
-         this.state.client_auth, // проверка подлинности клиента
-         this.state.code_sign, // подпись кода
-         this.state.email_protection], // защита элкетронной почты
-         // параметры субъекта
-         this.state.CN,
-         this.state.email,
-         this.state.org,
-         this.state.city,
-         this.state.obl,
-         this.state.country,
-         RNFS.DocumentDirectoryPath + "/Files" + "/certRequest.txt",
-         RNFS.DocumentDirectoryPath + "/Files" + "/key.key",
-         (err, verify) => {
-            if (err) {
-               Alert.alert(err);
-            } else {
-               NativeModules.Wrap_CertRequest.genSelfSignedCert(
-                  RNFS.DocumentDirectoryPath + "/Files" + "/certRequest.txt",
-                  RNFS.DocumentDirectoryPath + "/Files" + "/cert.cer",
-                  RNFS.DocumentDirectoryPath + "/Files" + "/key.key",
-                  (err, verify) => {
-                     if (err) {
-                        Alert.alert(err);
-                     } else {
-                        RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files" + "/certRequest.txt");
-                        RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files" + "/cert.cer");
-                        RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files" + "/key.key"),
+      if (this.state.CN !== "") {
+         NativeModules.Wrap_CertRequest.genRequestOnCert(
+            this.state.algorithm,
+            "https://cryptopro.ru:5555/ui",
+            "ContainerName_new1",
+            this.state.cert_template,
+            this.state.keyLength,
+            // использование ключа
+            /*
+            [this.state.dataEncipherment, // шифрование
+            this.state.keyAgreement, // согласование
+            this.state.keyCertSign, // подпись сертификатов
+            this.state.decipherOnly, // только расшифрование
+            this.state.encipherOnly, // только шифрование
+            this.state.digitalSignature, // подпись
+            this.state.nonRepudiation, // неотрекаемость
+            this.state.cRLSign, // автономное подписание списка отзывов
+            this.state.keyEncipherment], // шифрование ключа
+            */
+            this.state.keyAssignment,
+            //  назначение сертификата (EKU)
+            [this.state.server_auth, // проверка подлинности сервера
+            this.state.client_auth, // проверка подлинности клиента
+            this.state.code_sign, // подпись кода
+            this.state.email_protection], // защита элкетронной почты
+            // параметры субъекта
+            this.state.CN,
+            this.state.email,
+            this.state.org,
+            this.state.city,
+            this.state.obl,
+            this.state.country,
+            RNFS.DocumentDirectoryPath + "/Files" + "/certRequest.txt",
+            RNFS.DocumentDirectoryPath + "/Files" + "/key.key",
+            (err, verify) => {
+               if (err) {
+                  Alert.alert(err);
+               } else {
+                  NativeModules.Wrap_CertRequest.genSelfSignedCert(
+                     "https://cryptopro.ru:5555/ui",
+                     RNFS.DocumentDirectoryPath + "/Files" + "/certRequest.txt",
+                     RNFS.DocumentDirectoryPath + "/Files" + "/cert.cer",
+                     this.state.algorithm === "RSA" ? RNFS.DocumentDirectoryPath + "/Files" + "/key.key" : "",
+                     (err, verify) => {
+                        if (err) {
+                           Alert.alert(err);
+                        } else {
+                           RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files" + "/certRequest.txt");
+                           RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files" + "/cert.cer");
+                           RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files" + "/key.key");
                            Alert.alert("Сертификат и ключ создан");
-                     }
-                  });
-            }
-         });
+                        }
+                     });
+               }
+            });
       } else {
-         this.state.CN === "" ? this.setState({errorInputCN: true}) : null;
-         this.state.email === "" ? this.setState({errorInputEmail: true}) : null;
-         this.state.country === "" ? this.setState({errorInputCountry: true}) : null;
-         Alert.alert("Необходимые поля не заполнены");
+         this.state.CN === "" ? this.setState({ errorInputCN: true }) : null;
+         Alert.alert("Заполните поле CN");
       }
    }
 
@@ -207,52 +185,70 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
          <Container style={styles.container}>
             <Headers title="Создание сертификата" goBack={() => goBack()} />
             <Content>
-            <ListWithModalDropdown text="Алгоритм" defaultValue="RSA" changeValue={(index, value) => this.setState({ algorithm: value })} options={["RSA", "ГОСТ Р 34.10-2001", "ГОСТ Р 34.10-2012 256 бит", "ГОСТ Р 34.10-2012 512 бит"]}/>
-            <ListWithModalDropdown text="Длина ключа" defaultValue="512" changeValue={(index, value) => this.setState({ keyLength: value })} options={["512", "1024", "2048", "3072", "4096"]}/>
+               <View style={{ padding: 10 }}>
+                  <ListWithModalDropdown text="Алгоритм"
+                     defaultValue="RSA"
+                     changeValue={(value) => this.setState({ algorithm: value })}
+                     options={[{ value: "RSA" }, { value: "GOST" }]} />
+                  {this.state.algorithm === "RSA" ? <> <ListWithModalDropdown text="Длина ключа"
+                     defaultValue="512"
+                     changeValue={(value) => this.setState({ keyLength: Number(value) })}
+                     options={[{ value: "512" }, { value: "1024" }, { value: "2048" }, { value: "3072" }, { value: "4096" }]} />
+                     <ListWithModalDropdown text="Назначение ключа"
+                        defaultValue="Подпись и шифрование"
+                        changeValue={(value, index) => this.setState({ keyAssignment: Number(index) })}
+                        options={[{ value: "Подпись и шифрование" }, { value: "Шифрование" }, { value: "Подпись" }]} />
+                  </> : <ListWithModalDropdown text="Шаблон сертификата"
+                     defaultValue="Cертификат пользователя УЦ"
+                     changeValue={(value, index) => this.setState({ cert_template: Number(index) })}
+                     options={[{ value: "Cертификат пользователя УЦ" },
+                     { value: "One day User" }, { value: "Временный сертификат Оператора УЦ" },
+                     { value: "Временный сертификат пользователя УЦ" }, { value: "Сертификат ipsec" },
+                     { value: "Сертификат Администратора для DSS" }, { value: "Сертификат аудитора журнала УЦ" },
+                     { value: "Сертификат входа в домен по УЭК" }, { value: "Сертификат входа со смарт-картой" },
+                     { value: "Сертификат контроллера домена (winlogon)" }, { value: "Сертификат оператора службы OCSP" },
+                     { value: "Сертификат оператора службы штампов времени" }, { value: "Сертификат Оператора УЦ" },
+                     { value: "Сертификат подписи (тест УЭК)" }, { value: "Сертификат подписи с лицензией (тест УЭК)" },
+                     { value: "Сертификат пользователя DSS" }, { value: "Сертификат сервера" },
+                     { value: "Совсем временный сертификат" }]} />}
+               </View>
                <View style={styles.sign_enc_view}>
                   <Text style={{ color: "grey" }}>Параметры субъекта</Text>
                </View>
                <Form>
-                  <Item error={this.state.errorInputCN ? true : false} >
-                     <Input onChangeText={(CN) => this.setState({ CN })} placeholder="CN" />
+                  <Item floatingLabel error={this.state.errorInputCN ? true : false} >
+                     <Label>CN</Label>
+                     <Input onChangeText={(CN) => this.setState({ CN })} />
                   </Item>
-                  <Item error={this.state.errorInputEmail ? true : false}>
-                     <Input onChangeText={(email) => this.setState({ email })} placeholder="Email адрес" />
+                  <Item floatingLabel>
+                     <Label>email</Label>
+                     <Input onChangeText={(email) => this.setState({ email })} />
                   </Item>
-                  <Item >
-                     <Input onChangeText={(org) => this.setState({ org })} placeholder="Организация" />
+                  <Item floatingLabel>
+                     <Label>организация</Label>
+                     <Input onChangeText={(org) => this.setState({ org })} />
                   </Item>
-                  <Item >
-                     <Input onChangeText={(city) => this.setState({ city })} placeholder="Город" />
+                  <Item floatingLabel>
+                     <Label>город</Label>
+                     <Input onChangeText={(city) => this.setState({ city })} />
                   </Item>
-                  <Item>
-                     <Input onChangeText={(obl) => this.setState({ obl })} placeholder="Область" />
-                  </Item>
-                  <Item error={this.state.errorInputCountry ? true : false} last>
-                     <Input onChangeText={(country) => this.setState({ country })} placeholder="Страна" />
+                  <Item floatingLabel>
+                     <Label>область</Label>
+                     <Input onChangeText={(obl) => this.setState({ obl })} />
                   </Item>
                </Form>
-               <Button style={{ width: "100%", backgroundColor: "white" }} onPress={() => this.setState({ hideKeyProp: !this.state.hideKeyProp })}>
-                  <Text style={{ color: "grey" }}>Использование ключа</Text>
-                  {this.state.hideKeyProp ? <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-down" /> :
-                     <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-up" />}
-               </Button>
-               {!this.state.hideKeyProp ? <>
-                  <ListWithSwitch text="Шифрование" value={this.state.dataEncipherment} changeValue={() => this.setState({ dataEncipherment: !this.state.dataEncipherment })} />
-                  <ListWithSwitch text="Согласование" value={this.state.keyAgreement} changeValue={() => this.setState({ keyAgreement: !this.state.keyAgreement })} />
-                  <ListWithSwitch text="Подпись сертификатов" value={this.state.keyCertSign} changeValue={() => this.setState({ keyCertSign: !this.state.keyCertSign })} />
-                  <ListWithSwitch text="Только расшифрование" value={this.state.decipherOnly} changeValue={() => this.setState({ decipherOnly: !this.state.decipherOnly })} />
-                  <ListWithSwitch text="Подпись" value={this.state.digitalSignature} changeValue={() => this.setState({ digitalSignature: !this.state.digitalSignature })} />
-                  <ListWithSwitch text="Неотрекаемость" value={this.state.nonRepudiation} changeValue={() => this.setState({ nonRepudiation: !this.state.nonRepudiation })} />
-                  <ListWithSwitch text="Автономное подписание списка отзывов" value={this.state.cRLSign} changeValue={() => this.setState({ cRLSign: !this.state.cRLSign })} />
-                  <ListWithSwitch text="Шифрование ключа" value={this.state.keyEncipherment} last changeValue={() => this.setState({ keyEncipherment: !this.state.keyEncipherment })} />
-               </> : null}
-               <Button style={{ width: "100%", backgroundColor: "white" }} onPress={() => this.setState({ keyAssignment: !this.state.keyAssignment })}>
+               <View style={{ paddingLeft: 15 }}>
+                  <ListWithModalDropdown text="страна"
+                     defaultValue="RU"
+                     changeValue={(value) => this.setState({ country: value })}
+                     options={[{ value: "RU" }, { value: "GER" }]} />
+               </View>
+               <Button style={{ width: "100%", backgroundColor: "white" }} onPress={() => this.setState({ certAssignment: !this.state.certAssignment })}>
                   <Text style={{ color: "grey" }}>Назначение сертификата</Text>
-                  {this.state.keyAssignment ? <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-down" /> :
+                  {this.state.certAssignment ? <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-down" /> :
                      <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-up" />}
                </Button>
-               {!this.state.keyAssignment ? <>
+               {!this.state.certAssignment ? <>
                   <ListWithSwitch text="Проверка подлинности сервера" value={this.state.server_auth} changeValue={() => this.setState({ server_auth: !this.state.server_auth })} />
                   <ListWithSwitch text="Проверка подлинности клиента" value={this.state.client_auth} changeValue={() => this.setState({ client_auth: !this.state.client_auth })} />
                   <ListWithSwitch text="Подпись кода" value={this.state.code_sign} changeValue={() => this.setState({ code_sign: !this.state.code_sign })} />
@@ -260,7 +256,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
                </> : null}
             </Content>
             <Footer>
-               <FooterTab style={{ borderColor: "#be3817", borderWidth: 4 }}>
+               <FooterTab style={{  backgroundColor: "#F8F8F8", borderRadius: 0, borderColor: "#cbcbcb", borderTopWidth: 0.25 }}>
                   <Button vertical onPress={this.onPressCertRequest} >
                      <Text style={{ color: "black" }}>Создать</Text>
                   </Button>

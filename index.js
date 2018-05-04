@@ -15,7 +15,7 @@ import { NativeModules } from "react-native";
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['files'] 
+    whitelist: ['logger'] 
   }
 
 const persistedReducer = persistReducer(persistConfig, reducers)

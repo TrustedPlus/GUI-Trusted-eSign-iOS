@@ -44,6 +44,7 @@ class SelectPersonalСert extends React.Component<SelectPersonalСertProps, Sele
                 title={cert.subjectFriendlyName}
                 note={cert.organizationName}
                 provider={cert.provider}
+                category = {cert.category}
                 img={img[key]}
                 personal
                 issuerName={cert.issuerName}

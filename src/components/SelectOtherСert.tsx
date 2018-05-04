@@ -44,6 +44,7 @@ class SelectOtherСert extends React.Component<SelectOtherСertProps, SelectOthe
                 title={cert.subjectFriendlyName}
                 note={cert.organizationName}
                 provider={cert.provider}
+                category = {cert.category}
                 img={img[key]}
                 other
                 issuerName={cert.issuerName}

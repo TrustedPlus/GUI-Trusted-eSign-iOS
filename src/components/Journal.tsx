@@ -50,7 +50,7 @@ class Journal extends React.Component<JournalProps> {
 
 function mapStateToProps(state) {
     return {
-        log: state.files.log
+        log: state.logger.log
     };
 }
 

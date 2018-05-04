@@ -96,7 +96,7 @@ function mapStateToProps(state) {
   return {
     pesronalCertKeys: state.certKeys.pesronalCertKeys,
     files: state.files.files,
-    lastlog: state.files.lastlog
+    lastlog: state.logger.lastlog
   };
 }
 

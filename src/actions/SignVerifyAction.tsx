@@ -24,13 +24,14 @@ export function signFile(files: IFile[], personalCert, footer) {
                 RNFS.writeFile(path + ".sig", "", "utf8");
                 NativeModules.Wrap_Signer.sign(
                     personalCert.serialNumber,
-                    "My",
+                    personalCert.category,
                     personalCert.provider,
                     path,
                     path + ".sig",
                     "BASE64",
                     (err, signFile) => {
                         if (err) {
+                            Alert.alert(err + "");
                             dispatch({ type: SIGN_FILE_ERROR, payload: err });
                         } else {
                             dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
@@ -51,7 +52,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
         } else {
             for (let i = 0; i < footer.arrButton.length; i++) {
                 let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
-                const read = RNFS.read(path, 2, 0, "base64");
+                const read = RNFS.read(path, 2, 0, "utf8");
                 read.then(
                     response => {
                         NativeModules.Wrap_Signer.verify(

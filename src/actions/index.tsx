@@ -21,17 +21,17 @@ export function footerClose() {
     };
 }
 
-export function personalCertAdd(title, img, note, issuerName, serialNumber, provider) {
+export function personalCertAdd(title, img, note, issuerName, serialNumber, provider, category) {
     return {
         type: PERSONAL_CERT_ACTION,
-        payload: [title, img, note, issuerName, serialNumber, provider]
+        payload: [title, img, note, issuerName, serialNumber, provider, category]
     };
 }
 
-export function otherCertAdd(title, img, note, issuerName, serialNumber, provider) {
+export function otherCertAdd(title, img, note, issuerName, serialNumber, provider, category) {
     return {
         type: OTHER_CERT_ACTION,
-        payload: [title, img, note, issuerName, serialNumber, provider]
+        payload: [title, img, note, issuerName, serialNumber, provider, category]
     };
 }
 
@@ -163,24 +163,25 @@ export function addCert(uri, fileName?, password?) {
             case "cer":
             case "crt": {
                 let certPath = decodeURIComponent(uri.replace("file:///", "/"));
-                const read = RNFS.read(certPath, 2, 0, "utf8");
+                const read = RNFS.read(certPath, 2, 0, "base64");
                 return read.then(
                     response => {
                         NativeModules.Wrap_Cert.saveCertToStore(
                             certPath,
                             response === "--" ? "BASE64" : "DER",
-                            "MY",
+                            "ROOT",
                             (err, saveCert) => {
                                 if (err) {
                                     dispatch({ type: ADD_CERT_ERROR, payload: err });
                                     Alert.alert("Ошибка при добавлении сертификата");
                                 } else {
                                     dispatch({ type: ADD_CERT_SUCCESS, payload: name });
+                                    Alert.alert("Сертификат успешно добавлен");
                                     dispatch(readCertKeys());
                                 }
                             });
                     },
-                    err => { dispatch({ type: ADD_CERT_ERROR, payload: name }); Alert.alert(err); }
+                    err => { dispatch({ type: ADD_CERT_ERROR, payload: name }); Alert.alert(err + ""); }
                 );
             }
             case "key": {

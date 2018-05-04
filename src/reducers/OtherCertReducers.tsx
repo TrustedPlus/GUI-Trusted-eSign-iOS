@@ -19,7 +19,8 @@ export function otherCert (state = initialState, action) {
         note: action.payload[2],
         issuerName: action.payload[3],
         serialNumber: action.payload[4],
-        provider: action.payload[5]
+        provider: action.payload[5],
+        category: action.payload[6]
       };
     default:
       return state;

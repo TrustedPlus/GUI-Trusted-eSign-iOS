@@ -13,18 +13,6 @@
 
 @interface Ossl_CertRequest : NSObject
 
-struct keyUsageStruct{
-    BOOL dataEncipherment;
-    BOOL keyAgreement;
-    BOOL keyCertSign;
-    BOOL decipherOnly;
-    BOOL encipherOnly;
-    BOOL digitalSignature;
-    BOOL nonRepudiation;
-    BOOL cRLSign;
-    BOOL keyEncipherment;
-};
-
 struct extKeyUsageStruct{
     BOOL server;
     BOOL client;
@@ -32,7 +20,7 @@ struct extKeyUsageStruct{
     BOOL email;
 };
 
--(void) createRequest :(char *)algorithm :(int)length :(keyUsageStruct)keyUsage :(extKeyUsageStruct)extKeyUsage :(BOOL)exportableKey :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)outPathCsr :(char *)outPathKey;
+-(void) createRequest :(char *)algorithm :(int)length :(int)keyUsage :(extKeyUsageStruct)extKeyUsage :(BOOL)exportableKey :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)outPathCsr :(char *)outPathKey;
 -(void) createCertFromRequest :(char *)outPathCsr :(char *)outPathCer  :(char *)outPathKey;
 @end
 

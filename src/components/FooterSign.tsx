@@ -51,15 +51,17 @@ class FooterSign extends React.Component<FooterSignProps> {
             if (!otherCert.title) {
                 certIsNotNull = "noCert";
             }
-            footerleft = <FooterTab style={styles.footer}>
-                <FooterButton title="Зашифровать"
-                    disabled={certIsNotNull === "noCert" ? true : (isEnc === "enc" ? true : false) }
+            footerleft = <FooterTab>
+                <FooterButton title="Зашифровать" classic
+                    disabled={certIsNotNull === "noCert" ? true : (isEnc === "enc" ? true : false)}
                     icon="md-lock"
                     nav={() => encAssymmetric(files, otherCert, footer)} />
-                <FooterButton title="Расшифровать"
-                    disabled={ certIsNotNull === "noCert" ? true : (isDec === "dec" ? false : true)}
+                <FooterButton title="Расшифровать" classic
+                    disabled={certIsNotNull === "noCert" ? true : (isDec === "dec" ? false : true)}
                     icon="md-unlock"
                     nav={() => decAssymmetric(files, otherCert, footer)} />
+                <FooterButton title="Отправить" classic disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />
+                <FooterButton title="Удалить" classic icon="md-trash" nav={() => deleteFile(files, footer)} />
             </FooterTab>;
         }
         if (this.props.sign) { // если футер для мастера подписи
@@ -81,6 +83,8 @@ class FooterSign extends React.Component<FooterSignProps> {
                     disabled={certIsNotNull === "noCert" ? true : (isSign === "sig" ? true : false)}
                     icon="md-create"
                     nav={() => signFile(files, personalCert, footer)} />
+                <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />
+                <FooterButton title="Удалить" icon="md-trash" nav={() => deleteFile(files, footer)} />
                 { /*isddisabled === "sig" ? <FooterButton title="Снять"
                               disabled={isddisabled === "noCert" ? true : false }
                               icon="camera"
@@ -92,51 +96,10 @@ class FooterSign extends React.Component<FooterSignProps> {
             <Footer>
                 {footerleft}
                 {/*<SomeFooterTab button={buttons} />*/}
-                <FooterTab style={styles.footer}>
-                    <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />
-                    <FooterButton title="Удалить" icon="md-trash" nav={() => deleteFile(files, footer)} />
-                </FooterTab>;
             </Footer>
         );
     }
 }
-/*
-interface SomeButton {
-    title?: string;
-    disabled?: boolean;
-    onClick?: Function;
-}
-interface SomeFooterTabProps {
-    button?: SomeButton[];
-}
-
-class SomeFooterTab extends React.PureComponent<SomeFooterTabProps> {
-    render() {
-        return (
-            <Footer>
-                {
-                    this.props.button.map((btn) => {
-                        return (
-                            <FooterButton
-                                title={btn.title}
-                                disabled={btn.disabled}
-                                nav={() => btn.onClick} />
-                        );
-                    })
-                }
-            </Footer>
-        );
-    }
-}
-
-class SuperClass extends React.PureComponent {
-    render() {
-        return (
-            <FooterSign encrypt={}>
-            </FooterSign>
-        );
-    }
-} */
 
 function mapStateToProps(state) {
     return {

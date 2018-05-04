@@ -31,7 +31,7 @@ extern const char * providerIOS;
 #include <CSP/CSP_Certs.h>
 #include <CSP/CSP_Cipher.h>
 #include <CSP/CSP_Signer.h>
-//#include <CSP/CSP_CertRequest.h>
+#include <CSP/CSP_CertRequest.h>
 #endif
 
 #ifdef ProvOpenSSL
@@ -48,7 +48,7 @@ extern CSP_Cert *csp_Cert;
 extern CSP_Certs *csp_Certs;
 extern CSP_Cipher *csp_Cipher;
 extern CSP_Signer *csp_Signer;
-//extern CSP_CertRequest *csp_CertRequest;
+extern CSP_CertRequest *csp_CertRequest;
 #endif
 
 BOOL isGostCert(char *pathCert, char *format);

@@ -20,6 +20,7 @@
     "react-native": "0.55.3",
     "react-native-document-picker": "^2.1.0",
     "react-native-fs": "^2.9.12",
+    "react-native-material-dropdown": "^0.11.1",
     "react-native-modal-dropdown": "^0.6.2",
     "react-native-prompt": "^1.0.0",
     "react-navigation": "^1.5.11",

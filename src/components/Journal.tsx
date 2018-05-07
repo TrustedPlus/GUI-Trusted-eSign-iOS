@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, Text, Footer, FooterTab, Button, Icon } from "native-base";
+import { Container, Text, Footer, FooterTab, Button } from "native-base";
 import { ScrollView } from "react-native";
 import { Headers } from "./Headers";
 import { styles } from "../styles";

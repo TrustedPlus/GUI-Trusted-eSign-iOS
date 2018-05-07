@@ -7,7 +7,7 @@
 brew install node
 npm install -g react-native-cli
 npm install
-react-native link react-native-vector-icons
+react-native link
 
 Удалить папку node_modules/@types/node
 ```

@@ -1,16 +1,15 @@
 import * as React from "react";
-import { Container, View, List, Content, Button, Body, Text } from "native-base";
+import { Container, View, List, Button, Text } from "native-base";
 import { Image, RefreshControl, ScrollView } from "react-native";
 import { Headers } from "./Headers";
 import { styles } from "../styles";
-import SelectOtherСert from "./SelectOtherСert";
 import ListMenu from "./ListMenu";
 import { bindActionCreators } from "redux";
-import FooterSign from "./FooterSign";
+import FooterEnc from "./FooterEnc";
 import { connect } from "react-redux";
 import { footerAction, footerClose, readFiles, addFiles } from "../actions/index";
 import { readCertKeys } from "../actions/CertKeysAction";
-import { DocumentPicker, DocumentPickerUtil } from "react-native-document-picker";
+import { DocumentPicker } from "react-native-document-picker";
 
 interface IFile {
     extension: string;
@@ -128,7 +127,7 @@ class Encryption extends React.Component<EncryptionProps> {
 
         let footer, selectFiles = null;
         if (this.props.footer.arrButton.length) { // выбраны ли файлы
-            footer = <FooterSign encrypt />;
+            footer = <FooterEnc/>;
             selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey" }}>
                 выбрано файлов: {this.props.footer.arrButton.length}</Text>;
         } else {

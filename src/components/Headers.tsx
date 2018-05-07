@@ -5,7 +5,7 @@ import {styles} from "../styles";
 
 interface HeadersProps {
     title: string;
-    goBack(): void;
+    goBack?(): void;
   }
 
 export class Headers extends React.Component<HeadersProps> {
@@ -13,12 +13,12 @@ export class Headers extends React.Component<HeadersProps> {
     render() {
         return (
             <Header style={styles.header}>
-                <Left style={styles.left}>
+                { this.props.goBack ? <Left style={styles.left}>
                     <Button transparent onPress={() => this.props.goBack()}>
                         <Image style={styles.headerImage}
                         source={require("../../imgs/general/back_icon.png")}/>
                     </Button>
-                </Left>
+                </Left> : null}
                 <Body>
                     <Title><Text style={{color: "white" }}>{this.props.title}</Text></Title>
                 </Body>

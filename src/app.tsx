@@ -1,27 +1,43 @@
+import { App } from "./components/Menu";
 import * as React from "react";
-import { DrawerNavigator } from "react-navigation";
-import {menu} from "./components/Menu";
-import Signature from "./components/Signature";
-import Encryption from "./components/Encryption";
-import {Certificate} from "./components/Certificate";
-import {Repository} from "./components/Repository";
-import Journal from "./components/Journal";
-import {SideBar} from "./components/SideBar";
-import {License} from "./components/License";
-import {Help} from "./components/Help";
-import { createStore } from "redux";
-import reducers from "./reducers";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import logger from "redux-logger";
+import reducers from "../build/reducers/index";
+import thunk from "redux-thunk";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web and AsyncStorage for react-native
+import { PersistGate } from "redux-persist/integration/react";
+import * as RNFS from "react-native-fs";
+import { NativeModules } from "react-native";
 
-export const App = menu; /*DrawerNavigator({
-  Menu: { screen: menu},
-  Signature: { screen: Signature },
-  Encryption: { screen: Encryption },
-  Certificate: { screen: Certificate },
-  Repository: { screen: Repository},
-  Journal: { screen: Journal},
-  License: { screen: License},
-  Help: { screen: Help}
-},
-{
-  contentComponent: props => <SideBar {...props} />
-});*/
+const persistConfig = {
+   key: "root",
+   storage,
+   whitelist: ["logger"]
+};
+
+const persistedReducer = persistReducer(persistConfig, reducers);
+const store = createStore(persistedReducer, applyMiddleware(logger, thunk));
+const persistor = persistStore(store);
+
+export class MainApp extends React.Component {
+
+   componentDidMount() {
+      console.disableYellowBox = true;
+      NativeModules.Wrap_Main.init(
+         RNFS.DocumentDirectoryPath + "/store",
+         (err, label) => {
+            console.log(err);
+         });
+   }
+   render() {
+      return (
+         <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+               <App />
+            </PersistGate>
+         </Provider>
+      );
+   }
+}

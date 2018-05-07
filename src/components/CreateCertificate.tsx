@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Container, Item, CheckBox, Label, Input, Footer, FooterTab, Button, List, ListItem, Header, Title, Text, Content, Icon, Right, Body, Left, Form, NativeBase } from "native-base";
+import { Container, Item, Label, Input, Footer, FooterTab, Button, List, ListItem, Text, Content, Icon, Right, Body, Form } from "native-base";
 import { Headers } from "./Headers";
 import { styles } from "../styles";
-import { View, Slider, Switch, Alert, NativeModules, Picker } from "react-native";
+import { View, Switch, Alert, NativeModules } from "react-native";
 import * as RNFS from "react-native-fs";
 import { Dropdown } from "react-native-material-dropdown";
 
@@ -179,7 +179,6 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 
    render() {
       const { navigate, goBack } = this.props.navigation;
-      const FixedPicker: any = Picker;
       console.log(this.state);
       return (
          <Container style={styles.container}>

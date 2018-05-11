@@ -74,8 +74,4 @@ export class PersonalСert extends React.Component<PersonalСertProps> {
          </Container>
       );
    }
-
-   componentDidMount() {
-      this.props.readCertKeys();
-   }
 }

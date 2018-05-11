@@ -50,7 +50,7 @@ export class AddCertButton extends React.Component<AddCertButtonProps, AddCertBu
                [
                   { text: "Импортировать сертификат", onPress: () => this.documentPicker() },
                   { text: "Создать самоподписаный сертификат", onPress: () => this.props.navigate("CreateCertificate") },
-                  { text: "Отмена", onPress: () => null }
+                  { text: "Отмена", onPress: () => null, style: "cancel"}
                ]
             );
          }}>

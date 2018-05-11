@@ -55,7 +55,7 @@ class Main extends React.Component<MainProps> {
       const { navigate } = this.props.navigation;
       const { files, pesronalCertKeys, lastlog } = this.props;
       let length = "выбрано файлов: " + files.length;
-      let persCert = "сертификатов: " + pesronalCertKeys.length;
+      let persCert = "личных сертификатов: " + pesronalCertKeys.filter(cert => cert.category.toUpperCase() === "MY").length;
       let lastlognote = lastlog ? "последняя запись: " + lastlog : "действий не совершалось";
       return (
          <Container style={styles.container}>
@@ -79,8 +79,8 @@ class Main extends React.Component<MainProps> {
    }
 
    componentDidMount() {
-      if (this.props.files.length === 0) { this.props.readFiles(); }
-      if (this.props.pesronalCertKeys.length === 0) { this.props.readCertKeys(); }
+      this.props.readFiles();
+      this.props.readCertKeys();
    }
 }
 

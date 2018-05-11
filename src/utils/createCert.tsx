@@ -12,27 +12,22 @@ function randomRowGeneration() {
     return text;
 }
 
-export function genSelfSignedCertWithoutRequest(algorithm, certAssignment: boolean[], CN, email, org, city, obl, country, goBack) {
-    NativeModules.Wrap_CertRequest.genSelfSignedCertWithoutRequest(
-        algorithm,
-        randomRowGeneration(),
-        0,
-        certAssignment, CN, email, org, city, obl, country,
-        RNFS.DocumentDirectoryPath + "/Files/" + CN + ".cer",
-        (err, verify) => {
-            console.log("err: " + err);
-            console.log("verify: " + verify);
-            if (verify) {
+export function genSelfSignedCertWithoutRequest(algorithm, certAssignment: boolean[], CN, email, org, city, obl, country) {
+    return new Promise((resolve, reject) => {
+        NativeModules.Wrap_CertRequest.genSelfSignedCertWithoutRequest(
+            algorithm,
+            randomRowGeneration(),
+            0,
+            certAssignment, CN, email, org, city, obl, country,
+            RNFS.DocumentDirectoryPath + "/Files/" + CN + ".cer",
+            (err, verify) => {
                 RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + CN + ".cer");
-                AlertIOS.alert(
-                    "Сертификат и ключ создан",
-                    null,
-                    [
-                       { text: "Импортировать сертификат", onPress: () => this.props.goBack() }
-                    ]
-                 );
-            } else {
-                Alert.alert(err);
-            }
-        });
+                if (!!verify) {
+                    resolve(verify);
+                }
+                if (err) {
+                    reject(err);
+                }
+            });
+    });
 }

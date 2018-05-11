@@ -2,10 +2,19 @@ import * as React from "react";
 import { Container, Item, Label, Input, Footer, FooterTab, Button, List, ListItem, Text, Content, Icon, Right, Body, Form } from "native-base";
 import { Headers } from "./Headers";
 import { styles } from "../styles";
-import { View, Switch, Alert } from "react-native";
+import { View, Switch, Alert, AlertIOS } from "react-native";
 import * as RNFS from "react-native-fs";
 import { Dropdown } from "react-native-material-dropdown";
 import { genSelfSignedCertWithoutRequest } from "../utils/createCert";
+import { readCertKeys } from "../actions/CertKeysAction";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+
+function mapDispatchToProps(dispatch) {
+   return {
+       readCertKeys: bindActionCreators(readCertKeys, dispatch)
+   };
+}
 
 interface ListWithSwitchProps {
    text: string;
@@ -78,8 +87,10 @@ interface CreateCertificateState {
 
 interface CreateCertificateProps {
    navigation: any;
+   readCertKeys(): void;
 }
 
+@(connect(null, mapDispatchToProps) as any)
 export class CreateCertificate extends React.Component<CreateCertificateProps, CreateCertificateState> {
 
    static navigationOptions = {
@@ -131,9 +142,20 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
             this.state.org,
             this.state.city,
             this.state.obl,
-            this.state.country,
-            () => this.props.navigation.goBack()
-            );
+            this.state.country
+         ).then(() => {
+            setTimeout(() => {
+               AlertIOS.alert(
+                  "Сертификат и ключ создан",
+                  null,
+                  [
+                     { text: "Ок", onPress: () => {this.props.readCertKeys(); this.props.navigation.goBack(); }},
+                  ]
+               );
+            }, 500);
+         }).catch(err => {
+            Alert.alert(err + "");
+         });
       } else {
          this.state.CN === "" ? this.setState({ errorInputCN: true }) : null;
          Alert.alert("Заполните поле CN");
@@ -142,7 +164,6 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 
    render() {
       const { navigate, goBack } = this.props.navigation;
-      console.log(this.state);
       return (
          <Container style={styles.container}>
             <Headers title="Создание сертификата" goBack={() => goBack()} />

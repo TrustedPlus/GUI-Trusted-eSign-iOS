@@ -30,4 +30,12 @@ CSP_BOOL selfSignedCert(PCCERT_CONTEXT pCertCtx);
 BYTE *readFromFile(char *file, char *format, DWORD &cbContent);
 void writeToFile(BYTE *pbSignedMessageBlob, DWORD cbSignedMessageBlob, char *file, char *format);
 
+void installCertifiacteFromContainer(TrustedHandle<std::string> contName, int provType, TrustedHandle<std::string> provName);
+void installCertifiacteToContainer(TrustedHandle<Certificate> cert, TrustedHandle<std::string> contName, int provType, TrustedHandle<std::string> provName);
+TrustedHandle<std::string> getContainerNameByCertificate(TrustedHandle<Certificate> cert, TrustedHandle<std::string> category);
+PCCERT_CONTEXT createCertificateContext(TrustedHandle<Certificate> cert);
+bool findExistingCertificate(OUT PCCERT_CONTEXT &pOutCertContext, IN HCERTSTORE hCertStore, IN PCCERT_CONTEXT pCertContext, IN DWORD dwFindFlags, IN DWORD dwCertEncodingType );
+bool cmpCertAndContFP(LPCSTR szContainerName, LPBYTE pbFPCert, DWORD cbFPCert);
+LPCWSTR provTypeToProvNameW(DWORD dwProvType);
+
 #endif /* CSP_Helper_h */

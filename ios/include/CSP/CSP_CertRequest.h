@@ -32,16 +32,19 @@
         BOOL email;
     };
     
-    CPCA15UserInfo *cpca15UserInfo;
+    CPCA15UserInfo* userInfo15;
     UnixRequest * pRequest;
     char* charRequest;
 }
 
--(long) get_templates :(char *)url :(std::vector<std::string>&)templates;
--(int) create :(char *)url :(char *)temp :(char *)containerName :(char *)CN :(char *)org :(char *)city :(char *)region :(char *)email :(char *)country :(char *)outPathToCsr;
--(int)getCertFromRequest :(char *)url :(char *)outPathToCsr :(char *)outPathToCert;
+-(CPCA15UserInfo *) registration :(const char *)url :(char *)CN :(char *)org :(char *)city :(char *)region :(char *)email :(char *)country;
+-(bool) authentication :(char *)tokenID :(char *)password;
+-(std::vector<std::wstring>) get_templates :(char *)url;
+-(bool) create :(char *)url :(char *)temp :(char *)containerName :(int)keySpec :(int)ProvType :(char *)outPathToCsr;
+-(bool) getCertFromRequest :(char *)url :(char *)outPathToCsr :(char *)outPathToCert;
+-(bool) getCACert :(char *)url :(char *)outPathToCert;
 
--(int) createSelfSignedCertificateCSP :(char *)algorithm :(char *)containerName :(int)keyType :(extKeyUsageStructure)extKeyUsage :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)file;
+-(bool) createSelfSignedCertificateCSP :(char *)algorithm :(char *)containerName :(int)keyType :(extKeyUsageStructure)extKeyUsage :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)file;
     
 @end
 

@@ -36,7 +36,7 @@ RCT_EXPORT_METHOD(genRequestOnCert: (NSString *)nsAlgorithm: (NSString *)nsUrl: 
       }
       else if (std::string(algorithm) == "GOST P 34.10-2012 256 bit"){
         provType = PROV_GOST_2012_256;
-      }
+      } 
       else if (std::string(algorithm) == "GOST P 34.10-2012 512 bit"){
         provType = PROV_GOST_2012_512;
       }

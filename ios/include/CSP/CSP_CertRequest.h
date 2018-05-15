@@ -9,6 +9,7 @@
 #ifndef CSP_CertRequest_h
 #define CSP_CertRequest_h
 
+#include "Constants.h"
 #include "CSP_Helper.h"
 
 #import <Foundation/Foundation.h>
@@ -21,8 +22,6 @@
 #include <cstdio>
 #include <cstring>
 #include <time.h>
-
-#define ENCODE X509_ASN_ENCODING | PKCS_7_ASN_ENCODING
 
 @interface CSP_CertRequest : NSObject{
     struct extKeyUsageStructure{

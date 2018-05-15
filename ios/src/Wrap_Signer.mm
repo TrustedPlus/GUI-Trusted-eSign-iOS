@@ -3,7 +3,7 @@
 @implementation Wrap_Signer
 
 RCT_EXPORT_MODULE();
-//+
+//подпись 
 RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (NSString *)infilename: (NSString *)outfilename: (NSString *)format: (RCTResponseSenderBlock)callback) {
   try{
     char *pSerialNumber = (char *) [serialNumber UTF8String];
@@ -20,8 +20,7 @@ RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSStrin
 #endif
 #ifdef ProvCryptoPro
     if (strcmp(prov, "CRYPTOPRO") == 0){
-      //b = [csp_Signer doSign:pSerialNumber :pCategory :infile :outfile :FALSE];
-      b = [csp_Signer SignMessage:pSerialNumber :pCategory :infile :outfile :pFormat];
+      b = [csp_Signer signMessage:pSerialNumber :pCategory :infile :outfile :pFormat];
     }
 #endif
     
@@ -48,7 +47,7 @@ RCT_EXPORT_METHOD(coSign: (NSString *)serialNumber: (NSString *)category: (NSStr
 #endif
 #ifdef ProvCryptoPro
     if (strcmp(prov, "CRYPTOPRO") == 0){
-      b = [csp_Signer CosignMessage:pSerialNumber :pCategory :signfile :pFormat];
+      b = [csp_Signer cosignMessage:pSerialNumber :pCategory :signfile :pFormat];
     }
 #endif
     
@@ -74,7 +73,7 @@ RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString 
     catch (TrustedHandle<Exception> e){
 #endif
 #ifdef ProvCryptoPro
-      b = [csp_Signer DeCosignMessage:infile :pFormat :outfile];
+      b = [csp_Signer deCosignMessage:infile :pFormat :outfile];
 #endif
     }
     
@@ -99,7 +98,7 @@ RCT_EXPORT_METHOD(verify: (NSString *)checkfilename: (NSString *)format: (RCTRes
 #endif
 #ifdef ProvCryptoPro
       //b = [csp_Signer doVerifyAttach:inFileName];
-      b = [csp_Signer VerifyCosignedMessage:inFileName :inFormat];
+      b = [csp_Signer verifyCosignedMessage:inFileName :inFormat];
 #endif
     }
     
@@ -136,7 +135,7 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)checkfilename: (NSString *)format: (R
 #endif
 #ifdef ProvCryptoPro
       [arrayInfoAboutSigners removeAllObjects];
-      std::vector<infoCSPStruct> vec = [csp_Signer GetSignInfo:inFileName :inFormat];
+      std::vector<infoCSPStruct> vec = [csp_Signer getSignInfo:inFileName :inFormat];
       for (int i = 0; i < vec.size(); i++){
         NSMutableDictionary *arrayInfoAboutSigner = [NSMutableDictionary dictionary];
         if (vec[i].status)

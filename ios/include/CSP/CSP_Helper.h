@@ -1,6 +1,8 @@
 #ifndef CSP_Helper_h
 #define CSP_Helper_h
 
+#include "Constants.h"
+
 #include "signed_data.h"
 #import <Foundation/Foundation.h>
 #import <CPROCSP/CPROCSP.h>
@@ -17,10 +19,10 @@ PCCERT_CONTEXT findCertInCSPStore(char *serialNumber, char *category);
 BYTE *readFile(char *file, DWORD &cbContent);
 PCCERT_CONTEXT findCertInCSPStore_1(char *hash, char *category);
 
-char *GetHashOidByKeyOid(IN char *szKeyOid);
-BOOL VerifyCertificateChain(PCCERT_CONTEXT pCertCtx);
-TCHAR *GetFileExtension(TCHAR *szFile);
-BOOL CheckFileExtension(TCHAR * szFile);
+char *getHashOidByKeyOid(IN char *szKeyOid);
+BOOL verifyCertificateChain(PCCERT_CONTEXT pCertCtx);
+TCHAR *getFileExtension(TCHAR *szFile);
+BOOL checkFileExtension(TCHAR * szFile);
 
 //функция проверки наличия у сертификата закрытого ключа
 CSP_BOOL hasPrivateKey(PCCERT_CONTEXT pUserCert);

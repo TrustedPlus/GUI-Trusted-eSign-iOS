@@ -49,6 +49,7 @@ extern CSP_Certs *csp_Certs;
 extern CSP_Cipher *csp_Cipher;
 extern CSP_Signer *csp_Signer;
 extern CSP_CertRequest *csp_CertRequest;
+extern CSP_Csp *csp_Store;
 #endif
 
 BOOL isGostCert(char *pathCert, char *format);

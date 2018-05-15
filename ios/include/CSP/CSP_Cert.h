@@ -9,6 +9,7 @@
 #ifndef CSP_Cert_h
 #define CSP_Cert_h
 
+#include "Constants.h"
 #include "CSP_Helper.h"
 
 #include "provider_system.h"
@@ -20,9 +21,6 @@
 #import "stdio.h"
 #import "map"
 #import "vector"
-
-#define MY_ENCODING_TYPE  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
-#define TYPE_DER  (PKCS_7_ASN_ENCODING | X509_ASN_ENCODING)
 
 @interface CSP_Cert : NSObject{
 @public

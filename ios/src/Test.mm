@@ -15,8 +15,7 @@ RCT_EXPORT_METHOD(getCertificates: (RCTResponseSenderBlock)callback){
 #endif
 #ifdef ProvCryptoPro
     NSMutableArray *listCertsCSP = [NSMutableArray array];
-    CSP_Csp *wCSPStore =[[CSP_Csp alloc] init];
-    listCertsCSP = [wCSPStore UnloadCertsFromStore];
+    listCertsCSP = [csp_Store unloadCertsFromStore];
     [listCerts addObjectsFromArray: listCertsCSP];
 #endif
     callback(@[[NSNull null], [listCerts copy]]);
@@ -29,5 +28,79 @@ RCT_EXPORT_METHOD(getCertificates: (RCTResponseSenderBlock)callback){
 RCT_EXPORT_METHOD(getCountsOfCertsInCryptoStore: (RCTResponseSenderBlock)callback){
     callback(@[[NSNumber numberWithInt: listCerts.count]]);
 }
+
+RCT_EXPORT_METHOD(getProviders: (RCTResponseSenderBlock)callback){
+  try{
+    std::vector<ProviderProps> prov = [csp_Store enumProvider];
+    
+    NSMutableArray *arrayProviders = [NSMutableArray array];
+    for (int i = 0; i < prov.size(); i++){
+      NSMutableDictionary *provider = [NSMutableDictionary dictionary];
+      
+      provider[@"type"] = @(prov[i].type);
+      provider[@"name"] = @(prov[i].name->c_str());
+      
+      [arrayProviders addObject: provider];
+    }
+    
+    callback(@[[NSNull null], [arrayProviders copy]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
+  }
+}
+
+RCT_EXPORT_METHOD(getContainers: (NSInteger)nsType: (NSString *)nsName: (RCTResponseSenderBlock)callback){
+  try{
+    int type = (int)nsType;
+    char *name = (char *) [nsName UTF8String];
+    
+    TrustedHandle<std::string> hName = new std::string(name);
+    
+    std::vector<TrustedHandle<ContainerName>> providerContainers = [csp_Store enumContainers:type :hName];
+    
+    NSMutableArray *arrayContainers = [NSMutableArray array];
+    for (int i = 0; i < providerContainers.size(); i++){
+      NSMutableDictionary *container = [NSMutableDictionary dictionary];
+      
+      std::wstring wstrContainer = providerContainers[i]->container->c_str();
+      std::string strContainer( wstrContainer.begin(), wstrContainer.end() );
+      
+      std::wstring wstrFqcnW = providerContainers[i]->fqcnW->c_str();
+      std::string strFqcnW( wstrFqcnW.begin(), wstrFqcnW.end() );
+      
+      container[@"container"] = @(strContainer.c_str());
+      container[@"fqcnA"] = @(providerContainers[i]->fqcnA->c_str());
+      container[@"fqcnW"] = @(strFqcnW.c_str());
+      container[@"unique"] = @(providerContainers[i]->unique->c_str());
+      
+      [arrayContainers addObject: container];
+    }
+    
+    callback(@[[NSNull null], [arrayContainers copy]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
+  }
+}
+
+RCT_EXPORT_METHOD(deleteContainer: (NSString *)nsContName: (NSInteger)nsType: (NSString *)nsName: (RCTResponseSenderBlock)callback){
+  try{
+    char *contName = (char *) [nsContName UTF8String];
+    int type = (int)nsType;
+    char *name = (char *) [nsName UTF8String];
+    
+    TrustedHandle<std::string> hContName = new std::string(contName);
+    TrustedHandle<std::string> hName = new std::string(name);
+    
+    [csp_Store deleteContainer:hContName :type :hName];
+    
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
+  }
+}
+
 
 @end

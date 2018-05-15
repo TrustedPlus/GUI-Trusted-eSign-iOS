@@ -26,6 +26,7 @@ const char * providerIOS = "IOS";
   CSP_Cipher *csp_Cipher = [[CSP_Cipher alloc] init];
   CSP_Signer *csp_Signer = [[CSP_Signer alloc] init];
   CSP_CertRequest *csp_CertRequest = [[CSP_CertRequest alloc] init];
+  CSP_Csp *csp_Store =[[CSP_Csp alloc] init];
 #endif
 
 BOOL isGostCert(char *pathCert, char *format){

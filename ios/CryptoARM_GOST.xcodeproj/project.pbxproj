@@ -13,6 +13,7 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* CryptoARM_GOSTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CryptoARM_GOSTTests.m */; };
+		0DD3DC8984E342439F9F1C5D /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FAA421CFD0B4009A87CA3A5 /* libRNVectorIcons.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -48,101 +49,49 @@
 		9E422A3D20AAD8DF002883CC /* libCSP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3B20AAD8DF002883CC /* libCSP.a */; };
 		9E422A3E20AAD8DF002883CC /* libOSSL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3C20AAD8DF002883CC /* libOSSL.a */; };
 		9E422A4020AAD8E8002883CC /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3F20AAD8E8002883CC /* CPROCSP.framework */; };
-		9E422AA920AAD916002883CC /* CP_Short.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A4220AAD915002883CC /* CP_Short.strings */; };
-		9E422AAA20AAD916002883CC /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A4420AAD915002883CC /* CP_Localizable.strings */; };
-		9E422AAB20AAD916002883CC /* RndmBioViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A4620AAD915002883CC /* RndmBioViewController.xib */; };
-		9E422AAC20AAD916002883CC /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A4920AAD915002883CC /* librdrdsrf.cat */; };
-		9E422AAD20AAD916002883CC /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A4A20AAD915002883CC /* librdrsup.cat */; };
-		9E422AAE20AAD916002883CC /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A4B20AAD915002883CC /* librdrfat12.cat */; };
-		9E422AAF20AAD916002883CC /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A4C20AAD915002883CC /* librdrrndm0.cat */; };
-		9E422AB020AAD916002883CC /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A4D20AAD915002883CC /* csp_error_messages.cat */; };
-		9E422AB120AAD916002883CC /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A4E20AAD915002883CC /* librdrnova.cat */; };
-		9E422AB220AAD916002883CC /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A4F20AAD915002883CC /* librdrpcsc.cat */; };
-		9E422AB320AAD916002883CC /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5020AAD915002883CC /* librdremv.cat */; };
-		9E422AB420AAD916002883CC /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5120AAD915002883CC /* librdrric.cat */; };
-		9E422AB520AAD916002883CC /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5220AAD915002883CC /* librdrrndmbio_gui.cat */; };
-		9E422AB620AAD916002883CC /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5320AAD915002883CC /* libcsp.cat */; };
-		9E422AB720AAD916002883CC /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5620AAD915002883CC /* librdrdsrf.cat */; };
-		9E422AB820AAD916002883CC /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5720AAD915002883CC /* librdrsup.cat */; };
-		9E422AB920AAD916002883CC /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5820AAD915002883CC /* librdrfat12.cat */; };
-		9E422ABA20AAD916002883CC /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5920AAD915002883CC /* librdrrndm0.cat */; };
-		9E422ABB20AAD916002883CC /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5A20AAD915002883CC /* csp_error_messages.cat */; };
-		9E422ABC20AAD916002883CC /* librdrjacarta.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5B20AAD915002883CC /* librdrjacarta.cat */; };
-		9E422ABD20AAD916002883CC /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5C20AAD915002883CC /* librdrnova.cat */; };
-		9E422ABE20AAD916002883CC /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5D20AAD915002883CC /* librdrpcsc.cat */; };
-		9E422ABF20AAD916002883CC /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5E20AAD915002883CC /* librdremv.cat */; };
-		9E422AC020AAD916002883CC /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A5F20AAD915002883CC /* librdrric.cat */; };
-		9E422AC120AAD916002883CC /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6020AAD915002883CC /* librdrrndmbio_gui.cat */; };
-		9E422AC220AAD916002883CC /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6120AAD915002883CC /* libcsp.cat */; };
-		9E422AC320AAD916002883CC /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6320AAD915002883CC /* librdrdsrf.cat */; };
-		9E422AC420AAD916002883CC /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6420AAD915002883CC /* librdrsup.cat */; };
-		9E422AC520AAD916002883CC /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6520AAD915002883CC /* librdrfat12.cat */; };
-		9E422AC620AAD916002883CC /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6620AAD915002883CC /* librdrrndm0.cat */; };
-		9E422AC720AAD916002883CC /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6720AAD915002883CC /* csp_error_messages.cat */; };
-		9E422AC820AAD916002883CC /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6820AAD915002883CC /* librdrnova.cat */; };
-		9E422AC920AAD916002883CC /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6920AAD915002883CC /* librdrpcsc.cat */; };
-		9E422ACA20AAD916002883CC /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6A20AAD915002883CC /* librdremv.cat */; };
-		9E422ACB20AAD916002883CC /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6B20AAD915002883CC /* librdrric.cat */; };
-		9E422ACC20AAD916002883CC /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6C20AAD915002883CC /* librdrrndmbio_gui.cat */; };
-		9E422ACD20AAD916002883CC /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6D20AAD915002883CC /* libcsp.cat */; };
-		9E422ACE20AAD916002883CC /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A6F20AAD915002883CC /* librdrdsrf.cat */; };
-		9E422ACF20AAD916002883CC /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7020AAD915002883CC /* librdrsup.cat */; };
-		9E422AD020AAD916002883CC /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7120AAD915002883CC /* librdrfat12.cat */; };
-		9E422AD120AAD916002883CC /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7220AAD915002883CC /* librdrrndm0.cat */; };
-		9E422AD220AAD916002883CC /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7320AAD915002883CC /* csp_error_messages.cat */; };
-		9E422AD320AAD916002883CC /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7420AAD915002883CC /* librdrnova.cat */; };
-		9E422AD420AAD916002883CC /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7520AAD915002883CC /* librdrpcsc.cat */; };
-		9E422AD520AAD916002883CC /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7620AAD915002883CC /* librdremv.cat */; };
-		9E422AD620AAD916002883CC /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7720AAD915002883CC /* librdrric.cat */; };
-		9E422AD720AAD916002883CC /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7820AAD915002883CC /* librdrrndmbio_gui.cat */; };
-		9E422AD820AAD916002883CC /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7920AAD915002883CC /* libcsp.cat */; };
-		9E422AD920AAD916002883CC /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7B20AAD915002883CC /* librdrdsrf.cat */; };
-		9E422ADA20AAD916002883CC /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7C20AAD915002883CC /* librdrsup.cat */; };
-		9E422ADB20AAD916002883CC /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7D20AAD915002883CC /* librdrfat12.cat */; };
-		9E422ADC20AAD916002883CC /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7E20AAD915002883CC /* librdrrndm0.cat */; };
-		9E422ADD20AAD916002883CC /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A7F20AAD915002883CC /* csp_error_messages.cat */; };
-		9E422ADE20AAD916002883CC /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8020AAD915002883CC /* librdrnova.cat */; };
-		9E422ADF20AAD916002883CC /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8120AAD915002883CC /* librdrpcsc.cat */; };
-		9E422AE020AAD916002883CC /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8220AAD915002883CC /* librdremv.cat */; };
-		9E422AE120AAD916002883CC /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8320AAD915002883CC /* librdrric.cat */; };
-		9E422AE220AAD916002883CC /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8420AAD915002883CC /* librdrrndmbio_gui.cat */; };
-		9E422AE320AAD916002883CC /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8520AAD915002883CC /* libcsp.cat */; };
-		9E422AE420AAD916002883CC /* librdrdsrf.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8720AAD915002883CC /* librdrdsrf.cat */; };
-		9E422AE520AAD916002883CC /* librdrsup.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8820AAD915002883CC /* librdrsup.cat */; };
-		9E422AE620AAD916002883CC /* librdrfat12.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8920AAD915002883CC /* librdrfat12.cat */; };
-		9E422AE720AAD916002883CC /* librdrrndm0.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8A20AAD915002883CC /* librdrrndm0.cat */; };
-		9E422AE820AAD916002883CC /* csp_error_messages.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8B20AAD915002883CC /* csp_error_messages.cat */; };
-		9E422AE920AAD916002883CC /* librdrnova.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8C20AAD915002883CC /* librdrnova.cat */; };
-		9E422AEA20AAD916002883CC /* librdrpcsc.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8D20AAD915002883CC /* librdrpcsc.cat */; };
-		9E422AEB20AAD916002883CC /* librdremv.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8E20AAD915002883CC /* librdremv.cat */; };
-		9E422AEC20AAD916002883CC /* librdrric.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A8F20AAD915002883CC /* librdrric.cat */; };
-		9E422AED20AAD916002883CC /* librdrrndmbio_gui.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9020AAD915002883CC /* librdrrndmbio_gui.cat */; };
-		9E422AEE20AAD916002883CC /* libcsp.cat in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9120AAD915002883CC /* libcsp.cat */; };
-		9E422AEF20AAD916002883CC /* CPROCertviewViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9220AAD915002883CC /* CPROCertviewViewControllerIPhone.xib */; };
-		9E422AF020AAD916002883CC /* CPROCertviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9320AAD916002883CC /* CPROCertviewViewController.xib */; };
-		9E422AF120AAD916002883CC /* RndmBioViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9420AAD916002883CC /* RndmBioViewControllerIPhone.xib */; };
-		9E422AF220AAD916002883CC /* root.sto in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9520AAD916002883CC /* root.sto */; };
-		9E422AF320AAD916002883CC /* SelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9620AAD916002883CC /* SelectionViewController.xib */; };
-		9E422AF420AAD916002883CC /* TemplateSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9720AAD916002883CC /* TemplateSelectionViewControllerIPhone.xib */; };
-		9E422AF520AAD916002883CC /* TemplateSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9820AAD916002883CC /* TemplateSelectionViewController.xib */; };
-		9E422AF620AAD916002883CC /* RequestSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9920AAD916002883CC /* RequestSelectionViewController.xib */; };
-		9E422AF720AAD916002883CC /* MSCARequestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9A20AAD916002883CC /* MSCARequestViewController.xib */; };
-		9E422AF820AAD916002883CC /* CPCAViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9B20AAD916002883CC /* CPCAViewControllerIPhone.xib */; };
-		9E422AF920AAD916002883CC /* CPCAViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9C20AAD916002883CC /* CPCAViewController.xib */; };
-		9E422AFA20AAD916002883CC /* MSCARequestViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9D20AAD916002883CC /* MSCARequestViewControllerIPhone.xib */; };
-		9E422AFB20AAD916002883CC /* NewUserViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9E20AAD916002883CC /* NewUserViewControllerIPhone.xib */; };
-		9E422AFC20AAD916002883CC /* config.ini in Resources */ = {isa = PBXBuildFile; fileRef = 9E422A9F20AAD916002883CC /* config.ini */; };
-		9E422AFD20AAD916002883CC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E422AA020AAD916002883CC /* Images.xcassets */; };
-		9E422AFE20AAD916002883CC /* RequestSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422AA320AAD916002883CC /* RequestSelectionViewControllerIPhone.xib */; };
-		9E422AFF20AAD916002883CC /* PaneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422AA420AAD916002883CC /* PaneViewController.xib */; };
-		9E422B0020AAD916002883CC /* NewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422AA520AAD916002883CC /* NewUserViewController.xib */; };
-		9E422B0120AAD916002883CC /* kis_1 in Resources */ = {isa = PBXBuildFile; fileRef = 9E422AA620AAD916002883CC /* kis_1 */; };
-		9E422B0220AAD916002883CC /* PaneViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422AA720AAD916002883CC /* PaneViewControllerIPhone.xib */; };
-		9E422B0320AAD916002883CC /* SelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E422AA820AAD916002883CC /* SelectionViewControllerIPhone.xib */; };
-		9E422B0520AAD931002883CC /* license.enc in Resources */ = {isa = PBXBuildFile; fileRef = 9E422B0420AAD931002883CC /* license.enc */; };
-		9E422B0720AAD942002883CC /* ru.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9E422B0620AAD942002883CC /* ru.lproj */; };
-		9E422B0E20AAD95E002883CC /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9E422B0D20AAD95E002883CC /* en.lproj */; };
 		9E422B1020AAD9C8002883CC /* librdrpcsc_empty.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */; };
+		9E73E7D120AAF9CF00CE8D30 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C420AAF9CF00CE8D30 /* Octicons.ttf */; };
+		9E73E7D220AAF9CF00CE8D30 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C520AAF9CF00CE8D30 /* Roboto_medium.ttf */; };
+		9E73E7D320AAF9CF00CE8D30 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C620AAF9CF00CE8D30 /* Entypo.ttf */; };
+		9E73E7D420AAF9CF00CE8D30 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C720AAF9CF00CE8D30 /* Foundation.ttf */; };
+		9E73E7D520AAF9CF00CE8D30 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C820AAF9CF00CE8D30 /* Ionicons.ttf */; };
+		9E73E7D620AAF9CF00CE8D30 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C920AAF9CF00CE8D30 /* rubicon-icon-font.ttf */; };
+		9E73E7D720AAF9CF00CE8D30 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CA20AAF9CF00CE8D30 /* FontAwesome.ttf */; };
+		9E73E7D820AAF9CF00CE8D30 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CB20AAF9CF00CE8D30 /* Zocial.ttf */; };
+		9E73E7D920AAF9CF00CE8D30 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CC20AAF9CF00CE8D30 /* Roboto.ttf */; };
+		9E73E7DA20AAF9CF00CE8D30 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CD20AAF9CF00CE8D30 /* EvilIcons.ttf */; };
+		9E73E7DB20AAF9CF00CE8D30 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CE20AAF9CF00CE8D30 /* OFL.txt */; };
+		9E73E7DC20AAF9CF00CE8D30 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CF20AAF9CF00CE8D30 /* SimpleLineIcons.ttf */; };
+		9E73E7DD20AAF9CF00CE8D30 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7D020AAF9CF00CE8D30 /* MaterialIcons.ttf */; };
+		9EE07A8820AB020F00741DC6 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A8720AB020F00741DC6 /* en.lproj */; };
+		9EE07A9D20AB03E000741DC6 /* TemplateSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */; };
+		9EE07A9E20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */; };
+		9EE07AA120AB03E800741DC6 /* SelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9F20AB03E800741DC6 /* SelectionViewController.xib */; };
+		9EE07AA220AB03E800741DC6 /* SelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA020AB03E800741DC6 /* SelectionViewControllerIPhone.xib */; };
+		9EE07AA420AB03F100741DC6 /* root.sto in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA320AB03F100741DC6 /* root.sto */; };
+		9EE07AAB20AB03FE00741DC6 /* PaneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA520AB03FD00741DC6 /* PaneViewController.xib */; };
+		9EE07AAC20AB03FE00741DC6 /* RequestSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA620AB03FD00741DC6 /* RequestSelectionViewController.xib */; };
+		9EE07AAD20AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA720AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib */; };
+		9EE07AAE20AB03FE00741DC6 /* PaneViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA820AB03FE00741DC6 /* PaneViewControllerIPhone.xib */; };
+		9EE07AAF20AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA920AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib */; };
+		9EE07AB020AB03FE00741DC6 /* RndmBioViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AAA20AB03FE00741DC6 /* RndmBioViewController.xib */; };
+		9EE07AB520AB040600741DC6 /* MSCARequestViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB120AB040500741DC6 /* MSCARequestViewControllerIPhone.xib */; };
+		9EE07AB620AB040600741DC6 /* NewUserViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB220AB040500741DC6 /* NewUserViewControllerIPhone.xib */; };
+		9EE07AB720AB040600741DC6 /* NewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB320AB040500741DC6 /* NewUserViewController.xib */; };
+		9EE07AB820AB040600741DC6 /* MSCARequestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB420AB040600741DC6 /* MSCARequestViewController.xib */; };
+		9EE07ABB20AB040F00741DC6 /* kis_1 in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB920AB040F00741DC6 /* kis_1 */; };
+		9EE07ABC20AB040F00741DC6 /* locale in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ABA20AB040F00741DC6 /* locale */; };
+		9EE07ABE20AB041800741DC6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ABD20AB041800741DC6 /* Images.xcassets */; };
+		9EE07AC420AB042000741DC6 /* CPCAViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ABF20AB042000741DC6 /* CPCAViewController.xib */; };
+		9EE07AC520AB042000741DC6 /* CPROCertviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AC020AB042000741DC6 /* CPROCertviewViewController.xib */; };
+		9EE07AC620AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AC120AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib */; };
+		9EE07AC720AB042000741DC6 /* config.ini in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AC220AB042000741DC6 /* config.ini */; };
+		9EE07AC820AB042000741DC6 /* CPCAViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AC320AB042000741DC6 /* CPCAViewControllerIPhone.xib */; };
+		9EE07ACE20AB042F00741DC6 /* CP_Short.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ACA20AB042F00741DC6 /* CP_Short.strings */; };
+		9EE07ACF20AB042F00741DC6 /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ACC20AB042F00741DC6 /* CP_Localizable.strings */; };
+		9EE07AD520AB043500741DC6 /* CP_Short.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AD120AB043500741DC6 /* CP_Short.strings */; };
+		9EE07AD620AB043500741DC6 /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AD320AB043500741DC6 /* CP_Localizable.strings */; };
+		9EE07AD820AB043D00741DC6 /* license.enc in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AD720AB043D00741DC6 /* license.enc */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B917CA9F09004B4AB43EAC65 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C74AB87B344C53929C3574 /* libRNFS.a */; };
 		C0758707CB474FFE8A249D4E /* libRNDocumentPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5991726BC0E4214AAF32E3B /* libRNDocumentPicker.a */; };
@@ -415,6 +364,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		9E2B9ABF20AAF16E004C691F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84B7B247D571474385195BCA /* RNVectorIcons.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
+			remoteInfo = RNVectorIcons;
+		};
 		9E422B4820AAE5F3002883CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F37AA6EF9E7477DAAB88F4D /* RNDocumentPicker.xcodeproj */;
@@ -471,8 +427,10 @@
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6F37AA6EF9E7477DAAB88F4D /* RNDocumentPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDocumentPicker.xcodeproj; path = "../node_modules/react-native-document-picker/ios/RNDocumentPicker.xcodeproj"; sourceTree = "<group>"; };
+		6FAA421CFD0B4009A87CA3A5 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		84B7B247D571474385195BCA /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		9E422A2320AAD891002883CC /* Wrap_CertRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_CertRequest.mm; sourceTree = "<group>"; };
 		9E422A2420AAD891002883CC /* helper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = helper.mm; sourceTree = "<group>"; };
 		9E422A2520AAD891002883CC /* helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
@@ -492,104 +450,50 @@
 		9E422A3B20AAD8DF002883CC /* libCSP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCSP.a; path = libs/libCSP.a; sourceTree = "<group>"; };
 		9E422A3C20AAD8DF002883CC /* libOSSL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOSSL.a; path = libs/libOSSL.a; sourceTree = "<group>"; };
 		9E422A3F20AAD8E8002883CC /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CPROCSP.framework; sourceTree = "<group>"; };
-		9E422A4320AAD915002883CC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CP_Short.strings; sourceTree = "<group>"; };
-		9E422A4520AAD915002883CC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/CP_Localizable.strings; sourceTree = "<group>"; };
-		9E422A4620AAD915002883CC /* RndmBioViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RndmBioViewController.xib; sourceTree = "<group>"; };
-		9E422A4920AAD915002883CC /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
-		9E422A4A20AAD915002883CC /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
-		9E422A4B20AAD915002883CC /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
-		9E422A4C20AAD915002883CC /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
-		9E422A4D20AAD915002883CC /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
-		9E422A4E20AAD915002883CC /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
-		9E422A4F20AAD915002883CC /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
-		9E422A5020AAD915002883CC /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
-		9E422A5120AAD915002883CC /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
-		9E422A5220AAD915002883CC /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
-		9E422A5320AAD915002883CC /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
-		9E422A5620AAD915002883CC /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
-		9E422A5720AAD915002883CC /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
-		9E422A5820AAD915002883CC /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
-		9E422A5920AAD915002883CC /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
-		9E422A5A20AAD915002883CC /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
-		9E422A5B20AAD915002883CC /* librdrjacarta.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrjacarta.cat; sourceTree = "<group>"; };
-		9E422A5C20AAD915002883CC /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
-		9E422A5D20AAD915002883CC /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
-		9E422A5E20AAD915002883CC /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
-		9E422A5F20AAD915002883CC /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
-		9E422A6020AAD915002883CC /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
-		9E422A6120AAD915002883CC /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
-		9E422A6320AAD915002883CC /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
-		9E422A6420AAD915002883CC /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
-		9E422A6520AAD915002883CC /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
-		9E422A6620AAD915002883CC /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
-		9E422A6720AAD915002883CC /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
-		9E422A6820AAD915002883CC /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
-		9E422A6920AAD915002883CC /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
-		9E422A6A20AAD915002883CC /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
-		9E422A6B20AAD915002883CC /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
-		9E422A6C20AAD915002883CC /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
-		9E422A6D20AAD915002883CC /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
-		9E422A6F20AAD915002883CC /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
-		9E422A7020AAD915002883CC /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
-		9E422A7120AAD915002883CC /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
-		9E422A7220AAD915002883CC /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
-		9E422A7320AAD915002883CC /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
-		9E422A7420AAD915002883CC /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
-		9E422A7520AAD915002883CC /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
-		9E422A7620AAD915002883CC /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
-		9E422A7720AAD915002883CC /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
-		9E422A7820AAD915002883CC /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
-		9E422A7920AAD915002883CC /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
-		9E422A7B20AAD915002883CC /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
-		9E422A7C20AAD915002883CC /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
-		9E422A7D20AAD915002883CC /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
-		9E422A7E20AAD915002883CC /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
-		9E422A7F20AAD915002883CC /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
-		9E422A8020AAD915002883CC /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
-		9E422A8120AAD915002883CC /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
-		9E422A8220AAD915002883CC /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
-		9E422A8320AAD915002883CC /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
-		9E422A8420AAD915002883CC /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
-		9E422A8520AAD915002883CC /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
-		9E422A8720AAD915002883CC /* librdrdsrf.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrdsrf.cat; sourceTree = "<group>"; };
-		9E422A8820AAD915002883CC /* librdrsup.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrsup.cat; sourceTree = "<group>"; };
-		9E422A8920AAD915002883CC /* librdrfat12.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrfat12.cat; sourceTree = "<group>"; };
-		9E422A8A20AAD915002883CC /* librdrrndm0.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndm0.cat; sourceTree = "<group>"; };
-		9E422A8B20AAD915002883CC /* csp_error_messages.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = csp_error_messages.cat; sourceTree = "<group>"; };
-		9E422A8C20AAD915002883CC /* librdrnova.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrnova.cat; sourceTree = "<group>"; };
-		9E422A8D20AAD915002883CC /* librdrpcsc.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrpcsc.cat; sourceTree = "<group>"; };
-		9E422A8E20AAD915002883CC /* librdremv.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdremv.cat; sourceTree = "<group>"; };
-		9E422A8F20AAD915002883CC /* librdrric.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrric.cat; sourceTree = "<group>"; };
-		9E422A9020AAD915002883CC /* librdrrndmbio_gui.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = librdrrndmbio_gui.cat; sourceTree = "<group>"; };
-		9E422A9120AAD915002883CC /* libcsp.cat */ = {isa = PBXFileReference; lastKnownFileType = file; path = libcsp.cat; sourceTree = "<group>"; };
-		9E422A9220AAD915002883CC /* CPROCertviewViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPROCertviewViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9E422A9320AAD916002883CC /* CPROCertviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPROCertviewViewController.xib; sourceTree = "<group>"; };
-		9E422A9420AAD916002883CC /* RndmBioViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RndmBioViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9E422A9520AAD916002883CC /* root.sto */ = {isa = PBXFileReference; lastKnownFileType = file; path = root.sto; sourceTree = "<group>"; };
-		9E422A9620AAD916002883CC /* SelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewController.xib; sourceTree = "<group>"; };
-		9E422A9720AAD916002883CC /* TemplateSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9E422A9820AAD916002883CC /* TemplateSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewController.xib; sourceTree = "<group>"; };
-		9E422A9920AAD916002883CC /* RequestSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestSelectionViewController.xib; sourceTree = "<group>"; };
-		9E422A9A20AAD916002883CC /* MSCARequestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSCARequestViewController.xib; sourceTree = "<group>"; };
-		9E422A9B20AAD916002883CC /* CPCAViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPCAViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9E422A9C20AAD916002883CC /* CPCAViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPCAViewController.xib; sourceTree = "<group>"; };
-		9E422A9D20AAD916002883CC /* MSCARequestViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSCARequestViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9E422A9E20AAD916002883CC /* NewUserViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewUserViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9E422A9F20AAD916002883CC /* config.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.ini; sourceTree = "<group>"; };
-		9E422AA020AAD916002883CC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		9E422AA120AAD916002883CC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CP_Short.strings; sourceTree = "<group>"; };
-		9E422AA220AAD916002883CC /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CP_Localizable.strings; sourceTree = "<group>"; };
-		9E422AA320AAD916002883CC /* RequestSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9E422AA420AAD916002883CC /* PaneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaneViewController.xib; sourceTree = "<group>"; };
-		9E422AA520AAD916002883CC /* NewUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewUserViewController.xib; sourceTree = "<group>"; };
-		9E422AA620AAD916002883CC /* kis_1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kis_1; sourceTree = "<group>"; };
-		9E422AA720AAD916002883CC /* PaneViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaneViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9E422AA820AAD916002883CC /* SelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9E422B0420AAD931002883CC /* license.enc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = license.enc; path = CPROCSP.framework/license.enc; sourceTree = SOURCE_ROOT; };
-		9E422B0620AAD942002883CC /* ru.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = ru.lproj; sourceTree = "<group>"; };
-		9E422B0D20AAD95E002883CC /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
 		9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
 		9E422B5020AAE711002883CC /* CryptoARM_GOST.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CryptoARM_GOST.entitlements; path = CryptoARM_GOST/CryptoARM_GOST.entitlements; sourceTree = "<group>"; };
+		9E73E7C420AAF9CF00CE8D30 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
+		9E73E7C520AAF9CF00CE8D30 /* Roboto_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Roboto_medium.ttf; sourceTree = "<group>"; };
+		9E73E7C620AAF9CF00CE8D30 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
+		9E73E7C720AAF9CF00CE8D30 /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
+		9E73E7C820AAF9CF00CE8D30 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		9E73E7C920AAF9CF00CE8D30 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "rubicon-icon-font.ttf"; sourceTree = "<group>"; };
+		9E73E7CA20AAF9CF00CE8D30 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		9E73E7CB20AAF9CF00CE8D30 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		9E73E7CC20AAF9CF00CE8D30 /* Roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Roboto.ttf; sourceTree = "<group>"; };
+		9E73E7CD20AAF9CF00CE8D30 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
+		9E73E7CE20AAF9CF00CE8D30 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		9E73E7CF20AAF9CF00CE8D30 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
+		9E73E7D020AAF9CF00CE8D30 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		9EE07A8720AB020F00741DC6 /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en.lproj; path = CPROCSP.framework/Resources/en.lproj; sourceTree = SOURCE_ROOT; };
+		9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewController.xib; sourceTree = "<group>"; };
+		9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
+		9EE07A9F20AB03E800741DC6 /* SelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewController.xib; sourceTree = "<group>"; };
+		9EE07AA020AB03E800741DC6 /* SelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
+		9EE07AA320AB03F100741DC6 /* root.sto */ = {isa = PBXFileReference; lastKnownFileType = file; path = root.sto; sourceTree = "<group>"; };
+		9EE07AA520AB03FD00741DC6 /* PaneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaneViewController.xib; sourceTree = "<group>"; };
+		9EE07AA620AB03FD00741DC6 /* RequestSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestSelectionViewController.xib; sourceTree = "<group>"; };
+		9EE07AA720AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
+		9EE07AA820AB03FE00741DC6 /* PaneViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaneViewControllerIPhone.xib; sourceTree = "<group>"; };
+		9EE07AA920AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RndmBioViewControllerIPhone.xib; sourceTree = "<group>"; };
+		9EE07AAA20AB03FE00741DC6 /* RndmBioViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RndmBioViewController.xib; sourceTree = "<group>"; };
+		9EE07AB120AB040500741DC6 /* MSCARequestViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSCARequestViewControllerIPhone.xib; sourceTree = "<group>"; };
+		9EE07AB220AB040500741DC6 /* NewUserViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewUserViewControllerIPhone.xib; sourceTree = "<group>"; };
+		9EE07AB320AB040500741DC6 /* NewUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewUserViewController.xib; sourceTree = "<group>"; };
+		9EE07AB420AB040600741DC6 /* MSCARequestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSCARequestViewController.xib; sourceTree = "<group>"; };
+		9EE07AB920AB040F00741DC6 /* kis_1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kis_1; sourceTree = "<group>"; };
+		9EE07ABA20AB040F00741DC6 /* locale */ = {isa = PBXFileReference; lastKnownFileType = folder; path = locale; sourceTree = "<group>"; };
+		9EE07ABD20AB041800741DC6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		9EE07ABF20AB042000741DC6 /* CPCAViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPCAViewController.xib; sourceTree = "<group>"; };
+		9EE07AC020AB042000741DC6 /* CPROCertviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPROCertviewViewController.xib; sourceTree = "<group>"; };
+		9EE07AC120AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPROCertviewViewControllerIPhone.xib; sourceTree = "<group>"; };
+		9EE07AC220AB042000741DC6 /* config.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.ini; sourceTree = "<group>"; };
+		9EE07AC320AB042000741DC6 /* CPCAViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPCAViewControllerIPhone.xib; sourceTree = "<group>"; };
+		9EE07ACB20AB042F00741DC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = CP_Short.strings; sourceTree = "<group>"; };
+		9EE07ACD20AB042F00741DC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = CP_Localizable.strings; sourceTree = "<group>"; };
+		9EE07AD220AB043500741DC6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = CP_Short.strings; sourceTree = "<group>"; };
+		9EE07AD420AB043500741DC6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = CP_Localizable.strings; sourceTree = "<group>"; };
+		9EE07AD720AB043D00741DC6 /* license.enc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = license.enc; path = CPROCSP.framework/license.enc; sourceTree = SOURCE_ROOT; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		E5991726BC0E4214AAF32E3B /* libRNDocumentPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDocumentPicker.a; sourceTree = "<group>"; };
 		F0C74AB87B344C53929C3574 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
@@ -627,6 +531,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				C0758707CB474FFE8A249D4E /* libRNDocumentPicker.a in Frameworks */,
 				B917CA9F09004B4AB43EAC65 /* libRNFS.a in Frameworks */,
+				0DD3DC8984E342439F9F1C5D /* libRNVectorIcons.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -820,6 +725,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				6F37AA6EF9E7477DAAB88F4D /* RNDocumentPicker.xcodeproj */,
 				26C1024B01E34A4B9DAC2BE2 /* RNFS.xcodeproj */,
+				84B7B247D571474385195BCA /* RNVectorIcons.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -861,6 +767,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		9E2B9ABC20AAF16D004C691F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9E2B9AC020AAF16E004C691F /* libRNVectorIcons.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		9E422A2220AAD891002883CC /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -887,167 +801,36 @@
 		9E422A4120AAD915002883CC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9E422B0420AAD931002883CC /* license.enc */,
-				9E422A4220AAD915002883CC /* CP_Short.strings */,
-				9E422A4420AAD915002883CC /* CP_Localizable.strings */,
-				9E422A4620AAD915002883CC /* RndmBioViewController.xib */,
-				9E422B0D20AAD95E002883CC /* en.lproj */,
-				9E422B0620AAD942002883CC /* ru.lproj */,
-				9E422A4720AAD915002883CC /* locale */,
-				9E422A9220AAD915002883CC /* CPROCertviewViewControllerIPhone.xib */,
-				9E422A9320AAD916002883CC /* CPROCertviewViewController.xib */,
-				9E422A9420AAD916002883CC /* RndmBioViewControllerIPhone.xib */,
-				9E422A9520AAD916002883CC /* root.sto */,
-				9E422A9620AAD916002883CC /* SelectionViewController.xib */,
-				9E422A9720AAD916002883CC /* TemplateSelectionViewControllerIPhone.xib */,
-				9E422A9820AAD916002883CC /* TemplateSelectionViewController.xib */,
-				9E422A9920AAD916002883CC /* RequestSelectionViewController.xib */,
-				9E422A9A20AAD916002883CC /* MSCARequestViewController.xib */,
-				9E422A9B20AAD916002883CC /* CPCAViewControllerIPhone.xib */,
-				9E422A9C20AAD916002883CC /* CPCAViewController.xib */,
-				9E422A9D20AAD916002883CC /* MSCARequestViewControllerIPhone.xib */,
-				9E422A9E20AAD916002883CC /* NewUserViewControllerIPhone.xib */,
-				9E422A9F20AAD916002883CC /* config.ini */,
-				9E422AA020AAD916002883CC /* Images.xcassets */,
-				9E422AA320AAD916002883CC /* RequestSelectionViewControllerIPhone.xib */,
-				9E422AA420AAD916002883CC /* PaneViewController.xib */,
-				9E422AA520AAD916002883CC /* NewUserViewController.xib */,
-				9E422AA620AAD916002883CC /* kis_1 */,
-				9E422AA720AAD916002883CC /* PaneViewControllerIPhone.xib */,
-				9E422AA820AAD916002883CC /* SelectionViewControllerIPhone.xib */,
+				9EE07AD720AB043D00741DC6 /* license.enc */,
+				9EE07AD020AB043500741DC6 /* ru.lproj */,
+				9EE07AC920AB042F00741DC6 /* en.lproj */,
+				9EE07AC220AB042000741DC6 /* config.ini */,
+				9EE07ABF20AB042000741DC6 /* CPCAViewController.xib */,
+				9EE07AC320AB042000741DC6 /* CPCAViewControllerIPhone.xib */,
+				9EE07AC020AB042000741DC6 /* CPROCertviewViewController.xib */,
+				9EE07AC120AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib */,
+				9EE07ABD20AB041800741DC6 /* Images.xcassets */,
+				9EE07AB920AB040F00741DC6 /* kis_1 */,
+				9EE07ABA20AB040F00741DC6 /* locale */,
+				9EE07AB420AB040600741DC6 /* MSCARequestViewController.xib */,
+				9EE07AB120AB040500741DC6 /* MSCARequestViewControllerIPhone.xib */,
+				9EE07AB320AB040500741DC6 /* NewUserViewController.xib */,
+				9EE07AB220AB040500741DC6 /* NewUserViewControllerIPhone.xib */,
+				9EE07AA520AB03FD00741DC6 /* PaneViewController.xib */,
+				9EE07AA820AB03FE00741DC6 /* PaneViewControllerIPhone.xib */,
+				9EE07AA620AB03FD00741DC6 /* RequestSelectionViewController.xib */,
+				9EE07AA720AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib */,
+				9EE07AAA20AB03FE00741DC6 /* RndmBioViewController.xib */,
+				9EE07AA920AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib */,
+				9EE07AA320AB03F100741DC6 /* root.sto */,
+				9EE07A9F20AB03E800741DC6 /* SelectionViewController.xib */,
+				9EE07AA020AB03E800741DC6 /* SelectionViewControllerIPhone.xib */,
+				9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */,
+				9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */,
+				9E73E7C320AAF9CF00CE8D30 /* Fonts */,
 			);
 			name = Resources;
 			path = CPROCSP.framework/Resources;
-			sourceTree = "<group>";
-		};
-		9E422A4720AAD915002883CC /* locale */ = {
-			isa = PBXGroup;
-			children = (
-				9E422A4820AAD915002883CC /* ru_RU.ISO8859-5 */,
-				9E422A5420AAD915002883CC /* default */,
-				9E422A6220AAD915002883CC /* ru_RU.CP866 */,
-				9E422A6E20AAD915002883CC /* ru_RU.CP1251 */,
-				9E422A7A20AAD915002883CC /* ru_RU.UTF-8 */,
-				9E422A8620AAD915002883CC /* ru_RU.KOI8-R */,
-			);
-			path = locale;
-			sourceTree = "<group>";
-		};
-		9E422A4820AAD915002883CC /* ru_RU.ISO8859-5 */ = {
-			isa = PBXGroup;
-			children = (
-				9E422A4920AAD915002883CC /* librdrdsrf.cat */,
-				9E422A4A20AAD915002883CC /* librdrsup.cat */,
-				9E422A4B20AAD915002883CC /* librdrfat12.cat */,
-				9E422A4C20AAD915002883CC /* librdrrndm0.cat */,
-				9E422A4D20AAD915002883CC /* csp_error_messages.cat */,
-				9E422A4E20AAD915002883CC /* librdrnova.cat */,
-				9E422A4F20AAD915002883CC /* librdrpcsc.cat */,
-				9E422A5020AAD915002883CC /* librdremv.cat */,
-				9E422A5120AAD915002883CC /* librdrric.cat */,
-				9E422A5220AAD915002883CC /* librdrrndmbio_gui.cat */,
-				9E422A5320AAD915002883CC /* libcsp.cat */,
-			);
-			path = "ru_RU.ISO8859-5";
-			sourceTree = "<group>";
-		};
-		9E422A5420AAD915002883CC /* default */ = {
-			isa = PBXGroup;
-			children = (
-				9E422A5520AAD915002883CC /* LC_MESSAGES */,
-			);
-			path = default;
-			sourceTree = "<group>";
-		};
-		9E422A5520AAD915002883CC /* LC_MESSAGES */ = {
-			isa = PBXGroup;
-			children = (
-				9E422A5620AAD915002883CC /* librdrdsrf.cat */,
-				9E422A5720AAD915002883CC /* librdrsup.cat */,
-				9E422A5820AAD915002883CC /* librdrfat12.cat */,
-				9E422A5920AAD915002883CC /* librdrrndm0.cat */,
-				9E422A5A20AAD915002883CC /* csp_error_messages.cat */,
-				9E422A5B20AAD915002883CC /* librdrjacarta.cat */,
-				9E422A5C20AAD915002883CC /* librdrnova.cat */,
-				9E422A5D20AAD915002883CC /* librdrpcsc.cat */,
-				9E422A5E20AAD915002883CC /* librdremv.cat */,
-				9E422A5F20AAD915002883CC /* librdrric.cat */,
-				9E422A6020AAD915002883CC /* librdrrndmbio_gui.cat */,
-				9E422A6120AAD915002883CC /* libcsp.cat */,
-			);
-			path = LC_MESSAGES;
-			sourceTree = "<group>";
-		};
-		9E422A6220AAD915002883CC /* ru_RU.CP866 */ = {
-			isa = PBXGroup;
-			children = (
-				9E422A6320AAD915002883CC /* librdrdsrf.cat */,
-				9E422A6420AAD915002883CC /* librdrsup.cat */,
-				9E422A6520AAD915002883CC /* librdrfat12.cat */,
-				9E422A6620AAD915002883CC /* librdrrndm0.cat */,
-				9E422A6720AAD915002883CC /* csp_error_messages.cat */,
-				9E422A6820AAD915002883CC /* librdrnova.cat */,
-				9E422A6920AAD915002883CC /* librdrpcsc.cat */,
-				9E422A6A20AAD915002883CC /* librdremv.cat */,
-				9E422A6B20AAD915002883CC /* librdrric.cat */,
-				9E422A6C20AAD915002883CC /* librdrrndmbio_gui.cat */,
-				9E422A6D20AAD915002883CC /* libcsp.cat */,
-			);
-			path = ru_RU.CP866;
-			sourceTree = "<group>";
-		};
-		9E422A6E20AAD915002883CC /* ru_RU.CP1251 */ = {
-			isa = PBXGroup;
-			children = (
-				9E422A6F20AAD915002883CC /* librdrdsrf.cat */,
-				9E422A7020AAD915002883CC /* librdrsup.cat */,
-				9E422A7120AAD915002883CC /* librdrfat12.cat */,
-				9E422A7220AAD915002883CC /* librdrrndm0.cat */,
-				9E422A7320AAD915002883CC /* csp_error_messages.cat */,
-				9E422A7420AAD915002883CC /* librdrnova.cat */,
-				9E422A7520AAD915002883CC /* librdrpcsc.cat */,
-				9E422A7620AAD915002883CC /* librdremv.cat */,
-				9E422A7720AAD915002883CC /* librdrric.cat */,
-				9E422A7820AAD915002883CC /* librdrrndmbio_gui.cat */,
-				9E422A7920AAD915002883CC /* libcsp.cat */,
-			);
-			path = ru_RU.CP1251;
-			sourceTree = "<group>";
-		};
-		9E422A7A20AAD915002883CC /* ru_RU.UTF-8 */ = {
-			isa = PBXGroup;
-			children = (
-				9E422A7B20AAD915002883CC /* librdrdsrf.cat */,
-				9E422A7C20AAD915002883CC /* librdrsup.cat */,
-				9E422A7D20AAD915002883CC /* librdrfat12.cat */,
-				9E422A7E20AAD915002883CC /* librdrrndm0.cat */,
-				9E422A7F20AAD915002883CC /* csp_error_messages.cat */,
-				9E422A8020AAD915002883CC /* librdrnova.cat */,
-				9E422A8120AAD915002883CC /* librdrpcsc.cat */,
-				9E422A8220AAD915002883CC /* librdremv.cat */,
-				9E422A8320AAD915002883CC /* librdrric.cat */,
-				9E422A8420AAD915002883CC /* librdrrndmbio_gui.cat */,
-				9E422A8520AAD915002883CC /* libcsp.cat */,
-			);
-			path = "ru_RU.UTF-8";
-			sourceTree = "<group>";
-		};
-		9E422A8620AAD915002883CC /* ru_RU.KOI8-R */ = {
-			isa = PBXGroup;
-			children = (
-				9E422A8720AAD915002883CC /* librdrdsrf.cat */,
-				9E422A8820AAD915002883CC /* librdrsup.cat */,
-				9E422A8920AAD915002883CC /* librdrfat12.cat */,
-				9E422A8A20AAD915002883CC /* librdrrndm0.cat */,
-				9E422A8B20AAD915002883CC /* csp_error_messages.cat */,
-				9E422A8C20AAD915002883CC /* librdrnova.cat */,
-				9E422A8D20AAD915002883CC /* librdrpcsc.cat */,
-				9E422A8E20AAD915002883CC /* librdremv.cat */,
-				9E422A8F20AAD915002883CC /* librdrric.cat */,
-				9E422A9020AAD915002883CC /* librdrrndmbio_gui.cat */,
-				9E422A9120AAD915002883CC /* libcsp.cat */,
-			);
-			path = "ru_RU.KOI8-R";
 			sourceTree = "<group>";
 		};
 		9E422B1D20AAE5F1002883CC /* Recovered References */ = {
@@ -1055,6 +838,7 @@
 			children = (
 				E5991726BC0E4214AAF32E3B /* libRNDocumentPicker.a */,
 				F0C74AB87B344C53929C3574 /* libRNFS.a */,
+				6FAA421CFD0B4009A87CA3A5 /* libRNVectorIcons.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1074,6 +858,46 @@
 				9E422B4F20AAE5F3002883CC /* libRNFS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9E73E7C320AAF9CF00CE8D30 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				9EE07A8720AB020F00741DC6 /* en.lproj */,
+				9E73E7C420AAF9CF00CE8D30 /* Octicons.ttf */,
+				9E73E7C520AAF9CF00CE8D30 /* Roboto_medium.ttf */,
+				9E73E7C620AAF9CF00CE8D30 /* Entypo.ttf */,
+				9E73E7C720AAF9CF00CE8D30 /* Foundation.ttf */,
+				9E73E7C820AAF9CF00CE8D30 /* Ionicons.ttf */,
+				9E73E7C920AAF9CF00CE8D30 /* rubicon-icon-font.ttf */,
+				9E73E7CA20AAF9CF00CE8D30 /* FontAwesome.ttf */,
+				9E73E7CB20AAF9CF00CE8D30 /* Zocial.ttf */,
+				9E73E7CC20AAF9CF00CE8D30 /* Roboto.ttf */,
+				9E73E7CD20AAF9CF00CE8D30 /* EvilIcons.ttf */,
+				9E73E7CE20AAF9CF00CE8D30 /* OFL.txt */,
+				9E73E7CF20AAF9CF00CE8D30 /* SimpleLineIcons.ttf */,
+				9E73E7D020AAF9CF00CE8D30 /* MaterialIcons.ttf */,
+			);
+			name = Fonts;
+			path = "../../../node_modules/native-base/Fonts";
+			sourceTree = "<group>";
+		};
+		9EE07AC920AB042F00741DC6 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				9EE07ACA20AB042F00741DC6 /* CP_Short.strings */,
+				9EE07ACC20AB042F00741DC6 /* CP_Localizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		9EE07AD020AB043500741DC6 /* ru.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				9EE07AD120AB043500741DC6 /* CP_Short.strings */,
+				9EE07AD320AB043500741DC6 /* CP_Localizable.strings */,
+			);
+			path = ru.lproj;
 			sourceTree = "<group>";
 		};
 		ADBDB9201DFEBF0600ED6528 /* Products */ = {
@@ -1261,6 +1085,10 @@
 				{
 					ProductGroup = 9E422B4520AAE5F2002883CC /* Products */;
 					ProjectRef = 26C1024B01E34A4B9DAC2BE2 /* RNFS.xcodeproj */;
+				},
+				{
+					ProductGroup = 9E2B9ABC20AAF16D004C691F /* Products */;
+					ProjectRef = 84B7B247D571474385195BCA /* RNVectorIcons.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1526,6 +1354,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9E2B9AC020AAF16E004C691F /* libRNVectorIcons.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNVectorIcons.a;
+			remoteRef = 9E2B9ABF20AAF16E004C691F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		9E422B4920AAE5F3002883CC /* libRNDocumentPicker.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1568,102 +1403,50 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9E422B0120AAD916002883CC /* kis_1 in Resources */,
-				9E422ABC20AAD916002883CC /* librdrjacarta.cat in Resources */,
-				9E422AE320AAD916002883CC /* libcsp.cat in Resources */,
-				9E422AAF20AAD916002883CC /* librdrrndm0.cat in Resources */,
-				9E422B0320AAD916002883CC /* SelectionViewControllerIPhone.xib in Resources */,
-				9E422ACE20AAD916002883CC /* librdrdsrf.cat in Resources */,
-				9E422AEC20AAD916002883CC /* librdrric.cat in Resources */,
-				9E422AAC20AAD916002883CC /* librdrdsrf.cat in Resources */,
-				9E422B0520AAD931002883CC /* license.enc in Resources */,
+				9EE07AB620AB040600741DC6 /* NewUserViewControllerIPhone.xib in Resources */,
+				9E73E7D420AAF9CF00CE8D30 /* Foundation.ttf in Resources */,
+				9EE07AD820AB043D00741DC6 /* license.enc in Resources */,
+				9E73E7DC20AAF9CF00CE8D30 /* SimpleLineIcons.ttf in Resources */,
+				9EE07AAE20AB03FE00741DC6 /* PaneViewControllerIPhone.xib in Resources */,
+				9EE07ACF20AB042F00741DC6 /* CP_Localizable.strings in Resources */,
+				9EE07A9E20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib in Resources */,
+				9E73E7DD20AAF9CF00CE8D30 /* MaterialIcons.ttf in Resources */,
+				9EE07AC720AB042000741DC6 /* config.ini in Resources */,
+				9EE07AA120AB03E800741DC6 /* SelectionViewController.xib in Resources */,
+				9EE07AC420AB042000741DC6 /* CPCAViewController.xib in Resources */,
+				9EE07AB020AB03FE00741DC6 /* RndmBioViewController.xib in Resources */,
+				9EE07AB520AB040600741DC6 /* MSCARequestViewControllerIPhone.xib in Resources */,
+				9EE07AC620AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				9E422AD120AAD916002883CC /* librdrrndm0.cat in Resources */,
-				9E422ADD20AAD916002883CC /* csp_error_messages.cat in Resources */,
-				9E422ADE20AAD916002883CC /* librdrnova.cat in Resources */,
-				9E422AD720AAD916002883CC /* librdrrndmbio_gui.cat in Resources */,
-				9E422AD220AAD916002883CC /* csp_error_messages.cat in Resources */,
-				9E422AE120AAD916002883CC /* librdrric.cat in Resources */,
-				9E422B0E20AAD95E002883CC /* en.lproj in Resources */,
-				9E422ABE20AAD916002883CC /* librdrpcsc.cat in Resources */,
-				9E422AE520AAD916002883CC /* librdrsup.cat in Resources */,
-				9E422ADC20AAD916002883CC /* librdrrndm0.cat in Resources */,
-				9E422AE420AAD916002883CC /* librdrdsrf.cat in Resources */,
-				9E422AB320AAD916002883CC /* librdremv.cat in Resources */,
-				9E422AFE20AAD916002883CC /* RequestSelectionViewControllerIPhone.xib in Resources */,
-				9E422ACF20AAD916002883CC /* librdrsup.cat in Resources */,
-				9E422AE620AAD916002883CC /* librdrfat12.cat in Resources */,
-				9E422AC020AAD916002883CC /* librdrric.cat in Resources */,
-				9E422AB820AAD916002883CC /* librdrsup.cat in Resources */,
-				9E422AC120AAD916002883CC /* librdrrndmbio_gui.cat in Resources */,
-				9E422AEF20AAD916002883CC /* CPROCertviewViewControllerIPhone.xib in Resources */,
-				9E422ACD20AAD916002883CC /* libcsp.cat in Resources */,
-				9E422ABB20AAD916002883CC /* csp_error_messages.cat in Resources */,
-				9E422AB420AAD916002883CC /* librdrric.cat in Resources */,
-				9E422AD620AAD916002883CC /* librdrric.cat in Resources */,
-				9E422AF820AAD916002883CC /* CPCAViewControllerIPhone.xib in Resources */,
-				9E422AFF20AAD916002883CC /* PaneViewController.xib in Resources */,
-				9E422AAE20AAD916002883CC /* librdrfat12.cat in Resources */,
-				9E422AB920AAD916002883CC /* librdrfat12.cat in Resources */,
-				9E422AD420AAD916002883CC /* librdrpcsc.cat in Resources */,
-				9E422ABF20AAD916002883CC /* librdremv.cat in Resources */,
-				9E422AB220AAD916002883CC /* librdrpcsc.cat in Resources */,
-				9E422AAB20AAD916002883CC /* RndmBioViewController.xib in Resources */,
-				9E422AFA20AAD916002883CC /* MSCARequestViewControllerIPhone.xib in Resources */,
-				9E422AB520AAD916002883CC /* librdrrndmbio_gui.cat in Resources */,
-				9E422AC720AAD916002883CC /* csp_error_messages.cat in Resources */,
-				9E422AC220AAD916002883CC /* libcsp.cat in Resources */,
-				9E422AED20AAD916002883CC /* librdrrndmbio_gui.cat in Resources */,
-				9E422B0220AAD916002883CC /* PaneViewControllerIPhone.xib in Resources */,
+				9E73E7D920AAF9CF00CE8D30 /* Roboto.ttf in Resources */,
+				9EE07ABE20AB041800741DC6 /* Images.xcassets in Resources */,
+				9E73E7D320AAF9CF00CE8D30 /* Entypo.ttf in Resources */,
+				9EE07ABC20AB040F00741DC6 /* locale in Resources */,
+				9EE07AB720AB040600741DC6 /* NewUserViewController.xib in Resources */,
+				9EE07AAC20AB03FE00741DC6 /* RequestSelectionViewController.xib in Resources */,
+				9E73E7D520AAF9CF00CE8D30 /* Ionicons.ttf in Resources */,
+				9EE07AAF20AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib in Resources */,
+				9EE07AC520AB042000741DC6 /* CPROCertviewViewController.xib in Resources */,
+				9EE07AAD20AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib in Resources */,
+				9EE07AD620AB043500741DC6 /* CP_Localizable.strings in Resources */,
+				9EE07AB820AB040600741DC6 /* MSCARequestViewController.xib in Resources */,
+				9E73E7DA20AAF9CF00CE8D30 /* EvilIcons.ttf in Resources */,
+				9EE07A8820AB020F00741DC6 /* en.lproj in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				9E422AE920AAD916002883CC /* librdrnova.cat in Resources */,
-				9E422ADB20AAD916002883CC /* librdrfat12.cat in Resources */,
-				9E422AC320AAD916002883CC /* librdrdsrf.cat in Resources */,
-				9E422AF520AAD916002883CC /* TemplateSelectionViewController.xib in Resources */,
-				9E422AB120AAD916002883CC /* librdrnova.cat in Resources */,
-				9E422AF120AAD916002883CC /* RndmBioViewControllerIPhone.xib in Resources */,
-				9E422AF220AAD916002883CC /* root.sto in Resources */,
-				9E422AEB20AAD916002883CC /* librdremv.cat in Resources */,
-				9E422AF920AAD916002883CC /* CPCAViewController.xib in Resources */,
-				9E422AEA20AAD916002883CC /* librdrpcsc.cat in Resources */,
-				9E422ACA20AAD916002883CC /* librdremv.cat in Resources */,
-				9E422AEE20AAD916002883CC /* libcsp.cat in Resources */,
-				9E422AC620AAD916002883CC /* librdrrndm0.cat in Resources */,
-				9E422AE020AAD916002883CC /* librdremv.cat in Resources */,
-				9E422AD520AAD916002883CC /* librdremv.cat in Resources */,
-				9E422AF720AAD916002883CC /* MSCARequestViewController.xib in Resources */,
-				9E422ADF20AAD916002883CC /* librdrpcsc.cat in Resources */,
-				9E422AD920AAD916002883CC /* librdrdsrf.cat in Resources */,
-				9E422ABD20AAD916002883CC /* librdrnova.cat in Resources */,
-				9E422AB020AAD916002883CC /* csp_error_messages.cat in Resources */,
-				9E422AC820AAD916002883CC /* librdrnova.cat in Resources */,
-				9E422B0720AAD942002883CC /* ru.lproj in Resources */,
-				9E422AF320AAD916002883CC /* SelectionViewController.xib in Resources */,
-				9E422AD320AAD916002883CC /* librdrnova.cat in Resources */,
-				9E422ACB20AAD916002883CC /* librdrric.cat in Resources */,
-				9E422AE820AAD916002883CC /* csp_error_messages.cat in Resources */,
-				9E422AAA20AAD916002883CC /* CP_Localizable.strings in Resources */,
-				9E422AF420AAD916002883CC /* TemplateSelectionViewControllerIPhone.xib in Resources */,
-				9E422AD020AAD916002883CC /* librdrfat12.cat in Resources */,
-				9E422AC520AAD916002883CC /* librdrfat12.cat in Resources */,
-				9E422B0020AAD916002883CC /* NewUserViewController.xib in Resources */,
-				9E422AD820AAD916002883CC /* libcsp.cat in Resources */,
-				9E422AB620AAD916002883CC /* libcsp.cat in Resources */,
-				9E422AFB20AAD916002883CC /* NewUserViewControllerIPhone.xib in Resources */,
-				9E422ACC20AAD916002883CC /* librdrrndmbio_gui.cat in Resources */,
-				9E422AF620AAD916002883CC /* RequestSelectionViewController.xib in Resources */,
-				9E422AA920AAD916002883CC /* CP_Short.strings in Resources */,
-				9E422AE220AAD916002883CC /* librdrrndmbio_gui.cat in Resources */,
-				9E422AC920AAD916002883CC /* librdrpcsc.cat in Resources */,
-				9E422AFC20AAD916002883CC /* config.ini in Resources */,
-				9E422AF020AAD916002883CC /* CPROCertviewViewController.xib in Resources */,
-				9E422ABA20AAD916002883CC /* librdrrndm0.cat in Resources */,
-				9E422AAD20AAD916002883CC /* librdrsup.cat in Resources */,
-				9E422AC420AAD916002883CC /* librdrsup.cat in Resources */,
-				9E422AE720AAD916002883CC /* librdrrndm0.cat in Resources */,
-				9E422AFD20AAD916002883CC /* Images.xcassets in Resources */,
-				9E422ADA20AAD916002883CC /* librdrsup.cat in Resources */,
-				9E422AB720AAD916002883CC /* librdrdsrf.cat in Resources */,
+				9EE07AAB20AB03FE00741DC6 /* PaneViewController.xib in Resources */,
+				9E73E7DB20AAF9CF00CE8D30 /* OFL.txt in Resources */,
+				9E73E7D820AAF9CF00CE8D30 /* Zocial.ttf in Resources */,
+				9E73E7D620AAF9CF00CE8D30 /* rubicon-icon-font.ttf in Resources */,
+				9EE07AD520AB043500741DC6 /* CP_Short.strings in Resources */,
+				9E73E7D120AAF9CF00CE8D30 /* Octicons.ttf in Resources */,
+				9E73E7D220AAF9CF00CE8D30 /* Roboto_medium.ttf in Resources */,
+				9E73E7D720AAF9CF00CE8D30 /* FontAwesome.ttf in Resources */,
+				9EE07ACE20AB042F00741DC6 /* CP_Short.strings in Resources */,
+				9EE07ABB20AB040F00741DC6 /* kis_1 in Resources */,
+				9EE07AA420AB03F100741DC6 /* root.sto in Resources */,
+				9EE07AA220AB03E800741DC6 /* SelectionViewControllerIPhone.xib in Resources */,
+				9EE07AC820AB042000741DC6 /* CPCAViewControllerIPhone.xib in Resources */,
+				9EE07A9D20AB03E000741DC6 /* TemplateSelectionViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1783,20 +1566,34 @@
 			path = CryptoARM_GOST;
 			sourceTree = "<group>";
 		};
-		9E422A4220AAD915002883CC /* CP_Short.strings */ = {
+		9EE07ACA20AB042F00741DC6 /* CP_Short.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				9E422A4320AAD915002883CC /* en */,
-				9E422AA120AAD916002883CC /* ru */,
+				9EE07ACB20AB042F00741DC6 /* en */,
 			);
 			name = CP_Short.strings;
 			sourceTree = "<group>";
 		};
-		9E422A4420AAD915002883CC /* CP_Localizable.strings */ = {
+		9EE07ACC20AB042F00741DC6 /* CP_Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				9E422A4520AAD915002883CC /* en */,
-				9E422AA220AAD916002883CC /* ru */,
+				9EE07ACD20AB042F00741DC6 /* en */,
+			);
+			name = CP_Localizable.strings;
+			sourceTree = "<group>";
+		};
+		9EE07AD120AB043500741DC6 /* CP_Short.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9EE07AD220AB043500741DC6 /* ru */,
+			);
+			name = CP_Short.strings;
+			sourceTree = "<group>";
+		};
+		9EE07AD320AB043500741DC6 /* CP_Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9EE07AD420AB043500741DC6 /* ru */,
 			);
 			name = CP_Localizable.strings;
 			sourceTree = "<group>";
@@ -1817,12 +1614,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = CryptoARM_GOSTTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1845,12 +1644,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = CryptoARM_GOSTTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1889,6 +1690,7 @@
 					"\"$(SRCROOT)/include\"",
 					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = CryptoARM_GOST/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1926,6 +1728,7 @@
 					"\"$(SRCROOT)/include\"",
 					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = CryptoARM_GOST/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1960,11 +1763,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = "CryptoARM_GOST-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1996,11 +1801,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = "CryptoARM_GOST-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -2031,11 +1838,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = "CryptoARM_GOST-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -2066,11 +1875,13 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
+					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = "CryptoARM_GOST-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

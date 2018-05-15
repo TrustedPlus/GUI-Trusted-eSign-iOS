@@ -3,7 +3,6 @@ import { Container, View, List, Content, Button, Body, Text } from "native-base"
 import { Image, RefreshControl, ScrollView } from "react-native";
 import { Headers } from "./Headers";
 import { styles } from "../styles";
-import { SelectPersonalСert } from "./SelectPersonalСert";
 import { ListMenu } from "./ListMenu";
 import { bindActionCreators } from "redux";
 import { FooterSign } from "./FooterSign";
@@ -11,7 +10,7 @@ import { connect } from "react-redux";
 import { footerAction, footerClose, readFiles, addFiles } from "../actions/index";
 import { iconSelection } from "../utils/forListFiles";
 import { readCertKeys } from "../actions/CertKeysAction";
-import { DocumentPicker, DocumentPickerUtil } from "react-native-document-picker";
+import { DocumentPicker } from "react-native-document-picker";
 
 function mapStateToProps(state) {
    return {

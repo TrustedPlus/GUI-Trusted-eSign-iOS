@@ -27,27 +27,12 @@ interface SelectPersonalСertProps {
    addCert(uri: string, fileName: string, password: string): Function;
 }
 
-interface SelectPersonalСertState {
-   promptVisible: boolean;
-   uri: string;
-   fileName: string;
-}
-
 @(connect(mapStateToProps, mapDispatchToProps) as any)
-export class SelectPersonalСert extends React.Component<SelectPersonalСertProps, SelectPersonalСertState> {
+export class SelectPersonalСert extends React.Component<SelectPersonalСertProps> {
 
    static navigationOptions = {
       header: null
    };
-
-   constructor(props) {
-      super(props);
-      this.state = {
-         promptVisible: false,
-         uri: "",
-         fileName: "",
-      };
-   }
 
    ShowList(img) {
       return (

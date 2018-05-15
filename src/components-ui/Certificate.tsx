@@ -2,7 +2,6 @@ import * as React from "react";
 import { Container, List, Content } from "native-base";
 import { Headers } from "./Headers";
 import { ListMenu} from "./ListMenu";
-import { OtherСert } from "./OtherCert";
 import { styles } from "../styles";
 
 interface CertificateProps {

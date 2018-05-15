@@ -62,8 +62,6 @@ class Main extends React.Component<MainProps> {
             <Headers title="КриптоАРМ" />
             <Content>
                <List>
-                  {/*<ListMenu title="Создание самоподписанного сертификата" img={require("../../imgs/general/create_certificates_main_icon.png")}
-                     nav={() => navigate("CreateCertificate")} />*/}
                   <ListMenu title="Подпись / Проверка подписи" img={require("../../imgs/general/sign_main_icon.png")}
                      note={length} nav={() => navigate("Signature")} />
                   <ListMenu title="Шифрование / Расшифрование" img={require("../../imgs/general/encode_main_icon.png")}

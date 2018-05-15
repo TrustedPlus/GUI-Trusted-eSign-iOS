@@ -6,7 +6,6 @@ import { styles } from "../styles";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { readCertKeys } from "../actions/CertKeysAction";
-import { PropertiesCert } from "./PropertiesCert";
 import { AddCertButton } from "../components/AddCertButton";
 import { addCert } from "../actions/index";
 

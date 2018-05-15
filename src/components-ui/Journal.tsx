@@ -55,8 +55,4 @@ export class Journal extends React.Component<JournalProps> {
             </Container>
         );
     }
-
-    componentDidMount() {
-        if (this.props.log.length !== 0) { this.showList(); }
-    }
 }

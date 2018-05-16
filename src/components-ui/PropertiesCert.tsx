@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container, ListItem, View, List, Content, Text } from "native-base";
 import { Image } from "react-native";
-import { Headers } from "./Headers";
+import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import * as RNFS from "react-native-fs";
 

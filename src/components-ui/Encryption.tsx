@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Container, View, List, Button, Text } from "native-base";
 import { Image, RefreshControl, ScrollView } from "react-native";
-import { Headers } from "./Headers";
+import { Headers } from "../components/Headers";
 import { styles } from "../styles";
-import {ListMenu} from "./ListMenu";
+import {ListMenu} from "../components/ListMenu";
 import { bindActionCreators } from "redux";
 import { FooterEnc} from "./FooterEnc";
 import { connect } from "react-redux";
@@ -93,18 +93,16 @@ export class Encryption extends React.Component<EncryptionProps> {
         const { footerAction, footerClose, files, readFiles, readCertKeys, otherCert, isFetching } = this.props;
         const { navigate, goBack } = this.props.navigation;
 
-        let certificate, icon, filesView;
+        let certificate, filesView;
         if (otherCert.title) { // выбран ли сертификат
             certificate = <List>
                 <ListMenu title={otherCert.title} img={otherCert.img}
                     note={otherCert.note} nav={() => null} />
             </List>;
-            icon = require("../../imgs/general/edit_icon.png");
         } else {
             certificate = <View style={styles.sign_enc_view}>
                 <Text style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
             </View>;
-            icon = require("../../imgs/general/add_icon.png");
         }
 
         let img = iconSelection(files, files.length); // какое расширение у файлов

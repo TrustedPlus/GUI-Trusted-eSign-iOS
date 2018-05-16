@@ -6,11 +6,9 @@ import { Certificate } from "./Certificate";
 import { Journal } from "./Journal";
 import { styles } from "../styles";
 import { StackNavigator } from "react-navigation";
-import { ListMenu } from "./ListMenu";
-import { Headers } from "./Headers";
-import { PersonalСert } from "./PersonalСert";
-import { RootСert } from "./RootСert";
-import { OtherСert } from "./OtherCert";
+import { ListMenu } from "../components/ListMenu";
+import { Headers } from "../components/Headers";
+import { ListCertCategory } from "./ListCertCategory";
 import { PropertiesCert } from "./PropertiesCert";
 import { SelectPersonalСert } from "./SelectPersonalСert";
 import { SelectOtherСert } from "./SelectOtherСert";
@@ -88,9 +86,7 @@ export const App = StackNavigator({
    Encryption: { screen: Encryption },
    Certificate: { screen: Certificate },
    Journal: { screen: Journal },
-   PersonalСert: { screen: PersonalСert },
-   RootСert: { screen: RootСert },
-   OtherСert: { screen: OtherСert },
+   ListCertCategory: { screen: ListCertCategory },
    PropertiesCert: { screen: PropertiesCert },
    SelectPersonalСert: { screen: SelectPersonalСert },
    SelectOtherСert: { screen: SelectOtherСert },

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container, Text, Footer, FooterTab, Button } from "native-base";
 import { ScrollView } from "react-native";
-import { Headers } from "./Headers";
+import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { connect } from "react-redux";
 import { clearLog } from "../actions/index";

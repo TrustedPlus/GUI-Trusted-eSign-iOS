@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Container, Item, Label, Input, Footer, FooterTab, Button, List, ListItem, Text, Content, Icon, Right, Body, Form } from "native-base";
-import { Headers } from "./Headers";
+import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { View, Switch, Alert, AlertIOS } from "react-native";
 import * as RNFS from "react-native-fs";

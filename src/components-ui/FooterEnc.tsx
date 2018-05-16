@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { encAssymmetric, decAssymmetric } from "../actions/EncDecAction";
 import { uploadFile, deleteFile } from "../actions/UploadFileAction";
-import { FooterButton } from "./FooterButton";
+import { FooterButton } from "../components//FooterButton";
 
 function mapStateToProps(state) {
     return {

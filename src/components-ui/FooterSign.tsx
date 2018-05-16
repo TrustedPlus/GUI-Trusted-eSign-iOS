@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { signFile, verifySign } from "../actions/SignVerifyAction";
 import { uploadFile, deleteFile } from "../actions/UploadFileAction";
-import { FooterButton } from "./FooterButton";
+import { FooterButton } from "../components/FooterButton";
 
 function mapStateToProps(state) {
     return {

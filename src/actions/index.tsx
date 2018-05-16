@@ -155,6 +155,7 @@ export function addCert(uri, fileName?, password?) {
                      Alert.alert("Ошибка при добавлении сертификата");
                   } else {
                      dispatch({ type: ADD_CERT_SUCCESS, payload: name });
+                     Alert.alert("Сертификат успешно добавлен");
                      dispatch(readCertKeys());
                   }
                });
@@ -168,7 +169,7 @@ export function addCert(uri, fileName?, password?) {
                   NativeModules.Wrap_Cert.saveCertToStore(
                      certPath,
                      response === "--" ? "BASE64" : "DER",
-                     "MY",
+                     "OTHERS",
                      (err, saveCert) => {
                         if (err) {
                            dispatch({ type: ADD_CERT_ERROR, payload: err });
@@ -186,7 +187,7 @@ export function addCert(uri, fileName?, password?) {
                         NativeModules.Wrap_Cert.saveCertToStore(
                            certPath,
                            response === "--" ? "BASE64" : "DER",
-                           "MY",
+                           "OTHERS",
                            (err, saveCert) => {
                               if (err) {
                                  dispatch({ type: ADD_CERT_ERROR, payload: err });

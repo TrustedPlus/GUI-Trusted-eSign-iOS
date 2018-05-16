@@ -1,13 +1,15 @@
 import * as React from "react";
 import { Container, Header, Item, Input, List, Content, Button, Icon, Text, View } from "native-base";
 import { Image, AlertIOS } from "react-native";
-import { Headers } from "./Headers";
-import { ListMenu } from "./ListMenu";
+import { Headers } from "../components/Headers";
+import { ListCert } from "../components/ListCert";
 import { styles } from "../styles";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import { addCert } from "../actions/index";
 import { AddCertButton } from "../components/AddCertButton";
+
+import { otherCertAdd } from "../actions/index";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 function mapStateToProps(state) {
     return {
@@ -17,7 +19,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        addCert: bindActionCreators(addCert, dispatch)
+        addCert: bindActionCreators(addCert, dispatch),
+        otherCertAdd: bindActionCreators(otherCertAdd, dispatch)
     };
 }
 
@@ -25,6 +28,7 @@ interface SelectOtherСertProps {
     navigation: any;
     pesronalCertKeys: any;
     addCert(uri: string, fileName: string, password: string): Function;
+    otherCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string): void;
 }
 
 interface SelectOtherСertState {
@@ -51,18 +55,15 @@ export class SelectOtherСert extends React.Component<SelectOtherСertProps, Sel
 
     ShowList(img) {
         return (
-            this.props.pesronalCertKeys.map((cert, key) => cert.category.toUpperCase() === "MY" ? <ListMenu
-                key={key}
-                title={cert.subjectFriendlyName}
-                note={cert.organizationName}
-                provider={cert.provider}
-                category={cert.category}
-                img={img[key]}
-                other
-                issuerName={cert.issuerName}
-                serialNumber={cert.serialNumber}
-                rightimg={cert.hasPrivateKey ? require("../../imgs/general/key_icon.png") : null}
-                nav={() => this.props.navigation.goBack()} /> : null));
+            this.props.pesronalCertKeys.map((cert, key) => ((cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey)) ? <ListCert
+            key={key}
+            title={cert.subjectFriendlyName}
+            note={cert.organizationName}
+            img={img[key]}
+            navigate={(page, cert1) => {this.props.navigation.navigate(page, {cert: cert1 }); }}
+            goBack={() => {this.props.otherCertAdd(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category); this.props.navigation.goBack(); }}
+            cert = {cert}
+            arrow/> : null));
     }
 
     render() {

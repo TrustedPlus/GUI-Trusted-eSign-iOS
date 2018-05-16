@@ -61,7 +61,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
                             (err, verify) => {
                                 if (err) {
                                     dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
-                                    Alert.alert(err);
+                                    Alert.alert(err + "");
                                 } else {
                                     dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
                                 }

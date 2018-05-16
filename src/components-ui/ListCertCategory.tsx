@@ -1,11 +1,10 @@
 import * as React from "react";
 import { Container, List, Content } from "native-base";
-import { Headers } from "./Headers";
-import { ListMenu } from "./ListMenu";
+import { Headers } from "../components/Headers";
+import { ListCert } from "../components/ListCert";
 import { styles } from "../styles";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { readCertKeys } from "../actions/CertKeysAction";
 import { AddCertButton } from "../components/AddCertButton";
 import { addCert } from "../actions/index";
 
@@ -17,20 +16,20 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
    return {
-      readCertKeys: bindActionCreators(readCertKeys, dispatch),
       addCert: bindActionCreators(addCert, dispatch)
    };
 }
 
-interface PersonalСertProps {
+interface ListCertCategoryProps {
    navigation: any;
    pesronalCertKeys: any;
-   readCertKeys(): any;
+   title: string;
+   category: string;
    addCert(uri: string, fileName: string, password: string): Function;
 }
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
-export class PersonalСert extends React.Component<PersonalСertProps> {
+export class ListCertCategory extends React.Component<ListCertCategoryProps> {
 
    static navigationOptions = {
       header: null
@@ -38,21 +37,21 @@ export class PersonalСert extends React.Component<PersonalСertProps> {
 
    ShowList(img) {
       return (
-         this.props.pesronalCertKeys.map((cert, key) => (cert.category.toUpperCase() === "MY") ? <ListMenu
+         this.props.pesronalCertKeys.map((cert, key) => (cert.category.toUpperCase() === this.props.navigation.state.params.category[0] || (cert.category.toUpperCase() === this.props.navigation.state.params.category[1])) ?
+         <ListCert
             key={key}
             title={cert.subjectFriendlyName}
             note={cert.organizationName}
             img={img[key]}
-            issuerName={cert.issuerName}
-            serialNumber={cert.serialNumber}
-            rightimg={cert.hasPrivateKey ? require("../../imgs/general/key_icon.png") : null}
-            nav={() => this.props.navigation.navigate("PropertiesCert", { cert: cert })} /> : null));
+            navigate={(page, cert1) => {this.props.navigation.navigate(page, {cert: cert1 }); }}
+            goBack={() => {this.props.navigation.navigate("PropertiesCert", {cert: cert }); }}
+            cert = {cert}
+            arrow/> : null));
    }
 
    render() {
       const { pesronalCertKeys } = this.props;
       const { goBack, navigate } = this.props.navigation;
-
       let img = [];
       for (let i = 0; i < pesronalCertKeys.length; i++) { // какое расширение у файлов
          switch (pesronalCertKeys[i].extension) {
@@ -63,7 +62,7 @@ export class PersonalСert extends React.Component<PersonalСertProps> {
 
       return (
          <Container style={styles.container}>
-            <Headers title="Личные сертификаты" goBack={() => goBack()} />
+            <Headers title={this.props.navigation.state.params.title} goBack={() => goBack()} />
             <Content>
                <List>
                   {this.ShowList(img)}

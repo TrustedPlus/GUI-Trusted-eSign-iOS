@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Container, View, List, Content, Button, Body, Text } from "native-base";
 import { Image, RefreshControl, ScrollView } from "react-native";
-import { Headers } from "./Headers";
+import { Headers } from "../components/Headers";
 import { styles } from "../styles";
-import { ListMenu } from "./ListMenu";
+import { ListMenu } from "../components/ListMenu";
 import { bindActionCreators } from "redux";
 import { FooterSign } from "./FooterSign";
 import { connect } from "react-redux";
@@ -94,18 +94,16 @@ export class Signature extends React.Component<SignatureProps> {
       const { footerAction, footerClose, files, isFetching, readFiles, readCertKeys, personalCert } = this.props;
       const { navigate, goBack } = this.props.navigation;
 
-      let certificate, icon, filesView;
+      let certificate, filesView;
       if (personalCert.title) { // выбран ли сертификат
          certificate = <List>
             <ListMenu title={personalCert.title} img={personalCert.img}
                note={personalCert.note} nav={() => null} />
          </List>;
-         icon = require("../../imgs/general/edit_icon.png");
       } else {
          certificate = <View style={styles.sign_enc_view}>
             <Text style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
          </View>;
-         icon = require("../../imgs/general/add_icon.png");
       }
 
       let img = iconSelection(files, files.length); // какое расширение у файлов
@@ -142,7 +140,7 @@ export class Signature extends React.Component<SignatureProps> {
             <View style={styles.sign_enc_view}>
                <Text style={styles.sign_enc_title}>Сертификат подписи</Text>
                <Button transparent onPress={() => { readCertKeys(); navigate("SelectPersonalСert"); }} style={styles.sign_enc_button}>
-                  <Image style={styles.headerImage} source={icon} />
+                  <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
                </Button>
             </View>
             {certificate}

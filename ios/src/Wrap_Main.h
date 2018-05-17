@@ -14,7 +14,9 @@
 
 #include "helper.h"
 
-@interface Wrap_Main : NSObject <RCTBridgeModule>
+@interface Wrap_Main : NSObject <RCTBridgeModule>{
+  NSMutableArray *listCerts;//содержит список сертификатов
+}
 
 @end
 

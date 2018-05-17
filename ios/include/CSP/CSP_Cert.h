@@ -27,11 +27,16 @@
     TrustedHandle<Certificate> cert;
 }
 
--(bool) load :(char *)serialNumber;                                                 //загрузка из хранилища
--(bool) loadFromFile :(char *)pathCert :(char *)format;                             //загрузка из файла
--(bool) saveCertToStore :(char *)pathToFie :(char *)format :(char *)category;       //сохраниние сертификата в хранилище из файла
--(bool) deleteCertInStore :(char *)serialNumber :(char *)category;                  //удаление сертификата из хранилища
--(bool) save :(char *)pathToSaveCert :(char *)format :(char *)category;             //экспорт сертификата в файл из памяти
+//загрузка из хранилища
+-(bool) load :(char *)serialNumber;
+//загрузка из файла
+-(bool) loadFromFile :(char *)pathCert :(char *)format;
+//сохраниние сертификата в хранилище из файла
+-(bool)saveCertToStore :(char *)pathToFile :(char *)format;
+//удаление сертификата из хранилища
+-(bool) deleteCertInStore :(char *)serialNumber :(char *)category;
+//экспорт сертификата в файл из памяти
+-(bool) save :(char *)pathToSaveCert :(char *)format :(char *)category;
 -(long) getVersion;
 -(TrustedHandle<std::string>) getSerialNumber;
 -(TrustedHandle<std::string>) getNotBefore;

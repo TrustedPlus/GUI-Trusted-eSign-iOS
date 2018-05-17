@@ -5,7 +5,7 @@ import { NativeModules } from "react-native";
 export function readCertKeys() {
     return function action(dispatch) {
         dispatch({ type: READ_CERT_KEY });
-        NativeModules.Test.getCertificates(
+        NativeModules.Wrap_Main.getCertificates(
             (err, label) => {
                 if (err) {
                     dispatch({ type: READ_CERTIFICATES_ERROR, payload: err });

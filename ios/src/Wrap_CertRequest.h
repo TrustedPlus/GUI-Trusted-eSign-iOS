@@ -16,8 +16,6 @@
 
 @interface Wrap_CertRequest : NSObject <RCTBridgeModule>
 
-int main1234();
-
 @end
 
 #endif /* Wrap_CertRequest_h */

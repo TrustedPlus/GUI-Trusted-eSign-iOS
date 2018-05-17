@@ -44,6 +44,9 @@
 -(bool) getCACert :(char *)url :(char *)outPathToCert;
 
 -(bool) createSelfSignedCertificateCSP :(char *)algorithm :(char *)containerName :(int)keyType :(extKeyUsageStructure)extKeyUsage :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)file;
+
+-(char *) create :(char *)url :(char *)temp :(char *)containerName :(int)keySpec :(int)ProvType;
+-(bool) getCertFromRequest :(char *)url :(char *)outPathToCert;
     
 @end
 

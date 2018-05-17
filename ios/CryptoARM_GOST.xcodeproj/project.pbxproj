@@ -43,7 +43,6 @@
 		9E422A3620AAD891002883CC /* Wrap_Signer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2A20AAD891002883CC /* Wrap_Signer.mm */; };
 		9E422A3720AAD891002883CC /* Wrap_Main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2B20AAD891002883CC /* Wrap_Main.mm */; };
 		9E422A3820AAD891002883CC /* Wrap_Cipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2F20AAD891002883CC /* Wrap_Cipher.mm */; };
-		9E422A3920AAD891002883CC /* Test.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A3020AAD891002883CC /* Test.mm */; };
 		9E422A3A20AAD891002883CC /* Wrap_Cert.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A3220AAD891002883CC /* Wrap_Cert.mm */; };
 		9E422A3D20AAD8DF002883CC /* libCSP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3B20AAD8DF002883CC /* libCSP.a */; };
 		9E422A3E20AAD8DF002883CC /* libOSSL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3C20AAD8DF002883CC /* libOSSL.a */; };
@@ -436,14 +435,12 @@
 		9E422A2620AAD891002883CC /* Wrap_Pkcs12.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_Pkcs12.mm; sourceTree = "<group>"; };
 		9E422A2720AAD891002883CC /* Wrap_Signer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_Signer.h; sourceTree = "<group>"; };
 		9E422A2820AAD891002883CC /* Wrap_Cert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_Cert.h; sourceTree = "<group>"; };
-		9E422A2920AAD891002883CC /* Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
 		9E422A2A20AAD891002883CC /* Wrap_Signer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_Signer.mm; sourceTree = "<group>"; };
 		9E422A2B20AAD891002883CC /* Wrap_Main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_Main.mm; sourceTree = "<group>"; };
 		9E422A2C20AAD891002883CC /* Wrap_CertRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_CertRequest.h; sourceTree = "<group>"; };
 		9E422A2D20AAD891002883CC /* Wrap_Pkcs12.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_Pkcs12.h; sourceTree = "<group>"; };
 		9E422A2E20AAD891002883CC /* Wrap_Cipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_Cipher.h; sourceTree = "<group>"; };
 		9E422A2F20AAD891002883CC /* Wrap_Cipher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_Cipher.mm; sourceTree = "<group>"; };
-		9E422A3020AAD891002883CC /* Test.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Test.mm; sourceTree = "<group>"; };
 		9E422A3120AAD891002883CC /* Wrap_Main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_Main.h; sourceTree = "<group>"; };
 		9E422A3220AAD891002883CC /* Wrap_Cert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_Cert.mm; sourceTree = "<group>"; };
 		9E422A3B20AAD8DF002883CC /* libCSP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCSP.a; path = libs/libCSP.a; sourceTree = "<group>"; };
@@ -782,14 +779,12 @@
 				9E422A2620AAD891002883CC /* Wrap_Pkcs12.mm */,
 				9E422A2720AAD891002883CC /* Wrap_Signer.h */,
 				9E422A2820AAD891002883CC /* Wrap_Cert.h */,
-				9E422A2920AAD891002883CC /* Test.h */,
 				9E422A2A20AAD891002883CC /* Wrap_Signer.mm */,
 				9E422A2B20AAD891002883CC /* Wrap_Main.mm */,
 				9E422A2C20AAD891002883CC /* Wrap_CertRequest.h */,
 				9E422A2D20AAD891002883CC /* Wrap_Pkcs12.h */,
 				9E422A2E20AAD891002883CC /* Wrap_Cipher.h */,
 				9E422A2F20AAD891002883CC /* Wrap_Cipher.mm */,
-				9E422A3020AAD891002883CC /* Test.mm */,
 				9E422A3120AAD891002883CC /* Wrap_Main.h */,
 				9E422A3220AAD891002883CC /* Wrap_Cert.mm */,
 			);
@@ -1513,7 +1508,6 @@
 				9E422A3A20AAD891002883CC /* Wrap_Cert.mm in Sources */,
 				9E422A3720AAD891002883CC /* Wrap_Main.mm in Sources */,
 				9E422A3820AAD891002883CC /* Wrap_Cipher.mm in Sources */,
-				9E422A3920AAD891002883CC /* Test.mm in Sources */,
 				9E422A3620AAD891002883CC /* Wrap_Signer.mm in Sources */,
 				9E422A3420AAD891002883CC /* helper.mm in Sources */,
 				9E422A3520AAD891002883CC /* Wrap_Pkcs12.mm in Sources */,

@@ -37,12 +37,12 @@ RCT_EXPORT_METHOD(importPFX: (NSString *)filename: (NSString *)passwordForPFX: (
   char *pPwdPFX = (char *) [passwordForPFX UTF8String];
   char *pPwdKey = (char *) [passwordForKey UTF8String];
   try{
-    //try{
-    //  [ossl_Pkcs12 importPFX:pFilename :pPwdPFX :pPwdKey ];
-    //}
-    //catch (TrustedHandle<Exception> e){
+    try{
+      [ossl_Pkcs12 importPFX:pFilename :pPwdPFX :pPwdKey ];
+    }
+    catch (TrustedHandle<Exception> e){
       [csp_Certs importPFX:pFilename :pPwdPFX];
-    //}
+    }
     callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
   catch (TrustedHandle<Exception> e){

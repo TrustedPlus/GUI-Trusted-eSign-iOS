@@ -119,7 +119,7 @@ RCT_EXPORT_METHOD(saveCertToStore: (NSString *)inCert: (NSString *)inFormat: (NS
 #endif
 #ifdef ProvCryptoPro
     if (bResult){
-      b = [csp_Cert saveCertToStore:infileCert :format :category];
+      b = [csp_Cert saveCertToStore:infileCert :format];
     }
 #endif
     

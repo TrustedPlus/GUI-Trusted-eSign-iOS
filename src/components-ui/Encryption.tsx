@@ -101,7 +101,7 @@ export class Encryption extends React.Component<EncryptionProps> {
             </List>;
         } else {
             certificate = <View style={styles.sign_enc_view}>
-                <Text style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
+                <Text onPress={() => { readCertKeys(); navigate("SelectOtherСert"); }} style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
             </View>;
         }
 

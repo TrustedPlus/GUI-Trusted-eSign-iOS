@@ -1,34 +1,25 @@
 import * as React from "react";
-import { Container, List, Content } from "native-base";
+import { Container, List, Content, Text } from "native-base";
 import { Headers } from "../components/Headers";
 import { ListCert } from "../components/ListCert";
 import { styles } from "../styles";
-import { bindActionCreators } from "redux";
+
 import { connect } from "react-redux";
-import { AddCertButton } from "../components/AddCertButton";
-import { addCert } from "../actions/index";
 
 function mapStateToProps(state) {
    return {
-      pesronalCertKeys: state.certKeys.pesronalCertKeys
-   };
-}
-
-function mapDispatchToProps(dispatch) {
-   return {
-      addCert: bindActionCreators(addCert, dispatch)
+      certificates: state.certificates.certificates
    };
 }
 
 interface ListCertCategoryProps {
    navigation: any;
-   pesronalCertKeys: any;
+   certificates: any;
    title: string;
    category: string;
-   addCert(uri: string, fileName: string, password: string): Function;
 }
 
-@(connect(mapStateToProps, mapDispatchToProps) as any)
+@(connect(mapStateToProps) as any)
 export class ListCertCategory extends React.Component<ListCertCategoryProps> {
 
    static navigationOptions = {
@@ -37,7 +28,7 @@ export class ListCertCategory extends React.Component<ListCertCategoryProps> {
 
    ShowList(img) {
       return (
-         this.props.pesronalCertKeys.map((cert, key) => (cert.category.toUpperCase() === this.props.navigation.state.params.category[0] || (cert.category.toUpperCase() === this.props.navigation.state.params.category[1])) ?
+         this.props.certificates.map((cert, key) => (cert.category.toUpperCase() === this.props.navigation.state.params.category[0] || (cert.category.toUpperCase() === this.props.navigation.state.params.category[1])) ?
          <ListCert
             key={key}
             title={cert.subjectFriendlyName}
@@ -50,25 +41,24 @@ export class ListCertCategory extends React.Component<ListCertCategoryProps> {
    }
 
    render() {
-      const { pesronalCertKeys } = this.props;
+      const { certificates } = this.props;
       const { goBack, navigate } = this.props.navigation;
       let img = [];
-      for (let i = 0; i < pesronalCertKeys.length; i++) { // какое расширение у файлов
-         switch (pesronalCertKeys[i].extension) {
-            default:
-               img[i] = require("../../imgs/general/cert2_ok_icon.png"); break;
-         }
+      let nowDate = new Date().getTime();
+      for (let i = 0; i < certificates.length; i++) {
+            nowDate < new Date(certificates[i].notAfter).getTime() ?
+            img[i] = require("../../imgs/general/cert2_ok_icon.png") :
+            img[i] = require("../../imgs/general/cert2_bad_icon.png");
       }
 
       return (
          <Container style={styles.container}>
             <Headers title={this.props.navigation.state.params.title} goBack={() => goBack()} />
             <Content>
-               <List>
-                  {this.ShowList(img)}
-               </List>
+            {certificates.filter((cert) => ((cert.category.toUpperCase() === this.props.navigation.state.params.category[0]) || (cert.category.toUpperCase() === this.props.navigation.state.params.category[1]))).length !== 0 ?
+               <List>{this.ShowList(img)}</List> :
+               <Text style={[styles.sign_enc_prompt, {paddingTop: "50%"}]}>Сертификатов нет. Нажмите кнопку 'добавить' для импорта или создания сертификата</Text>}
             </Content>
-            <AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password) => this.props.addCert(uri, fileName, password)} />
          </Container>
       );
    }

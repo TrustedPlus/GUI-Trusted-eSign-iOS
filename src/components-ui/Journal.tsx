@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, Text, Footer, FooterTab, Button } from "native-base";
+import { Container, Content, Text, Footer, FooterTab, Button } from "native-base";
 import { ScrollView } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
@@ -44,11 +44,13 @@ export class Journal extends React.Component<JournalProps> {
         return (
             <Container style={styles.container}>
                 <Headers title="Журнал операций" goBack={() => goBack()} />
-                <ScrollView>{this.showList()}</ScrollView>
+                <Content>
+                { log.length ? <ScrollView>{this.showList()}</ScrollView> : <Text style={[styles.sign_enc_prompt, {paddingTop: "50%"}]}>Журнал чист</Text> }
+                </Content>
                 <Footer>
                     <FooterTab>
-                        <Button vertical>
-                            <Text onPress={() => clearLog()} style={{ color: "black" }}>Очистить</Text>
+                        <Button vertical onPress={() => clearLog()} >
+                            <Text style={{ color: "black" }}>Очистить</Text>
                         </Button>
                     </FooterTab>
                 </Footer>

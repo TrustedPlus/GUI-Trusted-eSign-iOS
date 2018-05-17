@@ -4,14 +4,14 @@ import {personalCert} from "./PersonalCertReducers";
 import {otherCert} from "./OtherCertReducers";
 import {Files} from "./Files";
 import {Logger} from "./Logger";
-import {CertKeys} from "./CertKeysReducers";
+import {certificates} from "./CertificatesReducers";
 
 const rootReducer = combineReducers({
     footer: Footer,
     personalCert: personalCert,
     files: Files,
     logger: Logger,
-    certKeys: CertKeys,
+    certificates: certificates,
     otherCert: otherCert
 });
 

@@ -85,15 +85,16 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
       if (organizationName !== null) {
          organizationName = (organizationName[0].replace("2.5.4.10=", ""));
       }
+      let isValidnew = new Date().getTime() < new Date(cert.notAfter).getTime() ? true : false;
       return (
          <Container style={styles.container}>
             <Headers title="Свойства сертфиката" goBack={() => goBack()} />
             <Content style={{ backgroundColor: "white" }}>
                <View>
-                  <Image style={styles.prop_cert_img} source={require("../../imgs/general/cert_ok_icon.png")} />
+                  <Image style={styles.prop_cert_img} source={isValidnew ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />
                   <Text style={styles.prop_cert_title}>{cert.subjectFriendlyName}</Text>
-                  <Text style={styles.prop_cert_status}>Cтатус сертификата:
-                     <Text style={{ color: "green" }}> действителен</Text>
+                  <Text style={styles.prop_cert_status}>Cтатус сертификата:{"\n"}
+                     {isValidnew ? <Text style={{ color: "green" }}>действителен</Text> :  <Text style={{ color: "red" }}>не действителен</Text>}
                   </Text>
                </View>
                <List>

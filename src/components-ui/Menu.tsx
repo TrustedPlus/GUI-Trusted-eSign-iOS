@@ -20,7 +20,7 @@ import { CreateCertificate } from "./CreateCertificate";
 
 function mapStateToProps(state) {
    return {
-      pesronalCertKeys: state.certKeys.pesronalCertKeys,
+      certificates: state.certificates.certificates,
       files: state.files.files,
       lastlog: state.logger.lastlog
    };
@@ -36,7 +36,7 @@ function mapDispatchToProps(dispatch) {
 interface MainProps {
    navigation: any;
    files: any;
-   pesronalCertKeys: any;
+   certificates: any;
    lastlog: string;
    readCertKeys(): any;
    readFiles(): any;
@@ -51,9 +51,9 @@ class Main extends React.Component<MainProps> {
 
    render() {
       const { navigate } = this.props.navigation;
-      const { files, pesronalCertKeys, lastlog } = this.props;
+      const { files, certificates, lastlog } = this.props;
       let length = "выбрано файлов: " + files.length;
-      let persCert = "личных сертификатов: " + pesronalCertKeys.filter(cert => cert.category.toUpperCase() === "MY").length;
+      let persCert = "личных сертификатов: " + certificates.filter(cert => cert.category.toUpperCase() === "MY").length;
       let lastlognote = lastlog ? "последняя запись: " + lastlog : "действий не совершалось";
       return (
          <Container style={styles.container}>

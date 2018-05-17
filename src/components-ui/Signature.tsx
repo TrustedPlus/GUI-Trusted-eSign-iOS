@@ -102,7 +102,7 @@ export class Signature extends React.Component<SignatureProps> {
          </List>;
       } else {
          certificate = <View style={styles.sign_enc_view}>
-            <Text style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
+            <Text onPress={() => { readCertKeys(); navigate("SelectPersonalСert"); }} style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
          </View>;
       }
 

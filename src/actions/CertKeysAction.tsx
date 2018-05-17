@@ -1,4 +1,4 @@
-import { READ_CERT_KEY, READ_PERSONAL_CERT_KEY_SUCCESS, READ_OTHER_CERT_KEY_SUCCESS, READ_CERT_KEY_ERROR, SET_PATH_TO_STOR_ERROR, PROVIDER_INIT_ERROR} from "../constants";
+import { READ_CERT_KEY, READ_CERTIFICATES_SUCCESS, READ_CERTIFICATES_ERROR, CREATE_CERTIFICATE_SUCCESS, PROVIDER_INIT_ERROR} from "../constants";
 import * as RNFS from "react-native-fs";
 import { NativeModules } from "react-native";
 
@@ -8,10 +8,16 @@ export function readCertKeys() {
         NativeModules.Test.getCertificates(
             (err, label) => {
                 if (err) {
-                    dispatch({ type: READ_CERT_KEY_ERROR, payload: err });
+                    dispatch({ type: READ_CERTIFICATES_ERROR, payload: err });
                 } else {
-                    dispatch({ type: READ_PERSONAL_CERT_KEY_SUCCESS, payload: label });
+                    dispatch({ type: READ_CERTIFICATES_SUCCESS, payload: label });
                 }
             });
+    };
+}
+
+export function createCert(CN) {
+    return function action(dispatch) {
+        dispatch({ type: CREATE_CERTIFICATE_SUCCESS, payload: CN });
     };
 }

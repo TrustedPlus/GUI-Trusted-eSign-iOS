@@ -38,8 +38,9 @@ export function encAssymmetric(files: IFile[], otherCert, footer) {
                         }
                     });
             }
-            dispatch({ type: ENCODE_FILES_END });
-            dispatch(readFiles());
+            setTimeout(() => {
+                dispatch(readFiles());
+            }, 400);
         }
     };
 }
@@ -72,7 +73,8 @@ export function decAssymmetric(files: IFile[], otherCert, footer) {
                     });
             }
         }
-        dispatch({ type: DECODE_FILES_END });
-        dispatch(readFiles());
+        setTimeout(() => {
+            dispatch(readFiles());
+        }, 400);
     };
 }

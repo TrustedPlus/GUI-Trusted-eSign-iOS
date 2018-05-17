@@ -2,8 +2,8 @@ import {
     ADD_FILES_SUCCESS, ADD_FILES_ERROR, SIGN_FILE_ERROR, SIGN_FILE_SUCCESS,
     VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, ENCODE_FILES_SUCCESS, ENCODE_FILES_ERROR,
     DECODE_FILES_SUCCESS, DECODE_FILES_ERROR, ADD_CERT_SUCCESS, ADD_CERT_ERROR, ADD_KEY_SUCCESS, ADD_KEY_ERROR,
-    SET_PATH_TO_STOR_ERROR, PROVIDER_INIT_ERROR, READ_CERT_KEY_ERROR, UPLOAD_FILES_SUCCESS, UPLOAD_FILES_ERROR,
-    DELETE_FILES_SUCCESS, DELETE_FILES_ERROR, CLEAR_LOG
+    SET_PATH_TO_STOR_ERROR, PROVIDER_INIT_ERROR, READ_CERTIFICATES_ERROR, UPLOAD_FILES_SUCCESS, UPLOAD_FILES_ERROR,
+    DELETE_FILES_SUCCESS, DELETE_FILES_ERROR, CLEAR_LOG, CREATE_CERTIFICATE_SUCCESS
 } from "../constants";
 
 const initialState = {
@@ -56,7 +56,7 @@ export function Logger(state = initialState, action) {
                 log: logAddrecord(state.log, action.payload, "Инициализация провайдера не увенчалась успехом"),
                 lastlog: new Date() + ""
             };
-        case READ_CERT_KEY_ERROR:
+        case READ_CERTIFICATES_ERROR:
             return {
                 ...state,
                 log: logAddrecord(state.log, action.payload, "Ошибка чтения ключа или сертификата"),
@@ -144,6 +144,12 @@ export function Logger(state = initialState, action) {
             return {
                 ...state,
                 log: logAddrecord(state.log, action.payload, "Расшифрование файла не удалось"),
+                lastlog: new Date() + ""
+            };
+        case CREATE_CERTIFICATE_SUCCESS:
+            return {
+                ...state,
+                log: logAddrecord(state.log, action.payload, "Сертификат был успешно создан"),
                 lastlog: new Date() + ""
             };
         case CLEAR_LOG:

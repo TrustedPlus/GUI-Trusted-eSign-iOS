@@ -13,7 +13,6 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* CryptoARM_GOSTTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CryptoARM_GOSTTests.m */; };
-		0DD3DC8984E342439F9F1C5D /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FAA421CFD0B4009A87CA3A5 /* libRNVectorIcons.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -531,7 +530,6 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				C0758707CB474FFE8A249D4E /* libRNDocumentPicker.a in Frameworks */,
 				B917CA9F09004B4AB43EAC65 /* libRNFS.a in Frameworks */,
-				0DD3DC8984E342439F9F1C5D /* libRNVectorIcons.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1605,6 +1603,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 8TC4KGDY5X;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1617,7 +1616,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = CryptoARM_GOSTTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1630,7 +1629,9 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CryptoARM_GOST.app/CryptoARM_GOST";
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Debug;
 		};
@@ -1639,6 +1640,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 8TC4KGDY5X;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1647,7 +1649,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = CryptoARM_GOSTTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1660,7 +1662,9 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CryptoARM_GOST.app/CryptoARM_GOST";
+				VALID_ARCHS = "arm64 armv7";
 			};
 			name = Release;
 		};
@@ -1690,9 +1694,10 @@
 					"\"$(SRCROOT)/include\"",
 					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
-					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"\"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager\"",
 				);
 				INFOPLIST_FILE = CryptoARM_GOST/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1705,6 +1710,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.digt.CryptoARMGOST;
 				PRODUCT_NAME = CryptoARM_GOST;
+				STRIP_INSTALLED_PRODUCT = NO;
+				VALID_ARCHS = "arm64 armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1714,12 +1721,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CryptoARM_GOST/CryptoARM_GOST.entitlements;
+				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 8TC4KGDY5X;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					ProvOpenSSL,
+					ProvCryptoPro,
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/include/CSP\"",
@@ -1728,14 +1741,16 @@
 					"\"$(SRCROOT)/include\"",
 					"$(SRCROOT)/../node_modules/react-native-document-picker/ios/RNDocumentPicker",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
-					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"\"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager\"",
 				);
 				INFOPLIST_FILE = CryptoARM_GOST/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1743,6 +1758,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.digt.CryptoARMGOST;
 				PRODUCT_NAME = CryptoARM_GOST;
+				STRIP_INSTALLED_PRODUCT = NO;
+				VALID_ARCHS = "arm64 armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

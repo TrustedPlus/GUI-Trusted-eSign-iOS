@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 
 function mapStateToProps(state) {
     return {
-        pesronalCertKeys: state.certKeys.pesronalCertKeys
+        certificates: state.certificates.certificates
     };
 }
 
@@ -26,7 +26,7 @@ function mapDispatchToProps(dispatch) {
 
 interface SelectOtherСertProps {
     navigation: any;
-    pesronalCertKeys: any;
+    certificates: any;
     addCert(uri: string, fileName: string, password: string): Function;
     otherCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string): void;
 }
@@ -55,34 +55,34 @@ export class SelectOtherСert extends React.Component<SelectOtherСertProps, Sel
 
     ShowList(img) {
         return (
-            this.props.pesronalCertKeys.map((cert, key) => ((cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey)) ? <ListCert
-            key={key}
-            title={cert.subjectFriendlyName}
-            note={cert.organizationName}
-            img={img[key]}
-            navigate={(page, cert1) => {this.props.navigation.navigate(page, {cert: cert1 }); }}
-            goBack={() => {this.props.otherCertAdd(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category); this.props.navigation.goBack(); }}
-            cert = {cert}
-            arrow/> : null));
+            this.props.certificates.map((cert, key) => ((cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey)) ? <ListCert
+                key={key}
+                title={cert.subjectFriendlyName}
+                note={cert.organizationName}
+                img={img[key]}
+                navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
+                goBack={() => { this.props.otherCertAdd(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category); this.props.navigation.goBack(); }}
+                cert={cert}
+                arrow /> : null));
     }
 
     render() {
-        const { pesronalCertKeys } = this.props;
+        const { certificates } = this.props;
         const { navigate, goBack } = this.props.navigation;
         let img = [];
-        for (let i = 0; i < pesronalCertKeys.length; i++) { // какое расширение у файлов
-            switch (pesronalCertKeys[i].extension) {
-                default:
-                    img[i] = require("../../imgs/general/cert2_ok_icon.png"); break;
-            }
+        let nowDate = new Date().getTime();
+        for (let i = 0; i < certificates.length; i++) {
+            nowDate < new Date(certificates[i].notAfter).getTime() ?
+                img[i] = require("../../imgs/general/cert2_ok_icon.png") :
+                img[i] = require("../../imgs/general/cert2_bad_icon.png");
         }
         return (
             <Container style={styles.container}>
                 <Headers title="Выберите сертификат" goBack={() => goBack()} />
                 <Content>
-                    <List>
-                        {this.ShowList(img)}
-                    </List>
+                    {(certificates.filter((cert) => (cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey))).length !== 0 ?
+                        <List>{this.ShowList(img)}</List> :
+                        <Text style={[styles.sign_enc_prompt, { paddingTop: "50%" }]}>Сертификатов нет. Нажмите кнопку 'добавить' для импорта или создания сертификата</Text>}
                 </Content>
                 <AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password) => this.props.addCert(uri, fileName, password)} />
             </Container>

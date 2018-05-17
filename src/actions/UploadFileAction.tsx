@@ -55,8 +55,9 @@ export function deleteFile(files: IFile[], footer) {
                         dispatch({ type: DELETE_FILES_ERROR, payload: err });
                     });
             }
-            dispatch({ type: DELETE_FILES_END });
-            dispatch(readFiles());
+            setTimeout(() => {
+                dispatch(readFiles());
+             }, 300);
         }
     };
 }

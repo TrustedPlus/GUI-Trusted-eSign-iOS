@@ -38,8 +38,9 @@ export function signFile(files: IFile[], personalCert, footer) {
                         }
                     });
             }
-            dispatch({ type: SIGN_FILE_END });
-            dispatch(readFiles());
+            setTimeout(() => {
+                dispatch(readFiles());
+            }, 300);
         }
     };
 }
@@ -61,7 +62,6 @@ export function verifySign(files: IFile[], personalCert, footer) {
                             (err, verify) => {
                                 if (err) {
                                     dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
-                                    Alert.alert(err + "");
                                 } else {
                                     dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
                                 }
@@ -69,7 +69,9 @@ export function verifySign(files: IFile[], personalCert, footer) {
                     },
                     err => Alert.alert("" + err));
             }
-            dispatch({ type: VERIFY_SIGN_END });
+            setTimeout(() => {
+                dispatch({ type: VERIFY_SIGN_END });
+            }, 400);
         }
     };
 }

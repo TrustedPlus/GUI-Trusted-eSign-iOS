@@ -30,7 +30,6 @@ export class MainApp extends React.Component {
          (err, label) => {
             console.log(err);
          });
-      console.log(RNFS.DocumentDirectoryPath);
    }
    render() {
       return (

@@ -6,13 +6,14 @@ import { View, Switch, Alert, AlertIOS } from "react-native";
 import * as RNFS from "react-native-fs";
 import { Dropdown } from "react-native-material-dropdown";
 import { genSelfSignedCertWithoutRequest } from "../utils/createCert";
-import { readCertKeys } from "../actions/CertKeysAction";
+import { readCertKeys, createCert } from "../actions/CertKeysAction";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 function mapDispatchToProps(dispatch) {
    return {
-       readCertKeys: bindActionCreators(readCertKeys, dispatch)
+      readCertKeys: bindActionCreators(readCertKeys, dispatch),
+      createCert: bindActionCreators(createCert, dispatch)
    };
 }
 
@@ -87,7 +88,9 @@ interface CreateCertificateState {
 
 interface CreateCertificateProps {
    navigation: any;
+   dispatch: any;
    readCertKeys(): void;
+   createCert(CN: string): void;
 }
 
 @(connect(null, mapDispatchToProps) as any)
@@ -145,11 +148,12 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
             this.state.country
          ).then(() => {
             setTimeout(() => {
+               this.props.createCert(this.state.CN);
                AlertIOS.alert(
                   "Сертификат и ключ создан",
                   null,
                   [
-                     { text: "Ок", onPress: () => {this.props.readCertKeys(); this.props.navigation.goBack(); }},
+                     { text: "Ок", onPress: () => { this.props.readCertKeys(); this.props.navigation.goBack(); } },
                   ]
                );
             }, 500);

@@ -134,6 +134,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
       if (this.state.CN !== "") {
          genSelfSignedCertWithoutRequest(
             this.state.algorithm,
+            this.state.keyAssignment,
             //  назначение сертификата (EKU)
             [this.state.server_auth, // проверка подлинности сервера
             this.state.client_auth, // проверка подлинности клиента
@@ -168,6 +169,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 
    render() {
       const { navigate, goBack } = this.props.navigation;
+      console.log(this.state);
       return (
          <Container style={styles.container}>
             <Headers title="Создание сертификата" goBack={() => goBack()} />
@@ -177,11 +179,11 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
                      defaultValue="GOST P 34.10-2012 256 bit"
                      changeValue={(value) => this.setState({ algorithm: value })}
                      options={[{ value: "GOST P 34.10-2001" }, { value: "GOST P 34.10-2012 256 bit" }, { value: "GOST P 34.10-2012 512 bit" }]} />
-                  {this.state.algorithm === "RSA" ? <> <ListWithModalDropdown text="Длина ключа"
+                  {this.state.algorithm !== "RSA" ? <> {/*<ListWithModalDropdown text="Длина ключа"
                      defaultValue="512"
                      changeValue={(value) => this.setState({ keyLength: Number(value) })}
                      options={[{ value: "512" }, { value: "1024" }, { value: "2048" }, { value: "3072" }, { value: "4096" }]} />
-                     <ListWithModalDropdown text="Назначение ключа"
+      */}<ListWithModalDropdown text="Назначение ключа"
                         defaultValue="Подпись и шифрование"
                         changeValue={(value, index) => this.setState({ keyAssignment: Number(index) })}
                         options={[{ value: "Подпись и шифрование" }, { value: "Шифрование" }, { value: "Подпись" }]} />
@@ -204,7 +206,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
                </View>
                <Form>
                   <Item floatingLabel error={this.state.errorInputCN ? true : false} >
-                     <Label>CN</Label>
+                     <Label>CN*</Label>
                      <Input onChangeText={(CN) => this.setState({ CN })} />
                   </Item>
                   <Item floatingLabel>

@@ -12,12 +12,12 @@ function randomRowGeneration() {
     return text;
 }
 
-export function genSelfSignedCertWithoutRequest(algorithm, certAssignment: boolean[], CN, email, org, city, obl, country) {
+export function genSelfSignedCertWithoutRequest(algorithm, keyAssignment, certAssignment: boolean[], CN, email, org, city, obl, country) {
     return new Promise((resolve, reject) => {
         NativeModules.Wrap_CertRequest.genSelfSignedCertWithoutRequest(
             algorithm,
             randomRowGeneration(),
-            0,
+            keyAssignment,
             certAssignment, CN, email, org, city, obl, country,
             RNFS.DocumentDirectoryPath + "/Files/" + CN + ".cer",
             (err, verify) => {

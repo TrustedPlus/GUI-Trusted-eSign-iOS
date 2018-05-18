@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Container, ListItem, View, List, Content, Text } from "native-base";
-import { Image } from "react-native";
+import { Container, ListItem, View, List, Content, Text, Footer, FooterTab, Button } from "native-base";
+import { Image, NativeModules, Share, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import * as RNFS from "react-native-fs";
@@ -34,6 +34,42 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
    static navigationOptions = {
       header: null
    };
+
+   onPressSave() {
+      console.log(this.props.navigation.state.params.cert.serialNumber);
+      console.log(this.props.navigation.state.params.cert.provider);
+      NativeModules.Wrap_Cert.load(
+         this.props.navigation.state.params.cert.serialNumber,
+         this.props.navigation.state.params.cert.provider,
+         (err, load) => {
+            if (err) {
+               console.log(err);
+               Alert.alert(err + "");
+            } else {
+               let path = RNFS.DocumentDirectoryPath + "/" + this.props.navigation.state.params.cert.subjectFriendlyName + ".cer";
+               NativeModules.Wrap_Cert.save(
+                  path,
+                  "BASE64",
+                  (err, load) => {
+                     if (err) {
+                        console.log(err);
+                        Alert.alert(err + "");
+                     } else {
+                        console.log(load);
+                        Share.share({
+                           url: path
+                        }).then(
+                           result => {
+                              RNFS.unlink(path);
+                           }
+                        ).catch(
+                           errorMsg => Alert.alert("Ошибка при экспорте сертификата")
+                        );
+                     }
+                  });
+            }
+         });
+   }
 
    render() {
       const { params } = this.props.navigation.state;
@@ -94,7 +130,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
                   <Image style={styles.prop_cert_img} source={isValidnew ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />
                   <Text style={styles.prop_cert_title}>{cert.subjectFriendlyName}</Text>
                   <Text style={styles.prop_cert_status}>Cтатус сертификата:{"\n"}
-                     {isValidnew ? <Text style={{ color: "green" }}>действителен</Text> :  <Text style={{ color: "red" }}>не действителен</Text>}
+                     {isValidnew ? <Text style={{ color: "green" }}>действителен</Text> : <Text style={{ color: "red" }}>не действителен</Text>}
                   </Text>
                </View>
                <List>
@@ -115,14 +151,21 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
                   {issuerRegion ? <ListForCert title="Регион:" value={issuerRegion} /> : null}
                   {issuerCity ? <ListForCert title="Город:" value={issuerCity} /> : null}
 
-                  <ListForCert itemHeader title="Сертфикат"/>
-                  <ListForCert title="Серийный номер:" value={cert.serialNumber}/>
-                  <ListForCert title="Годен до:" value={cert.notAfter}/>
-                  <ListForCert title="Алгоритм подписи:" value={cert.publicKeyAlgorithm}/>
-                  <ListForCert title="Хэш-алгоритм:" value={cert.signatureDigestAlgorithm}/>
-                  <ListForCert title="Закрытый ключ:" value={cert.hasPrivateKey ? "присутствует" : "отсутствует"}/>
+                  <ListForCert itemHeader title="Сертфикат" />
+                  <ListForCert title="Серийный номер:" value={cert.serialNumber} />
+                  <ListForCert title="Годен до:" value={cert.notAfter} />
+                  <ListForCert title="Алгоритм подписи:" value={cert.publicKeyAlgorithm} />
+                  <ListForCert title="Хэш-алгоритм:" value={cert.signatureDigestAlgorithm} />
+                  <ListForCert title="Закрытый ключ:" value={cert.hasPrivateKey ? "присутствует" : "отсутствует"} />
                </List>
             </Content>
+            <Footer>
+               <FooterTab>
+                  <Button vertical onPress={() => this.onPressSave()} >
+                     <Text style={{ color: "black" }}>Экспортировать</Text>
+                  </Button>
+               </FooterTab>
+            </Footer>
          </Container>
       );
    }

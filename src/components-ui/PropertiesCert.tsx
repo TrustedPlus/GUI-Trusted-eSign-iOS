@@ -1,9 +1,20 @@
 import * as React from "react";
 import { Container, ListItem, View, List, Content, Text, Footer, FooterTab, Button } from "native-base";
-import { Image, NativeModules, Share, Alert } from "react-native";
+import { Image, NativeModules, Share, Alert, AlertIOS } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import * as RNFS from "react-native-fs";
+import { FooterButton } from "../components/FooterButton";
+
+import { readCertKeys } from "../actions/CertKeysAction";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+
+function mapDispatchToProps(dispatch) {
+   return {
+      readCertKeys: bindActionCreators(readCertKeys, dispatch)
+   };
+}
 
 interface ListForCertProps {
    title: string;
@@ -27,15 +38,17 @@ class ListForCert extends React.Component<ListForCertProps> {
 interface PropertiesCertProps {
    navigation: any;
    cert: string;
+   readCertKeys(): void;
 }
 
+@(connect(null, mapDispatchToProps) as any)
 export class PropertiesCert extends React.Component<PropertiesCertProps> {
 
    static navigationOptions = {
       header: null
    };
 
-   onPressSave() {
+   exportCert() {
       console.log(this.props.navigation.state.params.cert.serialNumber);
       console.log(this.props.navigation.state.params.cert.provider);
       NativeModules.Wrap_Cert.load(
@@ -69,6 +82,26 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
                   });
             }
          });
+   }
+
+   deleteCert() {
+      NativeModules.Wrap_Cert.deleteCertInStore(
+         this.props.navigation.state.params.cert.serialNumber,
+         this.props.navigation.state.params.cert.category,
+         this.props.navigation.state.params.cert.provider,
+         (err, deleteCert) => {
+         if (err) {
+            Alert.alert("err: " + err);
+         } else {
+            AlertIOS.alert(
+               "Сертификат был успешно удален",
+               null,
+               [
+                  { text: "Ок", onPress: () => { this.props.readCertKeys(); this.props.navigation.goBack(); } },
+               ]
+            );
+         }
+       });
    }
 
    render() {
@@ -160,11 +193,12 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
                </List>
             </Content>
             <Footer>
-               <FooterTab>
-                  <Button vertical onPress={() => this.onPressSave()} >
-                     <Text style={{ color: "black" }}>Экспортировать</Text>
-                  </Button>
-               </FooterTab>
+                <FooterTab>
+                    <FooterButton title="Экспортировать"
+                        icon="ios-share-alt-outline"
+                        nav={() => this.exportCert()} />
+                    <FooterButton title="Удалить" icon="md-trash" nav={() => this.deleteCert()} />
+                </FooterTab>
             </Footer>
          </Container>
       );

@@ -97,7 +97,7 @@ export class Encryption extends React.Component<EncryptionProps> {
         if (otherCert.title) { // выбран ли сертификат
             certificate = <List>
                 <ListMenu title={otherCert.title} img={otherCert.img}
-                    note={otherCert.note} nav={() => null} />
+                    note={otherCert.note} nav={() => { readCertKeys(); navigate("SelectOtherСert"); }} />
             </List>;
         } else {
             certificate = <View style={styles.sign_enc_view}>
@@ -116,7 +116,7 @@ export class Encryption extends React.Component<EncryptionProps> {
             </ScrollView>;
         } else {
             filesView = <View style={styles.sign_enc_view}>
-                <Text style={styles.sign_enc_prompt}>[Добавьте файлы]</Text>
+                <Text style={styles.sign_enc_prompt} onPress={() => { this.documentPicker(); }}>[Добавьте файлы]</Text>
             </View>;
         }
 

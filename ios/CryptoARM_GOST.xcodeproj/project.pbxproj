@@ -61,6 +61,8 @@
 		9E73E7DB20AAF9CF00CE8D30 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CE20AAF9CF00CE8D30 /* OFL.txt */; };
 		9E73E7DC20AAF9CF00CE8D30 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CF20AAF9CF00CE8D30 /* SimpleLineIcons.ttf */; };
 		9E73E7DD20AAF9CF00CE8D30 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7D020AAF9CF00CE8D30 /* MaterialIcons.ttf */; };
+		9EC1384120AEEF3E004BA671 /* splash_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC1384020AEEF3D004BA671 /* splash_screen.png */; };
+		9EC1384320AEEF4A004BA671 /* splash_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC1384220AEEF4A004BA671 /* splash_icon.png */; };
 		9EE07A8820AB020F00741DC6 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A8720AB020F00741DC6 /* en.lproj */; };
 		9EE07A9D20AB03E000741DC6 /* TemplateSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */; };
 		9EE07A9E20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */; };
@@ -461,6 +463,8 @@
 		9E73E7CE20AAF9CF00CE8D30 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		9E73E7CF20AAF9CF00CE8D30 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		9E73E7D020AAF9CF00CE8D30 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		9EC1384020AEEF3D004BA671 /* splash_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash_screen.png; path = ../imgs/general/splash_screen.png; sourceTree = "<group>"; };
+		9EC1384220AEEF4A004BA671 /* splash_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash_icon.png; path = ../imgs/general/splash_icon.png; sourceTree = "<group>"; };
 		9EE07A8720AB020F00741DC6 /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en.lproj; path = CPROCSP.framework/Resources/en.lproj; sourceTree = SOURCE_ROOT; };
 		9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewController.xib; sourceTree = "<group>"; };
 		9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
@@ -646,6 +650,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				9EC1384020AEEF3D004BA671 /* splash_screen.png */,
+				9EC1384220AEEF4A004BA671 /* splash_icon.png */,
 			);
 			name = CryptoARM_GOST;
 			sourceTree = "<group>";
@@ -1407,6 +1413,7 @@
 				9EE07AC720AB042000741DC6 /* config.ini in Resources */,
 				9EE07AA120AB03E800741DC6 /* SelectionViewController.xib in Resources */,
 				9EE07AC420AB042000741DC6 /* CPCAViewController.xib in Resources */,
+				9EC1384120AEEF3E004BA671 /* splash_screen.png in Resources */,
 				9EE07AB020AB03FE00741DC6 /* RndmBioViewController.xib in Resources */,
 				9EE07AB520AB040600741DC6 /* MSCARequestViewControllerIPhone.xib in Resources */,
 				9EE07AC620AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib in Resources */,
@@ -1420,6 +1427,7 @@
 				9E73E7D520AAF9CF00CE8D30 /* Ionicons.ttf in Resources */,
 				9EE07AAF20AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib in Resources */,
 				9EE07AC520AB042000741DC6 /* CPROCertviewViewController.xib in Resources */,
+				9EC1384320AEEF4A004BA671 /* splash_icon.png in Resources */,
 				9EE07AAD20AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib in Resources */,
 				9EE07AD620AB043500741DC6 /* CP_Localizable.strings in Resources */,
 				9EE07AB820AB040600741DC6 /* MSCARequestViewController.xib in Resources */,

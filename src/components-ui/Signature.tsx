@@ -98,7 +98,7 @@ export class Signature extends React.Component<SignatureProps> {
       if (personalCert.title) { // выбран ли сертификат
          certificate = <List>
             <ListMenu title={personalCert.title} img={personalCert.img}
-               note={personalCert.note} nav={() => null} />
+               note={personalCert.note} nav={() => { readCertKeys(); navigate("SelectPersonalСert"); }} />
          </List>;
       } else {
          certificate = <View style={styles.sign_enc_view}>
@@ -117,7 +117,7 @@ export class Signature extends React.Component<SignatureProps> {
          </ScrollView>;
       } else {
          filesView = <View style={styles.sign_enc_view}>
-            <Text style={styles.sign_enc_prompt}>[Добавьте файлы]</Text>
+            <Text style={styles.sign_enc_prompt} onPress={() => { this.documentPicker(); }}>[Добавьте файлы]</Text>
          </View>;
       }
 

@@ -6,6 +6,8 @@ import { View, Switch, Alert, AlertIOS } from "react-native";
 import * as RNFS from "react-native-fs";
 import { Dropdown } from "react-native-material-dropdown";
 import { genSelfSignedCertWithoutRequest } from "../utils/createCert";
+import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
+
 import { readCertKeys, createCert } from "../actions/CertKeysAction";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -44,27 +46,6 @@ class ListWithSwitch extends React.Component<ListWithSwitchProps> {
    }
 }
 
-interface ListWithModalDropdownProps {
-   text: string;
-   defaultValue: string;
-   changeValue: any;
-   options: any;
-}
-
-class ListWithModalDropdown extends React.Component<ListWithModalDropdownProps> {
-
-   render() {
-      return (
-         <List>
-            <Dropdown
-               onChangeText={this.props.changeValue}
-               value={this.props.defaultValue}
-               label={this.props.text}
-               data={this.props.options} />
-         </List>
-      );
-   }
-}
 
 interface CreateCertificateState {
    algorithm: any;
@@ -103,7 +84,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
    constructor(props) {
       super(props);
       this.state = {
-         algorithm: "GOST P 34.10-2012 256 bit",
+         algorithm: "GOST R 34.10-2012 256 bit",
          keyLength: 512,
          keyAssignment: 0,
          certAssignment: true,
@@ -176,9 +157,9 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
             <Content>
                <View style={{ padding: 10 }}>
                   <ListWithModalDropdown text="Алгоритм"
-                     defaultValue="GOST P 34.10-2012 256 bit"
+                     defaultValue="GOST R 34.10-2012 256 bit"
                      changeValue={(value) => this.setState({ algorithm: value })}
-                     options={[{ value: "GOST P 34.10-2001" }, { value: "GOST P 34.10-2012 256 bit" }, { value: "GOST P 34.10-2012 512 bit" }]} />
+                     options={[{ value: "GOST R 34.10-2001" }, { value: "GOST R 34.10-2012 256 bit" }, { value: "GOST R 34.10-2012 512 bit" }]} />
                   {this.state.algorithm !== "RSA" ? <> {/*<ListWithModalDropdown text="Длина ключа"
                      defaultValue="512"
                      changeValue={(value) => this.setState({ keyLength: Number(value) })}

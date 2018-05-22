@@ -7,7 +7,7 @@ import { styles } from "../styles";
 import { addCert } from "../actions/index";
 import { AddCertButton } from "../components/AddCertButton";
 
-import { personalCertAdd } from "../actions/index";
+import { personalCertAdd, personalCertClear } from "../actions/index";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -20,7 +20,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
    return {
       addCert: bindActionCreators(addCert, dispatch),
-      personalCertAdd: bindActionCreators(personalCertAdd, dispatch)
+      personalCertAdd: bindActionCreators(personalCertAdd, dispatch),
+      personalCertClear: bindActionCreators(personalCertClear, dispatch)
    };
 }
 
@@ -29,6 +30,7 @@ interface SelectPersonalСertProps {
    certificates: any;
    addCert(uri: string, fileName: string, password: string): Function;
    personalCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string): void;
+   personalCertClear?();
 }
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)

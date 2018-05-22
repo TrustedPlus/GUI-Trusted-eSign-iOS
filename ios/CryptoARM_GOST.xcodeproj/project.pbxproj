@@ -48,6 +48,7 @@
 		9E422A3E20AAD8DF002883CC /* libOSSL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3C20AAD8DF002883CC /* libOSSL.a */; };
 		9E422A4020AAD8E8002883CC /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3F20AAD8E8002883CC /* CPROCSP.framework */; };
 		9E422B1020AAD9C8002883CC /* librdrpcsc_empty.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */; };
+		9E621D7820B2C0B200DD1DC2 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E621D7720B2C0B100DD1DC2 /* Icon-40.png */; };
 		9E73E7D120AAF9CF00CE8D30 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C420AAF9CF00CE8D30 /* Octicons.ttf */; };
 		9E73E7D220AAF9CF00CE8D30 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C520AAF9CF00CE8D30 /* Roboto_medium.ttf */; };
 		9E73E7D320AAF9CF00CE8D30 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C620AAF9CF00CE8D30 /* Entypo.ttf */; };
@@ -450,6 +451,7 @@
 		9E422A3F20AAD8E8002883CC /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CPROCSP.framework; sourceTree = "<group>"; };
 		9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
 		9E422B5020AAE711002883CC /* CryptoARM_GOST.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CryptoARM_GOST.entitlements; path = CryptoARM_GOST/CryptoARM_GOST.entitlements; sourceTree = "<group>"; };
+		9E621D7720B2C0B100DD1DC2 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-40.png"; path = "CryptoARM_GOST/Images.xcassets/AppIcon.appiconset/Icon-40.png"; sourceTree = "<group>"; };
 		9E73E7C420AAF9CF00CE8D30 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		9E73E7C520AAF9CF00CE8D30 /* Roboto_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Roboto_medium.ttf; sourceTree = "<group>"; };
 		9E73E7C620AAF9CF00CE8D30 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
@@ -642,6 +644,7 @@
 		13B07FAE1A68108700A75B9A /* CryptoARM_GOST */ = {
 			isa = PBXGroup;
 			children = (
+				9E621D7720B2C0B100DD1DC2 /* Icon-40.png */,
 				9E422B5020AAE711002883CC /* CryptoARM_GOST.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -1423,6 +1426,7 @@
 				9E73E7D320AAF9CF00CE8D30 /* Entypo.ttf in Resources */,
 				9EE07ABC20AB040F00741DC6 /* locale in Resources */,
 				9EE07AB720AB040600741DC6 /* NewUserViewController.xib in Resources */,
+				9E621D7820B2C0B200DD1DC2 /* Icon-40.png in Resources */,
 				9EE07AAC20AB03FE00741DC6 /* RequestSelectionViewController.xib in Resources */,
 				9E73E7D520AAF9CF00CE8D30 /* Ionicons.ttf in Resources */,
 				9EE07AAF20AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib in Resources */,

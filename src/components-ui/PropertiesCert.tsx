@@ -47,16 +47,22 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
    static navigationOptions = {
       header: null
    };
-
+/*
    exportCert() {
-      console.log(this.props.navigation.state.params.cert.serialNumber);
-      console.log(this.props.navigation.state.params.cert.provider);
+      AlertIOS.alert(
+         "Экспортировать с ключем",
+         null,
+         [
+            { text: "Импортировать сертификат", onPress: () => this.documentPicker() },
+            { text: "Создать самоподписаный сертификат", onPress: () => this.props.navigate("CreateCertificate") },
+            { text: "Отмена", onPress: () => null, style: "cancel" }
+         ]
+      );
       NativeModules.Wrap_Cert.load(
          this.props.navigation.state.params.cert.serialNumber,
          this.props.navigation.state.params.cert.provider,
          (err, load) => {
             if (err) {
-               console.log(err);
                Alert.alert(err + "");
             } else {
                let path = RNFS.DocumentDirectoryPath + "/" + this.props.navigation.state.params.cert.subjectFriendlyName + ".cer";
@@ -65,10 +71,8 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
                   "BASE64",
                   (err, load) => {
                      if (err) {
-                        console.log(err);
                         Alert.alert(err + "");
                      } else {
-                        console.log(load);
                         Share.share({
                            url: path
                         }).then(
@@ -82,7 +86,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
                   });
             }
          });
-   }
+   }*/
 
    deleteCert() {
       NativeModules.Wrap_Cert.deleteCertInStore(
@@ -90,25 +94,23 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
          this.props.navigation.state.params.cert.category,
          this.props.navigation.state.params.cert.provider,
          (err, deleteCert) => {
-         if (err) {
-            Alert.alert("err: " + err);
-         } else {
-            AlertIOS.alert(
-               "Сертификат был успешно удален",
-               null,
-               [
-                  { text: "Ок", onPress: () => { this.props.readCertKeys(); this.props.navigation.goBack(); } },
-               ]
-            );
-         }
-       });
+            if (err) {
+               Alert.alert("err: " + err);
+            } else {
+               AlertIOS.alert(
+                  "Сертификат был успешно удален",
+                  null,
+                  [
+                     { text: "Ок", onPress: () => { this.props.readCertKeys(); this.props.navigation.goBack(); } },
+                  ]
+               );
+            }
+         });
    }
 
    render() {
-      const { params } = this.props.navigation.state;
-      const cert = params ? params.cert : null;
+      const { cert } = this.props.navigation.state.params;
       const { navigate, goBack } = this.props.navigation;
-      console.log(cert);
       let subjectFriendlyName, subjectEmail, subjectCountry, subjectRegion, subjectCity;
       if (!cert.selfSigned) {
          subjectFriendlyName = (cert.subjectName.match(/2.5.4.3=[^\/]{1,}/));
@@ -193,12 +195,12 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
                </List>
             </Content>
             <Footer>
-                <FooterTab>
-                    <FooterButton title="Экспортировать"
-                        icon="ios-share-alt-outline"
-                        nav={() => this.exportCert()} />
-                    <FooterButton title="Удалить" icon="md-trash" nav={() => this.deleteCert()} />
-                </FooterTab>
+               <FooterTab>
+                  <FooterButton title="Экспортировать"
+                     icon="ios-share-alt-outline"
+                     nav={() => navigate("ExportCert", {cert: cert})} />
+                  <FooterButton title="Удалить" icon="md-trash" nav={() => this.deleteCert()} />
+               </FooterTab>
             </Footer>
          </Container>
       );

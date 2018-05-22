@@ -7,7 +7,7 @@ import { styles } from "../styles";
 import { addCert } from "../actions/index";
 import { AddCertButton } from "../components/AddCertButton";
 
-import { otherCertAdd } from "../actions/index";
+import { otherCertAdd, otherCertClear } from "../actions/index";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -20,7 +20,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addCert: bindActionCreators(addCert, dispatch),
-        otherCertAdd: bindActionCreators(otherCertAdd, dispatch)
+        otherCertAdd: bindActionCreators(otherCertAdd, dispatch),
+        otherCertClear: bindActionCreators(otherCertClear, dispatch)
     };
 }
 
@@ -29,6 +30,7 @@ interface SelectOtherСertProps {
     certificates: any;
     addCert(uri: string, fileName: string, password: string): Function;
     otherCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string): void;
+    otherCertClear(): void;
 }
 
 interface SelectOtherСertState {
@@ -78,7 +80,7 @@ export class SelectOtherСert extends React.Component<SelectOtherСertProps, Sel
         }
         return (
             <Container style={styles.container}>
-                <Headers title="Выберите сертификат" goBack={() => goBack()} />
+                <Headers title="Выберите сертификат" goBack={() => {this.props.otherCertClear();  goBack(); }} />
                 <Content>
                     {(certificates.filter((cert) => (cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey))).length !== 0 ?
                         <List>{this.ShowList(img)}</List> :

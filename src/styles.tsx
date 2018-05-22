@@ -60,7 +60,8 @@ export const styles = StyleSheet.create({
   },
   // Signature, DescriptionError, Encryption
   sign_enc_view: {
-    padding: 15
+    paddingBottom: 20,
+    paddingTop: 20,
   },
   sign_enc_title: {
     fontSize: 23,

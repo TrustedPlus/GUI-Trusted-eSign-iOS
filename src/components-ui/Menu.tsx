@@ -1,22 +1,25 @@
 import * as React from "react";
 import { Container, Content, List } from "native-base";
-import { Signature } from "./Signature";
-import { Encryption } from "./Encryption";
-import { Certificate } from "./Certificate";
-import { Journal } from "./Journal";
-import { styles } from "../styles";
 import { StackNavigator } from "react-navigation";
+import { styles } from "../styles";
+
 import { ListMenu } from "../components/ListMenu";
 import { Headers } from "../components/Headers";
 import { ListCertCategory } from "./ListCertCategory";
 import { PropertiesCert } from "./PropertiesCert";
 import { SelectPersonalСert } from "./SelectPersonalСert";
 import { SelectOtherСert } from "./SelectOtherСert";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { ExportCert } from "./ExportCert";
+import { CreateCertificate } from "./CreateCertificate";
+import { Signature } from "./Signature";
+import { Encryption } from "./Encryption";
+import { Certificate } from "./Certificate";
+import { Journal } from "./Journal";
+
 import { readCertKeys } from "../actions/CertKeysAction";
 import { readFiles } from "../actions/index";
-import { CreateCertificate } from "./CreateCertificate";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 
 function mapStateToProps(state) {
    return {
@@ -90,5 +93,6 @@ export const App = StackNavigator({
    PropertiesCert: { screen: PropertiesCert },
    SelectPersonalСert: { screen: SelectPersonalСert },
    SelectOtherСert: { screen: SelectOtherСert },
-   CreateCertificate: { screen: CreateCertificate }
+   CreateCertificate: { screen: CreateCertificate },
+   ExportCert: { screen: ExportCert }
 });

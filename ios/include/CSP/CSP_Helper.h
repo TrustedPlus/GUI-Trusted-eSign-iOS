@@ -69,4 +69,6 @@ LPCWSTR provTypeToProvNameW(DWORD dwProvType);
 //привязка сертификата к закрытому ключу
 PCCERT_CONTEXT bindCertToPrivateKey(PCCERT_CONTEXT pCertContext, LPCSTR contName, LPCSTR provName, DWORD provType, DWORD dwKeySpec);
 
+WCHAR* ConvertCharToWchar(char *name, int &length);
+
 #endif /* CSP_Helper_h */

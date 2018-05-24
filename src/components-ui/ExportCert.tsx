@@ -38,7 +38,7 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
    }
 
    ExportCert() {
-      if (this.state.fileName) {
+      if (!this.state.fileName) {
          Alert.alert("Имя файла не может быть пустым");
       } else {
          let path = RNFS.DocumentDirectoryPath + "/" + this.state.fileName;

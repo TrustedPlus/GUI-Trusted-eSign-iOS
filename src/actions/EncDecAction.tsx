@@ -21,7 +21,6 @@ export function encAssymmetric(files: IFile[], otherCert, footer) {
         } else {
             for (let i = 0; i < footer.arrButton.length; i++) {
                 let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
-                RNFS.writeFile(path + ".enc", "", "utf8");
                 NativeModules.Wrap_Cipher.encrypt(
                     otherCert.serialNumber,
                     otherCert.category,
@@ -55,7 +54,6 @@ export function decAssymmetric(files: IFile[], otherCert, footer) {
                 let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
                 let point = files[footer.arrButton[i]].extensionAll.lastIndexOf(".");
                 let extension = files[footer.arrButton[i]].extensionAll.substring(0, point);
-                RNFS.writeFile(path + "." + extension, "", "utf8");
                 NativeModules.Wrap_Cipher.decrypt(
                     otherCert.serialNumber,
                     otherCert.category,

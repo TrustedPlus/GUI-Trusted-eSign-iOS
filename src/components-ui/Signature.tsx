@@ -98,11 +98,11 @@ export class Signature extends React.Component<SignatureProps> {
       if (personalCert.title) { // выбран ли сертификат
          certificate = <List>
             <ListMenu title={personalCert.title} img={personalCert.img}
-               note={personalCert.note} nav={() => { readCertKeys(); navigate("SelectPersonalСert"); }} />
+               note={personalCert.note} nav={() => { readCertKeys(); navigate("SelectPersonalСert", {enc: false}); }} />
          </List>;
       } else {
          certificate = <View style={styles.sign_enc_view}>
-            <Text onPress={() => { readCertKeys(); navigate("SelectPersonalСert"); }} style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
+            <Text onPress={() => { readCertKeys(); navigate("SelectPersonalСert", {enc: false}); }} style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
          </View>;
       }
 
@@ -139,7 +139,7 @@ export class Signature extends React.Component<SignatureProps> {
             <Headers title="Подпись / Проверка" goBack={() => goBack()} />
             <View style={styles.sign_enc_view}>
                <Text style={styles.sign_enc_title}>Сертификат подписи</Text>
-               <Button transparent onPress={() => { readCertKeys(); navigate("SelectPersonalСert"); }} style={styles.sign_enc_button}>
+               <Button transparent onPress={() => { readCertKeys(); navigate("SelectPersonalСert", {enc: false}); }} style={styles.sign_enc_button}>
                   <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
                </Button>
             </View>

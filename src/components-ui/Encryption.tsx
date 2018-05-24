@@ -64,7 +64,6 @@ export class Encryption extends React.Component<EncryptionProps> {
 
     constructor(props) {
         super(props);
-
         this.showList = this.showList.bind(this);
         this.documentPicker = this.documentPicker.bind(this);
     }
@@ -97,11 +96,11 @@ export class Encryption extends React.Component<EncryptionProps> {
         if (otherCert.title) { // выбран ли сертификат
             certificate = <List>
                 <ListMenu title={otherCert.title} img={otherCert.img}
-                    note={otherCert.note} nav={() => { readCertKeys(); navigate("SelectOtherСert"); }} />
+                    note={otherCert.note} nav={() => { readCertKeys(); navigate("SelectCert"); }} />
             </List>;
         } else {
             certificate = <View style={styles.sign_enc_view}>
-                <Text onPress={() => { readCertKeys(); navigate("SelectOtherСert"); }} style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
+                <Text onPress={() => { readCertKeys(); navigate("SelectCert"); }} style={styles.sign_enc_prompt}>[Добавьте сертификаты получателей]</Text>
             </View>;
         }
 
@@ -138,7 +137,7 @@ export class Encryption extends React.Component<EncryptionProps> {
                 <Headers title="Шифрование / Расшифрование" goBack={() => goBack()} />
                 <View style={styles.sign_enc_view}>
                     <Text style={styles.sign_enc_title}>Сертификаты получателей</Text>
-                    <Button transparent style={styles.sign_enc_button} onPress={() => { readCertKeys(); navigate("SelectOtherСert"); }}>
+                    <Button transparent style={styles.sign_enc_button} onPress={() => { readCertKeys(); navigate("SelectCert"); }}>
                         <Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
                     </Button>
                 </View>

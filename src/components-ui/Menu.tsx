@@ -15,6 +15,7 @@ import { Signature } from "./Signature";
 import { Encryption } from "./Encryption";
 import { Certificate } from "./Certificate";
 import { Journal } from "./Journal";
+import { SelectCert } from "./SelectCert";
 
 import { readCertKeys } from "../actions/CertKeysAction";
 import { readFiles } from "../actions/index";
@@ -64,9 +65,9 @@ class Main extends React.Component<MainProps> {
             <Content>
                <List>
                   <ListMenu title="Подпись / Проверка подписи" img={require("../../imgs/general/sign_main_icon.png")}
-                     note={length} nav={() => navigate("Signature")} />
+                     note={length} nav={() => navigate("Signature", { name: "Signature" })} />
                   <ListMenu title="Шифрование / Расшифрование" img={require("../../imgs/general/encode_main_icon.png")}
-                     note={length} nav={() => navigate("Encryption")} />
+                     note={length} nav={() => navigate("Encryption", { name: "Encryption" })} />
                   <ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
                      note={persCert} nav={() => navigate("Certificate")} />
                   <ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
@@ -94,5 +95,6 @@ export const App = StackNavigator({
    SelectPersonalСert: { screen: SelectPersonalСert },
    SelectOtherСert: { screen: SelectOtherСert },
    CreateCertificate: { screen: CreateCertificate },
-   ExportCert: { screen: ExportCert }
+   ExportCert: { screen: ExportCert },
+   SelectCert: { screen: SelectCert }
 });

@@ -18,10 +18,10 @@ export function genSelfSignedCertWithoutRequest(algorithm, keyAssignment, certAs
             algorithm,
             randomRowGeneration(),
             keyAssignment,
-            certAssignment, CN, email, org, city, obl, country,
+            certAssignment,
+            true, CN, email, org, city, obl, country,
             RNFS.DocumentDirectoryPath + "/Files/" + CN + ".cer",
             (err, verify) => {
-                RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + CN + ".cer");
                 if (!!verify) {
                     resolve(verify);
                 }

@@ -21,7 +21,6 @@ export function signFile(files: IFile[], personalCert, footer) {
         } else {
             for (let i = 0; i < footer.arrButton.length; i++) {
                 let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
-                RNFS.writeFile(path + ".sig", "", "utf8");
                 NativeModules.Wrap_Signer.sign(
                     personalCert.serialNumber,
                     personalCert.category,

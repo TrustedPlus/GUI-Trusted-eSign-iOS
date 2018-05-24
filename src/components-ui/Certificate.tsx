@@ -36,8 +36,8 @@ export class Certificate extends React.Component<CertificateProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     let persCert = "количество сертификатов: " + this.props.certificates.filter((cert) => cert.category.toUpperCase() === "MY").length;
-    let otherCert = "количество сертификатов: " + this.props.certificates.filter((cert) => cert.category.toUpperCase() === "OTHERS").length;
-    let adressBookCert = "количество сертификатов: " + this.props.certificates.filter((cert) => cert.category.toUpperCase() === "ADDRESSBOOK").length;
+    let otherCert = "количество сертификатов: " + this.props.certificates.filter((cert) => (cert.category.toUpperCase() === "OTHERS") || (cert.category.toUpperCase() === "ADDRESSBOOK")).length;
+    let adressBookCert = "количество сертификатов: " + this.props.certificates.filter((cert) => cert.category.toUpperCase() === "CA").length;
     let rootCert = "количество сертификатов: " + this.props.certificates.filter((cert) => (cert.category.toUpperCase() === "ROOT") || (cert.category.toUpperCase() === "TRUST")).length;
     return (
       <Container style={styles.container}>
@@ -47,9 +47,9 @@ export class Certificate extends React.Component<CertificateProps> {
             <ListMenu title="Личные сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
               note={persCert} nav={() => navigate("ListCertCategory", {title: "Личные сертификаты", category: ["MY", null]})} />
             <ListMenu title="Сертификаты других пользователей" img={require("../../imgs/general/certificates_menu_icon.png")}
-              note={otherCert} nav={() => navigate("ListCertCategory", {title: "Сертификаты других пользователей", category: ["OTHERS", null]})}/>
+              note={otherCert} nav={() => navigate("ListCertCategory", {title: "Сертификаты других пользователей", category: ["OTHERS", "ADDRESSBOOK"]})}/>
             <ListMenu title="Промежуточные сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
-              note={adressBookCert} nav={() => navigate("ListCertCategory", {title: "Промежуточные сертификаты", category: ["ADDRESSBOOK", null]})}/>
+              note={adressBookCert} nav={() => navigate("ListCertCategory", {title: "Промежуточные сертификаты", category: ["CA", null]})}/>
             <ListMenu title="Доверенные корневые сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
               note={rootCert} nav={() => navigate("ListCertCategory", {title: "Доверенные корневые сертификаты", category: ["ROOT", "TRUST"]})} />
           </List>

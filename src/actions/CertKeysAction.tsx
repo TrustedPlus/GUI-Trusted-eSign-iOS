@@ -1,4 +1,4 @@
-import { READ_CERT_KEY, READ_CERTIFICATES_SUCCESS, READ_CERTIFICATES_ERROR, CREATE_CERTIFICATE_SUCCESS, PROVIDER_INIT_ERROR} from "../constants";
+import { READ_CERT_KEY, READ_CERTIFICATES_SUCCESS, READ_CERTIFICATES_ERROR, CREATE_CERTIFICATE_SUCCESS, DELETE_CERTIFICATE_SUCCESS, PROVIDER_INIT_ERROR} from "../constants";
 import * as RNFS from "react-native-fs";
 import { NativeModules } from "react-native";
 
@@ -19,5 +19,11 @@ export function readCertKeys() {
 export function createCert(CN) {
     return function action(dispatch) {
         dispatch({ type: CREATE_CERTIFICATE_SUCCESS, payload: CN });
+    };
+}
+
+export function deleteCertAction(CN) {
+    return function action(dispatch) {
+        dispatch({ type: DELETE_CERTIFICATE_SUCCESS, payload: CN });
     };
 }

@@ -39,13 +39,13 @@
 -(CPCA15UserInfo *) registration :(const char *)url :(char *)CN :(char *)org :(char *)city :(char *)region :(char *)email :(char *)country;
 -(bool) authentication :(char *)tokenID :(char *)password;
 -(std::vector<std::wstring>) get_templates :(char *)url;
--(bool) create :(char *)url :(char *)temp :(char *)containerName :(int)keySpec :(int)ProvType :(char *)outPathToCsr;
+-(bool) create :(char *)url :(char *)temp :(char *)containerName :(int)keySpec :(int)ProvType :(bool)exportableKey :(char *)outPathToCsr;
 -(bool) getCertFromRequest :(char *)url :(char *)outPathToCsr :(char *)outPathToCert;
 -(bool) getCACert :(char *)url :(char *)outPathToCert;
 
--(bool) createSelfSignedCertificateCSP :(char *)algorithm :(char *)containerName :(int)keyType :(extKeyUsageStructure)extKeyUsage :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)file;
+-(bool) createSelfSignedCertificateCSP :(char *)algorithm :(char *)containerName :(int)keyType :(extKeyUsageStructure)extKeyUsage :(bool)exportableKey :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)file;
 
--(char *) create :(char *)url :(char *)temp :(char *)containerName :(int)keySpec :(int)ProvType;
+-(char *) create :(char *)url :(char *)temp :(char *)containerName :(int)keySpec :(int)ProvType :(bool)exportableKey;
 -(bool) getCertFromRequest :(char *)url :(char *)outPathToCert;
     
 @end

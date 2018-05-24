@@ -131,11 +131,14 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
          ).then(() => {
             setTimeout(() => {
                this.props.createCert(this.state.CN);
+               RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + this.state.CN + ".cer");
+               this.props.readCertKeys();
+               this.props.navigation.goBack();
                AlertIOS.alert(
                   "Сертификат и ключ создан",
                   null,
                   [
-                     { text: "Ок", onPress: () => { this.props.readCertKeys(); this.props.navigation.goBack(); } },
+                     { text: "Ок", onPress: () => null },
                   ]
                );
             }, 500);

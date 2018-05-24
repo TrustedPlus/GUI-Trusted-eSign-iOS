@@ -3,7 +3,7 @@ import {
     VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, ENCODE_FILES_SUCCESS, ENCODE_FILES_ERROR,
     DECODE_FILES_SUCCESS, DECODE_FILES_ERROR, ADD_CERT_SUCCESS, ADD_CERT_ERROR, ADD_KEY_SUCCESS, ADD_KEY_ERROR,
     SET_PATH_TO_STOR_ERROR, PROVIDER_INIT_ERROR, READ_CERTIFICATES_ERROR, UPLOAD_FILES_SUCCESS, UPLOAD_FILES_ERROR,
-    DELETE_FILES_SUCCESS, DELETE_FILES_ERROR, CLEAR_LOG, CREATE_CERTIFICATE_SUCCESS
+    DELETE_FILES_SUCCESS, DELETE_FILES_ERROR, CLEAR_LOG, CREATE_CERTIFICATE_SUCCESS, DELETE_CERTIFICATE_SUCCESS
 } from "../constants";
 
 const initialState = {
@@ -150,6 +150,12 @@ export function Logger(state = initialState, action) {
             return {
                 ...state,
                 log: logAddrecord(state.log, action.payload, "Сертификат был успешно создан"),
+                lastlog: new Date() + ""
+            };
+        case DELETE_CERTIFICATE_SUCCESS:
+            return {
+                ...state,
+                log: logAddrecord(state.log, action.payload, "Сертификат был успешно удален"),
                 lastlog: new Date() + ""
             };
         case CLEAR_LOG:

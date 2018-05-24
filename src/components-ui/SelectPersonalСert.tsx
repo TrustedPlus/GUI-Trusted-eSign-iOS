@@ -7,7 +7,7 @@ import { styles } from "../styles";
 import { addCert } from "../actions/index";
 import { AddCertButton } from "../components/AddCertButton";
 
-import { personalCertAdd, personalCertClear } from "../actions/index";
+import { personalCertAdd, otherCertAdd, personalCertClear } from "../actions/index";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -21,6 +21,7 @@ function mapDispatchToProps(dispatch) {
    return {
       addCert: bindActionCreators(addCert, dispatch),
       personalCertAdd: bindActionCreators(personalCertAdd, dispatch),
+      otherCertAdd: bindActionCreators(otherCertAdd, dispatch),
       personalCertClear: bindActionCreators(personalCertClear, dispatch)
    };
 }
@@ -29,6 +30,7 @@ interface SelectPersonalСertProps {
    navigation: any;
    certificates: any;
    addCert(uri: string, fileName: string, password: string): Function;
+   otherCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string): void;
    personalCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string): void;
    personalCertClear?();
 }
@@ -48,7 +50,8 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
             note={cert.organizationName}
             img={img[key]}
             navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
-            goBack={() => { this.props.personalCertAdd(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category); this.props.navigation.goBack(); }}
+            goBack={() => { this.props.navigation.state.params.enc ? this.props.otherCertAdd(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category) : this.props.personalCertAdd(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category);
+                  this.props.navigation.state.params.enc ? this.props.navigation.goBack("Encryption") : this.props.navigation.goBack(); }}
             cert={cert}
             arrow /> : null));
    }

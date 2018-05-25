@@ -87,6 +87,7 @@ export class Containers extends React.Component<ContainersProps, { providers: an
                                        });
                                  }
                               });
+                              this.setState({ activeButtons: [] });
                               Alert.alert("Удаление прошло успешно");
                         });
                   });
@@ -104,7 +105,9 @@ export class Containers extends React.Component<ContainersProps, { providers: an
          <Container style={styles.container}>
             <Headers title="Контейнеры" goBack={() => goBack()} />
             <Content>
-               <List>{this.showList()}</List>
+            {this.state.containers.length !== 0 ?
+                  <List>{this.showList()}</List> :
+                  <Text style={[styles.sign_enc_prompt, { paddingTop: "50%", paddingLeft: 5, paddingRight: 5 }]}>Контейнеров нет. Создайте или импортируйте сертификат с закрытым ключом.</Text>}
             </Content>
             {this.state.activeButtons.length ? <Footer>
                <FooterTab>

@@ -22,17 +22,17 @@ export function footerClose() {
    };
 }
 
-export function personalCertAdd(title, img, note, issuerName, serialNumber, provider, category) {
+export function addCertForSign(title, img, note, issuerName, serialNumber, provider, category, hasPrivateKey) {
    return {
       type: PERSONAL_CERT_ACTION,
-      payload: [title, img, note, issuerName, serialNumber, provider, category]
+      payload: [title, img, note, issuerName, serialNumber, provider, category, hasPrivateKey]
    };
 }
 
-export function otherCertAdd(title, img, note, issuerName, serialNumber, provider, category) {
+export function addCertForEnc(title, img, note, issuerName, serialNumber, provider, category, hasPrivateKey) {
    return {
       type: OTHER_CERT_ACTION,
-      payload: [title, img, note, issuerName, serialNumber, provider, category]
+      payload: [title, img, note, issuerName, serialNumber, provider, category, hasPrivateKey]
    };
 }
 

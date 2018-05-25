@@ -46,13 +46,16 @@ export class FooterEnc extends React.Component<FooterEncProps> {
     render() {
         const { files, otherCert, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer } = this.props;
         let footerleft = null;
-        let certIsNotNull, isDec, isEnc = null;
+        let certIsNotNull, CertDontHasPrivateKey, isDec, isEnc = null;
 
         if (footer.arrExtension.filter(extension => extension === "enc").length !== 0) {
             isEnc = "enc";
         }
         if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "enc").length) {
             isDec = "dec";
+        }
+        if (!otherCert.hasPrivateKey) {
+            CertDontHasPrivateKey = "noKey";
         }
         if (!otherCert.title) {
             certIsNotNull = "noCert";
@@ -61,11 +64,11 @@ export class FooterEnc extends React.Component<FooterEncProps> {
             <Footer>
                 <FooterTab>
                     <FooterButton title="Зашифровать"
-                        disabled={certIsNotNull === "noCert" ? true : (isEnc === "enc" ? true : false)}
+                        disabled={certIsNotNull ? true : (isEnc === "enc" ? true : false)}
                         icon="md-lock"
                         nav={() => encAssymmetric(files, otherCert, footer)} />
                     <FooterButton title="Расшифровать"
-                        disabled={certIsNotNull === "noCert" ? true : (isDec === "dec" ? false : true)}
+                        disabled={certIsNotNull ? true : (CertDontHasPrivateKey ? true : isDec === "dec" ? false : true)}
                         icon="md-unlock"
                         nav={() => decAssymmetric(files, otherCert, footer)} />
                     <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />

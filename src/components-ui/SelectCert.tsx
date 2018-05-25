@@ -41,7 +41,7 @@ export class SelectCert extends React.Component<SelectCertProps> {
   render() {
     const { navigate, goBack } = this.props.navigation;
     let persCert = "количество сертификатов: " + this.props.certificates.filter((cert) => cert.category.toUpperCase() === "MY").length;
-    let otherCert = "количество сертификатов: " + this.props.certificates.filter((cert) => cert.category.toUpperCase() === "OTHERS").length;
+    let otherCert = "количество сертификатов: " + this.props.certificates.filter((cert) => ((cert.category.toUpperCase() === "OTHERS") || (cert.category.toUpperCase() === "ADDRESSBOOK"))).length;
     return (
       <Container style={styles.container}>
         <Headers title="Выберите категорию сертификата" goBack={() => goBack()} />

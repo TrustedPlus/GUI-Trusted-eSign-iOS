@@ -7,7 +7,7 @@ import { styles } from "../styles";
 import { addCert } from "../actions/index";
 import { AddCertButton } from "../components/AddCertButton";
 
-import { personalCertAdd, otherCertAdd, personalCertClear } from "../actions/index";
+import { addCertForSign, addCertForEnc, personalCertClear } from "../actions/index";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
@@ -20,8 +20,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
    return {
       addCert: bindActionCreators(addCert, dispatch),
-      personalCertAdd: bindActionCreators(personalCertAdd, dispatch),
-      otherCertAdd: bindActionCreators(otherCertAdd, dispatch),
+      addCertForSign: bindActionCreators(addCertForSign, dispatch),
+      addCertForEnc: bindActionCreators(addCertForEnc, dispatch),
       personalCertClear: bindActionCreators(personalCertClear, dispatch)
    };
 }
@@ -30,8 +30,8 @@ interface SelectPersonalСertProps {
    navigation: any;
    certificates: any;
    addCert(uri: string, fileName: string, password: string): Function;
-   otherCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string): void;
-   personalCertAdd?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string): void;
+   addCertForEnc?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string, hasPrivateKey: boolean): void;
+   addCertForSign?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string, hasPrivateKey: boolean): void;
    personalCertClear?();
 }
 
@@ -43,15 +43,16 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
    };
 
    ShowList(img) {
+      const enc = this.props.navigation.state.params.enc;
       return (
-         this.props.certificates.map((cert, key) => ((cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey)) ? <ListCert
+         this.props.certificates.map((cert, key) => ((cert.category.toUpperCase() === "MY") && (enc ? 1 : cert.hasPrivateKey)) ? <ListCert
             key={key}
             title={cert.subjectFriendlyName}
             note={cert.organizationName}
             img={img[key]}
             navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
-            goBack={() => { this.props.navigation.state.params.enc ? this.props.otherCertAdd(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category) : this.props.personalCertAdd(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category);
-                  this.props.navigation.state.params.enc ? this.props.navigation.goBack("Encryption") : this.props.navigation.goBack(); }}
+            goBack={() => { enc ? this.props.addCertForEnc(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false) : this.props.addCertForSign(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false);
+                  enc ? this.props.navigation.goBack("Encryption") : this.props.navigation.goBack(); }}
             cert={cert}
             arrow /> : null));
    }

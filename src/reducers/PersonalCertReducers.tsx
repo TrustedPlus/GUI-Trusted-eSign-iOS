@@ -7,7 +7,8 @@ const initialState = {
   issuerName: null,
   serialNumber: null,
   provider: null,
-  category: null
+  category: null,
+  hasPrivateKey: null
 };
 
 export function personalCert (state = initialState, action) {
@@ -21,7 +22,8 @@ export function personalCert (state = initialState, action) {
         issuerName: action.payload[3],
         serialNumber: action.payload[4],
         provider: action.payload[5],
-        category: action.payload[6]
+        category: action.payload[6],
+        hasPrivateKey: action.payload[7]
       };
     case PERSONAL_CERT_CLEAR:
       return {

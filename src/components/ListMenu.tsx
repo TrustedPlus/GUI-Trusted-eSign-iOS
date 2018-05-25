@@ -9,7 +9,7 @@ interface ListItemProps {
     title: string;
     note?: string;
     rightnote?: string;
-    img: any;
+    img?: any;
     rightimg?: any;
     verify?: number;
     checkbox?: boolean;
@@ -35,11 +35,11 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
         }
         return (
             <ListItem style={[styles.listItem, this.state.active ? { backgroundColor: "lightgrey" } : null]} avatar onPress={this.onPress.bind(this)} >
-                <Left>
+                {this.props.img ? <Left>
                     <Thumbnail square style={styles.thumbnail} source={this.props.img} />
                     {this.props.verify === 1 ? <Image style={{ position: "absolute", width: 25, height: 25, left: 40 }} source={require("../../imgs/checkmark.png")} /> : null}
                     {this.props.verify === -1 ? <Image style={{ position: "absolute", width: 25, height: 25, left: 40 }} source={require("../../imgs/cross.png")} /> : null}
-                </Left>
+                </Left> : null}
                 <Body>
                     <Text style={styles.listItemText}>{this.props.title}</Text>
                     <Text note style={{ rightimg } ? { width: "80%" } : {}}>{this.props.note}</Text>

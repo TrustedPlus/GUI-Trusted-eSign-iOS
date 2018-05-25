@@ -16,6 +16,7 @@ import { Encryption } from "./Encryption";
 import { Certificate } from "./Certificate";
 import { Journal } from "./Journal";
 import { SelectCert } from "./SelectCert";
+import { Containers } from "./Containers";
 
 import { readCertKeys } from "../actions/CertKeysAction";
 import { readFiles } from "../actions/index";
@@ -70,6 +71,8 @@ class Main extends React.Component<MainProps> {
                      note={length} nav={() => navigate("Encryption", { name: "Encryption" })} />
                   <ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
                      note={persCert} nav={() => navigate("Certificate")} />
+                  <ListMenu title="Управление контейнерами" img={require("../../imgs/general/stores_main_icon.png")}
+                     note={"количество контейнеров: "} nav={() => navigate("Containers")} />
                   <ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
                      note={lastlognote} nav={() => navigate("Journal")} />
                </List>
@@ -96,5 +99,6 @@ export const App = StackNavigator({
    SelectOtherСert: { screen: SelectOtherСert },
    CreateCertificate: { screen: CreateCertificate },
    ExportCert: { screen: ExportCert },
-   SelectCert: { screen: SelectCert }
+   SelectCert: { screen: SelectCert },
+   Containers:  { screen: Containers }
 });

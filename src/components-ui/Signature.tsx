@@ -64,6 +64,7 @@ export class Signature extends React.Component<SignatureProps> {
 	constructor(props) {
 		super(props);
 
+		this.props.navigation.state.key = "Home";
 		this.showList = this.showList.bind(this);
 		this.documentPicker = this.documentPicker.bind(this);
 	}

@@ -35,7 +35,7 @@ export class Certificate extends React.Component<CertificateProps> {
 
 	constructor(props) {
 		super(props);
-		this.props.navigation.state.key = "Certificate";
+		this.props.navigation.state.key = "Home";
 	}
 
 	render() {

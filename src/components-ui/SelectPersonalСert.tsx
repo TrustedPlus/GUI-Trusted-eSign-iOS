@@ -53,7 +53,7 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
 				navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
 				goBack={() => {
 					enc ? this.props.addCertForEnc(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false) : this.props.addCertForSign(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false);
-					enc ? this.props.navigation.goBack("Encryption") : this.props.navigation.goBack();
+					enc ? this.props.navigation.goBack("Home") : this.props.navigation.goBack();
 				}}
 				cert={cert}
 				arrow /> : null));

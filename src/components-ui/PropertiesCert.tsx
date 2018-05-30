@@ -106,7 +106,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 		let isValidnew = new Date().getTime() < new Date(cert.notAfter).getTime() ? true : false;
 		return (
 			<Container style={styles.container}>
-				<Headers title="Свойства сертфиката" goBack={() => goBack()} goHome={() => this.props.navigation.goBack("Certificate")}/>
+				<Headers title="Свойства сертфиката" goBack={() => goBack()} goHome={() => this.props.navigation.goBack("Home")}/>
 				<Content style={{ backgroundColor: "white" }}>
 					<View>
 						<Image style={styles.prop_cert_img} source={isValidnew ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />

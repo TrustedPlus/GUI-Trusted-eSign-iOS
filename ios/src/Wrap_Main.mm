@@ -99,16 +99,31 @@ RCT_EXPORT_METHOD(getContainers: (NSInteger)nsType: (NSString *)nsName: (RCTResp
   }
 }
 
-RCT_EXPORT_METHOD(deleteContainer: (NSString *)nsContName: (NSInteger)nsType: (NSString *)nsName: (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(getCertToContainer: (NSString *)nsContName: (RCTResponseSenderBlock)callback){
   try{
+    NSMutableArray *listCertsCrypto = [NSMutableArray array];
     char *contName = (char *) [nsContName UTF8String];
-    int type = (int)nsType;
-    char *name = (char *) [nsName UTF8String];
     
     TrustedHandle<std::string> hContName = new std::string(contName);
-    TrustedHandle<std::string> hName = new std::string(name);
     
-    [csp_Store deleteContainer:hContName :type :hName];
+    listCertsCrypto = [csp_Store getInfoAboutCertFromContainer:hContName];
+    
+    callback(@[[NSNull null], [listCertsCrypto copy]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
+  }
+}
+
+RCT_EXPORT_METHOD(installCertToCont: (NSString *)serialNumber: (NSString *)category: (NSString *)nsContName: (RCTResponseSenderBlock)callback){
+  try{
+    char *pSerialNumber = (char *) [serialNumber UTF8String];
+    char *pCategory = (char *) [category UTF8String];
+    char *contName = (char *) [nsContName UTF8String];
+    
+    TrustedHandle<std::string> hContName = new std::string(contName);
+    
+    [csp_Store installCertificateToContainer:pSerialNumber :pCategory :hContName];
     
     callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }

@@ -4,6 +4,8 @@
 #include "Constants.h"
 #include "CSP_Helper.h"
 
+#include "CSP_CertRequest.h"
+
 #include "cert.h"
 #include "storehelper.h"
 #include "pkistore.h"
@@ -16,19 +18,7 @@
 #include <iostream>
 #include "vector"
 
-@interface CSP_Csp : NSObject {
-    struct ProviderProps {
-        int type;
-        TrustedHandle<std::string> name;
-    };
-    
-    struct ContainerName {
-        TrustedHandle<std::string> unique; //CRYPT_UNIQUE
-        TrustedHandle<std::wstring> container; //PP_CONTAINER
-        TrustedHandle<std::string> fqcnA; //PP_FQCN
-        TrustedHandle<std::wstring> fqcnW; //PP_FQCN with mbstowcs
-    };
-    
+@interface CSP_Csp : NSObject {    
     TrustedHandle<PkiItemCollection> providerItemCollection; //содержит список сертификатов в хранилище
 }
 
@@ -37,7 +27,15 @@ bool cmpCertAndContFP(LPCSTR szContainerName, LPBYTE pbFPCert, DWORD cbFPCert);
 
 -(std::vector<ProviderProps>) enumProvider;
 -(std::vector<TrustedHandle<ContainerName>>) enumContainers :(int)provType :(TrustedHandle<std::string>)provName;
--(bool) deleteContainer :(TrustedHandle<std::string>)contName :(int)provType :(TrustedHandle<std::string>)provName;
+
+//получение информации о сертификате из контейнера
+-(NSMutableArray*) getInfoAboutCertFromContainer :(TrustedHandle<std::string>)contName;
+
+//установка сертификата из контейнера
+-(void) installCertificateFromContainer :(TrustedHandle<std::string>)contName;
+
+//установка сертификата в контейнер
+-(void) installCertificateToContainer :(char *)serialNumber :(char *)category :(TrustedHandle<std::string>)contName;
 
 @end
 

@@ -4,7 +4,7 @@
 
 RCT_EXPORT_MODULE();
 //подпись 
-RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (NSString *)infilename: (NSString *)outfilename: (NSString *)format: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (NSString *)infilename: (NSString *)outfilename: (NSString *)format: (BOOL)isDetached: (RCTResponseSenderBlock)callback) {
   try{
     char *pSerialNumber = (char *) [serialNumber UTF8String];
     char *pCategory = (char *) [category UTF8String];
@@ -20,7 +20,7 @@ RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSStrin
 #endif
 #ifdef ProvCryptoPro
     if (strcmp(prov, "CRYPTOPRO") == 0){
-      b = [csp_Signer signMessage:pSerialNumber :pCategory :infile :outfile :pFormat];
+      b = [csp_Signer signMessage:pSerialNumber :pCategory :infile :outfile :pFormat :isDetached];
     }
 #endif
     
@@ -31,11 +31,12 @@ RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSStrin
   }
 }
 
-RCT_EXPORT_METHOD(coSign: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (NSString *)signFile: (NSString *)format: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(coSign: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (NSString *)inputFile: (NSString *)signFile: (NSString *)format: (BOOL)isDetached: (RCTResponseSenderBlock)callback) {
   try{
     char *pSerialNumber = (char *) [serialNumber UTF8String];
     char *pCategory = (char *) [category UTF8String];
     char *prov = (char *) [provider UTF8String];
+    char *inputfile = (char *) [inputFile UTF8String];
     char *signfile = (char *) [signFile UTF8String];
     char *pFormat = (char *) [format UTF8String];
     
@@ -47,7 +48,7 @@ RCT_EXPORT_METHOD(coSign: (NSString *)serialNumber: (NSString *)category: (NSStr
 #endif
 #ifdef ProvCryptoPro
     if (strcmp(prov, "CRYPTOPRO") == 0){
-      b = [csp_Signer cosignMessage:pSerialNumber :pCategory :signfile :pFormat];
+      b = [csp_Signer cosignMessage:pSerialNumber :pCategory :inputfile :signfile :pFormat :isDetached];
     }
 #endif
     
@@ -65,7 +66,16 @@ RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString 
     char *outfile = (char *) [outfilename UTF8String];
     char *pFormat = (char *) [format UTF8String];
     BOOL b = false;
-
+    
+    b = [csp_Signer isDetachedSignMessage:infile :pFormat];
+    if (!b){
+      b = [csp_Signer deCosignMessage:infile :pFormat :outfile];
+      callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
+    }
+    else{
+      callback(@[[@("Error. The input file is a detached signature.") copy], [NSNumber numberWithInt: 0]]);
+    }
+/*
 #ifdef ProvOpenSSL
     try{
       b = [ossl_Signer unSign:infile :pFormat :outfile];
@@ -76,16 +86,16 @@ RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString 
       b = [csp_Signer deCosignMessage:infile :pFormat :outfile];
 #endif
     }
-    
-    callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
+*/
   }
   catch (TrustedHandle<Exception> e){
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
 //+-
-RCT_EXPORT_METHOD(verify: (NSString *)checkfilename: (NSString *)format: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(verify: (NSString *)inputfilename: (NSString *)checkfilename: (NSString *)format: (BOOL)isDetached: (RCTResponseSenderBlock)callback) {
   try{
+    char *inputName = (char *) [inputfilename UTF8String];
     char *inFileName = (char *) [checkfilename UTF8String];
     char *inFormat = (char *) [format UTF8String];
     BOOL b = false;
@@ -97,8 +107,7 @@ RCT_EXPORT_METHOD(verify: (NSString *)checkfilename: (NSString *)format: (RCTRes
     catch (TrustedHandle<Exception> e){
 #endif
 #ifdef ProvCryptoPro
-      //b = [csp_Signer doVerifyAttach:inFileName];
-      b = [csp_Signer verifyCosignedMessage:inFileName :inFormat];
+      b = [csp_Signer verifyCosignedMessage:inputName :inFileName :inFormat :isDetached];
 #endif
     }
     
@@ -109,8 +118,9 @@ RCT_EXPORT_METHOD(verify: (NSString *)checkfilename: (NSString *)format: (RCTRes
   }
 }
 //+-
-RCT_EXPORT_METHOD(getSignInfo: (NSString *)checkfilename: (NSString *)format: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilename: (NSString *)format: (BOOL)isDetached: (RCTResponseSenderBlock)callback) {
   try{
+    char *inputFileName = (char *) [inputfilename UTF8String];
     char *inFileName = (char *) [checkfilename UTF8String];
     char *inFormat = (char *) [format UTF8String];
     NSMutableArray *arrayInfoAboutSigners = [NSMutableArray array];
@@ -135,7 +145,7 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)checkfilename: (NSString *)format: (R
 #endif
 #ifdef ProvCryptoPro
       [arrayInfoAboutSigners removeAllObjects];
-      std::vector<infoCSPStruct> vec = [csp_Signer getSignInfo:inFileName :inFormat];
+      std::vector<infoCSPStruct> vec = [csp_Signer getSignInfo:inputFileName :inFileName :inFormat :isDetached];
       for (int i = 0; i < vec.size(); i++){
         NSMutableDictionary *arrayInfoAboutSigner = [NSMutableDictionary dictionary];
         if (vec[i].status)
@@ -164,6 +174,23 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)checkfilename: (NSString *)format: (R
     }
     
     callback(@[[NSNull null], [arrayInfoAboutSigners copy]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+}
+
+RCT_EXPORT_METHOD(isDetachedSignMessage: (NSString *)signFile: (NSString *)format: (RCTResponseSenderBlock)callback) {
+  try{
+    char *pSignFile = (char *) [signFile UTF8String];
+    char *inFormat = (char *) [format UTF8String];
+    BOOL b = false;
+    
+#ifdef ProvCryptoPro
+      b = [csp_Signer isDetachedSignMessage:pSignFile :inFormat];
+#endif
+    
+    callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
   }
   catch (TrustedHandle<Exception> e){
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);

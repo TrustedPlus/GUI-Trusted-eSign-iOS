@@ -12,9 +12,9 @@ import * as RNFS from "react-native-fs";
 import { NativeModules } from "react-native";
 
 const persistConfig = {
-   key: "root",
-   storage,
-   whitelist: ["logger"]
+	key: "root",
+	storage,
+	whitelist: ["logger"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -23,21 +23,21 @@ const persistor = persistStore(store);
 
 export class MainApp extends React.Component {
 
-   componentDidMount() {
-      console.disableYellowBox = true;
-      NativeModules.Wrap_Main.init(
-         RNFS.DocumentDirectoryPath + "/store",
-         (err, label) => {
-            console.log(err);
-         });
-   }
-   render() {
-      return (
-         <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-               <App />
-            </PersistGate>
-         </Provider>
-      );
-   }
+	componentDidMount() {
+		console.disableYellowBox = true;
+		NativeModules.Wrap_Main.init(
+			RNFS.DocumentDirectoryPath + "/store",
+			(err, label) => {
+				console.log(err);
+			});
+	}
+	render() {
+		return (
+			<Provider store={store}>
+				<PersistGate loading={null} persistor={persistor}>
+					<App />
+				</PersistGate>
+			</Provider>
+		);
+	}
 }

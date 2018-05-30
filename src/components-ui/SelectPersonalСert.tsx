@@ -12,71 +12,73 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
 function mapStateToProps(state) {
-   return {
-      certificates: state.certificates.certificates
-   };
+	return {
+		certificates: state.certificates.certificates
+	};
 }
 
 function mapDispatchToProps(dispatch) {
-   return {
-      addCert: bindActionCreators(addCert, dispatch),
-      addCertForSign: bindActionCreators(addCertForSign, dispatch),
-      addCertForEnc: bindActionCreators(addCertForEnc, dispatch),
-      personalCertClear: bindActionCreators(personalCertClear, dispatch)
-   };
+	return {
+		addCert: bindActionCreators(addCert, dispatch),
+		addCertForSign: bindActionCreators(addCertForSign, dispatch),
+		addCertForEnc: bindActionCreators(addCertForEnc, dispatch),
+		personalCertClear: bindActionCreators(personalCertClear, dispatch)
+	};
 }
 
 interface SelectPersonalСertProps {
-   navigation: any;
-   certificates: any;
-   addCert(uri: string, fileName: string, password: string): Function;
-   addCertForEnc?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string, hasPrivateKey: boolean): void;
-   addCertForSign?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string, hasPrivateKey: boolean): void;
-   personalCertClear?();
+	navigation: any;
+	certificates: any;
+	addCert(uri: string, fileName: string, password: string): Function;
+	addCertForEnc?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string, hasPrivateKey: boolean): void;
+	addCertForSign?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string, hasPrivateKey: boolean): void;
+	personalCertClear?();
 }
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class SelectPersonalСert extends React.Component<SelectPersonalСertProps> {
 
-   static navigationOptions = {
-      header: null
-   };
+	static navigationOptions = {
+		header: null
+	};
 
-   ShowList(img) {
-      const enc = this.props.navigation.state.params.enc;
-      return (
-         this.props.certificates.map((cert, key) => ((cert.category.toUpperCase() === "MY") && (enc ? 1 : cert.hasPrivateKey)) ? <ListCert
-            key={key}
-            title={cert.subjectFriendlyName}
-            note={cert.organizationName}
-            img={img[key]}
-            navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
-            goBack={() => { enc ? this.props.addCertForEnc(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false) : this.props.addCertForSign(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false);
-                  enc ? this.props.navigation.goBack("Encryption") : this.props.navigation.goBack(); }}
-            cert={cert}
-            arrow /> : null));
-   }
+	ShowList(img) {
+		const enc = this.props.navigation.state.params.enc;
+		return (
+			this.props.certificates.map((cert, key) => ((cert.category.toUpperCase() === "MY") && (enc ? 1 : cert.hasPrivateKey)) ? <ListCert
+				key={key}
+				title={cert.subjectFriendlyName}
+				note={cert.organizationName}
+				img={img[key]}
+				navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
+				goBack={() => {
+					enc ? this.props.addCertForEnc(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false) : this.props.addCertForSign(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false);
+					enc ? this.props.navigation.goBack("Encryption") : this.props.navigation.goBack();
+				}}
+				cert={cert}
+				arrow /> : null));
+	}
 
-   render() {
-      const { certificates, addCert } = this.props;
-      const { navigate, goBack } = this.props.navigation;
-      let img = [];
-      let nowDate = new Date().getTime();
-      for (let i = 0; i < certificates.length; i++) {
-         nowDate < new Date(certificates[i].notAfter).getTime() ?
-            img[i] = require("../../imgs/general/cert2_ok_icon.png") :
-            img[i] = require("../../imgs/general/cert2_bad_icon.png");
-      }
-      return (
-         <Container style={styles.container}>
-            <Headers title="Выберите сертификат" goBack={() => goBack()} />
-            <Content>
-               {(certificates.filter((cert) => (cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey))).length !== 0 ?
-                  <List>{this.ShowList(img)}</List> :
-                  <Text style={[styles.sign_enc_prompt, { paddingTop: "50%" }]}>Сертификатов нет. Нажмите кнопку 'добавить' для импорта или создания сертификата</Text>}
-            </Content>
-            <AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password) => this.props.addCert(uri, fileName, password)} />
-         </Container>
-      );
-   }
+	render() {
+		const { certificates, addCert } = this.props;
+		const { navigate, goBack } = this.props.navigation;
+		let img = [];
+		let nowDate = new Date().getTime();
+		for (let i = 0; i < certificates.length; i++) {
+			nowDate < new Date(certificates[i].notAfter).getTime() ?
+				img[i] = require("../../imgs/general/cert2_ok_icon.png") :
+				img[i] = require("../../imgs/general/cert2_bad_icon.png");
+		}
+		return (
+			<Container style={styles.container}>
+				<Headers title="Выберите сертификат" goBack={() => goBack()} />
+				<Content>
+					{(certificates.filter((cert) => (cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey))).length !== 0 ?
+						<List>{this.ShowList(img)}</List> :
+						<Text style={[styles.sign_enc_prompt, { paddingTop: "50%" }]}>Сертификатов нет. Нажмите кнопку 'добавить' для импорта или создания сертификата</Text>}
+				</Content>
+				<AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password) => this.props.addCert(uri, fileName, password)} />
+			</Container>
+		);
+	}
 }

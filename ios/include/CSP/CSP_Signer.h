@@ -24,11 +24,23 @@
     };
 }
 
--(BOOL)signMessage :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile :(char *)outFileFormat;
--(BOOL)cosignMessage :(char *)serialNumber :(char *)category :(char *)signFile :(char *)format;
--(BOOL)verifyCosignedMessage :(char *)signFile :(char *)format;
+//генерация подписи для входного файла
+-(BOOL)signMessage :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile :(char *)outFileFormat :(bool)isDetached;
+
+//добавление соподписи к входному файлу
+-(BOOL)cosignMessage :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile :(char *)format :(bool)isDetached;
+
+//верификация подписи
+-(BOOL) verifyCosignedMessage :(char *)inputFile :(char *)signFile :(char *)format :(bool)isDetached;
+
+//снятие подписи(подписей)
 -(BOOL)deCosignMessage :(char *)signFile :(char *)inFileFormat :(char *)outFile;
--(std::vector<infoCSPStruct>)getSignInfo :(char *)signFile :(char *)format;
+
+//проверяет, является ли входной файл отсоединенной подписью
+-(BOOL)isDetachedSignMessage :(char *)signFile :(char *)inFileFormat;
+
+//получение информации о подписавших
+-(std::vector<infoCSPStruct>)getSignInfo :(char *)inputFile :(char *)signFile :(char *)format :(bool)isDetached;
 
 @end
 

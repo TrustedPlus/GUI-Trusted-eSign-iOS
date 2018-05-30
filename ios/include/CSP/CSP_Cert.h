@@ -12,6 +12,8 @@
 #include "Constants.h"
 #include "CSP_Helper.h"
 
+#include "CSP_Csp.h"
+
 #include "provider_system.h"
 
 #import <Foundation/Foundation.h>
@@ -33,8 +35,9 @@
 -(bool) loadFromFile :(char *)pathCert :(char *)format;
 //сохраниние сертификата в хранилище из файла
 -(bool)saveCertToStore :(char *)pathToFile :(char *)format;
+-(bool)saveCertToStore :(char *)pathToFile :(char *)format :(char *)category;
 //удаление сертификата из хранилища
--(bool) deleteCertInStore :(char *)serialNumber :(char *)category;
+-(bool) deleteCertInStore :(char *)serialNumber :(char *)category :(bool)deleteCont;
 //экспорт сертификата в файл из памяти
 -(bool) save :(char *)pathToSaveCert :(char *)format :(char *)category;
 -(long) getVersion;

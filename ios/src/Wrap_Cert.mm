@@ -148,7 +148,7 @@ RCT_EXPORT_METHOD(saveKeyToStore: (NSString *)inKey: (NSString *)inFormat: (NSSt
   }
 }
 //удаление сертификата из хранилища
-RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (BOOL)deleteCont :(RCTResponseSenderBlock)callback){
   char *pSerialNumber = (char *) [serialNumber UTF8String];
   char *pCategory = (char *) [category UTF8String];
   char *prov = (char *) [provider UTF8String];
@@ -162,7 +162,7 @@ RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)serialNumber: (NSString *)categ
 #endif
 #ifdef ProvCryptoPro
     if (strcmp(prov, "CRYPTOPRO") == 0){
-      b = [csp_Cert deleteCertInStore:pSerialNumber :pCategory];
+      b = [csp_Cert deleteCertInStore:pSerialNumber :pCategory :deleteCont];
     }
 #endif
 

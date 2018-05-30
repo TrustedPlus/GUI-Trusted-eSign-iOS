@@ -6,7 +6,7 @@
       ],
       "indent": [
           true,
-          "spaces"
+          "tabs"
       ],
       "no-duplicate-variable": true,
       "no-unused-expression": false,

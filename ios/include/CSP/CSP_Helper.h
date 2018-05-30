@@ -15,8 +15,21 @@
 
 extern TrustedHandle<PkiItemCollection> g_picCSP;
 
+struct ProviderProps {
+    int type;
+    TrustedHandle<std::string> name;
+};
+
+struct ContainerName {
+    TrustedHandle<std::string> unique; //CRYPT_UNIQUE
+    TrustedHandle<std::wstring> container; //PP_CONTAINER
+    TrustedHandle<std::string> fqcnA; //PP_FQCN
+    TrustedHandle<std::wstring> fqcnW; //PP_FQCN with mbstowcs
+};
+
 //поиск сертификата в хранилище криптоПРО
 PCCERT_CONTEXT findCertInCSPStore(char *serialNumber, char *category);
+TrustedHandle<Certificate> findCertInCSPStoreTH(char *serialNumber, char *category);
 
 //чтение файла в массив байт
 BYTE *readFile(char *file, DWORD &cbContent);
@@ -71,5 +84,8 @@ PCCERT_CONTEXT bindCertToPrivateKey(PCCERT_CONTEXT pCertContext, LPCSTR contName
 
 //преобразование из char * в wchar *
 WCHAR* ConvertCharToWchar(const char *name, int &length);
+
+//удаление контейнера
+bool deleteContainer(TrustedHandle<std::string> contName, int provType, TrustedHandle<std::string> provName);
 
 #endif /* CSP_Helper_h */

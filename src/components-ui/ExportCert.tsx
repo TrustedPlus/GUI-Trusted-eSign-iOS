@@ -57,9 +57,14 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 								} else {
 									Share.share({
 										url: path
-									}).then(
-										() => RNFS.unlink(path)
-									).catch(
+									}).then((action : {action}) => {
+										() => RNFS.unlink(path);
+										if (action.action === Share.dismissedAction) {
+											Alert.alert("Отправка файла была отклонена");
+										} else {
+											Alert.alert("Файл успешно отправлен");
+										}
+									}).catch(
 										errorMsg => Alert.alert("Ошибка при экспорте сертификата")
 									);
 								}
@@ -83,9 +88,14 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 							} else {
 								Share.share({
 									url: path
-								}).then(
-									() => RNFS.unlink(path)
-								).catch(
+								}).then((action : {action}) => {
+									() => RNFS.unlink(path);
+									if (action.action === Share.dismissedAction) {
+										Alert.alert("Отправка файла была отклонена");
+									} else {
+										Alert.alert("Файл успешно отправлен");
+									}
+								}).catch(
 									errorMsg => Alert.alert("Ошибка при экспорте сертификата")
 								);
 							}

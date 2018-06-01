@@ -28,7 +28,7 @@ function mapDispatchToProps(dispatch) {
 interface SelectOtherСertProps {
 	navigation: any;
 	certificates: any;
-	addCert(uri: string, fileName: string, password: string): Function;
+	addCert(uri: string, fileName: string, password: string, fn: Function): Function;
 	addCertForEnc?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string, hasPrivateKey: boolean): void;
 	otherCertClear(): void;
 }
@@ -72,9 +72,8 @@ export class SelectOtherСert extends React.Component<SelectOtherСertProps, Sel
 		const { certificates } = this.props;
 		const { navigate, goBack } = this.props.navigation;
 		let img = [];
-		let nowDate = new Date().getTime();
 		for (let i = 0; i < certificates.length; i++) {
-			nowDate < new Date(certificates[i].notAfter).getTime() ?
+			certificates.chainBuilding ?
 				img[i] = require("../../imgs/general/cert2_ok_icon.png") :
 				img[i] = require("../../imgs/general/cert2_bad_icon.png");
 		}
@@ -86,7 +85,7 @@ export class SelectOtherСert extends React.Component<SelectOtherСertProps, Sel
 						<List>{this.ShowList(img)}</List> :
 						<Text style={[styles.sign_enc_prompt, { paddingTop: "50%" }]}>Сертификатов нет. Нажмите кнопку 'добавить' для импорта или создания сертификата</Text>}
 				</Content>
-				<AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password) => this.props.addCert(uri, fileName, password)} />
+				<AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password, fn) => this.props.addCert(uri, fileName, password, fn)} />
 			</Container>
 		);
 	}

@@ -144,7 +144,7 @@ export function addFiles(uri, fileName) {
 	};
 }
 
-export function addCert(uri, fileName?, password?) {
+export function addCert(uri, fileName?, password?, fn?) {
 	return function action(dispatch) {
 		dispatch({ type: ADD_CERT_OR_KEY });
 		let point, name, extension;
@@ -160,13 +160,15 @@ export function addCert(uri, fileName?, password?) {
 					"",
 					(err, imp) => {
 						if (err) {
+							fn(err);
 							dispatch({ type: ADD_CERT_ERROR, payload: err });
-							Alert.alert("Ошибка при добавлении сертификата");
 						} else {
 							dispatch({ type: ADD_CERT_SUCCESS, payload: name });
-							Alert.alert("Сертификат успешно добавлен");
-							dispatch(getProviders());
-							dispatch(readCertKeys());
+							setTimeout(() => {
+								Alert.alert("Сертификат успешно добавлен");
+								dispatch(getProviders());
+								dispatch(readCertKeys());
+							}, 400);
 						}
 					});
 				break;

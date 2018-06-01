@@ -15,12 +15,12 @@ export class Headers extends React.Component<HeadersProps> {
 		return (
 			<Header style={styles.header} iosBarStyle={"light-content"}>
 				{this.props.goBack ? <Left style={styles.left}>
-					<Button transparent onPress={() => this.props.goBack()} style={this.props.goHome ? {position: "absolute", left: 0} : null}>
-						<Image style={styles.headerImage}
+					<Button transparent onPress={() => this.props.goBack()} style={[{width: 50, height: 50}]}>
+						<Image style={{width: 35, height: 35}}
 							source={require("../../imgs/general/back_icon.png")} />
 					</Button>
-					{this.props.goHome ? <Button transparent onPress={() => { this.props.goHome(); }} >
-						<Icon name="home" style={{position: "absolute", left: 60, color: "white"}}/>
+					{this.props.goHome ? <Button style={{width: 50, height: 50, position: "absolute", left: 60, top: 0}} transparent onPress={() => { this.props.goHome(); }} >
+						<Icon name="ios-home" style={{color: "white"}}/>
 					</Button> : null}
 				</Left> : null}
 				<Body>

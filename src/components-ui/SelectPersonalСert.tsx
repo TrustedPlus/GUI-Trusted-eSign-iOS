@@ -29,7 +29,7 @@ function mapDispatchToProps(dispatch) {
 interface SelectPersonalСertProps {
 	navigation: any;
 	certificates: any;
-	addCert(uri: string, fileName: string, password: string): Function;
+	addCert(uri: string, fileName: string, password: string, fn: Function): Function;
 	addCertForEnc?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string, hasPrivateKey: boolean): void;
 	addCertForSign?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string, hasPrivateKey: boolean): void;
 	personalCertClear?();
@@ -53,7 +53,7 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
 				navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
 				goBack={() => {
 					enc ? this.props.addCertForEnc(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false) : this.props.addCertForSign(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false);
-					enc ? this.props.navigation.goBack("Home") : this.props.navigation.goBack();
+					enc ? this.props.navigation.goBack("Encryption") : this.props.navigation.goBack();
 				}}
 				cert={cert}
 				arrow /> : null));
@@ -63,9 +63,8 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
 		const { certificates, addCert } = this.props;
 		const { navigate, goBack } = this.props.navigation;
 		let img = [];
-		let nowDate = new Date().getTime();
 		for (let i = 0; i < certificates.length; i++) {
-			nowDate < new Date(certificates[i].notAfter).getTime() ?
+			certificates[i].chainBuilding ?
 				img[i] = require("../../imgs/general/cert2_ok_icon.png") :
 				img[i] = require("../../imgs/general/cert2_bad_icon.png");
 		}
@@ -77,7 +76,7 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
 						<List>{this.ShowList(img)}</List> :
 						<Text style={[styles.sign_enc_prompt, { paddingTop: "50%" }]}>Сертификатов нет. Нажмите кнопку 'добавить' для импорта или создания сертификата</Text>}
 				</Content>
-				<AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password) => this.props.addCert(uri, fileName, password)} />
+				<AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password, fn) => this.props.addCert(uri, fileName, password, fn)} />
 			</Container>
 		);
 	}

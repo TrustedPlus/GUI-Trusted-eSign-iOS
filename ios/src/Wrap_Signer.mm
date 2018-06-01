@@ -153,6 +153,11 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
         else
           arrayInfoAboutSigner[@"status"] = @("0");
         
+        if (strcmp(vec[i].signingTime->c_str(), std::string("").c_str()) == 0)
+          arrayInfoAboutSigner[@"signingTime"] = @("");
+        else
+          arrayInfoAboutSigner[@"signingTime"] = @(vec[i].signingTime->c_str());
+        
         if ((!(strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.3") == 0)) && (!(strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.2") == 0))){
           arrayInfoAboutSigner[@"signatureAlgorithm"] = @(vec[i].cert->getSignatureAlgorithm()->c_str());
         }

@@ -17,6 +17,7 @@ import { Certificate } from "./Certificate";
 import { Journal } from "./Journal";
 import { SelectCert } from "./SelectCert";
 import { Containers } from "./Containers";
+import { Documents } from "./Documents";
 
 import { getProviders } from "../actions/getContainersAction";
 import { readCertKeys } from "../actions/CertKeysAction";
@@ -64,8 +65,8 @@ class Main extends React.Component<MainProps> {
 		const { files, certificates, lastlog, containers } = this.props;
 		let length = "выбрано файлов: " + files.length;
 		let persCert = "личных сертификатов: " + certificates.filter(cert => cert.category.toUpperCase() === "MY").length;
-		let lastlognote = lastlog ? "последняя запись: " + lastlog : "действий не совершалось";
 		let lengthContainers = "количество контейнеров: " + containers.length;
+		let lastlognote = lastlog ? "последняя запись: " + lastlog : "действий не совершалось";
 		return (
 			<Container style={styles.container}>
 				<Headers title="КриптоАРМ" />
@@ -76,7 +77,9 @@ class Main extends React.Component<MainProps> {
 						<ListMenu title="Шифрование / Расшифрование" img={require("../../imgs/general/encode_main_icon.png")}
 							note={length} nav={() => navigate("Encryption", { name: "Encryption" })} />
 						<ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
-							note={persCert} nav={() => navigate("Certificate")} />
+							note={persCert} nav={() => navigate("Certificate", { name: "Certificate" })} />
+						<ListMenu title="Документы" img={require("../../imgs/general/documents_main_icon.png")}
+							nav={() => navigate("Documents")} />
 						<ListMenu title="Управление контейнерами" img={require("../../imgs/general/stores_main_icon.png")}
 							note={lengthContainers} nav={() => navigate("Containers")} />
 						<ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
@@ -107,5 +110,6 @@ export const App = StackNavigator({
 	CreateCertificate: { screen: CreateCertificate },
 	ExportCert: { screen: ExportCert },
 	SelectCert: { screen: SelectCert },
-	Containers: { screen: Containers }
+	Containers: { screen: Containers },
+	Documents: { screen: Documents }
 });

@@ -20,6 +20,7 @@
 @interface CSP_Signer : NSObject{
     struct infoCSPStruct {
         bool status;
+        TrustedHandle<std::string> signingTime;
         TrustedHandle<Certificate> cert;
     };
 }

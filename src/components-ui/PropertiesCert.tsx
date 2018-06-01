@@ -53,23 +53,38 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 	};
 
 	deleteCert() {
-		AlertIOS.alert(
-			"Удалить сертификат '" + this.props.navigation.state.params.cert.subjectFriendlyName + "' с контейнером?",
-			null,
-			[
-				{
-					text: "Да", onPress: () => {
-						this.props.deleteCertAction(this.props.navigation.state.params.cert, true, this.props.navigation.goBack());
-					}
-				},
-				{
-					text: "Нет", onPress: () => {
-						this.props.deleteCertAction(this.props.navigation.state.params.cert, false, this.props.navigation.goBack());
-					}
-				},
-				{ text: "Отмена", onPress: () => null, style: "cancel" }
-			]
-		);
+		if (this.props.navigation.state.params.cert.hasPrivateKey) {
+			AlertIOS.alert(
+				"Удалить сертификат '" + this.props.navigation.state.params.cert.subjectFriendlyName + "' с контейнером?",
+				null,
+				[
+					{
+						text: "Да", onPress: () => {
+							this.props.deleteCertAction(this.props.navigation.state.params.cert, true, this.props.navigation.goBack());
+						}
+					},
+					{
+						text: "Нет", onPress: () => {
+							this.props.deleteCertAction(this.props.navigation.state.params.cert, false, this.props.navigation.goBack());
+						}
+					},
+					{ text: "Отмена", onPress: () => null, style: "cancel" }
+				]
+			);
+		} else {
+			AlertIOS.alert(
+				"Удалить сертификат?",
+				null,
+				[
+					{
+						text: "Да", onPress: () => {
+							this.props.deleteCertAction(this.props.navigation.state.params.cert, false, this.props.navigation.goBack());
+						}
+					},
+					{ text: "Отмена", onPress: () => null, style: "cancel" }
+				]
+			);
+		}
 	}
 
 	render() {
@@ -102,17 +117,15 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 		issuerCity = issuerCity ? issuerCity[0].replace("2.5.4.7=", "") : null;
 		let organizationName = cert.issuerName.match(/2.5.4.10=[^\/]{1,}/);
 		organizationName = organizationName ? organizationName[0].replace("2.5.4.10=", "") : null;
-
-		let isValidnew = new Date().getTime() < new Date(cert.notAfter).getTime() ? true : false;
 		return (
 			<Container style={styles.container}>
 				<Headers title="Свойства сертфиката" goBack={() => goBack()} goHome={() => this.props.navigation.goBack("Home")}/>
 				<Content style={{ backgroundColor: "white" }}>
 					<View>
-						<Image style={styles.prop_cert_img} source={isValidnew ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />
+						<Image style={styles.prop_cert_img} source={cert.chainBuilding ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />
 						<Text style={styles.prop_cert_title}>{cert.subjectFriendlyName}</Text>
 						<Text style={styles.prop_cert_status}>Cтатус сертификата:{"\n"}
-							{isValidnew ? <Text style={{ color: "green" }}>действителен</Text> : <Text style={{ color: "red" }}>не действителен</Text>}
+							{cert.chainBuilding ? <Text style={{ color: "green" }}>действителен</Text> : <Text style={{ color: "red" }}>не действителен</Text>}
 						</Text>
 					</View>
 					<List>

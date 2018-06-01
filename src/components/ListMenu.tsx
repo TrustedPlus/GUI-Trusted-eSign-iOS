@@ -43,7 +43,7 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 				<Body>
 					<Text style={styles.listItemText}>{this.props.title}</Text>
 					<Text note style={{ rightimg } ? { width: "80%" } : {}}>{this.props.note}</Text>
-					<Text note style={{ position: "absolute", right: 25, bottom: 10 }}>{this.props.rightnote}</Text>
+					<Text note style={{ position: "absolute", right: 25, bottom: 10}}>{this.props.rightnote}</Text>
 					{rightimg}
 				</Body>
 			</ListItem>

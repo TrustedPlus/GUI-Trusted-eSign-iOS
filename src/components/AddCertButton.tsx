@@ -8,7 +8,45 @@ interface AddCertButtonProps {
 	addCertFunc: Function;
 }
 
-export class AddCertButton extends React.Component<AddCertButtonProps> {
+interface AddCertButtonState {
+	numInvalidPassword: number;
+}
+
+export class AddCertButton extends React.Component<AddCertButtonProps, AddCertButtonState> {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			numInvalidPassword: 0
+		};
+	}
+
+	Prompt(res) {
+		AlertIOS.prompt(
+			this.state.numInvalidPassword ? "Ошибка, введите корректный пароль" : "Введите пароль для сертификата",
+			null,
+			[
+				{
+					text: "Отмена",
+					onPress: () => null,
+					style: "cancel",
+				},
+				{
+					text: "Ввести",
+					onPress: (password) => this.props.addCertFunc(res.uri, res.fileName, password, (err) => {
+						let index = err.indexOf("Action canceled by user!");
+						if (index === -1) {
+							this.setState({ numInvalidPassword: this.state.numInvalidPassword + 1 });
+							this.state.numInvalidPassword < 3 ? this.Prompt(res) : AlertIOS.alert("Вы превысили максимальное число попыток");
+						} else {
+							setTimeout(() => AlertIOS.alert("Добавление было отменено"), 400);
+						}
+					}),
+				},
+			],
+			"secure-text"
+		);
+	}
 
 	documentPicker() {
 		DocumentPicker.show({
@@ -18,22 +56,7 @@ export class AddCertButton extends React.Component<AddCertButtonProps> {
 			point = res.fileName.indexOf(".");
 			extension = res.fileName.substring(point + 1);
 			if (extension === "pfx") {
-				AlertIOS.prompt(
-					"Введите пароль для сертификата",
-					null,
-					[
-						{
-							text: "Отмена",
-							onPress: () => null,
-							style: "cancel",
-						},
-						{
-							text: "Ввести",
-							onPress: (password) => this.props.addCertFunc(res.uri, res.fileName, password),
-						},
-					],
-					"secure-text"
-				);
+				this.Prompt(res);
 			} else {
 				this.props.addCertFunc(res.uri, res.fileName, null);
 			}
@@ -46,9 +69,9 @@ export class AddCertButton extends React.Component<AddCertButtonProps> {
 				"Добавление сертификата",
 				null,
 				[
-					{ text: "Импортировать сертификат", onPress: () => this.documentPicker() },
-					{ text: "Создать самоподписаный сертификат", onPress: () => this.props.navigate("CreateCertificate") },
-					{ text: "Отмена", onPress: () => null, style: "cancel" }
+					{ text: "Импорт", onPress: () => {this.documentPicker(); this.setState({numInvalidPassword: 0}); }},
+					{ text: "Создание", onPress: () => this.props.navigate("CreateCertificate") },
+					{ text: "Отмена", onPress: () => null, style: "destructive" }
 				]
 			);
 		}}>

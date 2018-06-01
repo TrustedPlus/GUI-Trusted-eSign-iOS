@@ -89,12 +89,12 @@ export class FooterSign extends React.Component<FooterSignProps> {
 						disabled={certIsNotNull === "noCert" ? true : (isSign === "sig" ? true : false)}
 						icon="md-create"
 						nav={() => AlertIOS.alert(
-							"Создание",
+							"Подписать",
 							null,
 							[
-								{ text: "Совмещенной подписи", onPress: () => signFile(files, personalCert, footer, false) },
-								{ text: "Отделенной подписи", onPress: () => signFile(files, personalCert, footer, true) },
-								{ text: "Отмена", onPress: () => null, style: "cancel" }
+								{ text: "совмещенной подписью", onPress: () => signFile(files, personalCert, footer, false) },
+								{ text: "отделенной подписью", onPress: () => signFile(files, personalCert, footer, true) },
+								{ text: "Отмена", onPress: () => null, style: "destructive" }
 							]
 						)} />
 					<FooterButton title="Снять" disabled={allIsSign === "sig" ? false : true} icon="md-crop" nav={() => this.onPressUnSignFile()} />

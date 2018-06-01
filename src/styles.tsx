@@ -22,7 +22,8 @@ export const styles = StyleSheet.create({
 	},
 	// ListMenu
 	listItem: {
-		marginLeft: 0
+		marginLeft: 0,
+		minHeight: 10
 	},
 	listItemText: {
 		fontSize: 20,

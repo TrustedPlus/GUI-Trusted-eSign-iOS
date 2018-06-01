@@ -44,9 +44,8 @@ export class ListCertCategory extends React.Component<ListCertCategoryProps> {
 		const { certificates } = this.props;
 		const { goBack, navigate } = this.props.navigation;
 		let img = [];
-		let nowDate = new Date().getTime();
 		for (let i = 0; i < certificates.length; i++) {
-			nowDate < new Date(certificates[i].notAfter).getTime() ?
+			certificates[i].chainBuilding ?
 				img[i] = require("../../imgs/general/cert2_ok_icon.png") :
 				img[i] = require("../../imgs/general/cert2_bad_icon.png");
 		}

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Left, Right, Body, ListItem, Thumbnail, Text, Button, Icon } from "native-base";
-import { Image, Alert, TouchableWithoutFeedback } from "react-native";
+import { TouchableWithoutFeedback } from "react-native";
 import { styles } from "../styles";
 
 interface ListCertProps {

@@ -2,6 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <!-- <key>NSUbiquitousContainers</key>
+    <dict>
+        <key>iCloud.com.digt.CryptoARMGOST</key>
+        <dict>
+            <key>NSUbiquitousContainerIsDocumentScopePublic</key>
+            <false/>
+            <key>NSUbiquitousContainerName</key>
+            <string>CryptoARMGOST</string>
+            <key>NSUbiquitousContainerSupportedFolderLevels</key>
+            <string>One</string>
+        </dict>
+    </dict> -->
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -52,7 +64,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+    <string></string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
 	<key>UIAppFonts</key>
@@ -86,6 +98,10 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+    <key>UIFileSharingEnabled</key>
+    <false/>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <false/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

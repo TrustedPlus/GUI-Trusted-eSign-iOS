@@ -1,13 +1,12 @@
 import * as React from "react";
-import { Container, Content, List, Footer, FooterTab, Button, Text } from "native-base";
-import { NativeModules, Alert, AlertIOS } from "react-native";
+import { Container, Content, List, Text } from "native-base";
 import { Headers } from "../components/Headers";
 
 import { ListMenu } from "../components/ListMenu";
 import { styles } from "../styles";
 
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { getProviders } from "../actions/getContainersAction";
 
 function mapStateToProps(state) {

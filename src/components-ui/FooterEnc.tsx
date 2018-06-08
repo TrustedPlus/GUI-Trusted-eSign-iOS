@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Footer, FooterTab, } from "native-base";
-import { styles } from "../styles";
-import { bindActionCreators } from "redux";
+import { FooterButton } from "../components//FooterButton";
+
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { encAssymmetric, decAssymmetric } from "../actions/EncDecAction";
 import { uploadFile, deleteFile } from "../actions/UploadFileAction";
-import { FooterButton } from "../components//FooterButton";
 
 function mapStateToProps(state) {
 	return {

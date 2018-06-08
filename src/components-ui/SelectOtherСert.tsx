@@ -1,15 +1,14 @@
 import * as React from "react";
-import { Container, Header, Item, Input, List, Content, Button, Icon, Text, View } from "native-base";
-import { Image, AlertIOS } from "react-native";
+import { Container, List, Content, Text } from "native-base";
 import { Headers } from "../components/Headers";
 import { ListCert } from "../components/ListCert";
 import { styles } from "../styles";
 import { addCert } from "../actions/index";
 import { AddCertButton } from "../components/AddCertButton";
 
-import { addCertForEnc, otherCertClear } from "../actions/index";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { addCertForEnc, otherCertClear } from "../actions/index";
 
 function mapStateToProps(state) {
 	return {
@@ -73,7 +72,7 @@ export class SelectOtherСert extends React.Component<SelectOtherСertProps, Sel
 		const { navigate, goBack } = this.props.navigation;
 		let img = [];
 		for (let i = 0; i < certificates.length; i++) {
-			certificates.chainBuilding ?
+			certificates[i].chainBuilding ?
 				img[i] = require("../../imgs/general/cert2_ok_icon.png") :
 				img[i] = require("../../imgs/general/cert2_bad_icon.png");
 		}

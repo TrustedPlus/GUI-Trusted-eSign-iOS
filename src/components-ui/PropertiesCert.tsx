@@ -1,16 +1,14 @@
 import * as React from "react";
-import { Container, ListItem, View, List, Content, Text, Footer, FooterTab, Button } from "native-base";
-import { Image, NativeModules, Share, Alert, AlertIOS } from "react-native";
+import { Container, ListItem, View, List, Content, Text, Footer, FooterTab } from "native-base";
+import { Image, AlertIOS } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
-import * as RNFS from "react-native-fs";
 import { FooterButton } from "../components/FooterButton";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { readCertKeys } from "../actions/CertKeysAction";
 import { deleteCertAction } from "../actions/DeleteCertAction";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { Certificate } from "./Certificate";
 
 function mapDispatchToProps(dispatch) {
 	return {

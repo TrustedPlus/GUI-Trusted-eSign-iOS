@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Container, Content, Text, Footer, FooterTab, Button, View, Form, Item, Label, Input } from "native-base";
-import { ScrollView, NativeModules, Alert, Share } from "react-native";
+import { NativeModules, Alert, Share } from "react-native";
 import { styles } from "../styles";
 import * as RNFS from "react-native-fs";
 

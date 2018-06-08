@@ -1,12 +1,13 @@
 import * as React from "react";
-import { Container, Content, Text, Footer, FooterTab, Button } from "native-base";
+import { Container, Content, Text, Footer, FooterTab } from "native-base";
 import { ScrollView } from "react-native";
 import { Headers } from "../components/Headers";
 import { FooterButton } from "../components/FooterButton";
 import { styles } from "../styles";
+
 import { connect } from "react-redux";
-import { clearLog } from "../actions/index";
 import { bindActionCreators } from "redux";
+import { clearLog } from "../actions/index";
 
 function mapStateToProps(state) {
 	return {

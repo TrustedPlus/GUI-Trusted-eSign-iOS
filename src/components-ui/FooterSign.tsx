@@ -2,13 +2,12 @@ import * as React from "react";
 import { NativeModules, Alert, AlertIOS } from "react-native";
 import * as RNFS from "react-native-fs";
 import { Footer, FooterTab } from "native-base";
-import { styles } from "../styles";
-import { bindActionCreators } from "redux";
+import { FooterButton } from "../components/FooterButton";
+
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { signFile, verifySign } from "../actions/SignVerifyAction";
 import { uploadFile, deleteFile } from "../actions/UploadFileAction";
-import { FooterButton } from "../components/FooterButton";
-import ModalDropdown from "react-native-modal-dropdown";
 
 function mapStateToProps(state) {
 	return {

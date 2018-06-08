@@ -131,6 +131,38 @@ RCT_EXPORT_METHOD(installCertToCont: (NSString *)serialNumber: (NSString *)categ
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
 }
+/*
+RCT_EXPORT_METHOD(connect: (NSString *)nsUrl: (RCTResponseSenderBlock)callback){
+  try{
+    NSURL *src = [NSURL fileURLWithPath:nsUrl];
+    NSFileManager *filemgr = [[NSFileManager alloc] init];
+    NSError *error;
+    NSURL *ubiq = [filemgr URLForUbiquityContainerIdentifier:@"iCloud.com.digt.CryptoARMGOST"];//"com.apple.CloudDocs"];
+    NSURL *ubiquitousPackage = [ubiq URLByAppendingPathComponent:@"Documents" isDirectory:YES];
+    if ([filemgr fileExistsAtPath:[ubiquitousPackage path]] == NO)
+      [filemgr createDirectoryAtURL:ubiquitousPackage withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    NSURL *cloudURL = [ubiquitousPackage URLByAppendingPathComponent: [src lastPathComponent]];
+    BOOL success = [filemgr setUbiquitous:YES itemAtURL:src destinationURL:cloudURL error:&error];
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
+  }
+}
 
+RCT_EXPORT_METHOD(downloadingFileFromiCloud: (NSString *)nsUrl: (RCTResponseSenderBlock)callback){
+  try{
+    NSURL *src = [NSURL fileURLWithPath:nsUrl];
+    NSFileManager *filemgr = [[NSFileManager alloc] init];
+    NSError *error = nil;
+
+    BOOL success = [filemgr startDownloadingUbiquitousItemAtURL:src error:&error];
+    callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
+  }
+}*/
 
 @end

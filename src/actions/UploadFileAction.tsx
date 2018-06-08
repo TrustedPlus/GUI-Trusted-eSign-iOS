@@ -45,7 +45,7 @@ export function deleteFile(files: IFile[], footer) {
 				if (files[footer.arrButton[i]].extension) {
 					path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
 				} else {
-					path = RNFS.DocumentDirectoryPath + "/Files/." + files[footer.arrButton[i]].name;
+					path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
 				}
 				RNFS.unlink(path)
 					.then(() => {

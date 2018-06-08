@@ -4,8 +4,9 @@ import { Headers } from "../components/Headers";
 import { ListMenu } from "../components/ListMenu";
 import { styles } from "../styles";
 import { AddCertButton } from "../components/AddCertButton";
-import { bindActionCreators } from "redux";
+
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { addCert } from "../actions/index";
 
 function mapStateToProps(state) {

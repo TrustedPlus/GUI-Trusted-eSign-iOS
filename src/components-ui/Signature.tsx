@@ -1,16 +1,17 @@
 import * as React from "react";
-import { Container, View, List, Content, Button, Body, Text } from "native-base";
+import { Container, View, List, Button, Text } from "native-base";
 import { Image, RefreshControl, ScrollView } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { ListMenu } from "../components/ListMenu";
-import { bindActionCreators } from "redux";
 import { FooterSign } from "./FooterSign";
-import { connect } from "react-redux";
-import { footerAction, footerClose, readFiles, addFiles } from "../actions/index";
 import { iconSelection } from "../utils/forListFiles";
 import { readCertKeys } from "../actions/CertKeysAction";
 import { DocumentPicker } from "react-native-document-picker";
+
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { footerAction, footerClose, readFiles, addFiles } from "../actions/index";
 
 function mapStateToProps(state) {
 	return {
@@ -110,8 +111,7 @@ export class Signature extends React.Component<SignatureProps> {
 		if (files.length) {
 			filesView = <ScrollView refreshControl={
 				<RefreshControl refreshing={isFetching}
-					onRefresh={() => readFiles()}
-				/>}>
+					onRefresh={() => readFiles()}/>}>
 				<List>{this.showList(img)}</List>
 			</ScrollView>;
 		} else {

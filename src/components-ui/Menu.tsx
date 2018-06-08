@@ -19,11 +19,11 @@ import { SelectCert } from "./SelectCert";
 import { Containers } from "./Containers";
 import { Documents } from "./Documents";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import { getProviders } from "../actions/getContainersAction";
 import { readCertKeys } from "../actions/CertKeysAction";
 import { readFiles } from "../actions/index";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 
 function mapStateToProps(state) {
 	return {
@@ -94,6 +94,61 @@ class Main extends React.Component<MainProps> {
 		this.props.readFiles();
 		this.props.readCertKeys();
 		this.props.getProviders();
+		/*NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {
+			RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
+				fileForCloud => {
+					console.log(fileForCloud);
+					for (let i = 0; i < fileForCloud.length; i++) {
+						if (fileForCloud[i].name.indexOf(".icloud") !== -1) {
+							NativeModules.Wrap_Main.downloadingFileFromiCloud(fileForCloud[i].path, (veify, err) => {
+								RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
+									newFileForCloud => console.log(newFileForCloud)
+								);
+								let correctName = fileForCloud[i].name;
+								correctName = correctName.replace(".icloud", "");
+								correctName = correctName.slice(1);
+								debugger;
+								RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + correctName, RNFS.DocumentDirectoryPath + "/Files/" + correctName).then(
+									this.props.readFiles()
+								);
+							});
+						} else if (fileForCloud[i].name[0] === ".") {
+							continue;
+						} else {
+							RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+								success => {
+									this.props.readFiles();
+								},
+								err => {
+									RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+										() => RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+											() => {
+												this.props.readFiles();
+											}
+										)
+									);
+								}
+							);
+						}
+					}
+					RNFS.readDir(RNFS.DocumentDirectoryPath + "/Files/").then(
+						fileForApps => {
+							console.log(fileForApps);
+							for (let i = 0; i < fileForApps.length; i++) {
+								if (fileForApps[i].name[0] === ".") {
+									continue;
+								}
+								console.log(fileForApps[i]);
+								RNFS.copyFile(fileForApps[i].path, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForApps[i].name).catch(
+									err => console.log(err.message)
+								);
+							}
+						}
+					);
+				},
+				err => console.log(err)
+			);
+		}); */
 	}
 }
 
@@ -113,3 +168,18 @@ export const App = StackNavigator({
 	Containers: { screen: Containers },
 	Documents: { screen: Documents }
 });
+
+/*RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
+						fileForCloud => {
+							console.log(fileForCloud);
+							for (let i = 0; i < fileForCloud.length; i++) {
+								if (fileForCloud[i].name[0] === ".") {
+									continue;
+								}
+								RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then().catch(
+									() => {
+										RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+											() => RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name)
+										);
+									}
+								);*/

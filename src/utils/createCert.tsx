@@ -1,4 +1,4 @@
-import { Alert, AlertIOS, NativeModules } from "react-native";
+import { NativeModules } from "react-native";
 import * as RNFS from "react-native-fs";
 
 function randomRowGeneration(length) {

@@ -29,11 +29,26 @@ export function signFile(files: IFile[], personalCert, footer, detached) {
 					path + ".sig",
 					"BASE64",
 					detached,
-					(err, signFile) => {
+					(err) => {
 						if (err) {
 							Alert.alert(err + "");
 							dispatch({ type: SIGN_FILE_ERROR, payload: err });
 						} else {
+							/*RNFS.copyFile(path + ".sig", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".sig").then(
+								success => {
+									console.log(success);
+								},
+								err => {
+									console.log(err.message);
+									RNFS.unlink("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".sig")
+									.then(() => {
+										RNFS.copyFile(path + ".sig", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".sig");
+									})
+									.catch((err) => {
+										console.log(err.message);
+									});
+								}
+							); */
 							dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
 						}
 					});
@@ -69,7 +84,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
 											path,
 											response === "--" ? "BASE64" : "DER",
 											true,
-											(err, verify) => {
+											(err) => {
 												if (err) {
 													dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
 												} else {
@@ -82,7 +97,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
 											path,
 											response === "--" ? "BASE64" : "DER",
 											false,
-											(err, verify) => {
+											(err) => {
 												if (err) {
 													dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
 												} else {

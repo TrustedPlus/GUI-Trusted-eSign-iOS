@@ -1,5 +1,4 @@
-import { READ_CERT_KEY, READ_CERTIFICATES_SUCCESS, READ_CERTIFICATES_ERROR, CREATE_CERTIFICATE_SUCCESS, DELETE_CERTIFICATE_SUCCESS, PROVIDER_INIT_ERROR } from "../constants";
-import * as RNFS from "react-native-fs";
+import { READ_CERT_KEY, READ_CERTIFICATES_SUCCESS, READ_CERTIFICATES_ERROR, CREATE_CERTIFICATE_SUCCESS, DELETE_CERTIFICATE_SUCCESS } from "../constants";
 import { NativeModules } from "react-native";
 
 export function readCertKeys() {

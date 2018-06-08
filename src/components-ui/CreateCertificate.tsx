@@ -4,14 +4,14 @@ import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { View, Alert, AlertIOS } from "react-native";
 import * as RNFS from "react-native-fs";
-import { Dropdown } from "react-native-material-dropdown";
 import { genSelfSignedCertWithoutRequest } from "../utils/createCert";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
 import { ListWithSwitch } from "../components/ListWithSwitch";
 import { FooterButton } from "../components/FooterButton";
-import { readCertKeys, createCert } from "../actions/CertKeysAction";
+
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { readCertKeys, createCert } from "../actions/CertKeysAction";
 
 function mapDispatchToProps(dispatch) {
 	return {

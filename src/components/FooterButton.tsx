@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Icon, Button, Text } from "native-base";
-import { styles } from "../styles";
 
 interface FooterButtonProps {
 	title: string;

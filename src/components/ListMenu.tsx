@@ -1,7 +1,5 @@
 import * as React from "react";
-import { bindActionCreators } from "redux";
-
-import { Left, Right, Body, ListItem, Thumbnail, Text, Icon } from "native-base";
+import { Left, Body, ListItem, Thumbnail, Text, Icon } from "native-base";
 import { Image } from "react-native";
 import { styles } from "../styles";
 
@@ -11,6 +9,7 @@ interface ListItemProps {
 	rightnote?: string;
 	img?: any;
 	rightimg?: any;
+	righticon?: string;
 	verify?: number;
 	checkbox?: boolean;
 	nav(): void;
@@ -29,9 +28,13 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 	}
 
 	render() {
-		let rightimg = null;
+		let rightimg, righticon = null;
 		if (this.props.rightimg) { // условие на изображение справа
 			rightimg = <Thumbnail small square style={{ position: "absolute", right: 15, top: 15 }} source={this.props.rightimg} />;
+		}
+
+		if (this.props.righticon) { // условие на иконку справа
+			righticon = <Icon style={{ position: "absolute", right: 15, top: 15 }} name={this.props.righticon} />;
 		}
 		return (
 			<ListItem style={[styles.listItem, this.state.active ? { backgroundColor: "lightgrey" } : null]} avatar onPress={this.onPress.bind(this)} >
@@ -45,6 +48,7 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 					<Text note style={{ rightimg } ? { width: "80%" } : {}}>{this.props.note}</Text>
 					<Text note style={{ position: "absolute", right: 25, bottom: 10}}>{this.props.rightnote}</Text>
 					{rightimg}
+					{righticon}
 				</Body>
 			</ListItem>
 		);

@@ -28,11 +28,12 @@ export function encAssymmetric(files: IFile[], otherCert, footer) {
 					path,
 					path + ".enc",
 					"BASE64",
-					(err, encrypt) => {
+					(err) => {
 						if (err) {
 							Alert.alert(err);
 							dispatch({ type: ENCODE_FILES_ERROR, payload: err });
 						} else {
+							// RNFS.copyFile(path + ".enc", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".enc");
 							dispatch({ type: ENCODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
 						}
 					});
@@ -61,11 +62,12 @@ export function decAssymmetric(files: IFile[], otherCert, footer) {
 					path + "." + files[footer.arrButton[i]].extensionAll,
 					"BASE64",
 					path + "." + extension,
-					(err, decrypt) => {
+					(err) => {
 						if (err) {
 							Alert.alert(err);
 							dispatch({ type: DECODE_FILES_ERROR, payload: err });
 						} else {
+							// RNFS.copyFile(path + "." + extension, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + extension);
 							dispatch({ type: DECODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
 						}
 					});

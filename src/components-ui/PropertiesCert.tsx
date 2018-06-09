@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Container, ListItem, View, List, Content, Text, Footer, FooterTab } from "native-base";
-import { Image, AlertIOS } from "react-native";
+import { Image, AlertIOS, NativeModules, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { FooterButton } from "../components/FooterButton";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { readCertKeys } from "../actions/CertKeysAction";
-import { deleteCertAction } from "../actions/DeleteCertAction";
+import { readCertKeys } from "../actions/certKeysAction";
+import { deleteCertAction } from "../actions/deleteCertAction";
 
 function mapDispatchToProps(dispatch) {
 	return {
@@ -86,9 +86,10 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 	}
 
 	render() {
-		const { cert } = this.props.navigation.state.params;
+		const { cert, isCertInContainers, containers } = this.props.navigation.state.params;
 		const { navigate, goBack } = this.props.navigation;
 		let subjectFriendlyName, subjectEmail, subjectCountry, subjectRegion, subjectCity;
+		isCertInContainers === true ? console.log("Ето неустановленный сертификат") : console.log("Ето установленный сертификат");
 		if (!cert.selfSigned) {
 			subjectFriendlyName = cert.subjectName.match(/2.5.4.3=[^\/]{1,}/);
 			subjectFriendlyName = subjectFriendlyName ? subjectFriendlyName[0].replace("2.5.4.3=", "") : null;
@@ -117,7 +118,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 		organizationName = organizationName ? organizationName[0].replace("2.5.4.10=", "") : null;
 		return (
 			<Container style={styles.container}>
-				<Headers title="Свойства сертфиката" goBack={() => goBack()} goHome={() => this.props.navigation.goBack("Home")}/>
+				<Headers title="Свойства сертфиката" goBack={() => goBack()} goHome={() => this.props.navigation.goBack("Home")} />
 				<Content style={{ backgroundColor: "white" }}>
 					<View>
 						<Image style={styles.prop_cert_img} source={cert.chainBuilding ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />
@@ -153,12 +154,36 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 					</List>
 				</Content>
 				<Footer>
-					<FooterTab>
-						<FooterButton title="Экспортировать"
-							icon="ios-share-alt-outline"
-							nav={() => navigate("ExportCert", { cert: cert })} />
-						<FooterButton title="Удалить" icon="md-trash" nav={() => this.deleteCert()} />
-					</FooterTab>
+					{isCertInContainers === true ?
+						<FooterTab>
+							<FooterButton title="Установить"
+								icon="md-add"
+								nav={() => {
+									NativeModules.Wrap_Main.installCertFromContainer(containers, (err) => {
+										if (err) {
+											Alert.alert("Установка сертификата не удалась");
+										} else {
+											this.props.readCertKeys();
+											AlertIOS.alert(
+												"Сертификат установлен",
+												null,
+												[{
+													text: "ОК", onPress: () => {
+														this.props.navigation.goBack("Home");
+													}
+												}]
+											);
+										}
+									});
+								}} />
+						</FooterTab> :
+						<FooterTab>
+							<FooterButton title="Экспортировать"
+								icon="ios-share-alt-outline"
+								nav={() => navigate("ExportCert", { cert: cert })} />
+							<FooterButton title="Удалить" icon="md-trash" nav={() => this.deleteCert()} />
+						</FooterTab>
+					}
 				</Footer>
 			</Container>
 		);

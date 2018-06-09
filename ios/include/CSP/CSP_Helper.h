@@ -55,12 +55,6 @@ BYTE *readFromFile(char *file, char *format, DWORD &cbContent);
 //запись в файл
 void writeToFile(BYTE *pbSignedMessageBlob, DWORD cbSignedMessageBlob, char *file, char *format);
 
-//установка сертификата из контейнера
-void installCertifiacteFromContainer(TrustedHandle<std::string> contName, int provType, TrustedHandle<std::string> provName);
-
-//установка сертификата в контейнер
-void installCertifiacteToContainer(TrustedHandle<Certificate> cert, TrustedHandle<std::string> contName, int provType, TrustedHandle<std::string> provName);
-
 //получение имени контейнера по сертификату
 TrustedHandle<std::string> getContainerNameByCertificate(TrustedHandle<Certificate> cert);
 

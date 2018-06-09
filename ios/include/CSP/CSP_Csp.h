@@ -36,6 +36,7 @@ bool cmpCertAndContFP(LPCSTR szContainerName, LPBYTE pbFPCert, DWORD cbFPCert);
 
 //установка сертификата в контейнер
 -(void) installCertificateToContainer :(char *)serialNumber :(char *)category :(TrustedHandle<std::string>)contName;
+-(void) installCertificateToContainer :(PCCERT_CONTEXT)pCertContext :(TrustedHandle<std::string>)contName;
 
 @end
 

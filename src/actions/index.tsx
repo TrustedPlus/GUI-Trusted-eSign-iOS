@@ -7,7 +7,7 @@ import {
 } from "../constants";
 import * as RNFS from "react-native-fs";
 import { NativeModules, Alert } from "react-native";
-import { readCertKeys } from "./CertKeysAction";
+import { readCertKeys } from "./certKeysAction";
 import { getProviders } from "./getContainersAction";
 
 export function footerAction(idButton, extension) {

@@ -5,6 +5,7 @@ import {
 	SIGN_FILE, SIGN_FILE_SUCCESS, SIGN_FILE_ERROR, SIGN_FILE_END,
 	VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END
 } from "../constants";
+import { Toast } from "native-base";
 
 interface IFile {
 	mtime: string;
@@ -13,8 +14,9 @@ interface IFile {
 	name: string;
 }
 
-export function signFile(files: IFile[], personalCert, footer, detached) {
+export function signFile(files: IFile[], personalCert, footer, detached, toast) {
 	return function action(dispatch) {
+		let lengthError = 0;
 		dispatch({ type: SIGN_FILE });
 		if (personalCert.title === "") {
 			dispatch({ type: SIGN_FILE_END });
@@ -31,7 +33,7 @@ export function signFile(files: IFile[], personalCert, footer, detached) {
 					detached,
 					(err) => {
 						if (err) {
-							Alert.alert(err + "");
+							lengthError++;
 							dispatch({ type: SIGN_FILE_ERROR, payload: err });
 						} else {
 							/*RNFS.copyFile(path + ".sig", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".sig").then(
@@ -55,6 +57,21 @@ export function signFile(files: IFile[], personalCert, footer, detached) {
 			}
 			setTimeout(() => {
 				dispatch(readFiles());
+				if ((footer.arrButton.length === 1) && (lengthError === 0)) {
+					toast("Файл был подписан");
+				}
+				if ((footer.arrButton.length > 1) && (lengthError === 0)) {
+					toast("Файлы был подписаны");
+				}
+				if ((footer.arrButton.length === 1) && (lengthError === 1)) {
+					toast("Ошибка при подписи файла");
+				}
+				if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
+					toast("Ошибка при подписи файлов");
+				}
+				if ((footer.arrButton.length > 1) && (lengthError !== footer.arrButton.length)) {
+					toast("При подписи файлов некоторые файлы не были подписаны");
+				}
 			}, 300);
 		}
 	};

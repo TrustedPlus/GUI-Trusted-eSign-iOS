@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, List, Content, Title } from "native-base";
+import { Container, List, Content } from "native-base";
 import { Headers } from "../components/Headers";
 import { ListMenu } from "../components/ListMenu";
 import { styles } from "../styles";

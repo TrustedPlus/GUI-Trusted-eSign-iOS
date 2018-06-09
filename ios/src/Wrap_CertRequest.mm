@@ -30,21 +30,18 @@ RCT_EXPORT_METHOD(genRequestOnCert: (NSString *)nsAlgorithm: (NSString *)nsUrl: 
 #ifdef ProvCryptoPro
     char *templateReq = (char *) [nsTemplate UTF8String];
     int provType;
-    if ((std::string(algorithm) == "GOST R 34.10-2001") || (std::string(algorithm) == "GOST R 34.10-2012 256 bit") || (std::string(algorithm) == "GOST R 34.10-2012 512 bit")){
-      if (std::string(algorithm) == "GOST R 34.10-2001"){
-        provType = PROV_GOST_2001_DH;
-      }
-      else if (std::string(algorithm) == "GOST R 34.10-2012 256 bit"){
-        provType = PROV_GOST_2012_256;
-      } 
-      else if (std::string(algorithm) == "GOST R 34.10-2012 512 bit"){
-        provType = PROV_GOST_2012_512;
-      }
-      char *url = (char *) [nsUrl UTF8String];
-      char *contName = (char *) [nsContName UTF8String];
-      [csp_CertRequest create:url :templateReq :contName :key :provType :exportableKey :pathCsr];
-      
+    if (std::string(algorithm) == publicKeyAlgorithm_GOST_R_3410_2001){
+      provType = PROV_GOST_2001_DH;
     }
+    else if (std::string(algorithm) == publicKeyAlgorithm_GOST_R_3410_2012_256){
+      provType = PROV_GOST_2012_256;
+    }
+    else if (std::string(algorithm) == publicKeyAlgorithm_GOST_R_3410_2012_512){
+      provType = PROV_GOST_2012_512;
+    }
+    char *url = (char *) [nsUrl UTF8String];
+    char *contName = (char *) [nsContName UTF8String];
+    //[csp_CertRequest create:url :templateReq :contName :key :provType :exportableKey :pathCsr];
 #endif
     callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
   }
@@ -67,7 +64,7 @@ RCT_EXPORT_METHOD(genSelfSignedCert: (NSString *)nsUrl: (NSString *)nsPathCsr: (
 #ifdef ProvCryptoPro
     if (std::string(pathKey) == ""){
       char *url = (char *) [nsUrl UTF8String];
-      [csp_CertRequest getCertFromRequest:url :pathCsr :pathCer];
+      //[csp_CertRequest getCertFromRequest:url :pathCsr :pathCer];
     }
 #endif
     callback(@[[NSNull null], [NSNumber numberWithInt: 1]]);
@@ -121,9 +118,9 @@ RCT_EXPORT_METHOD(userRegistration: (NSString *)nsUrl: (NSString *)nsSubjectName
    // [csp_Store readRequest_ConvertToBSTR_writeFile];
 
 #ifdef ProvCryptoPro
-    CPCA15UserInfo* userInfo15 = [csp_CertRequest registration:url :subject :organization :locality :province :email :country];
-    arrayPropertyCert[@"tokenID"] = @(userInfo15->TokenID.c_str());
-    arrayPropertyCert[@"password"] = @(userInfo15->sbPassword->ptr());
+    //CPCA15UserInfo* userInfo15 = [csp_CertRequest registration:url :subject :organization :locality :province :email :country];
+   // arrayPropertyCert[@"tokenID"] = @(userInfo15->TokenID.c_str());
+    //arrayPropertyCert[@"password"] = @(userInfo15->sbPassword->ptr());
 #endif
     
     callback(@[[NSNull null], [arrayPropertyCert copy]]);
@@ -141,7 +138,7 @@ RCT_EXPORT_METHOD(userAuthentication: (NSString *)nsTokenID: (NSString *)nsPassw
     bool b = false;
     
 #ifdef ProvCryptoPro
-    b = [csp_CertRequest authentication:tokenID :password];
+    //b = [csp_CertRequest authentication:tokenID :password];
 #endif
     
     if (b){
@@ -164,7 +161,7 @@ RCT_EXPORT_METHOD(getListTemplatesForRequest: (NSString *)nsUrl: (RCTResponseSen
     NSMutableArray *myArray = [NSMutableArray array];
     
 #ifdef ProvCryptoPro
-    temp = [csp_CertRequest get_templates:url];
+    //temp = [csp_CertRequest get_templates:url];
 #endif
     
     for (int i = 0; i < temp.size(); i++){
@@ -181,7 +178,7 @@ RCT_EXPORT_METHOD(getListTemplatesForRequest: (NSString *)nsUrl: (RCTResponseSen
 }
 
 //генерация запроса и сохранение его в файл, ключ записывается в хранилище криптопро
-RCT_EXPORT_METHOD(createRequest: (NSString *)nsUrl: (NSString *)nsTemplate: (NSString *)nsContainerName: (NSInteger)nsKeyUsage: (NSString *)nsAlgorithm: (NSString *)nsPathCsr: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(createRequest: (NSString *)nsUrl: (NSString *)nsTemplate: (NSString *)nsContainerName: (NSInteger)nsKeyUsage: (NSString *)nsAlgorithm: (BOOL)exportableKey: (NSString *)nsPathCsr: (RCTResponseSenderBlock)callback) {
   try{
     char *url = (char *) [nsUrl UTF8String];
     char *templateReq = (char *) [nsTemplate UTF8String];
@@ -192,13 +189,13 @@ RCT_EXPORT_METHOD(createRequest: (NSString *)nsUrl: (NSString *)nsTemplate: (NSS
     int provType;
     bool b = false;
     
-    if (std::string(algorithm) == "GOST R 34.10-2001"){
+    if (std::string(algorithm) == publicKeyAlgorithm_GOST_R_3410_2001){
       provType = PROV_GOST_2001_DH;
     }
-    else if (std::string(algorithm) == "GOST R 34.10-2012 256 bit"){
+    else if (std::string(algorithm) == publicKeyAlgorithm_GOST_R_3410_2012_256){
       provType = PROV_GOST_2012_256;
     }
-    else if (std::string(algorithm) == "GOST R 34.10-2012 512 bit"){
+    else if (std::string(algorithm) == publicKeyAlgorithm_GOST_R_3410_2012_512){
       provType = PROV_GOST_2012_512;
     }
     else{
@@ -206,7 +203,7 @@ RCT_EXPORT_METHOD(createRequest: (NSString *)nsUrl: (NSString *)nsTemplate: (NSS
     }
     
 #ifdef ProvCryptoPro
-     b = [csp_CertRequest create:url :templateReq :containerName :key :provType :pathCsr];
+    //b = [csp_CertRequest create:url :templateReq :containerName :key :provType :exportableKey :pathCsr];
 #endif
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
@@ -225,7 +222,7 @@ RCT_EXPORT_METHOD(getCertOnRequestFromTheServer: (NSString *)nsUrl: (NSString *)
     bool b = false;
     
 #ifdef ProvCryptoPro
-    b = [csp_CertRequest getCertFromRequest:url :pathCsr :pathCer];
+    //b = [csp_CertRequest getCertFromRequest:url :pathCsr :pathCer];
 #endif
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
@@ -236,14 +233,13 @@ RCT_EXPORT_METHOD(getCertOnRequestFromTheServer: (NSString *)nsUrl: (NSString *)
 }
 
 //получить корневой сертификат УЦ
-RCT_EXPORT_METHOD(getCACert: (NSString *)nsUrl: (NSString *)nsPathCer: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(getCACert: (NSString *)nsUrl: (RCTResponseSenderBlock)callback) {
   try{
     char *url = (char *) [nsUrl UTF8String];
-    char *pathCer = (char *) [nsPathCer UTF8String];
     bool b = false;
     
 #ifdef ProvCryptoPro
-    b = [csp_CertRequest getCACert:url :pathCer];
+    //b = [csp_CertRequest getCACert:url];
 #endif
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
@@ -253,16 +249,11 @@ RCT_EXPORT_METHOD(getCACert: (NSString *)nsUrl: (NSString *)nsPathCer: (RCTRespo
   }
 }
 
-//объединение функций для создания запроса и получения по нему сертификата с УЦ 1.5
-RCT_EXPORT_METHOD(getCertificate: (NSString *)nsUrl: (NSString *)nsID: (NSString *)nsPWD: (NSString *)nsAlgorithm: (NSString *)nsTemplate: (NSString *)nsContainerName: (NSInteger)nsKeyUsage: (BOOL)exportableKey: (NSString *)nsSubjectName: (NSString *)nsEmail: (NSString *)nsOrganization: (NSString *)nsLocality: (NSString *)nsProvince: (NSString *)nsCountry: (NSString *)nsPathCer: (RCTResponseSenderBlock)callback) {
+RCT_EXPORT_METHOD(getRequest: (NSString *)nsAlgorithm: (NSString *)nsContainerName: (NSInteger)nsKeyUsage: (NSArray *)nsArrayextKeyUsage: (BOOL)exportableKey: (NSString *)nsSubjectName: (NSString *)nsEmail: (NSString *)nsOrganization: (NSString *)nsLocality: (NSString *)nsProvince: (NSString *)nsCountry: (NSString *)nsPathCsr: (RCTResponseSenderBlock)callback) {
   try{
-    char *url = (char *) [nsUrl UTF8String];
-    char *ch_id = (char *) [nsID UTF8String];
-    char *pwd = (char *) [nsPWD UTF8String];
-    char *templateReq = (char *) [nsTemplate UTF8String];
+    char *algorithm = (char *) [nsAlgorithm UTF8String];
     char *containerName = (char *) [nsContainerName UTF8String];
     int key = (int)nsKeyUsage;
-    char *algorithm = (char *) [nsAlgorithm UTF8String];
     char *subject = (char *) [nsSubjectName UTF8String];
     char *email = (char *) [nsEmail UTF8String];
     char *organization = (char *) [nsOrganization UTF8String];
@@ -270,90 +261,18 @@ RCT_EXPORT_METHOD(getCertificate: (NSString *)nsUrl: (NSString *)nsID: (NSString
     char *province = (char *) [nsProvince UTF8String];
     char *country = (char *) [nsCountry UTF8String];
     
-    char *pathCer = (char *) [nsPathCer UTF8String];
+    char *pathCsr = (char *) [nsPathCsr UTF8String];
     
     bool b = false;
-    std::vector<std::wstring> temp;
-    int provType;
     
 #ifdef ProvCryptoPro
-    if ((std::string(ch_id) == "") && (std::string(pwd) == "")){
-      CPCA15UserInfo* userInfo15 = [csp_CertRequest registration:url :subject :organization :locality :province :email :country];
-      
-      b = [csp_CertRequest authentication:(char *)userInfo15->TokenID.c_str() :userInfo15->sbPassword->ptr_rw()];
-      if (!b){
-        THROW_EXCEPTION(0, Wrap_CertRequest, NULL, "Authentication error.");
-      }
-    }
-    else{
-      b = [csp_CertRequest authentication:ch_id :pwd];
-      if (!b){
-        THROW_EXCEPTION(0, Wrap_CertRequest, NULL, "Authentication error.");
-      }
-    }
-    
-    temp = [csp_CertRequest get_templates:url];
-    
-    if (std::string(algorithm) == "GOST R 34.10-2001"){
-      provType = PROV_GOST_2001_DH;
-    }
-    else if (std::string(algorithm) == "GOST R 34.10-2012 256 bit"){
-      provType = PROV_GOST_2012_256;
-    }
-    else if (std::string(algorithm) == "GOST R 34.10-2012 512 bit"){
-      provType = PROV_GOST_2012_512;
-    }
-    else{
-      THROW_EXCEPTION(0, Wrap_CertRequest, NULL, "Incorrect provider type.");
-    }
-    
-    b = [csp_CertRequest create:url :templateReq :containerName :key :provType :exportableKey];
-    if (!b){
-      THROW_EXCEPTION(0, Wrap_CertRequest, NULL, "Error when creating a certificate request.");
-    }
-    
-    HCERTSTORE hCertStore = CertOpenStore(CERT_STORE_PROV_SYSTEM, PKCS_7_ASN_ENCODING | X509_ASN_ENCODING, NULL, CERT_SYSTEM_STORE_CURRENT_USER, L"REQUEST");
-    if(!hCertStore){
-      THROW_EXCEPTION(0, CSP_Csp, NULL, "CertOpenSystemStore failed.");
-    }
-    else{
-      PCCERT_CONTEXT pCertContext = NULL;
-      DWORD dwSize = 0;
-      int res = 0;
-      int i = 0;
-      do{
-        pCertContext = CertEnumCertificatesInStore(hCertStore, pCertContext);
-        if (pCertContext){
-          if (CertGetCertificateContextProperty(pCertContext, CERT_KEY_PROV_INFO_PROP_ID, NULL, &dwSize)) {
-            res = 1;
-          }
-          
-          const unsigned char *p = pCertContext->pbCertEncoded;
-          X509 *cert =NULL;
-          if (!(cert = d2i_X509(NULL, &p, pCertContext->cbCertEncoded))){
-            THROW_EXCEPTION(0, CSP_Csp, NULL, "'d2i_X509' Error decode len bytes");
-          }
-          TrustedHandle<Certificate> hcert = new Certificate(cert);
-        }
-      } while (pCertContext != NULL);
-    }
-    /**добавить функцию
-     * считывания запроса с введенным CN
-     * считывание его хэша публичного ключа
-     * запись в файл в виде структуры:
-     Request{
-       hash:hash;
-       User{
-           ID:ID;
-           PWD:PWD;
-       }
-       Certificate{
-           hash:hash
-       }
-     }
-     */
-    
-    b = [csp_CertRequest getCertFromRequest:url :pathCer];
+    extKeyUsageStructure extKey1 = *new extKeyUsageStructure();
+    extKey1.server = [[nsArrayextKeyUsage objectAtIndex:0] boolValue];
+    extKey1.client = [[nsArrayextKeyUsage objectAtIndex:1] boolValue];
+    extKey1.code = [[nsArrayextKeyUsage objectAtIndex:2] boolValue];
+    extKey1.email = [[nsArrayextKeyUsage objectAtIndex:3] boolValue];
+    b = [csp_CertRequest createRequestCSP:algorithm :containerName :key :extKey1 :exportableKey :subject :email :organization :locality :province :country :pathCsr];
+
     
 #endif
     
@@ -364,6 +283,58 @@ RCT_EXPORT_METHOD(getCertificate: (NSString *)nsUrl: (NSString *)nsID: (NSString
   }
 }
 
+RCT_EXPORT_METHOD(getRequestInfo: (NSString *)nsPathCsr: (NSString *)nsFormat: (RCTResponseSenderBlock)callback) {
+  try{
+    char *pathCsr = (char *) [nsPathCsr UTF8String];
+    char *format = (char *) [nsFormat UTF8String];
+    
+    templateInfo requestTemplateInfo;
+    NSMutableDictionary *arrayPropertyCert = [NSMutableDictionary dictionary];
+    
+#ifdef ProvCryptoPro
+    requestTemplateInfo = [csp_CertRequest getRequestInfo:pathCsr :format ];
+    
+    arrayPropertyCert[@"subjectName"] = @(requestTemplateInfo.subjectName->c_str());
+    arrayPropertyCert[@"pubKey"] = @(requestTemplateInfo.pubKey->c_str());
+    arrayPropertyCert[@"extKeyUsage_server"] = (requestTemplateInfo.extKeyUsage->server) ? @(1) : @(0);
+    arrayPropertyCert[@"extKeyUsage_client"] = (requestTemplateInfo.extKeyUsage->client) ? @(1) : @(0);
+    arrayPropertyCert[@"extKeyUsage_code"] = (requestTemplateInfo.extKeyUsage->code) ? @(1) : @(0);
+    arrayPropertyCert[@"extKeyUsage_email"] = (requestTemplateInfo.extKeyUsage->email) ? @(1) : @(0);
+    arrayPropertyCert[@"keyUsage"] = @(requestTemplateInfo.keyUsage);
+#endif
+    
+    callback(@[[NSNull null], [arrayPropertyCert copy]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+}
+  
+RCT_EXPORT_METHOD(getCertificateInfo: (NSString *)serialNumber: (NSString *)category: (RCTResponseSenderBlock)callback) {
+  try{
+    char *pSerialNumber = (char *) [serialNumber UTF8String];
+    char *pCategory = (char *) [category UTF8String];
+    
+    templateInfo certTemplateInfo;
+    NSMutableDictionary *arrayPropertyCert = [NSMutableDictionary dictionary];
+    
+#ifdef ProvCryptoPro
+    certTemplateInfo = [csp_CertRequest getCertificateInfo:pSerialNumber :pCategory ];
+    arrayPropertyCert[@"subjectName"] = @(certTemplateInfo.subjectName->c_str());
+    arrayPropertyCert[@"pubKey"] = @(certTemplateInfo.pubKey->c_str());
+    arrayPropertyCert[@"extKeyUsage_server"] = (certTemplateInfo.extKeyUsage->server) ? @(1) : @(0);
+    arrayPropertyCert[@"extKeyUsage_client"] = (certTemplateInfo.extKeyUsage->client) ? @(1) : @(0);
+    arrayPropertyCert[@"extKeyUsage_code"] = (certTemplateInfo.extKeyUsage->code) ? @(1) : @(0);
+    arrayPropertyCert[@"extKeyUsage_email"] = (certTemplateInfo.extKeyUsage->email) ? @(1) : @(0);
+    arrayPropertyCert[@"keyUsage"] = @(certTemplateInfo.keyUsage);
+#endif
+    
+    callback(@[[NSNull null], [arrayPropertyCert copy]]);
+  }
+  catch (TrustedHandle<Exception> e){
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+}
 
 @end
 

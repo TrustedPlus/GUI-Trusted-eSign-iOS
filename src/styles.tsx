@@ -67,7 +67,8 @@ export const styles = StyleSheet.create({
 	sign_enc_title: {
 		fontSize: 23,
 		color: "grey",
-		width: "80%"
+		width: "80%",
+		paddingLeft: 3
 	},
 	sign_enc_prompt: {
 		fontSize: 17,

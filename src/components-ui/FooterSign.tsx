@@ -6,8 +6,9 @@ import { FooterButton } from "../components/FooterButton";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { signFile, verifySign } from "../actions/SignVerifyAction";
-import { uploadFile, deleteFile } from "../actions/UploadFileAction";
+import { signFile, verifySign } from "../actions/signVerifyAction";
+import { uploadFile, deleteFile } from "../actions/uploadFileAction";
+import { readFiles } from "../actions/index";
 
 function mapStateToProps(state) {
 	return {
@@ -22,7 +23,8 @@ function mapDispatchToProps(dispatch) {
 		signFile: bindActionCreators(signFile, dispatch),
 		verifySign: bindActionCreators(verifySign, dispatch),
 		uploadFile: bindActionCreators(uploadFile, dispatch),
-		deleteFile: bindActionCreators(deleteFile, dispatch)
+		deleteFile: bindActionCreators(deleteFile, dispatch),
+		readFiles: bindActionCreators(readFiles, dispatch)
 	};
 }
 
@@ -37,14 +39,23 @@ interface FooterSignProps {
 	footer?: any;
 	files?: IFile[];
 	personalCert?: any;
-	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean): void;
+	nav?(msg: string): any;
+	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean, toast: Function): void;
 	verifySign?(files: IFile[], personalCert: string[], footer: string[]): void;
 	uploadFile?(files: IFile[], footer: string[]): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
+	readFiles?(): any;
 }
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
-export class FooterSign extends React.Component<FooterSignProps> {
+export class FooterSign extends React.Component<FooterSignProps, { showToast: boolean }> {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			showToast: false
+		};
+	}
 
 	onPressUnSignFile() {
 		for (let i = 0; i < this.props.footer.arrButton.length; i++) {
@@ -53,20 +64,20 @@ export class FooterSign extends React.Component<FooterSignProps> {
 				path,
 				"BASE64",
 				path.substr(0, path.length - 4),
-				(err, verify) => {
+				(err) => {
 					if (err) {
-						Alert.alert(err + "");
+						this.props.nav("Открепленная подпись. При снятии подписи произошла ошибка.");
 					} else {
-						Alert.alert(verify + "");
-						console.log(verify);
+						RNFS.unlink(path);
+						this.props.readFiles();
+						this.props.nav("Подпись была успешно снята");
 					}
 				});
 		}
 	}
 
 	render() {
-		const { files, personalCert, verifySign, signFile, uploadFile, deleteFile, footer } = this.props;
-		let footerleft = null;
+		const { files, personalCert, verifySign, signFile, uploadFile, deleteFile, footer, nav } = this.props;
 		let certIsNotNull, isSign, allIsSign = null;
 		if (!personalCert.title) {
 			certIsNotNull = "noCert";
@@ -83,7 +94,7 @@ export class FooterSign extends React.Component<FooterSignProps> {
 					<FooterButton title="Проверить"
 						disabled={allIsSign === "sig" ? false : true}
 						icon="md-done-all"
-						nav={() => verifySign(files, personalCert, footer)} />
+						nav={() => verifySign(files, personalCert, footer, )} />
 					<FooterButton title="Подписать"
 						disabled={certIsNotNull === "noCert" ? true : (isSign === "sig" ? true : false)}
 						icon="md-create"
@@ -91,8 +102,8 @@ export class FooterSign extends React.Component<FooterSignProps> {
 							"Подписать",
 							null,
 							[
-								{ text: "совмещенной подписью", onPress: () => signFile(files, personalCert, footer, false) },
-								{ text: "отделенной подписью", onPress: () => signFile(files, personalCert, footer, true) },
+								{ text: "совмещенной подписью", onPress: () => signFile(files, personalCert, footer, false, msg => nav(msg)) },
+								{ text: "отделенной подписью", onPress: () => signFile(files, personalCert, footer, true, msg => nav(msg)) },
 								{ text: "Отмена", onPress: () => null, style: "destructive" }
 							]
 						)} />

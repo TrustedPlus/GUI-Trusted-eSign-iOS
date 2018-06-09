@@ -22,7 +22,7 @@ import { Documents } from "./Documents";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getProviders } from "../actions/getContainersAction";
-import { readCertKeys } from "../actions/CertKeysAction";
+import { readCertKeys } from "../actions/certKeysAction";
 import { readFiles } from "../actions/index";
 
 function mapStateToProps(state) {
@@ -81,7 +81,7 @@ class Main extends React.Component<MainProps> {
 						<ListMenu title="Документы" img={require("../../imgs/general/documents_main_icon.png")}
 							nav={() => navigate("Documents")} />
 						<ListMenu title="Управление контейнерами" img={require("../../imgs/general/stores_main_icon.png")}
-							note={lengthContainers} nav={() => navigate("Containers")} />
+							note={lengthContainers} nav={() => navigate("Containers", { name: "Containers" })} />
 						<ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
 							note={lastlognote} nav={() => navigate("Journal")} />
 					</List>
@@ -94,7 +94,27 @@ class Main extends React.Component<MainProps> {
 		this.props.readFiles();
 		this.props.readCertKeys();
 		this.props.getProviders();
-		/*NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {
+	}
+}
+
+export const App = StackNavigator({
+	Main: { screen: Main },
+	Signature: { screen: Signature },
+	Encryption: { screen: Encryption },
+	Certificate: { screen: Certificate },
+	Journal: { screen: Journal },
+	ListCertCategory: { screen: ListCertCategory },
+	PropertiesCert: { screen: PropertiesCert },
+	SelectPersonalСert: { screen: SelectPersonalСert },
+	SelectOtherСert: { screen: SelectOtherСert },
+	CreateCertificate: { screen: CreateCertificate },
+	ExportCert: { screen: ExportCert },
+	SelectCert: { screen: SelectCert },
+	Containers: { screen: Containers },
+	Documents: { screen: Documents }
+});
+
+/* NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {
 			RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
 				fileForCloud => {
 					console.log(fileForCloud);
@@ -149,25 +169,6 @@ class Main extends React.Component<MainProps> {
 				err => console.log(err)
 			);
 		}); */
-	}
-}
-
-export const App = StackNavigator({
-	Main: { screen: Main },
-	Signature: { screen: Signature },
-	Encryption: { screen: Encryption },
-	Certificate: { screen: Certificate },
-	Journal: { screen: Journal },
-	ListCertCategory: { screen: ListCertCategory },
-	PropertiesCert: { screen: PropertiesCert },
-	SelectPersonalСert: { screen: SelectPersonalСert },
-	SelectOtherСert: { screen: SelectOtherСert },
-	CreateCertificate: { screen: CreateCertificate },
-	ExportCert: { screen: ExportCert },
-	SelectCert: { screen: SelectCert },
-	Containers: { screen: Containers },
-	Documents: { screen: Documents }
-});
 
 /*RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
 						fileForCloud => {

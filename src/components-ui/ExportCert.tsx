@@ -3,7 +3,6 @@ import { Container, Content, Text, Footer, FooterTab, Button, View, Form, Item, 
 import { NativeModules, Alert, Share } from "react-native";
 import { styles } from "../styles";
 import * as RNFS from "react-native-fs";
-
 import { Headers } from "../components/Headers";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
 

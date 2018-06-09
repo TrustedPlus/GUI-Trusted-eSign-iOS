@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Container, Content, List, Text } from "native-base";
+import { Container, Content, List, Text, Toast } from "native-base";
 import { Headers } from "../components/Headers";
-
+import { NativeModules } from "react-native";
 import { ListMenu } from "../components/ListMenu";
 import { styles } from "../styles";
 
@@ -37,6 +37,7 @@ export class Containers extends React.Component<ContainersProps> {
 
 	constructor(props) {
 		super(props);
+		this.props.navigation.state.key = "Home";
 	}
 
 	showList() {
@@ -45,12 +46,25 @@ export class Containers extends React.Component<ContainersProps> {
 				key={key}
 				note={"HDIMAGE"}
 				title={containers.container}
-				nav={() => null} />));
+				nav={() => NativeModules.Wrap_Main.getCertToContainer(
+					containers["fqcnA"],
+					(err, cert) => {
+						if (err) {
+							Toast.show({
+								text: "В контейнере нет сертификата",
+								position: "bottom",
+								duration: 700
+							});
+						} else {
+							this.props.navigation.navigate("PropertiesCert", { cert: cert[0], isCertInContainers: true, containers: containers["fqcnA"] });
+						}
+					})
+				} />));
 		}
 	}
 
 	render() {
-		const { navigate, goBack } = this.props.navigation;
+		const { goBack } = this.props.navigation;
 		console.log(this.state);
 		return (
 			<Container style={styles.container}>

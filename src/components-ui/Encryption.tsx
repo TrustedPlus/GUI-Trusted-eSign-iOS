@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Container, View, List, Button, Text } from "native-base";
-import { Image, RefreshControl, ScrollView } from "react-native";
+import { Image, RefreshControl, ScrollView, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { ListMenu } from "../components/ListMenu";
 import { FooterEnc } from "./FooterEnc";
 import { iconSelection } from "../utils/forListFiles";
-import { readCertKeys } from "../actions/CertKeysAction";
+import { readCertKeys } from "../actions/certKeysAction";
 import { DocumentPicker } from "react-native-document-picker";
 
 import { connect } from "react-redux";
@@ -84,8 +84,11 @@ export class Encryption extends React.Component<EncryptionProps> {
 		DocumentPicker.show({
 			filetype: ["public.item"]
 		}, (error: any, res: any) => {
-			this.props.addFiles(res.uri, res.fileName);
-
+			if (error) {
+				Alert.alert(error + "");
+			} else {
+				this.props.addFiles(res.uri, res.fileName);
+			}
 		});
 	}
 
@@ -110,7 +113,7 @@ export class Encryption extends React.Component<EncryptionProps> {
 		if (files.length) {
 			filesView = <ScrollView refreshControl={
 				<RefreshControl refreshing={isFetching}
-					onRefresh={() => readFiles()}/>}>
+					onRefresh={() => readFiles()} />}>
 				<List>{this.showList(img)}</List>
 			</ScrollView>;
 		} else {
@@ -122,11 +125,11 @@ export class Encryption extends React.Component<EncryptionProps> {
 		let footer, selectFiles = null;
 		if (this.props.footer.arrButton.length) { // выбраны ли файлы
 			footer = <FooterEnc />;
-			selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey" }}>
+			selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", paddingLeft: 4 }}>
 				выбрано файлов: {this.props.footer.arrButton.length}</Text>;
 		} else {
 			if (files.length) {
-				selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%" }}>
+				selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%", paddingLeft: 4 }}>
 					всего файлов: {files.length}</Text>;
 			} else {
 				selectFiles = null;

@@ -1,6 +1,6 @@
 import { DELETE_CERTIFICATE_SUCCESS, DELETE_CERTIFICATE_ERROR } from "../constants";
 import { NativeModules, Alert, AlertIOS } from "react-native";
-import { readCertKeys } from "./CertKeysAction";
+import { readCertKeys } from "./certKeysAction";
 import { getProviders } from "./getContainersAction";
 
 export function deleteCertAction(cert, withContainers, goBack) {

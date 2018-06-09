@@ -163,10 +163,10 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
         }
         else{
           if (strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.3") == 0){
-            arrayInfoAboutSigner[@"signatureAlgorithm"] = @("GOST R 34.11-2012 512");
+            arrayInfoAboutSigner[@"signatureAlgorithm"] = @(publicKeyAlgorithm_GOST_R_3410_2012_512);
           }
           else{
-            arrayInfoAboutSigner[@"signatureAlgorithm"] = @("GOST R 34.11-2012 256");
+            arrayInfoAboutSigner[@"signatureAlgorithm"] = @(publicKeyAlgorithm_GOST_R_3410_2012_256);
           }
         }
         arrayInfoAboutSigner[@"SubjectName"] = @(vec[i].cert->getSubjectName()->c_str());

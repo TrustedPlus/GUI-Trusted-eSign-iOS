@@ -11,12 +11,14 @@ import { FooterButton } from "../components/FooterButton";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { readCertKeys, createCert } from "../actions/CertKeysAction";
+import { readCertKeys, createCert } from "../actions/certKeysAction";
+import { getProviders} from "../actions/getContainersAction";
 
 function mapDispatchToProps(dispatch) {
 	return {
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
-		createCert: bindActionCreators(createCert, dispatch)
+		createCert: bindActionCreators(createCert, dispatch),
+		getProviders: bindActionCreators(getProviders, dispatch)
 	};
 }
 
@@ -45,6 +47,7 @@ interface CreateCertificateProps {
 	dispatch: any;
 	readCertKeys(): void;
 	createCert(CN: string): void;
+	getProviders(): any;
 }
 
 @(connect(null, mapDispatchToProps) as any)
@@ -57,7 +60,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 	constructor(props) {
 		super(props);
 		this.state = {
-			algorithm: "GOST R 34.10-2012 256 bit",
+			algorithm: "GOST R 34.10-2012 256-bit",
 			keyLength: 512,
 			keyAssignment: 0,
 			certAssignment: true,
@@ -106,6 +109,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 					this.props.createCert(this.state.CN);
 					RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + this.state.CN + ".cer");
 					this.props.readCertKeys();
+					this.props.getProviders();
 					this.props.navigation.goBack();
 					AlertIOS.alert(
 						"Сертификат и ключ создан",
@@ -132,9 +136,9 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 				<Content>
 					<View style={{ padding: 10 }}>
 						<ListWithModalDropdown text="Алгоритм"
-							defaultValue="GOST R 34.10-2012 256 bit"
+							defaultValue="GOST R 34.10-2012 256-bit"
 							changeValue={(value) => this.setState({ algorithm: value })}
-							options={[{ value: "GOST R 34.10-2001" }, { value: "GOST R 34.10-2012 256 bit" }, { value: "GOST R 34.10-2012 512 bit" }]} />
+							options={[{ value: "GOST R 34.10-2001" }, { value: "GOST R 34.10-2012 256-bit" }, { value: "GOST R 34.10-2012 512-bit" }]} />
 						{this.state.algorithm !== "RSA" ? <> {/*<ListWithModalDropdown text="Длина ключа"
 			   defaultValue="512"
 			   changeValue={(value) => this.setState({ keyLength: Number(value) })}

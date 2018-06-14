@@ -1,11 +1,3 @@
-//
-//  PCipher.h
-//  Prototype_Trusted_IOS
-//
-//  Created by admin on 02/03/2018.
-//  Copyright © 2018 Facebook. All rights reserved.
-//
-
 #ifndef CSP_Cipher_h
 #define CSP_Cipher_h
 
@@ -19,8 +11,11 @@
 
 @interface CSP_Cipher : NSObject
 
--(BOOL)encrypt :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)encFile :(char *)format;
--(BOOL)decrypt :(char *)serialNumber :(char *)category :(char *)encFile :(char *)format :(char *)decFile;
+//шифрование входного файла
+-(BOOL)encrypt :(std::vector<char *>)certs :(char *)inputFile :(char *)encFile :(char *)format;
+
+//дешифрование входного файла
+-(BOOL) decrypt :(char *)encFile :(char *)format :(char *)decFile;
 
 @end
 

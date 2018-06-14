@@ -22,8 +22,8 @@ export function encAssymmetric(files: IFile[], otherCert, footer) {
 			for (let i = 0; i < footer.arrButton.length; i++) {
 				let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
 				NativeModules.Wrap_Cipher.encrypt(
-					otherCert.serialNumber,
-					otherCert.category,
+					[otherCert.serialNumber,
+					otherCert.category],
 					otherCert.provider,
 					path,
 					path + ".enc",
@@ -55,21 +55,37 @@ export function decAssymmetric(files: IFile[], otherCert, footer) {
 				let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
 				let point = files[footer.arrButton[i]].extensionAll.lastIndexOf(".");
 				let extension = files[footer.arrButton[i]].extensionAll.substring(0, point);
-				NativeModules.Wrap_Cipher.decrypt(
-					otherCert.serialNumber,
-					otherCert.category,
-					otherCert.provider,
-					path + "." + files[footer.arrButton[i]].extensionAll,
-					"BASE64",
-					path + "." + extension,
-					(err) => {
-						if (err) {
-							Alert.alert(err);
-							dispatch({ type: DECODE_FILES_ERROR, payload: err });
-						} else {
-							// RNFS.copyFile(path + "." + extension, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + extension);
-							dispatch({ type: DECODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
-						}
+				const read = RNFS.read(path + "." + files[footer.arrButton[i]].extensionAll, 2, 0, "utf8");
+				read.then(
+					response => {
+						NativeModules.Wrap_Cipher.decrypt(
+							path + "." + files[footer.arrButton[i]].extensionAll,
+							"BASE64",
+							path + "." + extension,
+							(err) => {
+								if (err) {
+									Alert.alert(err);
+									dispatch({ type: DECODE_FILES_ERROR, payload: err });
+								} else {
+									// RNFS.copyFile(path + "." + extension, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + extension);
+									dispatch({ type: DECODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
+								}
+							});
+					},
+					err => {
+						NativeModules.Wrap_Cipher.decrypt(
+							path + "." + files[footer.arrButton[i]].extensionAll,
+							"DER",
+							path + "." + extension,
+							(err) => {
+								if (err) {
+									Alert.alert(err);
+									dispatch({ type: DECODE_FILES_ERROR, payload: err });
+								} else {
+									// RNFS.copyFile(path + "." + extension, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + extension);
+									dispatch({ type: DECODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
+								}
+							});
 					});
 			}
 		}

@@ -1,11 +1,3 @@
-//
-//  PCerts.h
-//  Prototype_Trusted_IOS
-//
-//  Created by admin on 05/03/2018.
-//  Copyright © 2018 Facebook. All rights reserved.
-//
-
 #ifndef CSP_Certs_h
 #define CSP_Certs_h
 
@@ -21,18 +13,15 @@
 #import "stdlib.h"
 #import "stdio.h"
 
-#include <string>
-#include <sstream>
-#include <iostream>
-#include "vector"
-#include "map"
-
 @interface CSP_Certs : NSObject{
   std::map<std::string, std::vector<PCCERT_CONTEXT>> allCerts;
 }
 
--(void)importPFX :(char *)pathToPFX :(char *)password;
--(void)exportPFX :(char *)serialNumber :(char *)category :(BOOL)exportPrivateKey :(char *)password :(char *)pathToFile;
+//импорт PFX файла
+-(void) importPFX :(char *)pathToPFX :(char *)password;
+
+//экспорт PFX файла
+-(void) exportPFX :(char *)serialNumber :(char *)category :(BOOL)exportPrivateKey :(char *)password :(char *)pathToFile;
     
 @end
 

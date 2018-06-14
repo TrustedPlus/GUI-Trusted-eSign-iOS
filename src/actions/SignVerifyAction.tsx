@@ -5,7 +5,6 @@ import {
 	SIGN_FILE, SIGN_FILE_SUCCESS, SIGN_FILE_ERROR, SIGN_FILE_END,
 	VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END
 } from "../constants";
-import { Toast } from "native-base";
 
 interface IFile {
 	mtime: string;
@@ -51,28 +50,28 @@ export function signFile(files: IFile[], personalCert, footer, detached, toast) 
 									});
 								}
 							); */
+							setTimeout(() => {
+								dispatch(readFiles());
+								if ((footer.arrButton.length === 1) && (lengthError === 0)) {
+									toast("Файл был подписан");
+								}
+								if ((footer.arrButton.length > 1) && (lengthError === 0)) {
+									toast("Файлы был подписаны");
+								}
+								if ((footer.arrButton.length === 1) && (lengthError === 1)) {
+									toast("Ошибка при подписи файла");
+								}
+								if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
+									toast("Ошибка при подписи файлов");
+								}
+								if ((footer.arrButton.length > 1) && (lengthError !== footer.arrButton.length)) {
+									toast("При подписи файлов некоторые файлы не были подписаны");
+								}
+							}, 300);
 							dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
 						}
 					});
 			}
-			setTimeout(() => {
-				dispatch(readFiles());
-				if ((footer.arrButton.length === 1) && (lengthError === 0)) {
-					toast("Файл был подписан");
-				}
-				if ((footer.arrButton.length > 1) && (lengthError === 0)) {
-					toast("Файлы был подписаны");
-				}
-				if ((footer.arrButton.length === 1) && (lengthError === 1)) {
-					toast("Ошибка при подписи файла");
-				}
-				if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
-					toast("Ошибка при подписи файлов");
-				}
-				if ((footer.arrButton.length > 1) && (lengthError !== footer.arrButton.length)) {
-					toast("При подписи файлов некоторые файлы не были подписаны");
-				}
-			}, 300);
 		}
 	};
 }
@@ -90,7 +89,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
 					response => {
 						NativeModules.Wrap_Signer.isDetachedSignMessage(
 							path,
-							response === "--" ? "BASE64" : "DER",
+							"BASE64",
 							(err, verify) => {
 								if (err) {
 									Alert.alert(err + "");
@@ -99,7 +98,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
 										NativeModules.Wrap_Signer.verify(
 											path.substring(0, path.length - 4),
 											path,
-											response === "--" ? "BASE64" : "DER",
+											"BASE64",
 											true,
 											(err) => {
 												if (err) {
@@ -112,7 +111,46 @@ export function verifySign(files: IFile[], personalCert, footer) {
 										NativeModules.Wrap_Signer.verify(
 											"",
 											path,
-											response === "--" ? "BASE64" : "DER",
+											"BASE64",
+											false,
+											(err) => {
+												if (err) {
+													dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+												} else {
+													dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
+												}
+											}
+										);
+									}
+								}
+							});
+					},
+					err => {
+						NativeModules.Wrap_Signer.isDetachedSignMessage(
+							path,
+							"DER",
+							(err, verify) => {
+								if (err) {
+									Alert.alert(err + "");
+								} else {
+									if (verify) {
+										NativeModules.Wrap_Signer.verify(
+											path.substring(0, path.length - 4),
+											path,
+											"DER",
+											true,
+											(err) => {
+												if (err) {
+													dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+												} else {
+													dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
+												}
+											});
+									} else {
+										NativeModules.Wrap_Signer.verify(
+											"",
+											path,
+											"DER",
 											false,
 											(err) => {
 												if (err) {
@@ -124,8 +162,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
 									}
 								}
 							});
-					},
-					err => Alert.alert("" + err));
+					});
 			}
 			setTimeout(() => {
 				dispatch({ type: VERIFY_SIGN_END });

@@ -1,11 +1,3 @@
-//
-//  PCert.h
-//  Prototype_Trusted_IOS
-//
-//  Created by admin on 01/03/2018.
-//  Copyright © 2018 Facebook. All rights reserved.
-//
-
 #ifndef CSP_Cert_h
 #define CSP_Cert_h
 
@@ -31,15 +23,22 @@
 
 //загрузка из хранилища
 -(bool) load :(char *)serialNumber;
+
 //загрузка из файла
 -(bool) loadFromFile :(char *)pathCert :(char *)format;
-//сохраниние сертификата в хранилище из файла
--(bool)saveCertToStore :(char *)pathToFile :(char *)format;
--(bool)saveCertToStore :(char *)pathToFile :(char *)format :(char *)category;
+
+//сохраниние сертификата в хранилище из файла (автоматическое распределение)
+-(bool) saveCertToStore :(char *)pathToFile :(char *)format;
+
+//сохраниние сертификата в хранилище из файла (выбор за пользователем "куда?")
+-(bool) saveCertToStore :(char *)pathToFile :(char *)format :(char *)category;
+
 //удаление сертификата из хранилища
 -(bool) deleteCertInStore :(char *)serialNumber :(char *)category :(bool)deleteCont;
+
 //экспорт сертификата в файл из памяти
 -(bool) save :(char *)pathToSaveCert :(char *)format :(char *)category;
+
 -(long) getVersion;
 -(TrustedHandle<std::string>) getSerialNumber;
 -(TrustedHandle<std::string>) getNotBefore;

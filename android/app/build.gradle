@@ -137,6 +137,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-file-share')
+    compile project(':react-native-cloud-fs')
+    compile project(':react-native-file-opener-fix')
     compile project(':react-native-vector-icons')
     compile project(':react-native-fs')
     compile project(':react-native-document-picker')

@@ -47,7 +47,7 @@ BOOL checkFileExtension(TCHAR * szFile);
 CSP_BOOL hasPrivateKey(PCCERT_CONTEXT pUserCert);
 
 //проверка сертификата на самоподписанность
-CSP_BOOL selfSignedCert(PCCERT_CONTEXT pCertCtx);
+CSP_BOOL isSelfSignedCert(PCCERT_CONTEXT pCertCtx);
 
 //чтение из файла в зависимости от формата
 BYTE *readFromFile(char *file, char *format, DWORD &cbContent);
@@ -77,7 +77,7 @@ LPCWSTR provTypeToProvNameW(DWORD dwProvType);
 PCCERT_CONTEXT bindCertToPrivateKey(PCCERT_CONTEXT pCertContext, LPCSTR contName, LPCSTR provName, DWORD provType, DWORD dwKeySpec);
 
 //преобразование из char * в wchar *
-WCHAR* ConvertCharToWchar(const char *name, int &length);
+WCHAR *ConvertCharToWchar(const char *name, int &length);
 
 //удаление контейнера
 bool deleteContainer(TrustedHandle<std::string> contName, int provType, TrustedHandle<std::string> provName);

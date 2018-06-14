@@ -1,11 +1,3 @@
-//
-//  Constants.h
-//  CSP
-//
-//  Created by admin on 14/05/2018.
-//  Copyright © 2018 digt. All rights reserved.
-//
-
 #ifndef Constants_h
 #define Constants_h
 

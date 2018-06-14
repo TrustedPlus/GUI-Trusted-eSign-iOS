@@ -25,7 +25,7 @@ export function iconSelection(files, length) {
 			case "zip":
 				img[i] = require("../../imgs/general/file_zip.png"); break;
 			default:
-				break;
+				img[i] = require("../../imgs/general/file_unknown.png"); break;
 		}
 	}
 	return img;

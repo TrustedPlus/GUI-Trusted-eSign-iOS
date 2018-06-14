@@ -60,19 +60,41 @@ export class FooterSign extends React.Component<FooterSignProps, { showToast: bo
 	onPressUnSignFile() {
 		for (let i = 0; i < this.props.footer.arrButton.length; i++) {
 			let path = RNFS.DocumentDirectoryPath + "/Files/" + this.props.files[this.props.footer.arrButton[i]].name + "." + this.props.files[this.props.footer.arrButton[i]].extensionAll;
-			NativeModules.Wrap_Signer.unSign(
-				path,
-				"BASE64",
-				path.substr(0, path.length - 4),
-				(err) => {
-					if (err) {
-						this.props.nav("Открепленная подпись. При снятии подписи произошла ошибка.");
-					} else {
-						RNFS.unlink(path);
-						this.props.readFiles();
-						this.props.nav("Подпись была успешно снята");
-					}
-				});
+			const read = RNFS.read(path, 2, 0, "utf8");
+			read.then(
+				response => {
+					debugger;
+					NativeModules.Wrap_Signer.unSign(
+						path,
+						"BASE64",
+						path.substr(0, path.length - 4),
+						(err) => {
+							if (err) {
+								this.props.nav("Открепленная подпись. При снятии подписи произошла ошибка.");
+							} else {
+								RNFS.unlink(path);
+								this.props.readFiles();
+								this.props.nav("Подпись была успешно снята");
+							}
+						});
+				},
+				err => {
+					debugger;
+					NativeModules.Wrap_Signer.unSign(
+						path,
+						"DER",
+						path.substr(0, path.length - 4),
+						(err) => {
+							if (err) {
+								this.props.nav("Открепленная подпись. При снятии подписи произошла ошибка.");
+							} else {
+								RNFS.unlink(path);
+								this.props.readFiles();
+								this.props.nav("Подпись была успешно снята");
+							}
+						});
+				})
+				;
 		}
 	}
 

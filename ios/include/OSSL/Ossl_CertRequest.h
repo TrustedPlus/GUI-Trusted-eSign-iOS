@@ -22,6 +22,7 @@ struct extKeyUsageStruct{
 
 -(void) createRequest :(char *)algorithm :(int)length :(int)keyUsage :(extKeyUsageStruct)extKeyUsage :(BOOL)exportableKey :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)outPathCsr :(char *)outPathKey;
 -(void) createCertFromRequest :(char *)outPathCsr :(char *)outPathCer  :(char *)outPathKey;
+-(void) getRequestinfo :(char *)outPathCsr :(char *)format;
 @end
 
 #endif /* Ossl_CertRequest_h */

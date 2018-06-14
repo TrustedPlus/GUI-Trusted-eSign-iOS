@@ -29,6 +29,12 @@ const char * providerIOS = "IOS";
   CSP_Csp *csp_Store =[[CSP_Csp alloc] init];
 #endif
 
+/**
+ * проверяет, является ли входной файл ГОСТ'овым сертификатом
+ * @param pathCert - входной файл (сертификат)
+ * @param format - формат сохраненных данных
+ * @return true - если сертификат ГОСТ'овым, иначе false.
+ */
 BOOL isGostCert(char *pathCert, char *format){
   try{
     TrustedHandle<Certificate> cert = new Certificate();

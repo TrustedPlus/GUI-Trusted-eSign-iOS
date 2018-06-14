@@ -1,11 +1,3 @@
-//
-//  CSP_CertRequest.h
-//  CSP
-//
-//  Created by admin on 23/04/2018.
-//  Copyright © 2018 digt. All rights reserved.
-//
-
 #ifndef CSP_CertRequest_h
 #define CSP_CertRequest_h
 

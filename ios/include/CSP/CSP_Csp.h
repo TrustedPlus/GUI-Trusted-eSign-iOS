@@ -18,14 +18,21 @@
 #include <iostream>
 #include "vector"
 
-@interface CSP_Csp : NSObject {    
-    TrustedHandle<PkiItemCollection> providerItemCollection; //содержит список сертификатов в хранилище
+@interface CSP_Csp : NSObject {
+    //содержит список сертификатов в хранилище
+    TrustedHandle<PkiItemCollection> providerItemCollection;
 }
 
+//считывание всех сертификатов из всех хранилищ КритоПро
 - (NSMutableArray*) unloadCertsFromStore;
-bool cmpCertAndContFP(LPCSTR szContainerName, LPBYTE pbFPCert, DWORD cbFPCert);
 
+//преобразование из TrustedHandle<Certificate> в TrustedHandle<PkiItem>
+TrustedHandle<PkiItem> objectToPKIItem(TrustedHandle<Certificate> cert);
+
+//перечисление доступных криптопровайдеров
 -(std::vector<ProviderProps>) enumProvider;
+
+//перечисление контейнеров в хранилище
 -(std::vector<TrustedHandle<ContainerName>>) enumContainers :(int)provType :(TrustedHandle<std::string>)provName;
 
 //получение информации о сертификате из контейнера

@@ -8,7 +8,7 @@ interface ListCertProps {
 	title: string;
 	note?: string;
 	rightnote?: string;
-	img: any;
+	img?: any;
 	rightimg?: any;
 	navigate?: Function;
 	goBack?: Function;

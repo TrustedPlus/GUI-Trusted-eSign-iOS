@@ -46,7 +46,7 @@ export class Containers extends React.Component<ContainersProps> {
 				key={key}
 				note={"HDIMAGE"}
 				title={containers.container}
-				nav={() => NativeModules.Wrap_Main.getCertToContainer(
+				nav={() => NativeModules.Wrap_Main.getCertInfoFromContainer(
 					containers["fqcnA"],
 					(err, cert) => {
 						if (err) {

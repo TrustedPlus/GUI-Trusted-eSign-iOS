@@ -1,11 +1,3 @@
-//
-//  Ossl_Main.h
-//  OSSL
-//
-//  Created by admin on 09/04/2018.
-//  Copyright © 2018 digt. All rights reserved.
-//
-
 #ifndef CSP_Main_h
 #define CSP_Main_h
 

@@ -3,6 +3,9 @@ package com.cryptoarm_gost;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.RNFileSharePackage;
+import org.rncloudfs.RNCloudFsPackage;
+import com.fileopener.FileOpenerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.rnfs.RNFSPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
@@ -26,6 +29,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFileSharePackage(),
+            new RNCloudFsPackage(),
+            new FileOpenerPackage(),
             new VectorIconsPackage(),
             new RNFSPackage(),
             new ReactNativeDocumentPicker()

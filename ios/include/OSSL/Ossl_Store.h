@@ -6,6 +6,7 @@
 #include "provider_system.h"
 #include "pkistore.h"
 #include "storehelper.h"
+#include "chain.h"
 
 #import <Foundation/Foundation.h>
 

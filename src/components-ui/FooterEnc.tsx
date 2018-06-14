@@ -68,7 +68,7 @@ export class FooterEnc extends React.Component<FooterEncProps> {
 						icon="md-lock"
 						nav={() => encAssymmetric(files, otherCert, footer)} />
 					<FooterButton title="Расшифровать"
-						disabled={certIsNotNull ? true : (CertDontHasPrivateKey ? true : isDec === "dec" ? false : true)}
+						disabled={isDec === "dec" ? false : true}
 						icon="md-unlock"
 						nav={() => decAssymmetric(files, otherCert, footer)} />
 					<FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />

@@ -18,7 +18,8 @@ function mapStateToProps(state) {
 		footer: state.footer,
 		files: state.files.files,
 		otherCert: state.otherCert,
-		isFetching: state.files.isFetching
+		isFetching: state.files.isFetching,
+		certificates: state.certificates.certificates
 	};
 }
 
@@ -48,6 +49,7 @@ interface EncryptionProps {
 	otherCert: any;
 	files: IFile[];
 	isFetching: boolean;
+	certificates: any;
 	footerAction(key: number, extension: string): void;
 	footerClose(): void;
 	readFiles(): void;
@@ -65,11 +67,23 @@ export class Encryption extends React.Component<EncryptionProps> {
 		super(props);
 
 		this.props.navigation.state.key = "Home";
-		this.showList = this.showList.bind(this);
+		this.showListFiles = this.showListFiles.bind(this);
+		this.showListEncCertificates = this.showListEncCertificates.bind(this);
 		this.documentPicker = this.documentPicker.bind(this);
 	}
 
-	showList(img) {
+	showListEncCertificates() {
+		return (
+			this.props.otherCert.arrEncCertificates.map((cert, key) => <ListMenu
+				key={key}
+				title= {cert.subjectFriendlyName}
+				img={cert.chainBuilding ? require("../../imgs/general/cert2_ok_icon.png") : require("../../imgs/general/cert2_bad_icon.png")}
+				note={cert.organizationName}
+				nav={() => null}
+				/>));
+	}
+
+	showListFiles(img) {
 		return (
 			this.props.files.map((file, key) => <ListMenu
 				key={key + file.time}
@@ -97,10 +111,9 @@ export class Encryption extends React.Component<EncryptionProps> {
 		const { navigate, goBack } = this.props.navigation;
 
 		let certificate, filesView;
-		if (otherCert.title) { // выбран ли сертификат
+		if (otherCert.arrEncCertificates.length) { // выбран ли сертификат
 			certificate = <List>
-				<ListMenu title={otherCert.title} img={otherCert.img}
-					note={otherCert.note} nav={() => { readCertKeys(); navigate("SelectCert"); }} />
+				{this.showListEncCertificates()}
 			</List>;
 		} else {
 			certificate = <View style={styles.sign_enc_view}>
@@ -114,7 +127,7 @@ export class Encryption extends React.Component<EncryptionProps> {
 			filesView = <ScrollView refreshControl={
 				<RefreshControl refreshing={isFetching}
 					onRefresh={() => readFiles()} />}>
-				<List>{this.showList(img)}</List>
+				<List>{this.showListFiles(img)}</List>
 			</ScrollView>;
 		} else {
 			filesView = <View style={styles.sign_enc_view}>

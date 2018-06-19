@@ -2,17 +2,18 @@ import * as React from "react";
 import { Container, Item, Label, Input, Footer, FooterTab, Button, Text, Content, Icon, Form } from "native-base";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
-import { View, Alert, AlertIOS } from "react-native";
+import { ScrollView, View, Alert, AlertIOS, ListView } from "react-native";
 import * as RNFS from "react-native-fs";
 import { genSelfSignedCertWithoutRequest } from "../utils/createCert";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
 import { ListWithSwitch } from "../components/ListWithSwitch";
 import { FooterButton } from "../components/FooterButton";
+import Collapsible from "react-native-collapsible";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { readCertKeys, createCert } from "../actions/certKeysAction";
-import { getProviders} from "../actions/getContainersAction";
+import { getProviders } from "../actions/getContainersAction";
 
 function mapDispatchToProps(dispatch) {
 	return {
@@ -194,15 +195,15 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 					</View>
 					<Button style={{ width: "100%", backgroundColor: "white" }} onPress={() => this.setState({ certAssignment: !this.state.certAssignment })}>
 						<Text style={{ color: "grey" }}>Назначение сертификата</Text>
-						{this.state.certAssignment ? <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-down" /> :
-							<Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-up" />}
+						{this.state.certAssignment ? <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-down" />
+															: <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-up" />}
 					</Button>
-					{!this.state.certAssignment ? <>
+					<Collapsible collapsed={this.state.certAssignment}>
 						<ListWithSwitch text="Проверка подлинности сервера" value={this.state.server_auth} changeValue={() => this.setState({ server_auth: !this.state.server_auth })} />
 						<ListWithSwitch text="Проверка подлинности клиента" value={this.state.client_auth} changeValue={() => this.setState({ client_auth: !this.state.client_auth })} />
 						<ListWithSwitch text="Подпись кода" value={this.state.code_sign} changeValue={() => this.setState({ code_sign: !this.state.code_sign })} />
 						<ListWithSwitch text="Защита элкетронной почты" value={this.state.email_protection} last changeValue={() => this.setState({ email_protection: !this.state.email_protection })} />
-					</> : null}
+					</Collapsible>
 				</Content>
 				<Footer>
 					<FooterTab>

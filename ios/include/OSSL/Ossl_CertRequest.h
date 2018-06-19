@@ -20,9 +20,29 @@ struct extKeyUsageStruct{
     BOOL email;
 };
 
+struct keyUsageStruct {
+    bool digitalSignature;
+    bool nonRepudiation;
+    bool keyEncipherment;
+    bool dataEncipherment;
+    bool keyAgreement;
+    bool keyCertSign;
+    bool cRLSign;
+    bool encipherOnly;
+    bool decipherOnly;
+};
+
+struct sslTemplateInfo {
+    TrustedHandle<std::string> subjectName;
+    TrustedHandle<std::string> pubKey;
+    TrustedHandle<extKeyUsageStruct> extKeyUsage;
+    TrustedHandle<keyUsageStruct> keyUsage;
+};
+
 -(void) createRequest :(char *)algorithm :(int)length :(int)keyUsage :(extKeyUsageStruct)extKeyUsage :(BOOL)exportableKey :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)outPathCsr :(char *)outPathKey;
 -(void) createCertFromRequest :(char *)outPathCsr :(char *)outPathCer  :(char *)outPathKey;
--(void) getRequestinfo :(char *)outPathCsr :(char *)format;
+-(sslTemplateInfo) getRequestinfo :(char *)outPathCsr :(char *)format;
+-(sslTemplateInfo) getCertificateinfoForTemplate :(char *)serialNumber :(char *)category;
 @end
 
 #endif /* Ossl_CertRequest_h */

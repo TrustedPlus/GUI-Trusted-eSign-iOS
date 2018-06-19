@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import { Left, Right, Body, ListItem, Thumbnail, Text, Button, Icon } from "native-base";
 import { TouchableWithoutFeedback } from "react-native";
 import { styles } from "../styles";
@@ -40,7 +39,7 @@ export class ListCert extends React.Component<ListCertProps, { active: boolean }
 					{rightimg}
 				</Body></TouchableWithoutFeedback>
 				{this.props.arrow ? <TouchableWithoutFeedback onPress={() => this.props.navigate("PropertiesCert", this.props.cert)}><Right style={{ width: 80 }} >
-					<Icon style={{ position: "absolute", right: 15, top: "50%" }} name="arrow-forward" />
+					<Icon style={{ position: "absolute", right: 15, top: "50%" }} name="ios-more" />
 				</Right></TouchableWithoutFeedback> : null}
 			</ListItem>
 		);

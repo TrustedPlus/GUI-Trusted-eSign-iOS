@@ -70,8 +70,10 @@ export class FooterSign extends React.Component<FooterSignProps, { showToast: bo
 						path.substr(0, path.length - 4),
 						(err) => {
 							if (err) {
+								debugger;
 								this.props.nav("Открепленная подпись. При снятии подписи произошла ошибка.");
 							} else {
+								debugger;
 								RNFS.unlink(path);
 								this.props.readFiles();
 								this.props.nav("Подпись была успешно снята");
@@ -79,7 +81,6 @@ export class FooterSign extends React.Component<FooterSignProps, { showToast: bo
 						});
 				},
 				err => {
-					debugger;
 					NativeModules.Wrap_Signer.unSign(
 						path,
 						"DER",

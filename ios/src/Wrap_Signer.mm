@@ -26,7 +26,7 @@ RCT_EXPORT_METHOD(sign: (NSString *)serialNumber: (NSString *)category: (NSStrin
     BOOL b = false;
 #ifdef ProvOpenSSL
     if (strcmp(prov, "SYSTEM") == 0) {
-      b = [ossl_Signer sign:pSerialNumber :pCategory :infile :outfile :pFormat];
+      b = [ossl_Signer sign:pSerialNumber :pCategory :infile :outfile :pFormat :isDetached];
     }
 #endif
 #ifdef ProvCryptoPro
@@ -65,7 +65,7 @@ RCT_EXPORT_METHOD(coSign: (NSString *)serialNumber: (NSString *)category: (NSStr
     BOOL b = false;
 #ifdef ProvOpenSSL
     if (strcmp(prov, "SYSTEM") == 0) {
-      b = [ossl_Signer coSignMessage:pSerialNumber :pCategory :signfile :pFormat];
+      b = [ossl_Signer coSignMessage:pSerialNumber :pCategory :inputfile :signfile :pFormat :isDetached];
     }
 #endif
 #ifdef ProvCryptoPro
@@ -95,26 +95,25 @@ RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString 
     char *pFormat = (char *) [format UTF8String];
     BOOL b = false;
     
-    b = [csp_Signer isDetachedSignMessage:infile :pFormat];
-    if (!b) {
-      b = [csp_Signer deCosignMessage:infile :pFormat :outfile];
-      callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
-    }
-    else {
-      callback(@[[@("Error. The input file is a detached signature.") copy], [NSNumber numberWithInt: 0]]);
-    }
-/*
 #ifdef ProvOpenSSL
-    try{
+    try {
       b = [ossl_Signer unSign:infile :pFormat :outfile];
     }
-    catch (TrustedHandle<Exception> e){
+    catch (TrustedHandle<Exception> e) {
 #endif
 #ifdef ProvCryptoPro
-      b = [csp_Signer deCosignMessage:infile :pFormat :outfile];
+      b = [csp_Signer isDetachedSignMessage:infile :pFormat];
+      if (!b) {
+        b = [csp_Signer deCosignMessage:infile :pFormat :outfile];
+      }
+      else {
+        callback(@[[@("Error. The input file is a detached signature.") copy], [NSNumber numberWithInt: 0]]);
+      }
 #endif
     }
-*/
+    
+    callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
+
   }
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
@@ -138,7 +137,7 @@ RCT_EXPORT_METHOD(verify: (NSString *)inputfilename: (NSString *)checkfilename: 
     
 #ifdef ProvOpenSSL
     try {
-      b = [ossl_Signer verify:inFileName :inFormat ];
+      b = [ossl_Signer verify:inputName :inFileName :inFormat ];
     }
     catch (TrustedHandle<Exception> e) {
 #endif
@@ -170,7 +169,7 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
     NSMutableArray *arrayInfoAboutSigners = [NSMutableArray array];
 #ifdef ProvOpenSSL
     try {
-      std::vector<infoStruct> vec = [ossl_Signer getSignInfo:inFileName :inFormat ];
+      std::vector<infoStruct> vec = [ossl_Signer getSignInfo:inputFileName :inFileName :inFormat ];
       for (int i = 0; i < vec.size(); i++){
         NSMutableDictionary *arrayInfoAboutSigner = [NSMutableDictionary dictionary];
         if (vec[i].status)

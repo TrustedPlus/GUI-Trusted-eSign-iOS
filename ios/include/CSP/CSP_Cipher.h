@@ -9,10 +9,15 @@
 #import <CPROCSP/CPROCSP.h>
 #import <CPROCSP/CPCrypt.h>
 
-@interface CSP_Cipher : NSObject
+@interface CSP_Cipher : NSObject{
+    struct certStructForEncrypt {
+        char *serial;
+        char *category;
+    };
+}
 
 //шифрование входного файла
--(BOOL)encrypt :(std::vector<char *>)certs :(char *)inputFile :(char *)encFile :(char *)format;
+-(BOOL)encrypt :(std::vector<certStructForEncrypt>)certs :(char *)inputFile :(char *)encFile :(char *)format;
 
 //дешифрование входного файла
 -(BOOL) decrypt :(char *)encFile :(char *)format :(char *)decFile;

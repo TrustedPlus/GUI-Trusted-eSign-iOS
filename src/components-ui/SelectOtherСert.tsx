@@ -31,28 +31,12 @@ interface SelectOtherСertProps {
 	addCertForEnc?(title: string, img: string, note: string, issuerName: string, serialNumber: string, provider: string, category: string, hasPrivateKey: boolean): void;
 	otherCertClear(): void;
 }
-
-interface SelectOtherСertState {
-	promptVisible: boolean;
-	uri: string;
-	fileName: string;
-}
-
 @(connect(mapStateToProps, mapDispatchToProps) as any)
-export class SelectOtherСert extends React.Component<SelectOtherСertProps, SelectOtherСertState> {
+export class SelectOtherСert extends React.Component<SelectOtherСertProps> {
 
 	static navigationOptions = {
 		header: null
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			promptVisible: false,
-			uri: "",
-			fileName: "",
-		};
-	}
 
 	ShowList(img) {
 		return (

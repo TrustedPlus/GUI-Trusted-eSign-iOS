@@ -102,7 +102,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
 											true,
 											(err) => {
 												if (err) {
-													dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+													dispatch({ type: VERIFY_SIGN_ERROR, payload: err });
 												} else {
 													dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
 												}
@@ -115,7 +115,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
 											false,
 											(err) => {
 												if (err) {
-													dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+													dispatch({ type: VERIFY_SIGN_ERROR, payload: err });
 												} else {
 													dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
 												}
@@ -141,7 +141,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
 											true,
 											(err) => {
 												if (err) {
-													dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+													dispatch({ type: VERIFY_SIGN_ERROR, payload: err });
 												} else {
 													dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
 												}
@@ -154,7 +154,7 @@ export function verifySign(files: IFile[], personalCert, footer) {
 											false,
 											(err) => {
 												if (err) {
-													dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+													dispatch({ type: VERIFY_SIGN_ERROR, payload: err });
 												} else {
 													dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
 												}

@@ -40,7 +40,7 @@ interface PropertiesCertProps {
 	navigation: any;
 	cert: string;
 	readCertKeys(): void;
-	deleteCertAction(cert, withContainers, goBack): void;
+	deleteCertAction(cert, withContainers, key, goBack): void;
 }
 
 @(connect(null, mapDispatchToProps) as any)
@@ -58,12 +58,12 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 				[
 					{
 						text: "Да", onPress: () => {
-							this.props.deleteCertAction(this.props.navigation.state.params.cert, true, this.props.navigation.goBack());
+							this.props.deleteCertAction(this.props.navigation.state.params.cert, true, this.props.navigation.state.params.key, this.props.navigation.goBack());
 						}
 					},
 					{
 						text: "Нет", onPress: () => {
-							this.props.deleteCertAction(this.props.navigation.state.params.cert, false, this.props.navigation.goBack());
+							this.props.deleteCertAction(this.props.navigation.state.params.cert, false, this.props.navigation.state.params.key, this.props.navigation.goBack());
 						}
 					},
 					{ text: "Отмена", onPress: () => null, style: "cancel" }
@@ -76,7 +76,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 				[
 					{
 						text: "Да", onPress: () => {
-							this.props.deleteCertAction(this.props.navigation.state.params.cert, false, this.props.navigation.goBack());
+							this.props.deleteCertAction(this.props.navigation.state.params.cert, false, this.props.navigation.state.params.key, this.props.navigation.goBack());
 						}
 					},
 					{ text: "Отмена", onPress: () => null, style: "cancel" }
@@ -86,10 +86,10 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 	}
 
 	render() {
-		const { cert, isCertInContainers, containers } = this.props.navigation.state.params;
+		const { cert, isCertInContainers, containers, key } = this.props.navigation.state.params;
+		console.log(key);
 		const { navigate, goBack } = this.props.navigation;
 		let subjectFriendlyName, subjectEmail, subjectCountry, subjectRegion, subjectCity;
-		isCertInContainers === true ? console.log("Ето неустановленный сертификат") : console.log("Ето установленный сертификат");
 		if (!cert.selfSigned) {
 			subjectFriendlyName = cert.subjectName.match(/2.5.4.3=[^\/]{1,}/);
 			subjectFriendlyName = subjectFriendlyName ? subjectFriendlyName[0].replace("2.5.4.3=", "") : null;

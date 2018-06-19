@@ -3,7 +3,7 @@ import {
 	READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR,
 	ADD_FILES, ADD_FILES_SUCCESS, ADD_FILES_ERROR, CLEAR_FILES,
 	ADD_CERT_OR_KEY, ADD_CERT_SUCCESS, ADD_CERT_ERROR, ADD_KEY_SUCCESS, ADD_KEY_ERROR,
-	PERSONAL_CERT_CLEAR, OTHER_CERT_CLEAR,
+	PERSONAL_CERT_CLEAR, OTHER_CERT_CLEAR, OTHER_CERT_CLEAR_CERT
 } from "../constants";
 import * as RNFS from "react-native-fs";
 import { NativeModules, Alert } from "react-native";
@@ -30,10 +30,17 @@ export function addCertForSign(title, img, note, issuerName, serialNumber, provi
 	};
 }
 
-export function addCertForEnc(title, img, note, issuerName, serialNumber, provider, category, hasPrivateKey) {
+export function addCertForEnc(certForEnc) {
 	return {
 		type: OTHER_CERT_ACTION,
-		payload: [title, img, note, issuerName, serialNumber, provider, category, hasPrivateKey]
+		payload: certForEnc
+	};
+}
+
+export function deleteCertInArrEncCertificates(cert) {
+	return {
+		type: OTHER_CERT_CLEAR_CERT,
+		payload: cert
 	};
 }
 

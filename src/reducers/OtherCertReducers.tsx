@@ -1,14 +1,7 @@
-import { OTHER_CERT_ACTION, OTHER_CERT_CLEAR } from "../constants";
+import { OTHER_CERT_ACTION, OTHER_CERT_CLEAR, OTHER_CERT_CLEAR_CERT } from "../constants";
 
 const initialState = {
-	title: null,
-	img: null,
-	note: null,
-	issuerName: null,
-	serialNumber: null,
-	provider: null,
-	category: null,
-	hasPrivateKey: null
+	arrEncCertificates: []
 };
 
 export function otherCert(state = initialState, action) {
@@ -16,25 +9,23 @@ export function otherCert(state = initialState, action) {
 		case OTHER_CERT_ACTION:
 			return {
 				...state,
-				title: action.payload[0],
-				img: action.payload[1],
-				note: action.payload[2],
-				issuerName: action.payload[3],
-				serialNumber: action.payload[4],
-				provider: action.payload[5],
-				category: action.payload[6],
-				hasPrivateKey: action.payload[7]
+				arrEncCertificates: action.payload
 			};
 		case OTHER_CERT_CLEAR:
 			return {
 				...state,
-				title: null,
-				img: null,
-				note: null,
-				issuerName: null,
-				serialNumber: null,
-				provider: null,
-				category: null
+				arrEncCertificates: [],
+				arrNumEncCertificates: []
+			};
+		case OTHER_CERT_CLEAR_CERT:
+			let oldArrEncCertificates = state.arrEncCertificates;
+			let index = oldArrEncCertificates.indexOf(action.payload);
+			if (index !== -1) {
+				oldArrEncCertificates.splice(index, 1); // удаление из массива
+			}
+			return {
+				...state,
+				arrEncCertificates: oldArrEncCertificates
 			};
 		default:
 			return state;

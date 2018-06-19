@@ -11,7 +11,8 @@ function mapStateToProps(state) {
 	return {
 		files: state.files.files,
 		footer: state.footer,
-		otherCert: state.otherCert
+		otherCert: state.otherCert,
+		certificates: state.certificates.certificates
 	};
 }
 
@@ -34,7 +35,8 @@ interface FooterEncProps {
 	footer?: any;
 	files?: IFile[];
 	otherCert?: any;
-	encAssymmetric?(files: IFile[], otherCert: string[], footer: string[]): void;
+	certificates?: any;
+	encAssymmetric?(files: IFile[], otherCert: string[], certificates: any, footer: string[]): void;
 	decAssymmetric?(files: IFile[], otherCert: string[], footer: string[]): void;
 	uploadFile?(files: IFile[], footer: string[]): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
@@ -44,9 +46,9 @@ interface FooterEncProps {
 export class FooterEnc extends React.Component<FooterEncProps> {
 
 	render() {
-		const { files, otherCert, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer } = this.props;
+		const { files, otherCert, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer, certificates } = this.props;
 		let footerleft = null;
-		let certIsNotNull, CertDontHasPrivateKey, isDec, isEnc = null;
+		let certIsNotNull, isDec, isEnc = null;
 
 		if (footer.arrExtension.filter(extension => extension === "enc").length !== 0) {
 			isEnc = "enc";
@@ -54,10 +56,7 @@ export class FooterEnc extends React.Component<FooterEncProps> {
 		if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "enc").length) {
 			isDec = "dec";
 		}
-		if (!otherCert.hasPrivateKey) {
-			CertDontHasPrivateKey = "noKey";
-		}
-		if (!otherCert.title) {
+		if (!otherCert.arrEncCertificates.length) {
 			certIsNotNull = "noCert";
 		}
 		return (
@@ -66,7 +65,7 @@ export class FooterEnc extends React.Component<FooterEncProps> {
 					<FooterButton title="Зашифровать"
 						disabled={certIsNotNull ? true : (isEnc === "enc" ? true : false)}
 						icon="md-lock"
-						nav={() => encAssymmetric(files, otherCert, footer)} />
+						nav={() => encAssymmetric(files, otherCert, certificates, footer)} />
 					<FooterButton title="Расшифровать"
 						disabled={isDec === "dec" ? false : true}
 						icon="md-unlock"

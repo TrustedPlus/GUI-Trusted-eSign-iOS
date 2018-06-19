@@ -13,18 +13,22 @@ interface IFile {
 	name: string;
 }
 
-export function encAssymmetric(files: IFile[], otherCert, footer) {
+export function encAssymmetric(files: IFile[], otherCert, certificates, footer) {
 	return function action(dispatch) {
 		dispatch({ type: ENCODE_FILES });
 		if (otherCert.title === "") {
 			return dispatch({ type: ENCODE_FILES_END });
 		} else {
+			let selectedCertificates = [];
 			for (let i = 0; i < footer.arrButton.length; i++) {
 				let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+				otherCert.arrEncCertificates.map((cert) => {
+					selectedCertificates.push(cert.serialNumber);
+					selectedCertificates.push(cert.category);
+				});
 				NativeModules.Wrap_Cipher.encrypt(
-					[otherCert.serialNumber,
-					otherCert.category],
-					otherCert.provider,
+					selectedCertificates,
+					otherCert.arrEncCertificates[0].provider,
 					path,
 					path + ".enc",
 					"BASE64",

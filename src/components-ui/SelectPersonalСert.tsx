@@ -71,11 +71,11 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
 			<Container style={styles.container}>
 				<Headers title="Выберите сертификат" goBack={() => goBack()} />
 				<Content>
-					{(certificates.filter((cert) => (cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey))).length !== 0 ?
-						<List>{this.ShowList(img)}</List> :
-						<Text style={[styles.sign_enc_prompt, { paddingTop: "50%" }]}>Сертификатов нет. Нажмите кнопку 'добавить' для импорта или создания сертификата</Text>}
+					{(certificates.filter((cert) => (cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey))).length !== 0
+						? <List>{this.ShowList(img)}</List>
+						: <Text style={[styles.sign_enc_prompt, { paddingTop: "50%" }]}>Сертификатов нет. Нажмите кнопку 'добавить' для импорта или создания сертификата</Text>}
 				</Content>
-				<AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password, fn) => this.props.addCert(uri, fileName, password, fn)} />
+				<AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password, fn) => addCert(uri, fileName, password, fn)} />
 			</Container>
 		);
 	}

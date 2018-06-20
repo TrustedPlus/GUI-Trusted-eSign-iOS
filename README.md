@@ -9,7 +9,6 @@ npm install -g react-native-cli
 npm install
 react-native link
 
-Удалить папку node_modules/@types/node
 ```
 
 

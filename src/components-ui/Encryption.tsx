@@ -8,6 +8,7 @@ import { FooterEnc } from "./FooterEnc";
 import { iconSelection } from "../utils/forListFiles";
 import { readCertKeys } from "../actions/certKeysAction";
 import { DocumentPicker } from "react-native-document-picker";
+import { showToast } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -99,7 +100,7 @@ export class Encryption extends React.Component<EncryptionProps> {
 			filetype: ["public.item"]
 		}, (error: any, res: any) => {
 			if (error) {
-				Alert.alert(error + "");
+				showToast(error);
 			} else {
 				this.props.addFiles(res.uri, res.fileName);
 			}

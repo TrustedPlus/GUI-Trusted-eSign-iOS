@@ -4,6 +4,7 @@ import { Image, AlertIOS, NativeModules, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { FooterButton } from "../components/FooterButton";
+import { showToast } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -86,8 +87,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 	}
 
 	render() {
-		const { cert, isCertInContainers, containers, key } = this.props.navigation.state.params;
-		console.log(key);
+		const { cert, isCertInContainers, containers } = this.props.navigation.state.params;
 		const { navigate, goBack } = this.props.navigation;
 		let subjectFriendlyName, subjectEmail, subjectCountry, subjectRegion, subjectCity;
 		if (!cert.selfSigned) {
@@ -161,18 +161,11 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 								nav={() => {
 									NativeModules.Wrap_Main.installCertFromContainer(containers, (err) => {
 										if (err) {
-											Alert.alert("Установка сертификата не удалась");
+											showToast("Установка сертификата не удалась");
 										} else {
 											this.props.readCertKeys();
-											AlertIOS.alert(
-												"Сертификат установлен",
-												null,
-												[{
-													text: "ОК", onPress: () => {
-														this.props.navigation.goBack("Home");
-													}
-												}]
-											);
+											this.props.navigation.goBack("Home");
+											showToast("Сертификат установлен");
 										}
 									});
 								}} />

@@ -3,6 +3,7 @@ import { NativeModules, Alert, AlertIOS } from "react-native";
 import * as RNFS from "react-native-fs";
 import { Footer, FooterTab } from "native-base";
 import { FooterButton } from "../components/FooterButton";
+import { showToast } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -39,8 +40,7 @@ interface FooterSignProps {
 	footer?: any;
 	files?: IFile[];
 	personalCert?: any;
-	nav?(msg: string): any;
-	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean, toast: Function): void;
+	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean): void;
 	verifySign?(files: IFile[], personalCert: string[], footer: string[]): void;
 	uploadFile?(files: IFile[], footer: string[]): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
@@ -60,47 +60,33 @@ export class FooterSign extends React.Component<FooterSignProps, { showToast: bo
 	onPressUnSignFile() {
 		for (let i = 0; i < this.props.footer.arrButton.length; i++) {
 			let path = RNFS.DocumentDirectoryPath + "/Files/" + this.props.files[this.props.footer.arrButton[i]].name + "." + this.props.files[this.props.footer.arrButton[i]].extensionAll;
+			let encoding;
 			const read = RNFS.read(path, 2, 0, "utf8");
+
 			read.then(
-				response => {
-					debugger;
-					NativeModules.Wrap_Signer.unSign(
-						path,
-						"BASE64",
-						path.substr(0, path.length - 4),
-						(err) => {
-							if (err) {
-								debugger;
-								this.props.nav("Открепленная подпись. При снятии подписи произошла ошибка.");
-							} else {
-								debugger;
-								RNFS.unlink(path);
-								this.props.readFiles();
-								this.props.nav("Подпись была успешно снята");
-							}
-						});
-				},
-				err => {
-					NativeModules.Wrap_Signer.unSign(
-						path,
-						"DER",
-						path.substr(0, path.length - 4),
-						(err) => {
-							if (err) {
-								this.props.nav("Открепленная подпись. При снятии подписи произошла ошибка.");
-							} else {
-								RNFS.unlink(path);
-								this.props.readFiles();
-								this.props.nav("Подпись была успешно снята");
-							}
-						});
-				})
-				;
+				response => encoding = "BASE64",
+				err => encoding = "DER"
+			).then(
+				() => NativeModules.Wrap_Signer.unSign(
+					path,
+					encoding,
+					path.substr(0, path.length - 4),
+					(err) => {
+						if (err) {
+							showToast("Открепленная подпись. При снятии подписи произошла ошибка.");
+						} else {
+							RNFS.unlink(path);
+							this.props.readFiles();
+							showToast("Подпись была успешно снята");
+						}
+					}
+				)
+			);
 		}
 	}
 
 	render() {
-		const { files, personalCert, verifySign, signFile, uploadFile, deleteFile, footer, nav } = this.props;
+		const { files, personalCert, verifySign, signFile, uploadFile, deleteFile, footer } = this.props;
 		let certIsNotNull, isSign, allIsSign = null;
 		if (!personalCert.title) {
 			certIsNotNull = "noCert";
@@ -125,8 +111,8 @@ export class FooterSign extends React.Component<FooterSignProps, { showToast: bo
 							"Подписать",
 							null,
 							[
-								{ text: "совмещенной подписью", onPress: () => signFile(files, personalCert, footer, false, msg => nav(msg)) },
-								{ text: "отделенной подписью", onPress: () => signFile(files, personalCert, footer, true, msg => nav(msg)) },
+								{ text: "совмещенной подписью", onPress: () => signFile(files, personalCert, footer, false) },
+								{ text: "отделенной подписью", onPress: () => signFile(files, personalCert, footer, true) },
 								{ text: "Отмена", onPress: () => null, style: "destructive" }
 							]
 						)} />

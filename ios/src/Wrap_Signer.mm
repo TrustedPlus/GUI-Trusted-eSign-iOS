@@ -107,7 +107,7 @@ RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString 
         b = [csp_Signer deCosignMessage:infile :pFormat :outfile];
       }
       else {
-        callback(@[[@("Error. The input file is a detached signature.") copy], [NSNumber numberWithInt: 0]]);
+        callback(@[[@"Error. The input file is a detached signature." copy], [NSNumber numberWithInt: 0]]); return;
       }
 #endif
     }

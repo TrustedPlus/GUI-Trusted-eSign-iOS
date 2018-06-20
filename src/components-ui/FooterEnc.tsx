@@ -36,9 +36,9 @@ interface FooterEncProps {
 	files?: IFile[];
 	otherCert?: any;
 	certificates?: any;
-	encAssymmetric?(files: IFile[], otherCert: string[], certificates: any, footer: string[]): void;
-	decAssymmetric?(files: IFile[], otherCert: string[], footer: string[]): void;
-	uploadFile?(files: IFile[], footer: string[]): void;
+	encAssymmetric?(files: IFile[], otherCert: string[], footer: string[]): void;
+	decAssymmetric?(files: IFile[], footer: string[]): void;
+	uploadFile?(files: IFile[], footer): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
 }
 
@@ -65,11 +65,11 @@ export class FooterEnc extends React.Component<FooterEncProps> {
 					<FooterButton title="Зашифровать"
 						disabled={certIsNotNull ? true : (isEnc === "enc" ? true : false)}
 						icon="md-lock"
-						nav={() => encAssymmetric(files, otherCert, certificates, footer)} />
+						nav={() => encAssymmetric(files, otherCert, footer)} />
 					<FooterButton title="Расшифровать"
 						disabled={isDec === "dec" ? false : true}
 						icon="md-unlock"
-						nav={() => decAssymmetric(files, otherCert, footer)} />
+						nav={() => decAssymmetric(files, footer)} />
 					<FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />
 					<FooterButton title="Удалить" icon="md-trash" nav={() => deleteFile(files, footer)} />
 				</FooterTab>

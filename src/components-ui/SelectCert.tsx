@@ -75,21 +75,7 @@ export class SelectCert extends React.Component<SelectCertProps, SelectCertState
 				note={cert.organizationName}
 				img={img[key]}
 				// ={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
-				nav={() => {
-					this.arrNumSelectedCertificates(cert);
-					/*
-					this.props.addCertForEnc({
-						title: cert.subjectFriendlyName,
-						img: img[key],
-						note: cert.organizationName,
-						issuerName: cert.issuerName,
-						serialNumber: cert.serialNumber,
-						provider: cert.provider,
-						category: cert.category,
-						hasPrivateKey: cert.hasPrivateKey !== 0 ? true : false
-					});
-					this.props.navigation.goBack("Encryption");*/
-				}}
+				nav={() => this.arrNumSelectedCertificates(cert)}
 				checkbox
 			// cert={cert}
 			// arrow
@@ -105,21 +91,7 @@ export class SelectCert extends React.Component<SelectCertProps, SelectCertState
 				img={img[key]}
 				// navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
 				checkbox
-				nav={() => {
-					this.arrNumSelectedCertificates(cert);
-					/*
-					this.props.addCertForEnc({
-						title: cert.subjectFriendlyName,
-						img: img[key],
-						note: cert.organizationName,
-						issuerName: cert.issuerName,
-						serialNumber: cert.serialNumber,
-						provider: cert.provider,
-						category: cert.category,
-						hasPrivateKey: cert.hasPrivateKey !== 0 ? true : false
-					});
-					this.props.navigation.goBack();*/
-				}}
+				nav={() => this.arrNumSelectedCertificates(cert)}
 			// cert={cert}
 			// arrow
 			/> : null));
@@ -134,8 +106,6 @@ export class SelectCert extends React.Component<SelectCertProps, SelectCertState
 				img[i] = require("../../imgs/general/cert2_ok_icon.png") :
 				img[i] = require("../../imgs/general/cert2_bad_icon.png");
 		}
-		let persCert = "количество сертификатов: " + this.props.certificates.filter((cert) => cert.category.toUpperCase() === "MY").length;
-		let otherCert = "количество сертификатов: " + this.props.certificates.filter((cert) => ((cert.category.toUpperCase() === "OTHERS") || (cert.category.toUpperCase() === "ADDRESSBOOK"))).length;
 		return (
 			<Container style={styles.container}>
 				<Headers title="Выберите сертификат" goBack={() => goBack()} />

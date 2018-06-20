@@ -42,17 +42,16 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
 	};
 
 	ShowList(img) {
-		const enc = this.props.navigation.state.params.enc;
 		return (
-			this.props.certificates.map((cert, key) => ((cert.category.toUpperCase() === "MY") && (enc ? 1 : cert.hasPrivateKey)) ? <ListCert
+			this.props.certificates.map((cert, key) => ((cert.category.toUpperCase() === "MY") && cert.hasPrivateKey) ? <ListCert
 				key={key}
 				title={cert.subjectFriendlyName}
 				note={cert.organizationName}
 				img={img[key]}
-				navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
+				navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1, key: key }); }}
 				goBack={() => {
-					enc ? this.props.addCertForEnc(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false) : this.props.addCertForSign(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false);
-					enc ? this.props.navigation.goBack("Encryption") : this.props.navigation.goBack();
+					this.props.addCertForSign(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false);
+					this.props.navigation.goBack();
 				}}
 				cert={cert}
 				arrow /> : null));

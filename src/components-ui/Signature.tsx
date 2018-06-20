@@ -1,11 +1,12 @@
 import * as React from "react";
-import { Container, View, List, Button, Text, Toast } from "native-base";
+import { Container, View, List, Button, Text } from "native-base";
 import { Image, RefreshControl, ScrollView } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { ListMenu } from "../components/ListMenu";
 import { FooterSign } from "./FooterSign";
 import { iconSelection } from "../utils/forListFiles";
+import { showToast } from "../utils/toast";
 import { readCertKeys } from "../actions/certKeysAction";
 import { DocumentPicker } from "react-native-document-picker";
 
@@ -90,15 +91,7 @@ export class Signature extends React.Component<SignatureProps> {
 		});
 	}
 
-	showToast(msg: string) {
-		Toast.show({
-			text: msg,
-			position: "bottom",
-			duration: 1300
-		});
-	}
-
-	private getFilesView(files, isFetching, img) {
+	private getFilesView(files, isFetching, img, readFiles) {
 		if (files.length) {
 			return (
 				<ScrollView refreshControl={
@@ -130,22 +123,22 @@ export class Signature extends React.Component<SignatureProps> {
 		let certificate;
 
 		let img = iconSelection(files, files.length); // какое расширение у файлов
-		const filesView = this.getFilesView(files, isFetching, img);
+		const filesView = this.getFilesView(files, isFetching, img, readFiles);
 
 		if (personalCert.title) { // выбран ли сертификат
 			certificate = <List>
 				<ListMenu title={personalCert.title} img={personalCert.img}
-					note={personalCert.note} nav={() => { readCertKeys(); navigate("SelectPersonalСert", { enc: false }); }} />
+					note={personalCert.note} nav={() => { readCertKeys(); navigate("SelectPersonalСert"); }} />
 			</List>;
 		} else {
 			certificate = <View style={styles.sign_enc_view}>
-				<Text onPress={() => { readCertKeys(); navigate("SelectPersonalСert", { enc: false }); }} style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
+				<Text onPress={() => { readCertKeys(); navigate("SelectPersonalСert"); }} style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
 			</View>;
 		}
 
 		let footer, selectFiles = null;
 		if (this.props.footer.arrButton.length) { // выбраны ли файлы
-			footer = <FooterSign nav={this.showToast} />;
+			footer = <FooterSign/>;
 			selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%", paddingLeft: 4 }}>
 				выбрано файлов: {this.props.footer.arrButton.length} </Text>;
 		} else {
@@ -161,7 +154,7 @@ export class Signature extends React.Component<SignatureProps> {
 				<Headers title="Подпись / Проверка" goBack={() => goBack()} />
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Сертификат подписи</Text>
-					<Button transparent onPress={() => { readCertKeys(); navigate("SelectPersonalСert", { enc: false, isCertInContainers: true }); }} style={styles.sign_enc_button}>
+					<Button transparent onPress={() => { readCertKeys(); navigate("SelectPersonalСert", { isCertInContainers: true }); }} style={styles.sign_enc_button}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>

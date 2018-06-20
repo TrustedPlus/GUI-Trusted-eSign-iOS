@@ -2,13 +2,14 @@ import * as React from "react";
 import { Container, Item, Label, Input, Footer, FooterTab, Button, Text, Content, Icon, Form } from "native-base";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
-import { ScrollView, View, Alert, AlertIOS, ListView } from "react-native";
+import { View, AlertIOS } from "react-native";
 import * as RNFS from "react-native-fs";
 import { genSelfSignedCertWithoutRequest } from "../utils/createCert";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
 import { ListWithSwitch } from "../components/ListWithSwitch";
 import { FooterButton } from "../components/FooterButton";
 import Collapsible from "react-native-collapsible";
+import { showToast } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -112,20 +113,14 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 					this.props.readCertKeys();
 					this.props.getProviders();
 					this.props.navigation.goBack();
-					AlertIOS.alert(
-						"Сертификат и ключ создан",
-						null,
-						[
-							{ text: "Ок", onPress: () => null },
-						]
-					);
+					showToast("Сертификат и ключ создан");
 				}, 500);
 			}).catch(err => {
-				Alert.alert(err + "");
+				showToast(err + "");
 			});
 		} else {
 			this.state.CN === "" ? this.setState({ errorInputCN: true }) : null;
-			Alert.alert("Заполните поле CN");
+			showToast("Заполните поле CN");
 		}
 	}
 
@@ -166,23 +161,23 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 						<Text style={{ color: "grey" }}>Параметры субъекта</Text>
 					</View>
 					<Form>
-						<Item floatingLabel error={this.state.errorInputCN ? true : false} >
+						<Item fixedLabel error={this.state.errorInputCN ? true : false} >
 							<Label>CN*</Label>
 							<Input onChangeText={(CN) => this.setState({ CN })} />
 						</Item>
-						<Item floatingLabel>
+						<Item fixedLabel>
 							<Label>email</Label>
 							<Input onChangeText={(email) => this.setState({ email })} />
 						</Item>
-						<Item floatingLabel>
+						<Item fixedLabel>
 							<Label>организация</Label>
 							<Input onChangeText={(org) => this.setState({ org })} />
 						</Item>
-						<Item floatingLabel>
+						<Item fixedLabel>
 							<Label>город</Label>
 							<Input onChangeText={(city) => this.setState({ city })} />
 						</Item>
-						<Item floatingLabel>
+						<Item fixedLabel>
 							<Label>область</Label>
 							<Input onChangeText={(obl) => this.setState({ obl })} />
 						</Item>

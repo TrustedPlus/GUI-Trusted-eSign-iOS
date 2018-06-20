@@ -6,7 +6,8 @@ import {
 	PERSONAL_CERT_CLEAR, OTHER_CERT_CLEAR, OTHER_CERT_CLEAR_CERT
 } from "../constants";
 import * as RNFS from "react-native-fs";
-import { NativeModules, Alert } from "react-native";
+import { showToast } from "../utils/toast";
+import { NativeModules } from "react-native";
 import { readCertKeys } from "./certKeysAction";
 import { getProviders } from "./getContainersAction";
 
@@ -145,7 +146,7 @@ export function addFiles(uri, fileName) {
 			},
 			err => {
 				dispatch({ type: ADD_FILES_ERROR, payload: name });
-				Alert.alert("Ошибка при добавлении файла");
+				showToast("Ошибка при добавлении файла");
 			}
 		);
 	};
@@ -172,7 +173,7 @@ export function addCert(uri, fileName?, password?, fn?) {
 						} else {
 							dispatch({ type: ADD_CERT_SUCCESS, payload: name });
 							setTimeout(() => {
-								Alert.alert("Сертификат успешно добавлен");
+								showToast("Сертификат успешно добавлен");
 								dispatch(getProviders());
 								dispatch(readCertKeys());
 							}, 400);
@@ -183,44 +184,28 @@ export function addCert(uri, fileName?, password?, fn?) {
 			case "cer":
 			case "crt": {
 				let certPath = decodeURIComponent(uri.replace("file:///", "/"));
-				return RNFS.read(certPath, 2, 0).then(
-					response => {
-						NativeModules.Wrap_Cert.saveCertToStore(
-							certPath,
-							response === "--" ? "BASE64" : "DER",
-							"OTHERS",
-							(err, saveCert) => {
-								if (err) {
-									dispatch({ type: ADD_CERT_ERROR, payload: err });
-									Alert.alert("Ошибка при добавлении сертификата");
-								} else {
-									dispatch({ type: ADD_CERT_SUCCESS, payload: name });
-									Alert.alert("Сертификат успешно добавлен");
-									dispatch(readCertKeys());
-								}
-							});
-					},
-					err => {
-						return RNFS.read(certPath, 2, 0, "base64").then(
-							response => {
-								NativeModules.Wrap_Cert.saveCertToStore(
-									certPath,
-									response === "--" ? "BASE64" : "DER",
-									"OTHERS",
-									(err, saveCert) => {
-										if (err) {
-											dispatch({ type: ADD_CERT_ERROR, payload: err });
-											Alert.alert("Ошибка при добавлении сертификата");
-										} else {
-											dispatch({ type: ADD_CERT_SUCCESS, payload: name });
-											Alert.alert("Сертификат успешно добавлен");
-											dispatch(readCertKeys());
-										}
-									});
-							},
-							err => { dispatch({ type: ADD_CERT_ERROR, payload: name }); Alert.alert(err + ""); }
-						);
-					}
+				let encoding;
+				const read = RNFS.read(certPath, 2, 0);
+
+				return read.then(
+					response => encoding = "BASE64",
+					err => encoding = "DER"
+				).then(
+					() => NativeModules.Wrap_Cert.saveCertToStore(
+						certPath,
+						encoding,
+						"OTHERS",
+						(err, saveCert) => {
+							if (err) {
+								dispatch({ type: ADD_CERT_ERROR, payload: err });
+								showToast("Ошибка при добавлении сертификата");
+							} else {
+								dispatch({ type: ADD_CERT_SUCCESS, payload: name });
+								showToast("Сертификат успешно добавлен");
+								dispatch(readCertKeys());
+							}
+						}
+					)
 				);
 			}
 			case "key": {
@@ -232,7 +217,7 @@ export function addCert(uri, fileName?, password?, fn?) {
 					(err, saveKey) => {
 						if (err) {
 							dispatch({ type: ADD_KEY_ERROR, payload: err });
-							Alert.alert("Ошибка при добавлении ключа");
+							showToast("Ошибка при добавлении ключа");
 						} else {
 							dispatch({ type: ADD_KEY_SUCCESS, payload: name });
 							dispatch(readCertKeys());
@@ -241,7 +226,7 @@ export function addCert(uri, fileName?, password?, fn?) {
 				break;
 			}
 			default: {
-				Alert.alert("Неподдерживаемое расширение сертификата");
+				showToast("Неподдерживаемое расширение сертификата");
 				break;
 			}
 		}

@@ -3,6 +3,7 @@ import { NativeModules, Alert, AlertIOS } from "react-native";
 import { readCertKeys } from "./certKeysAction";
 import { getProviders } from "./getContainersAction";
 import { deleteCertInArrEncCertificates } from "./index";
+import { showToast } from "../utils/toast";
 
 export function deleteCertAction(cert, withContainers, key, goBack) {
 	return function action(dispatch) {
@@ -14,20 +15,14 @@ export function deleteCertAction(cert, withContainers, key, goBack) {
 			(err, deleteCert) => {
 				if (err) {
 					dispatch({ type: DELETE_CERTIFICATE_ERROR, payload: cert.subjectFriendlyName });
-					Alert.alert("err: " + err);
+					showToast(err);
 				} else {
 					dispatch({ type: DELETE_CERTIFICATE_SUCCESS, payload: cert.subjectFriendlyName });
 					dispatch(readCertKeys());
 					dispatch(getProviders());
 					dispatch(deleteCertInArrEncCertificates(cert));
 					() => goBack();
-					AlertIOS.alert(
-						"Сертификат был успешно удален",
-						null,
-						[
-							{ text: "Ок", onPress: () => null },
-						]
-					);
+					showToast("Сертификат был успешно удален");
 				}
 			});
 	};

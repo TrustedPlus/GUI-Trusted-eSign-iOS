@@ -8,7 +8,6 @@ import { Headers } from "../components/Headers";
 import { ListCertCategory } from "./ListCertCategory";
 import { PropertiesCert } from "./PropertiesCert";
 import { SelectPersonalСert } from "./SelectPersonalСert";
-import { SelectOtherСert } from "./SelectOtherСert";
 import { ExportCert } from "./ExportCert";
 import { CreateCertificate } from "./CreateCertificate";
 import { Signature } from "./Signature";
@@ -106,7 +105,6 @@ export const App = StackNavigator({
 	ListCertCategory: { screen: ListCertCategory },
 	PropertiesCert: { screen: PropertiesCert },
 	SelectPersonalСert: { screen: SelectPersonalСert },
-	SelectOtherСert: { screen: SelectOtherСert },
 	CreateCertificate: { screen: CreateCertificate },
 	ExportCert: { screen: ExportCert },
 	SelectCert: { screen: SelectCert },

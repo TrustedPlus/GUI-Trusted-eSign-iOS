@@ -20,6 +20,7 @@ function verySignSuccess(oldFiles, action) {
 			return oldFiles;
 		}
 	}
+	return oldFiles;
 }
 
 function verySignError(oldFiles, action) {
@@ -30,6 +31,7 @@ function verySignError(oldFiles, action) {
 			return oldFiles;
 		}
 	}
+	return oldFiles;
 }
 
 export function Files(state = initialState, action) {

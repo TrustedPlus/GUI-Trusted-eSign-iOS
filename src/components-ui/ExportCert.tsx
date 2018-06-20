@@ -2,6 +2,7 @@ import * as React from "react";
 import { Container, Content, Text, Footer, FooterTab, Button, View, Form, Item, Label, Input } from "native-base";
 import { NativeModules, Alert, Share } from "react-native";
 import { styles } from "../styles";
+import { showToast } from "../utils/toast";
 import * as RNFS from "react-native-fs";
 import { Headers } from "../components/Headers";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
@@ -38,7 +39,7 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 
 	ExportCert() {
 		if (!this.state.fileName) {
-			Alert.alert("Имя файла не может быть пустым");
+			showToast("Имя файла не может быть пустым");
 		} else {
 			let path = RNFS.DocumentDirectoryPath + "/" + this.state.fileName;
 			if (this.state.format) {
@@ -52,19 +53,19 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 							this.state.code ? "DER" : "BASE64",
 							(err, load) => {
 								if (err) {
-									Alert.alert(err + "");
+									showToast(err);
 								} else {
 									Share.share({
 										url: path
 									}).then((action : {action}) => {
 										() => RNFS.unlink(path);
 										if (action.action === Share.dismissedAction) {
-											Alert.alert("Отправка файла была отклонена");
+											showToast("Отправка файла была отклонена");
 										} else {
-											Alert.alert("Файл успешно отправлен");
+											showToast("Файл успешно отправлен");
 										}
 									}).catch(
-										errorMsg => Alert.alert("Ошибка при экспорте сертификата")
+										errorMsg => showToast("Ошибка при экспорте сертификата")
 									);
 								}
 							});
@@ -72,7 +73,7 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 			} else {
 				path = path + ".pfx";
 				if (this.state.password !== this.state.passConfirm) {
-					Alert.alert("Пароли не совпадают");
+					showToast("Пароли не совпадают");
 				} else {
 					NativeModules.Wrap_Pkcs12.exportPFX(
 						this.props.navigation.state.params.cert.serialNumber,
@@ -83,19 +84,19 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 						path,
 						(err, exp) => {
 							if (err) {
-								Alert.alert(err);
+								showToast(err);
 							} else {
 								Share.share({
 									url: path
 								}).then((action : {action}) => {
 									() => RNFS.unlink(path);
 									if (action.action === Share.dismissedAction) {
-										Alert.alert("Отправка файла была отклонена");
+										showToast("Отправка файла была отклонена");
 									} else {
-										Alert.alert("Файл успешно отправлен");
+										showToast("Файл успешно отправлен");
 									}
 								}).catch(
-									errorMsg => Alert.alert("Ошибка при экспорте сертификата")
+									errorMsg => showToast("Ошибка при экспорте сертификата")
 								);
 							}
 						});

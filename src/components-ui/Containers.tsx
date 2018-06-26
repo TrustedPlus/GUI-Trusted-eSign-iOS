@@ -65,7 +65,6 @@ export class Containers extends React.Component<ContainersProps> {
 
 	render() {
 		const { goBack } = this.props.navigation;
-		console.log(this.state);
 		return (
 			<Container style={styles.container}>
 				<Headers title="Контейнеры" goBack={() => goBack()} />

@@ -7,7 +7,7 @@ import { showToast } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { signFile, verifySign } from "../actions/signVerifyAction";
+import { signFile, verifySign, UnSignFile } from "../actions/signVerifyAction";
 import { uploadFile, deleteFile } from "../actions/uploadFileAction";
 import { readFiles } from "../actions/index";
 
@@ -23,6 +23,7 @@ function mapDispatchToProps(dispatch) {
 	return {
 		signFile: bindActionCreators(signFile, dispatch),
 		verifySign: bindActionCreators(verifySign, dispatch),
+		UnSignFile: bindActionCreators(UnSignFile, dispatch),
 		uploadFile: bindActionCreators(uploadFile, dispatch),
 		deleteFile: bindActionCreators(deleteFile, dispatch),
 		readFiles: bindActionCreators(readFiles, dispatch)
@@ -41,7 +42,8 @@ interface FooterSignProps {
 	files?: IFile[];
 	personalCert?: any;
 	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean): void;
-	verifySign?(files: IFile[], personalCert: string[], footer: string[]): void;
+	verifySign?(files: IFile[], footer: string[]): void;
+	UnSignFile?(files: IFile[], footer: string[]): void;
 	uploadFile?(files: IFile[], footer: string[]): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
 	readFiles?(): any;
@@ -57,36 +59,8 @@ export class FooterSign extends React.Component<FooterSignProps, { showToast: bo
 		};
 	}
 
-	onPressUnSignFile() {
-		for (let i = 0; i < this.props.footer.arrButton.length; i++) {
-			let path = RNFS.DocumentDirectoryPath + "/Files/" + this.props.files[this.props.footer.arrButton[i]].name + "." + this.props.files[this.props.footer.arrButton[i]].extensionAll;
-			let encoding;
-			const read = RNFS.read(path, 2, 0, "utf8");
-
-			read.then(
-				response => encoding = "BASE64",
-				err => encoding = "DER"
-			).then(
-				() => NativeModules.Wrap_Signer.unSign(
-					path,
-					encoding,
-					path.substr(0, path.length - 4),
-					(err) => {
-						if (err) {
-							showToast("Открепленная подпись. При снятии подписи произошла ошибка.");
-						} else {
-							RNFS.unlink(path);
-							this.props.readFiles();
-							showToast("Подпись была успешно снята");
-						}
-					}
-				)
-			);
-		}
-	}
-
 	render() {
-		const { files, personalCert, verifySign, signFile, uploadFile, deleteFile, footer } = this.props;
+		const { files, personalCert, verifySign, signFile, UnSignFile, uploadFile, deleteFile, footer } = this.props;
 		let certIsNotNull, isSign, allIsSign = null;
 		if (!personalCert.title) {
 			certIsNotNull = "noCert";
@@ -97,26 +71,43 @@ export class FooterSign extends React.Component<FooterSignProps, { showToast: bo
 		if (footer.arrExtension.filter(extension => extension === "sig").length !== 0) {
 			isSign = "sig";
 		}
+		let sig = false;
 		return (
 			<Footer>
 				<FooterTab>
 					<FooterButton title="Проверить"
 						disabled={allIsSign === "sig" ? false : true}
 						icon="md-done-all"
-						nav={() => verifySign(files, personalCert, footer, )} />
+						nav={() => verifySign(files, footer)} />
 					<FooterButton title="Подписать"
-						disabled={certIsNotNull === "noCert" ? true : (isSign === "sig" ? true : false)}
+						disabled={certIsNotNull === "noCert" ? true : false}
 						icon="md-create"
-						nav={() => AlertIOS.alert(
-							"Подписать",
-							null,
-							[
-								{ text: "совмещенной подписью", onPress: () => signFile(files, personalCert, footer, false) },
-								{ text: "отделенной подписью", onPress: () => signFile(files, personalCert, footer, true) },
-								{ text: "Отмена", onPress: () => null, style: "destructive" }
-							]
-						)} />
-					<FooterButton title="Снять" disabled={allIsSign === "sig" ? false : true} icon="md-crop" nav={() => this.onPressUnSignFile()} />
+						nav={() => {
+							footer.arrButton.forEach(function (i, num) {
+							if (files[i].extension === "sig") { sig = true; }
+						}); sig ?
+							AlertIOS.alert(
+								null,
+								null,
+								[
+									{ text: "совмещенной подписью", onPress: () => signFile(files, personalCert, footer, false) },
+									{
+										text: "отделенной подписью", onPress: () => signFile(files, personalCert, footer, true), style: "destructive"
+									},
+									{ text: "Отмена", onPress: () => null, style: "destructive" }
+								]
+							) : AlertIOS.alert(
+								null,
+								null,
+								[
+									{ text: "совмещенной подписью", onPress: () => signFile(files, personalCert, footer, false) },
+									{
+										text: "отделенной подписью", onPress: () => signFile(files, personalCert, footer, true)
+									},
+									{ text: "Отмена", onPress: () => null, style: "destructive" }
+								]
+							); }} />
+					<FooterButton title="Снять" disabled={allIsSign === "sig" ? false : true} icon="md-crop" nav={() => UnSignFile(files, footer)} />
 					<FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />
 					<FooterButton title="Удалить" icon="md-trash" nav={() => deleteFile(files, footer)} />
 				</FooterTab>

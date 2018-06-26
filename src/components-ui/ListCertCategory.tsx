@@ -34,8 +34,8 @@ export class ListCertCategory extends React.Component<ListCertCategoryProps> {
 					title={cert.subjectFriendlyName}
 					note={cert.organizationName}
 					img={img[key]}
-					navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1, key: key }); }}
-					goBack={() => { this.props.navigation.navigate("PropertiesCert", { cert: cert, key: key }); }}
+					navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
+					goBack={() => { this.props.navigation.navigate("PropertiesCert", { cert: cert }); }}
 					cert={cert}
 					arrow /> : null));
 	}

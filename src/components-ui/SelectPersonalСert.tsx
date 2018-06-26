@@ -48,7 +48,7 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
 				title={cert.subjectFriendlyName}
 				note={cert.organizationName}
 				img={img[key]}
-				navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1, key: key }); }}
+				navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
 				goBack={() => {
 					this.props.addCertForSign(cert.subjectFriendlyName, img[key], cert.organizationName, cert.issuerName, cert.serialNumber, cert.provider, cert.category, cert.hasPrivateKey !== 0 ? true : false);
 					this.props.navigation.goBack();

@@ -46,8 +46,7 @@ interface FooterEncProps {
 export class FooterEnc extends React.Component<FooterEncProps> {
 
 	render() {
-		const { files, otherCert, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer, certificates } = this.props;
-		let footerleft = null;
+		const { files, otherCert, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer } = this.props;
 		let certIsNotNull, isDec, isEnc = null;
 
 		if (footer.arrExtension.filter(extension => extension === "enc").length !== 0) {

@@ -28,9 +28,7 @@ export class MainApp extends React.Component {
 		console.disableYellowBox = true;
 		NativeModules.Wrap_Main.init(
 			RNFS.DocumentDirectoryPath + "/store",
-			(err, label) => {
-				console.log(err);
-			});
+			(err) => console.log(err));
 	}
 	render() {
 		return (

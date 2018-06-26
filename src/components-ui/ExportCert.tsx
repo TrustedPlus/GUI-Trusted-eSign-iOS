@@ -108,7 +108,6 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 	render() {
 		const { navigate, goBack } = this.props.navigation;
 		const { cert } = this.props.navigation.state.params;
-		console.log(this.state);
 		return (
 			<Container style={styles.container}>
 				<Headers title="Экспорт сертификата" goBack={() => goBack()} />

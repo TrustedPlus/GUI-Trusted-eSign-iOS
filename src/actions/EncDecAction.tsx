@@ -54,6 +54,7 @@ export function decAssymmetric(files: IFile[], footer) {
 	return function action(dispatch) {
 		dispatch({ type: DECODE_FILES });
 		for (let i = 0; i < footer.arrButton.length; i++) {
+			debugger;
 			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
 			let point = files[footer.arrButton[i]].extensionAll.lastIndexOf(".");
 			let extension = files[footer.arrButton[i]].extensionAll.substring(0, point);
@@ -61,7 +62,7 @@ export function decAssymmetric(files: IFile[], footer) {
 			const read = RNFS.read(path + "." + files[footer.arrButton[i]].extensionAll, 2, 0, "utf8");
 
 			read.then(
-				response => encoding = "BASE64",
+				success => encoding = "BASE64",
 				err => encoding = "DER"
 			).then(
 				() => NativeModules.Wrap_Cipher.decrypt(

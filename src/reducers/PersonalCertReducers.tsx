@@ -1,4 +1,4 @@
-import { PERSONAL_CERT_ACTION, PERSONAL_CERT_CLEAR } from "../constants";
+import { PERSONAL_CERT_ACTION, PERSONAL_CERT_CLEAR, SIGN_CERT_CLEAR_CERT } from "../constants";
 
 const initialState = {
 	title: null,
@@ -25,6 +25,24 @@ export function personalCert(state = initialState, action) {
 				category: action.payload[6],
 				hasPrivateKey: action.payload[7]
 			};
+		case SIGN_CERT_CLEAR_CERT: {
+			if ((state.issuerName === action.payload.issuerName) && (state.category === action.payload.category)) {
+				return {
+					...state,
+					title: null,
+					img: null,
+					note: null,
+					issuerName: null,
+					serialNumber: null,
+					provider: null,
+					category: null,
+					hasPrivateKey: null
+				};
+			}
+			return {
+				...state
+			};
+		}
 		case PERSONAL_CERT_CLEAR:
 			return {
 				...state,
@@ -34,7 +52,8 @@ export function personalCert(state = initialState, action) {
 				issuerName: null,
 				serialNumber: null,
 				provider: null,
-				category: null
+				category: null,
+				hasPrivateKey: null
 			};
 		default:
 			return state;

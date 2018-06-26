@@ -18,11 +18,39 @@ export function signFile(files: IFile[], personalCert, footer, detached) {
 	return function action(dispatch) {
 		let lengthError = 0;
 		dispatch({ type: SIGN_FILE });
-		if (personalCert.title === "") {
-			dispatch({ type: SIGN_FILE_END });
-		} else {
-			for (let i = 0; i < footer.arrButton.length; i++) {
-				let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+		for (let i = 0; i < footer.arrButton.length; i++) {
+			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+			if (files[footer.arrButton[i]].extension === "sig") {
+				NativeModules.Wrap_Signer.coSign(
+					personalCert.serialNumber,
+					personalCert.category,
+					personalCert.provider,
+					path,
+					path,
+					"BASE64",
+					false,
+					(err) => {
+						if (err) {
+							lengthError++;
+							dispatch({ type: SIGN_FILE_ERROR, payload: err });
+						} else {
+							setTimeout(() => {
+								dispatch(readFiles());
+								if ((footer.arrButton.length === 1) && (lengthError === 0)) {
+									showToast("Подпись была добавлена");
+								}
+								if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
+									showToast("Ошибка при добавлении подписи");
+								}
+								if ((footer.arrButton.length > 1) && (lengthError > 0)) {
+									showToast("Для некоторых файлов подпись не смогла быть добавлена");
+								}
+							}, 300);
+							dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
+						}
+					}
+				);
+			} else {
 				NativeModules.Wrap_Signer.sign(
 					personalCert.serialNumber,
 					personalCert.category,
@@ -71,56 +99,90 @@ export function signFile(files: IFile[], personalCert, footer, detached) {
 							}, 300);
 							dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
 						}
-					});
+					}
+				);
 			}
 		}
 	};
 }
 
-export function verifySign(files: IFile[], personalCert, footer) {
+export function verifySign(files: IFile[], footer) {
 	return function action(dispatch) {
 		dispatch({ type: VERIFY_SIGN });
-		if (personalCert.title === "") {
-			dispatch({ type: VERIFY_SIGN_END });
-		} else {
-			for (let i = 0; i < footer.arrButton.length; i++) {
-				let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
-				let encoding;
-				const read = RNFS.read(path, 2, 0, "utf8");
+		for (let i = 0; i < footer.arrButton.length; i++) {
+			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+			let encoding;
+			const read = RNFS.read(path, 2, 0, "utf8");
 
-				read.then(
-					response => encoding = "BASE64",
-					err => encoding = "DER"
-				).then(
-					() => NativeModules.Wrap_Signer.isDetachedSignMessage(
-						path,
-						encoding,
-						(err, verify) => {
-							if (err) {
-								showToastDanger(err);
-							} else {
-								NativeModules.Wrap_Signer.verify(
-									verify ? path.substring(0, path.length - 4) : "",
-									path,
-									encoding,
-									verify ? true : false,
-									(err) => {
-										if (err) {
-											showToastDanger(err);
-											dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+			read.then(
+				success => encoding = "BASE64",
+				err => encoding = "DER"
+			).then(
+				() => NativeModules.Wrap_Signer.isDetachedSignMessage(
+					path,
+					encoding,
+					(err, verify) => {
+						if (err) {
+							showToastDanger(err);
+						} else {
+							NativeModules.Wrap_Signer.verify(
+								verify ? path.substring(0, path.length - 4) : "",
+								path,
+								encoding,
+								verify ? true : false,
+								(err) => {
+									if (err) {
+										if (err.indexOf("readFile Cannot open input file.") !== -1) {
+											showToastDanger("Отделенная подпись. Для проверки необходимо переместить исходный файл в Документы");
+										} else if (err.indexOf("For one of the signed certificates, the chain could not be established.") !== -1) {
+											showToastDanger("Для одного из сертификатов, подписавших файл, цепочка не может быть построена");
 										} else {
-											dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
+											showToastDanger(err);
 										}
+										dispatch({ type: VERIFY_SIGN_ERROR, payload: files[footer.arrButton[i]].name });
+									} else {
+										showToast("Подпись достоверна");
+										dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name });
 									}
-								);
-							}
+								}
+							);
 						}
-					)
-				);
-			}
+					}
+				)
+			);
 			setTimeout(() => {
 				dispatch({ type: VERIFY_SIGN_END });
 			}, 400);
+		}
+	};
+}
+
+export function UnSignFile(files: IFile[], footer) {
+	return function action(dispatch) {
+		for (let i = 0; i < footer.arrButton.length; i++) {
+			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+			let encoding;
+			const read = RNFS.read(path, 2, 0, "utf8");
+
+			read.then(
+				success => encoding = "BASE64",
+				err => encoding = "DER"
+			).then(
+				() => NativeModules.Wrap_Signer.unSign(
+					path,
+					encoding,
+					path.substr(0, path.length - 4),
+					(err) => {
+						if (err) {
+							showToast("Открепленная подпись. При снятии подписи произошла ошибка.");
+						} else {
+							RNFS.unlink(path);
+							dispatch(readFiles());
+							showToast("Подпись была успешно снята");
+						}
+					}
+				)
+			);
 		}
 	};
 }

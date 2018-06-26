@@ -16,48 +16,39 @@ interface IFile {
 export function uploadFile(files: IFile[], footer) {
 	return function action(dispatch) {
 		dispatch({ type: UPLOAD_FILES });
-		if (files.length === 0) {
-			return dispatch({ type: UPLOAD_FILES_END });
-		} else {
-			for (let i = 0; i < footer.arrButton.length; i++) {
-				let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
-				Share.share({
-					url: RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll
-				}).then(
-					result => dispatch({ type: UPLOAD_FILES_SUCCESS, payload: files[footer.arrButton[i]].name })
-				).catch(
-					errorMsg => dispatch({ type: UPLOAD_FILES_ERROR, payload: errorMsg })
-				);
-			}
-			dispatch({ type: UPLOAD_FILES_END });
+		for (let i = 0; i < footer.arrButton.length; i++) {
+			Share.share({
+				url: RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll
+			}).then(
+				result => dispatch({ type: UPLOAD_FILES_SUCCESS, payload: files[footer.arrButton[i]].name })
+			).catch(
+				errorMsg => dispatch({ type: UPLOAD_FILES_ERROR, payload: errorMsg })
+			);
 		}
+		dispatch({ type: UPLOAD_FILES_END });
 	};
 }
 
 export function deleteFile(files: IFile[], footer) {
 	return function action(dispatch) {
 		dispatch({ type: DELETE_FILES });
-		if (files.length === 0) {
-			return dispatch({ type: DELETE_FILES_END });
-		} else {
-			for (let i = 0; i < footer.arrButton.length; i++) {
-				let path;
-				if (files[footer.arrButton[i]].extension) {
-					path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
-				} else {
-					path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
-				}
-				RNFS.unlink(path)
-					.then(() => {
-						dispatch({ type: DELETE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
-					})
-					.catch((err) => {
-						dispatch({ type: DELETE_FILES_ERROR, payload: err });
-					});
+		for (let i = 0; i < footer.arrButton.length; i++) {
+			let path;
+			if (files[footer.arrButton[i]].extension) {
+				path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+			} else {
+				path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
 			}
-			setTimeout(() => {
-				dispatch(readFiles());
-			}, 300);
+			RNFS.unlink(path)
+				.then(() => {
+					dispatch({ type: DELETE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
+				})
+				.catch((err) => {
+					dispatch({ type: DELETE_FILES_ERROR, payload: err });
+				});
 		}
+		setTimeout(() => {
+			dispatch(readFiles());
+		}, 300);
 	};
 }

@@ -77,11 +77,11 @@ export class Encryption extends React.Component<EncryptionProps> {
 		return (
 			this.props.otherCert.arrEncCertificates.map((cert, key) => <ListMenu
 				key={key}
-				title= {cert.subjectFriendlyName}
+				title={cert.subjectFriendlyName}
 				img={cert.chainBuilding ? require("../../imgs/general/cert2_ok_icon.png") : require("../../imgs/general/cert2_bad_icon.png")}
 				note={cert.organizationName}
 				nav={() => null}
-				/>));
+			/>));
 	}
 
 	showListFiles(img) {
@@ -108,14 +108,15 @@ export class Encryption extends React.Component<EncryptionProps> {
 	}
 
 	render() {
-		const { footerAction, footerClose, files, readFiles, readCertKeys, otherCert, isFetching } = this.props;
+		const { files, readFiles, readCertKeys, otherCert, isFetching } = this.props;
 		const { navigate, goBack } = this.props.navigation;
 
 		let certificate, filesView;
 		if (otherCert.arrEncCertificates.length) { // выбран ли сертификат
-			certificate = <List>
+			certificate = <ScrollView alwaysBounceVertical={true} style={{ maxHeight: 150 }}><List>
 				{this.showListEncCertificates()}
-			</List>;
+			</List>
+			</ScrollView>;
 		} else {
 			certificate = <View style={styles.sign_enc_view}>
 				<Text onPress={() => { readCertKeys(); navigate("SelectCert"); }} style={styles.sign_enc_prompt}>[Добавьте сертификаты получателей]</Text>
@@ -158,7 +159,9 @@ export class Encryption extends React.Component<EncryptionProps> {
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
-				{certificate}
+				<View>
+					{certificate}
+				</View>
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{selectFiles}

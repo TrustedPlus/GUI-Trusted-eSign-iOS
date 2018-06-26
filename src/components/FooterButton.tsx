@@ -9,13 +9,24 @@ interface FooterButtonProps {
 	nav(): void;
 }
 
-export class FooterButton extends React.Component<FooterButtonProps> {
+export class FooterButton extends React.PureComponent<FooterButtonProps> {
 
 	render() {
+		const { disabled, style, icon, title, nav } = this.props;
 		return (
-			<Button disabled={this.props.disabled} style={[this.props.disabled ? { backgroundColor: "#F8F8F8", borderRadius: 0, borderColor: "#cbcbcb", borderTopWidth: 0.25 } : { borderRadius: 0 }, this.props.style]} vertical onPress={() => this.props.nav()}>
-				<Icon style={this.props.disabled ? { color: "lightgrey", width: 150, textAlign: "center" } : { color: "black", width: 150, textAlign: "center" }} name={this.props.icon} />
-				<Text style={this.props.disabled ? { color: "lightgrey", width: 150, textAlign: "center", fontSize: 13 } : { color: "black", width: 150, textAlign: "center", fontSize: 13 }}>{this.props.title}</Text>
+			<Button disabled={disabled} style={[disabled ? { backgroundColor: "#F8F8F8", borderRadius: 0, borderColor: "#cbcbcb", borderTopWidth: 0.25 } : { borderRadius: 0 }, style]} vertical onPress={() => nav()}>
+				<Icon style={disabled ? {
+					color: "lightgrey",
+					width: 150,
+					textAlign: "center" }
+					: { color: "black",
+					width: 150,
+					textAlign: "center" }} name={icon} />
+				<Text style={disabled ? {
+					color: "lightgrey",
+					width: 150,
+					textAlign: "center",
+					fontSize: 13 } : { color: "black", width: 150, textAlign: "center", fontSize: 13 }}>{title}</Text>
 			</Button>
 		);
 	}

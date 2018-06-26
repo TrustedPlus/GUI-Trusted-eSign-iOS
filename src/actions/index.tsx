@@ -3,7 +3,7 @@ import {
 	READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR,
 	ADD_FILES, ADD_FILES_SUCCESS, ADD_FILES_ERROR, CLEAR_FILES,
 	ADD_CERT_OR_KEY, ADD_CERT_SUCCESS, ADD_CERT_ERROR, ADD_KEY_SUCCESS, ADD_KEY_ERROR,
-	PERSONAL_CERT_CLEAR, OTHER_CERT_CLEAR, OTHER_CERT_CLEAR_CERT
+	PERSONAL_CERT_CLEAR, OTHER_CERT_CLEAR, ENC_CERT_CLEAR_CERT, SIGN_CERT_CLEAR_CERT
 } from "../constants";
 import * as RNFS from "react-native-fs";
 import { showToast } from "../utils/toast";
@@ -40,7 +40,14 @@ export function addCertForEnc(certForEnc) {
 
 export function deleteCertInArrEncCertificates(cert) {
 	return {
-		type: OTHER_CERT_CLEAR_CERT,
+		type: ENC_CERT_CLEAR_CERT,
+		payload: cert
+	};
+}
+
+export function deleteCertInSignCertificates(cert) {
+	return {
+		type: SIGN_CERT_CLEAR_CERT,
 		payload: cert
 	};
 }

@@ -68,7 +68,7 @@ class Main extends React.Component<MainProps> {
 		let lastlognote = lastlog ? "последняя запись: " + lastlog : "действий не совершалось";
 		return (
 			<Container style={styles.container}>
-				<Headers title="КриптоАРМ" />
+				<Headers title="КриптоАРМ ГОСТ" />
 				<Content>
 					<List>
 						<ListMenu title="Подпись / Проверка подписи" img={require("../../imgs/general/sign_main_icon.png")}

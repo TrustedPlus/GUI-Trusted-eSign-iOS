@@ -41,7 +41,7 @@ interface PropertiesCertProps {
 	navigation: any;
 	cert: string;
 	readCertKeys(): void;
-	deleteCertAction(cert, withContainers, key, goBack): void;
+	deleteCertAction(cert, withContainers, goBack): void;
 }
 
 @(connect(null, mapDispatchToProps) as any)
@@ -52,36 +52,33 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 	};
 
 	deleteCert() {
-		if (this.props.navigation.state.params.cert.hasPrivateKey) {
+		const { cert } = this.props.navigation.state.params;
+		const { goBack } = this.props.navigation;
+		const { deleteCertAction } = this.props;
+		if (cert.hasPrivateKey) {
 			AlertIOS.alert(
-				"Удалить сертификат '" + this.props.navigation.state.params.cert.subjectFriendlyName + "' с контейнером?",
+				"Удалить сертификат '" + cert.subjectFriendlyName + "' с контейнером?",
 				null,
-				[
-					{
-						text: "Да", onPress: () => {
-							this.props.deleteCertAction(this.props.navigation.state.params.cert, true, this.props.navigation.state.params.key, this.props.navigation.goBack());
-						}
-					},
-					{
-						text: "Нет", onPress: () => {
-							this.props.deleteCertAction(this.props.navigation.state.params.cert, false, this.props.navigation.state.params.key, this.props.navigation.goBack());
-						}
-					},
-					{ text: "Отмена", onPress: () => null, style: "cancel" }
-				]
+				[{
+					text: "Да", onPress: () => deleteCertAction(cert, true, goBack())
+				},
+				{
+					text: "Нет", onPress: () => deleteCertAction(cert, false, goBack())
+				},
+				{
+					text: "Отмена", onPress: () => null, style: "cancel"
+				}]
 			);
 		} else {
 			AlertIOS.alert(
 				"Удалить сертификат?",
 				null,
-				[
-					{
-						text: "Да", onPress: () => {
-							this.props.deleteCertAction(this.props.navigation.state.params.cert, false, this.props.navigation.state.params.key, this.props.navigation.goBack());
-						}
-					},
-					{ text: "Отмена", onPress: () => null, style: "cancel" }
-				]
+				[{
+					text: "Да", onPress: () => deleteCertAction(cert, false, goBack())
+				},
+				{
+					text: "Отмена", onPress: () => null, style: "cancel"
+				}]
 			);
 		}
 	}

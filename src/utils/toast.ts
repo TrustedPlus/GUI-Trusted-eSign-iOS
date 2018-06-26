@@ -13,8 +13,7 @@ export function showToastDanger(msg: string) {
 		text: msg,
 		position: "bottom",
 		buttonText: "Закрыть",
-		buttonTextStyle: { color: "black" },
-		type: "danger",
+		buttonTextStyle: { color: "white" },
 		duration: 150000
 	});
 }

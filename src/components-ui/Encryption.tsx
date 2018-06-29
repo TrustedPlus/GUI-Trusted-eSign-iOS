@@ -108,7 +108,7 @@ export class Encryption extends React.Component<EncryptionProps> {
 	}
 
 	render() {
-		const { files, readFiles, readCertKeys, otherCert, isFetching } = this.props;
+		const { files, footer, readFiles, readCertKeys, otherCert, isFetching } = this.props;
 		const { navigate, goBack } = this.props.navigation;
 
 		let certificate, filesView;
@@ -137,14 +137,13 @@ export class Encryption extends React.Component<EncryptionProps> {
 			</View>;
 		}
 
-		let footer, selectFiles = null;
-		if (this.props.footer.arrButton.length) { // выбраны ли файлы
-			footer = <FooterEnc />;
-			selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", paddingLeft: 4 }}>
-				выбрано файлов: {this.props.footer.arrButton.length}</Text>;
+		let selectFiles = null;
+		if (footer.arrButton.length) { // выбраны ли файлы
+			selectFiles = <Text style={styles.selectFiles}>
+				выбрано файлов: {footer.arrButton.length}</Text>;
 		} else {
 			if (files.length) {
-				selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%", paddingLeft: 4 }}>
+				selectFiles = <Text style={styles.selectFiles}>
 					всего файлов: {files.length}</Text>;
 			} else {
 				selectFiles = null;
@@ -170,7 +169,7 @@ export class Encryption extends React.Component<EncryptionProps> {
 					</Button>
 				</View>
 				{filesView}
-				{footer}
+				{footer.arrButton.length ? <FooterEnc /> : null}
 			</Container>
 		);
 	}

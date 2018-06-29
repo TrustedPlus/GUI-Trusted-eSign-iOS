@@ -94,7 +94,7 @@ export function signFile(files: IFile[], personalCert, footer, detached) {
 									showToast("Ошибка при подписи файлов");
 								}
 								if ((footer.arrButton.length > 1) && (lengthError > 0)) {
-									showToast("При подписи файлов некоторые файлы не были подписаны");
+									showToast("При подписи некоторые файлы не были подписаны");
 								}
 							}, 300);
 							dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
@@ -150,9 +150,7 @@ export function verifySign(files: IFile[], footer) {
 					}
 				)
 			);
-			setTimeout(() => {
-				dispatch({ type: VERIFY_SIGN_END });
-			}, 400);
+			setTimeout(() => dispatch({ type: VERIFY_SIGN_END }), 400);
 		}
 	};
 }

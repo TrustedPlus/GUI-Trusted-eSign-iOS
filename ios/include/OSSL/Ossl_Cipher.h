@@ -17,9 +17,16 @@
     };
 }
 
--(BOOL) encryptSymmetric :(char *)infilename :(char *)encfilename :(char *)format;
+//симметричное шифрование входного файла
+-(BOOL) encryptSymmetric :(char *)inputFile :(char *)encFile :(char *)format;
+
+//симметричное дешифрование входного файла
 -(BOOL) decryptSymmetric :(char *)encFile :(char *)decFile :(char *)format;
--(BOOL) encrypt:(std::vector<certStructForEncryptSSL>)certs :(char *)inFile :(char *)encFile :(char *)format;
+
+//шифрование входного файла
+-(BOOL) encrypt:(std::vector<certStructForEncryptSSL>)certs :(char *)inputFile :(char *)encFile :(char *)format;
+
+//дешифрование входного файла
 -(BOOL) decrypt :(char *)encFile :(char *)format :(char *)decFile;
 
 @end

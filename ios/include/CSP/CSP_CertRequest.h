@@ -31,6 +31,14 @@
         int keyUsage;
     };
     
+    struct requestFileInfo {
+        TrustedHandle<std::string> subjectName;
+        TrustedHandle<std::string> pubKey;
+        BOOL hasInstallCert;
+        BOOL buildChain;
+        BOOL hasPrivateKey;
+    };
+    
     CPCA15UserInfo* userInfo15;
     UnixRequest * pRequest;
     char* charRequest;
@@ -46,12 +54,20 @@
  -(char *) create :(char *)url :(char *)temp :(char *)containerName :(int)keySpec :(int)ProvType :(bool)exportableKey;
  -(bool) getCertFromRequest :(char *)url :(char *)outPathToCert;*/
 
+//создание самоподписанного сертификата
 -(bool) createSelfSignedCertificateCSP :(char *)algorithm :(char *)containerName :(int)keyType :(extKeyUsageStructure)extKeyUsage :(bool)exportableKey :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)file;
 
+//создание запроса на сертификат
 -(bool) createRequestCSP :(char *)algorithm :(char *)containerName :(int)keyType :(extKeyUsageStructure)extKeyUsage :(bool)exportableKey :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)file;
 
+//получение информации о запросе на сертификат при создании по шаблону
 -(templateInfo) getRequestInfo :(char *)reqFile :(char *)format;
+
+//получение информации о сертификате при создании по шаблону
 -(templateInfo) getCertificateInfo :(char *)serialNumber :(char *)category;
+
+//поиск установленного сертификата и закрытого ключа для запроса
+-(requestFileInfo) getRequestFileInfo :(char *)reqFile :(char *)format;
 
 @end
 

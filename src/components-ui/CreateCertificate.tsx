@@ -2,14 +2,14 @@ import * as React from "react";
 import { Container, Item, Label, Input, Footer, FooterTab, Button, Text, Content, Icon, Form } from "native-base";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
-import { View, AlertIOS } from "react-native";
+import { View } from "react-native";
 import * as RNFS from "react-native-fs";
 import { genSelfSignedCertWithoutRequest } from "../utils/createCert";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
 import { ListWithSwitch } from "../components/ListWithSwitch";
 import { FooterButton } from "../components/FooterButton";
 import Collapsible from "react-native-collapsible";
-import { showToast } from "../utils/toast";
+import { showToast, showToastDanger } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -41,7 +41,7 @@ interface CreateCertificateState {
 	obl: string;
 	country: string;
 	errorInputCN: boolean;
-	errorInputCountry: boolean;
+	errorInputEmail: boolean;
 }
 
 interface CreateCertificateProps {
@@ -78,7 +78,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 			obl: "",
 			country: "RU",
 			errorInputCN: false,
-			errorInputCountry: false
+			errorInputEmail: false
 		};
 		this.onPressCertRequest = this.onPressCertRequest.bind(this);
 	}
@@ -91,35 +91,44 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 
 	onPressCertRequest() {
 		if (this.state.CN !== "") {
-			genSelfSignedCertWithoutRequest(
-				this.state.algorithm,
-				this.state.keyAssignment,
-				//  назначение сертификата (EKU)
-				[this.state.server_auth, // проверка подлинности сервера
-				this.state.client_auth, // проверка подлинности клиента
-				this.state.code_sign, // подпись кода
-				this.state.email_protection], // защита элкетронной почты
-				// параметры субъекта
-				this.state.CN,
-				this.state.email,
-				this.state.org,
-				this.state.city,
-				this.state.obl,
-				this.state.country
-			).then(() => {
-				setTimeout(() => {
-					this.props.createCert(this.state.CN);
-					RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + this.state.CN + ".cer");
-					this.props.readCertKeys();
-					this.props.getProviders();
-					this.props.navigation.goBack();
-					showToast("Сертификат и ключ создан");
-				}, 500);
-			}).catch(err => {
-				showToast(err + "");
-			});
+			if (this.state.email && this.state.email.match(/^\w+@\w+\.\w{2,4}$/i) === null) {
+				this.setState({ errorInputEmail: true });
+				showToast("Поле email не корректно");
+			} else {
+				genSelfSignedCertWithoutRequest(
+					this.state.algorithm,
+					this.state.keyAssignment,
+					//  назначение сертификата (EKU)
+					[this.state.server_auth, // проверка подлинности сервера
+					this.state.client_auth, // проверка подлинности клиента
+					this.state.code_sign, // подпись кода
+					this.state.email_protection], // защита элкетронной почты
+					// параметры субъекта
+					this.state.CN,
+					this.state.email,
+					this.state.org,
+					this.state.city,
+					this.state.obl,
+					this.state.country
+				).then(() => {
+					setTimeout(() => {
+						this.props.createCert(this.state.CN);
+						RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + this.state.CN + ".cer");
+						this.props.readCertKeys();
+						this.props.getProviders();
+						this.props.navigation.goBack();
+						showToast("Сертификат и ключ создан");
+					}, 500);
+				}).catch(err => {
+					if (err.indexOf("0x8010006E") !== 1) {
+						showToast("Действие было отменено");
+					} else {
+						showToastDanger(err + "");
+					}
+				});
+			}
 		} else {
-			this.state.CN === "" ? this.setState({ errorInputCN: true }) : null;
+			this.setState({ errorInputCN: true });
 			showToast("Заполните поле CN");
 		}
 	}
@@ -130,54 +139,51 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 			<Container style={styles.container}>
 				<Headers title="Создание сертификата" goBack={() => goBack()} />
 				<Content>
-					<View style={{ padding: 10 }}>
+					<View>
 						<ListWithModalDropdown text="Алгоритм"
 							defaultValue="GOST R 34.10-2012 256-bit"
 							changeValue={(value) => this.setState({ algorithm: value })}
 							options={[{ value: "GOST R 34.10-2001" }, { value: "GOST R 34.10-2012 256-bit" }, { value: "GOST R 34.10-2012 512-bit" }]} />
-						{this.state.algorithm !== "RSA" ? <> {/*<ListWithModalDropdown text="Длина ключа"
-			   defaultValue="512"
-			   changeValue={(value) => this.setState({ keyLength: Number(value) })}
-			   options={[{ value: "512" }, { value: "1024" }, { value: "2048" }, { value: "3072" }, { value: "4096" }]} />
-	*/}<ListWithModalDropdown text="Назначение ключа"
+						{this.state.algorithm !== "RSA"
+							? <ListWithModalDropdown text="Назначение ключа"
 								defaultValue="Подпись и шифрование"
 								changeValue={(value, index) => this.setState({ keyAssignment: Number(index) })}
 								options={[{ value: "Подпись и шифрование" }, { value: "Шифрование" }, { value: "Подпись" }]} />
-						</> : <ListWithModalDropdown text="Шаблон сертификата"
-							defaultValue="Cертификат пользователя УЦ"
-							changeValue={(value, index) => this.setState({ cert_template: Number(index) })}
-							options={[{ value: "Cертификат пользователя УЦ" },
-							{ value: "One day User" }, { value: "Временный сертификат Оператора УЦ" },
-							{ value: "Временный сертификат пользователя УЦ" }, { value: "Сертификат ipsec" },
-							{ value: "Сертификат Администратора для DSS" }, { value: "Сертификат аудитора журнала УЦ" },
-							{ value: "Сертификат входа в домен по УЭК" }, { value: "Сертификат входа со смарт-картой" },
-							{ value: "Сертификат контроллера домена (winlogon)" }, { value: "Сертификат оператора службы OCSP" },
-							{ value: "Сертификат оператора службы штампов времени" }, { value: "Сертификат Оператора УЦ" },
-							{ value: "Сертификат подписи (тест УЭК)" }, { value: "Сертификат подписи с лицензией (тест УЭК)" },
-							{ value: "Сертификат пользователя DSS" }, { value: "Сертификат сервера" },
-							{ value: "Совсем временный сертификат" }]} />}
+							: <ListWithModalDropdown text="Шаблон сертификата"
+								defaultValue="Cертификат пользователя УЦ"
+								changeValue={(value, index) => this.setState({ cert_template: Number(index) })}
+								options={[{ value: "Cертификат пользователя УЦ" },
+								{ value: "One day User" }, { value: "Временный сертификат Оператора УЦ" },
+								{ value: "Временный сертификат пользователя УЦ" }, { value: "Сертификат ipsec" },
+								{ value: "Сертификат Администратора для DSS" }, { value: "Сертификат аудитора журнала УЦ" },
+								{ value: "Сертификат входа в домен по УЭК" }, { value: "Сертификат входа со смарт-картой" },
+								{ value: "Сертификат контроллера домена (winlogon)" }, { value: "Сертификат оператора службы OCSP" },
+								{ value: "Сертификат оператора службы штампов времени" }, { value: "Сертификат Оператора УЦ" },
+								{ value: "Сертификат подписи (тест УЭК)" }, { value: "Сертификат подписи с лицензией (тест УЭК)" },
+								{ value: "Сертификат пользователя DSS" }, { value: "Сертификат сервера" },
+								{ value: "Совсем временный сертификат" }]} />}
 					</View>
 					<View style={styles.sign_enc_view}>
 						<Text style={{ color: "grey" }}>Параметры субъекта</Text>
 					</View>
 					<Form>
-						<Item fixedLabel error={this.state.errorInputCN ? true : false} >
+						<Item floatingLabel error={this.state.errorInputCN ? true : false} >
 							<Label>CN*</Label>
 							<Input onChangeText={(CN) => this.setState({ CN })} />
 						</Item>
-						<Item fixedLabel>
+						<Item floatingLabel error={this.state.errorInputEmail ? true : false} >
 							<Label>email</Label>
 							<Input onChangeText={(email) => this.setState({ email })} />
 						</Item>
-						<Item fixedLabel>
+						<Item floatingLabel>
 							<Label>организация</Label>
 							<Input onChangeText={(org) => this.setState({ org })} />
 						</Item>
-						<Item fixedLabel>
+						<Item floatingLabel>
 							<Label>город</Label>
 							<Input onChangeText={(city) => this.setState({ city })} />
 						</Item>
-						<Item fixedLabel>
+						<Item floatingLabel>
 							<Label>область</Label>
 							<Input onChangeText={(obl) => this.setState({ obl })} />
 						</Item>
@@ -190,8 +196,9 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 					</View>
 					<Button style={{ width: "100%", backgroundColor: "white" }} onPress={() => this.setState({ certAssignment: !this.state.certAssignment })}>
 						<Text style={{ color: "grey" }}>Назначение сертификата</Text>
-						{this.state.certAssignment ? <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-down" />
-															: <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-up" />}
+						{this.state.certAssignment
+							? <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-down" />
+							: <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-up" />}
 					</Button>
 					<Collapsible collapsed={this.state.certAssignment}>
 						<ListWithSwitch text="Проверка подлинности сервера" value={this.state.server_auth} changeValue={() => this.setState({ server_auth: !this.state.server_auth })} />

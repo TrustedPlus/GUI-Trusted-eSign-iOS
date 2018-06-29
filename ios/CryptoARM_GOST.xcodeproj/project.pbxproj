@@ -1385,6 +1385,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.digt.CryptoARMGOST;
 				PRODUCT_NAME = CryptoARM_GOST;
 				STRIP_INSTALLED_PRODUCT = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1433,6 +1434,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.digt.CryptoARMGOST;
 				PRODUCT_NAME = CryptoARM_GOST;
 				STRIP_INSTALLED_PRODUCT = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "arm64 armv7";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

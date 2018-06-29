@@ -27,8 +27,9 @@ export class ListCertCategory extends React.Component<ListCertCategoryProps> {
 	};
 
 	ShowList(img) {
+		const { category } = this.props.navigation.state.params;
 		return (
-			this.props.certificates.map((cert, key) => (cert.category.toUpperCase() === this.props.navigation.state.params.category[0] || (cert.category.toUpperCase() === this.props.navigation.state.params.category[1])) ?
+			this.props.certificates.map((cert, key) => (cert.category.toUpperCase() === category[0] || (cert.category.toUpperCase() === category[1])) ?
 				<ListCert
 					key={key}
 					title={cert.subjectFriendlyName}
@@ -42,7 +43,7 @@ export class ListCertCategory extends React.Component<ListCertCategoryProps> {
 
 	render() {
 		const { certificates } = this.props;
-		const { goBack, navigate } = this.props.navigation;
+		const { goBack, navigate, state } = this.props.navigation;
 		let img = [];
 		for (let i = 0; i < certificates.length; i++) {
 			certificates[i].chainBuilding ?
@@ -52,9 +53,9 @@ export class ListCertCategory extends React.Component<ListCertCategoryProps> {
 
 		return (
 			<Container style={styles.container}>
-				<Headers title={this.props.navigation.state.params.title} goBack={() => goBack()} />
+				<Headers title={state.params.title} goBack={() => goBack()} />
 				<Content>
-					{certificates.filter((cert) => ((cert.category.toUpperCase() === this.props.navigation.state.params.category[0]) || (cert.category.toUpperCase() === this.props.navigation.state.params.category[1]))).length !== 0 ?
+					{certificates.filter((cert) => ((cert.category.toUpperCase() === state.params.category[0]) || (cert.category.toUpperCase() === state.params.category[1]))).length !== 0 ?
 						<List>{this.ShowList(img)}</List> :
 						<Text style={[styles.sign_enc_prompt, { paddingTop: "50%" }]}>Сертификатов нет. Нажмите кнопку 'добавить' для импорта или создания сертификата</Text>}
 				</Content>

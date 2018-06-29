@@ -21,6 +21,7 @@ RCT_EXPORT_MODULE();
  * @return true - при успешном завершении, иначе исключение throw.
  */
 RCT_EXPORT_METHOD(genSelfSignedCertWithoutRequest: (NSString *)nsAlgorithm: (NSString *)nsContName: (NSInteger)nsKeyUsage:  (NSArray *)nsArrayextKeyUsage: (BOOL)exportableKey: (NSString *)nsSubjectName: (NSString *)nsEmail: (NSString *)nsOrganization: (NSString *)nsLocality: (NSString *)nsProvince: (NSString *)nsCountry: (NSString *)nsPathCer: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
   try {
     char *pathCer = (char *) [nsPathCer UTF8String];
     
@@ -34,19 +35,23 @@ RCT_EXPORT_METHOD(genSelfSignedCertWithoutRequest: (NSString *)nsAlgorithm: (NSS
     char *province = (char *) [nsProvince UTF8String];
     char *country = (char *) [nsCountry UTF8String];
     bool b = false;
-#ifdef ProvCryptoPro
+
     extKeyUsageStructure extKey1 = *new extKeyUsageStructure();
     extKey1.server = [[nsArrayextKeyUsage objectAtIndex:0] boolValue];
     extKey1.client = [[nsArrayextKeyUsage objectAtIndex:1] boolValue];
     extKey1.code = [[nsArrayextKeyUsage objectAtIndex:2] boolValue];
     extKey1.email = [[nsArrayextKeyUsage objectAtIndex:3] boolValue];
     b = [csp_CertRequest createSelfSignedCertificateCSP :algorithm :contName :keyUsage :extKey1 :exportableKey :subject :email :organization :locality :province :country :pathCer];
-#endif
+
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
   }
   catch (TrustedHandle<Exception> e){
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
   }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -66,6 +71,7 @@ RCT_EXPORT_METHOD(genSelfSignedCertWithoutRequest: (NSString *)nsAlgorithm: (NSS
  * @return true - при успешном завершении, иначе исключение throw.
  */
 RCT_EXPORT_METHOD(getRequest: (NSString *)nsAlgorithm: (NSString *)nsContainerName: (NSInteger)nsKeyUsage: (NSArray *)nsArrayextKeyUsage: (BOOL)exportableKey: (NSString *)nsSubjectName: (NSString *)nsEmail: (NSString *)nsOrganization: (NSString *)nsLocality: (NSString *)nsProvince: (NSString *)nsCountry: (NSString *)nsPathCsr: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
   try {
     char *algorithm = (char *) [nsAlgorithm UTF8String];
     char *containerName = (char *) [nsContainerName UTF8String];
@@ -81,20 +87,22 @@ RCT_EXPORT_METHOD(getRequest: (NSString *)nsAlgorithm: (NSString *)nsContainerNa
     
     bool b = false;
     
-#ifdef ProvCryptoPro
     extKeyUsageStructure extKey1 = *new extKeyUsageStructure();
     extKey1.server = [[nsArrayextKeyUsage objectAtIndex:0] boolValue];
     extKey1.client = [[nsArrayextKeyUsage objectAtIndex:1] boolValue];
     extKey1.code = [[nsArrayextKeyUsage objectAtIndex:2] boolValue];
     extKey1.email = [[nsArrayextKeyUsage objectAtIndex:3] boolValue];
     b = [csp_CertRequest createRequestCSP:algorithm :containerName :key :extKey1 :exportableKey :subject :email :organization :locality :province :country :pathCsr];
-#endif
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
   }
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
   }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -104,6 +112,7 @@ RCT_EXPORT_METHOD(getRequest: (NSString *)nsAlgorithm: (NSString *)nsContainerNa
  * @return структура templateInfo - при успешном завершении, иначе исключение throw.
  */
 RCT_EXPORT_METHOD(getRequestInfo: (NSString *)nsPathCsr: (NSString *)nsFormat: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
   try {
     char *pathCsr = (char *) [nsPathCsr UTF8String];
     char *format = (char *) [nsFormat UTF8String];
@@ -111,7 +120,6 @@ RCT_EXPORT_METHOD(getRequestInfo: (NSString *)nsPathCsr: (NSString *)nsFormat: (
     templateInfo requestTemplateInfo;
     NSMutableDictionary *arrayPropertyCert = [NSMutableDictionary dictionary];
     
-#ifdef ProvCryptoPro
     requestTemplateInfo = [csp_CertRequest getRequestInfo:pathCsr :format ];
     
     arrayPropertyCert[@"subjectName"] = @(requestTemplateInfo.subjectName->c_str());
@@ -121,13 +129,50 @@ RCT_EXPORT_METHOD(getRequestInfo: (NSString *)nsPathCsr: (NSString *)nsFormat: (
     arrayPropertyCert[@"extKeyUsage_code"] = (requestTemplateInfo.extKeyUsage->code) ? @(1) : @(0);
     arrayPropertyCert[@"extKeyUsage_email"] = (requestTemplateInfo.extKeyUsage->email) ? @(1) : @(0);
     arrayPropertyCert[@"keyUsage"] = @(requestTemplateInfo.keyUsage);
-#endif
     
     callback(@[[NSNull null], [arrayPropertyCert copy]]);
   }
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
   }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
+}
+
+/**
+ * поиск установленного сертификата и закрытого ключа для запроса (CryptoPro)
+ * @param nsPathCsr - путь к файлу запроса
+ * @param nsFormat - формат сохраненных данных
+ * @return структура templateInfo - при успешном завершении, иначе исключение throw.
+ */
+RCT_EXPORT_METHOD(getRequestFileInfo: (NSString *)nsPathCsr: (NSString *)nsFormat: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
+  try {
+    char *pathCsr = (char *) [nsPathCsr UTF8String];
+    char *format = (char *) [nsFormat UTF8String];
+    
+    requestFileInfo reqFileInfo;
+    NSMutableDictionary *arrayPropertyCert = [NSMutableDictionary dictionary];
+    
+    reqFileInfo = [csp_CertRequest getRequestFileInfo:pathCsr :format ];
+    
+    arrayPropertyCert[@"subjectName"] = @(reqFileInfo.subjectName->c_str());
+    arrayPropertyCert[@"pubKey"] = @(reqFileInfo.pubKey->c_str());
+    arrayPropertyCert[@"hasInstallCert"] = (reqFileInfo.hasInstallCert) ? @(1) : @(0);
+    arrayPropertyCert[@"buildChain"] = (reqFileInfo.buildChain) ? @(1) : @(0);
+    arrayPropertyCert[@"hasPrivateKey"] = (reqFileInfo.hasPrivateKey) ? @(1) : @(0);
+    
+    callback(@[[NSNull null], [arrayPropertyCert copy]]);
+  }
+  catch (TrustedHandle<Exception> e) {
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -137,6 +182,7 @@ RCT_EXPORT_METHOD(getRequestInfo: (NSString *)nsPathCsr: (NSString *)nsFormat: (
  * @return структура templateInfo - при успешном завершении, иначе исключение throw.
  */
 RCT_EXPORT_METHOD(getCertificateInfo: (NSString *)serialNumber: (NSString *)category: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
   try {
     char *pSerialNumber = (char *) [serialNumber UTF8String];
     char *pCategory = (char *) [category UTF8String];
@@ -144,7 +190,6 @@ RCT_EXPORT_METHOD(getCertificateInfo: (NSString *)serialNumber: (NSString *)cate
     templateInfo certTemplateInfo;
     NSMutableDictionary *arrayPropertyCert = [NSMutableDictionary dictionary];
     
-#ifdef ProvCryptoPro
     certTemplateInfo = [csp_CertRequest getCertificateInfo:pSerialNumber :pCategory ];
     arrayPropertyCert[@"subjectName"] = @(certTemplateInfo.subjectName->c_str());
     arrayPropertyCert[@"pubKey"] = @(certTemplateInfo.pubKey->c_str());
@@ -153,13 +198,16 @@ RCT_EXPORT_METHOD(getCertificateInfo: (NSString *)serialNumber: (NSString *)cate
     arrayPropertyCert[@"extKeyUsage_code"] = (certTemplateInfo.extKeyUsage->code) ? @(1) : @(0);
     arrayPropertyCert[@"extKeyUsage_email"] = (certTemplateInfo.extKeyUsage->email) ? @(1) : @(0);
     arrayPropertyCert[@"keyUsage"] = @(certTemplateInfo.keyUsage);
-#endif
     
     callback(@[[NSNull null], [arrayPropertyCert copy]]);
   }
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
   }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -169,6 +217,7 @@ RCT_EXPORT_METHOD(getCertificateInfo: (NSString *)serialNumber: (NSString *)cate
  * @return структура templateInfo - при успешном завершении, иначе исключение throw.
  */
 RCT_EXPORT_METHOD(getRequestInfo_SSL: (NSString *)path: (NSString *)format: (RCTResponseSenderBlock)callback) {
+#ifdef ProvOpenSSL
   try {
     char *pPath = (char *) [path UTF8String];
     char *pformat = (char *) [format UTF8String];
@@ -198,6 +247,44 @@ RCT_EXPORT_METHOD(getRequestInfo_SSL: (NSString *)path: (NSString *)format: (RCT
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
   }
+#endif
+#ifndef ProvOpenSSL
+  callback(@[[@"Provider OpenSSL not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
+}
+
+/**
+ * поиск установленного сертификата и закрытого ключа для запроса (OpenSSL)
+ * @param nsPathCsr - путь к файлу запроса
+ * @param nsFormat - формат сохраненных данных
+ * @return структура templateInfo - при успешном завершении, иначе исключение throw.
+ */
+RCT_EXPORT_METHOD(getRequestFileInfo_SSL: (NSString *)nsPathCsr: (NSString *)nsFormat: (RCTResponseSenderBlock)callback) {
+#ifdef ProvOpenSSL
+  try {
+    char *pathCsr = (char *) [nsPathCsr UTF8String];
+    char *format = (char *) [nsFormat UTF8String];
+    
+    sslRequestFileInfo reqFileInfo;
+    NSMutableDictionary *arrayPropertyCert = [NSMutableDictionary dictionary];
+    
+    reqFileInfo = [ossl_CertRequest getRequestFileInfo:pathCsr :format ];
+    
+    arrayPropertyCert[@"subjectName"] = @(reqFileInfo.subjectName->c_str());
+    arrayPropertyCert[@"pubKey"] = @(reqFileInfo.pubKey->c_str());
+    arrayPropertyCert[@"hasInstallCert"] = (reqFileInfo.hasInstallCert) ? @(1) : @(0);
+    arrayPropertyCert[@"buildChain"] = (reqFileInfo.buildChain) ? @(1) : @(0);
+    arrayPropertyCert[@"hasPrivateKey"] = (reqFileInfo.hasPrivateKey) ? @(1) : @(0);
+    
+    callback(@[[NSNull null], [arrayPropertyCert copy]]);
+  }
+  catch (TrustedHandle<Exception> e) {
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+#endif
+#ifndef ProvOpenSSL
+  callback(@[[@"Provider OpenSSL not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -207,6 +294,7 @@ RCT_EXPORT_METHOD(getRequestInfo_SSL: (NSString *)path: (NSString *)format: (RCT
  * @return структура templateInfo - при успешном завершении, иначе исключение throw.
  */
 RCT_EXPORT_METHOD(getCertificateInfo_SSL: (NSString *)serialNumber: (NSString *)category: (RCTResponseSenderBlock)callback) {
+#ifdef ProvOpenSSL
   try {
     char *pSerialNumber = (char *) [serialNumber UTF8String];
     char *pCategory = (char *) [category UTF8String];
@@ -214,7 +302,7 @@ RCT_EXPORT_METHOD(getCertificateInfo_SSL: (NSString *)serialNumber: (NSString *)
     sslTemplateInfo certTemplateInfo;
     NSMutableDictionary *arrayPropertyCert = [NSMutableDictionary dictionary];
     
-    certTemplateInfo = [ossl_CertRequest getCertificateinfoForTemplate:pSerialNumber :pCategory ];
+    certTemplateInfo = [ossl_CertRequest getCertificateInfo:pSerialNumber :pCategory ];
     arrayPropertyCert[@"subjectName"] = @(certTemplateInfo.subjectName->c_str());
     arrayPropertyCert[@"pubKey"] = @(certTemplateInfo.pubKey->c_str());
     arrayPropertyCert[@"extKeyUsage_server"] = (certTemplateInfo.extKeyUsage->server) ? @(1) : @(0);
@@ -236,6 +324,10 @@ RCT_EXPORT_METHOD(getCertificateInfo_SSL: (NSString *)serialNumber: (NSString *)
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
   }
+#endif
+#ifndef ProvOpenSSL
+  callback(@[[@"Provider OpenSSL not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 /*
 RCT_EXPORT_METHOD(genRequestOnCert: (NSString *)nsAlgorithm: (NSString *)nsUrl: (NSString *)nsContName: (NSString *)nsTemplate: (NSInteger)nsLength: (NSInteger)nsKeyUsage: (NSArray *)nsArrayextKeyUsage: (BOOL)exportableKey: (NSString *)nsSubjectName: (NSString *)nsEmail: (NSString *)nsOrganization: (NSString *)nsLocality: (NSString *)nsProvince: (NSString *)nsCountry: (NSString *)nsPathCsr: (NSString *)nsPathKey: (RCTResponseSenderBlock)callback) {

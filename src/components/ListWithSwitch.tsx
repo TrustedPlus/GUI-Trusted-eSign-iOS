@@ -7,6 +7,7 @@ interface ListWithSwitchProps {
 	value: boolean;
 	changeValue: any;
 	last?: boolean;
+	disabled?: boolean;
 }
 
 export class ListWithSwitch extends React.Component<ListWithSwitchProps> {
@@ -16,12 +17,13 @@ export class ListWithSwitch extends React.Component<ListWithSwitchProps> {
 			<List>
 				<ListItem icon last={this.props.last}>
 					<Body>
-						<Text>{this.props.text}</Text>
+						<Text style={this.props.disabled ? {color: "grey"} : {}}>{this.props.text}</Text>
 					</Body>
 					<Right>
 						<Switch
 							onValueChange={this.props.changeValue}
-							value={this.props.value} />
+							value={this.props.value}
+							disabled={this.props.disabled} />
 					</Right>
 				</ListItem>
 			</List>

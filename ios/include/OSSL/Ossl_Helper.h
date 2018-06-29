@@ -1,11 +1,3 @@
-//
-//  Ossl_Helper.h
-//  OpenSSL
-//
-//  Created by admin on 06/04/2018.
-//  Copyright © 2018 digt. All rights reserved.
-//
-
 #ifndef Ossl_Helper_h
 #define Ossl_Helper_h
 
@@ -18,13 +10,26 @@
 #include "crl.h"
 #include "crls.h"
 
-extern std::string g_pathToStore;
-extern TrustedHandle<PkiStore> g_storeCrypto; //содержит список сертификатов и ключей(?) в хранилище trusted_crypto
-extern TrustedHandle<Provider> g_prov;        //содержит криптопровайдер. Нужен для инициализации хранилища при первом запуске
 
+//содержит путь к хранилищу
+extern std::string g_pathToStore;
+
+//содержит список сертификатов, ключей и CRL в хранилище trusted_crypto
+extern TrustedHandle<PkiStore> g_storeCrypto;
+
+//содержит криптопровайдер. Нужен для инициализации хранилища при первом запуске
+extern TrustedHandle<Provider> g_prov;
+
+//преобразование из char * в DataFormat::DATA_FORMAT
 DataFormat::DATA_FORMAT charToDataFormat(char *format);
-int hasCertInStore(TrustedHandle<Certificate> cert); //проверка наличия сертификата в хранилище.
+
+//проверка наличия сертификата в хранилище.
+int hasCertInStore(TrustedHandle<Certificate> cert);
+
+//возвращает список CRL файлов
 TrustedHandle<CrlCollection> getCrls();
+
+//возвращает список доверенных сертификатов
 TrustedHandle<CertificateCollection> getTrustCerts();
 
 #endif /* Ossl_Helper_h */

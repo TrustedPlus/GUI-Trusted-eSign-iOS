@@ -107,7 +107,8 @@ RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString 
         b = [csp_Signer deCosignMessage:infile :pFormat :outfile];
       }
       else {
-        callback(@[[@"Error. The input file is a detached signature." copy], [NSNumber numberWithInt: 0]]); return;
+        callback(@[[@"Error. The input file is a detached signature." copy], [NSNumber numberWithInt: 0]]);
+        return;
       }
 #endif
     }
@@ -235,20 +236,23 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
  * @return true - является отсоединенной подписью, иначе false.
  */
 RCT_EXPORT_METHOD(isDetachedSignMessage: (NSString *)signFile: (NSString *)format: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
   try {
     char *pSignFile = (char *) [signFile UTF8String];
     char *inFormat = (char *) [format UTF8String];
     BOOL b = false;
     
-#ifdef ProvCryptoPro
-      b = [csp_Signer isDetachedSignMessage:pSignFile :inFormat];
-#endif
+    b = [csp_Signer isDetachedSignMessage:pSignFile :inFormat];
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
   }
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
   }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 

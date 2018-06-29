@@ -15,6 +15,8 @@
 @interface Ossl_Store : NSObject {
   NSMutableArray *arrayPkiStore;
 }
+
+//считывание всех сертификатов из хранилища
 - (NSMutableArray*) unloadCertsFromStore;
 
 @end

@@ -12,21 +12,24 @@ RCT_EXPORT_MODULE();
  * @return true - при успешном завершении, иначе исключение throw.
  */
 RCT_EXPORT_METHOD(encryptSymmetric: (NSString *)infilename:(NSString *)encfilename: (NSString *)format: (RCTResponseSenderBlock)callback) {
+#ifdef ProvOpenSSL
   try {
     char *infile = (char *) [infilename UTF8String];
     char *encfile = (char *) [encfilename UTF8String];
     char *pFormat = (char *) [format UTF8String];
     BOOL b = false;
     
-#ifdef ProvOpenSSL
     b = [ossl_Cipher encryptSymmetric:infile :encfile :pFormat];
-#endif
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
   }
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
+#endif
+#ifndef ProvOpenSSL
+  callback(@[[@"Provider OpenSSL not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -37,21 +40,24 @@ RCT_EXPORT_METHOD(encryptSymmetric: (NSString *)infilename:(NSString *)encfilena
  * @return true - при успешном завершении, иначе исключение throw.
  */
 RCT_EXPORT_METHOD(decryptSymmetric: (NSString *)encFile: (NSString *)decFile: (NSString *)format: (RCTResponseSenderBlock)callback) {
+#ifdef ProvOpenSSL
   try {
     char *encfile = (char *) [encFile UTF8String];
     char *decfile = (char *) [decFile UTF8String];
     char *pFormat = (char *) [format UTF8String];
     BOOL b = false;
     
-#ifdef ProvOpenSSL
     b = [ossl_Cipher decryptSymmetric:encfile :decfile :pFormat];
-#endif
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
   }
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
+#endif
+#ifndef ProvOpenSSL
+  callback(@[[@"Provider OpenSSL not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**

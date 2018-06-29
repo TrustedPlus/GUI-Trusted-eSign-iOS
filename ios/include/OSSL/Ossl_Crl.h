@@ -10,7 +10,11 @@
 @interface Ossl_Crl : NSObject {
   TrustedHandle<CRL> crl;
 }
--(void) saveCRLToStore :(char *)filename :(char *)inFormat;
+
+//сохранение CRL в хранилище из файла
+-(void) saveCRLToStore :(char *)pathToCRL :(char *)format;
+
+//проверка цепочки
 -(BOOL) verifyChain :(char *)serialNumber;
 
 @end

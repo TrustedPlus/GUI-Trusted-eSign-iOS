@@ -12,12 +12,28 @@
     TrustedHandle<Certificate> cert;
 }
 
--(bool) load :(char *)serialNumber;                                             //загрузка из хранилища
--(bool) loadFromFile :(char *) pathCert :(char *)format;                        //загрузка из файла
--(bool) saveCertToStore :(char *)infileCert :(char *)inFormat :(char *)category;//сохраниние сертификата в хранилище из файла
--(bool) saveKeyToStore :(char *)infileKey :(char *) inFormat :(char *)password; //сохранение ключа в хранилище из файла
--(bool) save :(char *)pathToSaveCert :(char *)inFormat :(char *)category;       //экспорт сертификата в файл из памяти
--(bool) deleteCertInStore :(char *) serialNumber :(char *)category;             //удаление сертификата из хранилища
+//загрузка из хранилища
+-(bool) load :(char *)serialNumber;
+
+//загрузка из файла
+-(bool) loadFromFile :(char *)pathCert :(char *)format;
+
+//сохранение сертификата в хранилище из файла (выбор за пользователем "куда?")
+-(bool) saveCertToStore :(char *)pathToFile :(char *)format :(char *)category;
+
+//сохранение сертификата в хранилище из файла (автоматическое распределение)
+-(bool) saveCertToStore :(char *)pathToFile :(char *)format;
+
+//сохранение ключа в хранилище из файла
+-(bool) saveKeyToStore :(char *)infileKey :(char *) inFormat :(char *)password;
+
+//экспорт сертификата в файл из памяти
+-(bool) save :(char *)pathToSaveCert :(char *)inFormat :(char *)category;
+
+//удаление сертификата из хранилища
+-(bool) deleteCertInStore :(char *)serialNumber :(char *)category :(bool)deleteWithKey;
+
+/* свойства */
 -(long) getVersion;
 -(TrustedHandle<std::string>) getSerialNumber;
 -(TrustedHandle<std::string>) getNotBefore;

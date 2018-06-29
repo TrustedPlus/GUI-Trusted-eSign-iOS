@@ -4,6 +4,7 @@ import { Headers } from "../components/Headers";
 import { NativeModules } from "react-native";
 import { ListMenu } from "../components/ListMenu";
 import { styles } from "../styles";
+import { showToast } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -50,11 +51,7 @@ export class Containers extends React.Component<ContainersProps> {
 					containers["fqcnA"],
 					(err, cert) => {
 						if (err) {
-							Toast.show({
-								text: "В контейнере нет сертификата",
-								position: "bottom",
-								duration: 700
-							});
+							showToast("В контейнере нет сертификата");
 						} else {
 							this.props.navigation.navigate("PropertiesCert", { cert: cert[0], isCertInContainers: true, containers: containers["fqcnA"] });
 						}

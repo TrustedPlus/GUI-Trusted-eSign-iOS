@@ -18,8 +18,12 @@
 @interface Ossl_Pkcs12 : NSObject {
   TrustedHandle<Pkcs12> p12;
 }
--(void) exportPFX :(char *)serialNumber :(char *)category :(BOOL)exportPrivateKey :(char *)password :(char *)filename;   //экспорт pkcs12
--(void) importPFX :(char *)filename :(char *)passwordForPFX :(char *)passwordForKey; //импорт pkcs12
+
+//экспорт pkcs12
+-(void) exportPFX :(char *)serialNumber :(char *)category :(BOOL)exportPrivateKey :(char *)password :(char *)pathToFile;
+
+//импорт pkcs12
+-(void) importPFX :(char *)pathToPFX :(char *)passwordForPFX :(char *)passwordForKey;
 
 @end
 

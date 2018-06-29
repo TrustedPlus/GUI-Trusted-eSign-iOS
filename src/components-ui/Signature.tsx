@@ -9,6 +9,7 @@ import { iconSelection } from "../utils/forListFiles";
 import { showToast } from "../utils/toast";
 import { readCertKeys } from "../actions/certKeysAction";
 import { DocumentPicker } from "react-native-document-picker";
+import * as Modal from "react-native-modalbox";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -55,6 +56,10 @@ interface SignatureProps {
 	readCertKeys(): void;
 	addFiles(uri: string, fileName: string): void;
 }
+/*
+interface IModals {
+	basicModal: Modal.default;
+}*/
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Signature extends React.Component<SignatureProps> {
@@ -62,6 +67,10 @@ export class Signature extends React.Component<SignatureProps> {
 	static navigationOptions = {
 		header: null
 	};
+
+	/*private modals: IModals = {
+		basicModal: null
+	};*/
 
 	constructor(props) {
 		super(props);
@@ -98,11 +107,7 @@ export class Signature extends React.Component<SignatureProps> {
 					<RefreshControl
 						refreshing={isFetching}
 						onRefresh={() => readFiles()} />}>
-					<List>
-						{
-							this.showList(img)
-						}
-					</List>
+					<List>{this.showList(img)}</List>
 				</ScrollView>
 			);
 		}
@@ -111,13 +116,13 @@ export class Signature extends React.Component<SignatureProps> {
 			<View style={styles.sign_enc_view}>
 				<Text
 					style={styles.sign_enc_prompt}
-					onPress={() => { this.documentPicker(); }}>[Добавьте файлы]</Text>
+					onPress={() => this.documentPicker()}>[Добавьте файлы]</Text>
 			</View>
 		);
 	}
 
 	render() {
-		const { footerAction, footerClose, files, isFetching, readFiles, readCertKeys, personalCert } = this.props;
+		const { footerAction, footerClose, footer, files, isFetching, readFiles, readCertKeys, personalCert } = this.props;
 		const { navigate, goBack } = this.props.navigation;
 
 		let certificate;
@@ -136,14 +141,13 @@ export class Signature extends React.Component<SignatureProps> {
 			</View>;
 		}
 
-		let footer, selectFiles = null;
-		if (this.props.footer.arrButton.length) { // выбраны ли файлы
-			footer = <FooterSign/>;
-			selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%", paddingLeft: 4 }}>
-				выбрано файлов: {this.props.footer.arrButton.length} </Text>;
+		let selectFiles = null;
+		if (footer.arrButton.length) { // выбраны ли файлы
+			selectFiles = <Text style={styles.selectFiles}>
+				выбрано файлов: {footer.arrButton.length} </Text>;
 		} else {
 			if (files.length) {
-				selectFiles = <Text style={{ fontSize: 17, height: 20, color: "grey", width: "70%", paddingLeft: 4 }}>
+				selectFiles = <Text style={styles.selectFiles}>
 					всего файлов: {files.length}</Text>;
 			} else {
 				selectFiles = null;
@@ -162,12 +166,12 @@ export class Signature extends React.Component<SignatureProps> {
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{selectFiles}
-					<Button transparent style={styles.sign_enc_button} onPress={() => { this.documentPicker(); }}>
+					<Button transparent style={styles.sign_enc_button} onPress={() => this.documentPicker()}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
 				{filesView}
-				{footer}
+				{footer.arrButton.length ? <FooterSign /> : null}
 			</Container>
 		);
 	}

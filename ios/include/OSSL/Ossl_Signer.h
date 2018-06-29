@@ -20,11 +20,20 @@
     };
 }
 
--(BOOL) sign :(char *)serialNumber :(char *)category :(char *)infilename :(char *)outfilename :(char *)format :(bool)isDetached;
--(BOOL) coSignMessage :(char *)serial :(char *)category :(char *)inputfilename :(char *)signfilename :(char *)format :(bool)isDetached;
--(BOOL) unSign :(char *)checkfilename :(char *)format :(char *)outfilename;
--(BOOL) verify :(char *)inputfilename :(char *)checkfilename :(char *)format;
--(std::vector<infoStruct>) getSignInfo :(char *)inputfilename :(char *)checkfilename :(char *)format;
+//генерация подписи для входного файла
+-(BOOL) sign :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile :(char *)outFileFormat :(bool)isDetached;
+
+//добавление соподписи к входному файлу
+-(BOOL) coSignMessage :(char *)serialNumber :(char *)category :(char *)inputFile :(char *)signFile :(char *)format :(bool)isDetached;
+
+//снятие подписи(подписей)
+-(BOOL) unSign :(char *)signFile :(char *)inFileFormat :(char *)outFile;
+
+//верификация подписи
+-(BOOL) verify :(char *)inputFile :(char *)signFile :(char *)format;
+
+//получение информации о подписавших
+-(std::vector<infoStruct>) getSignInfo :(char *)inputFile :(char *)signFile :(char *)format;
 
 @end
 

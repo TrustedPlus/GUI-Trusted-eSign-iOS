@@ -8,6 +8,7 @@
 #include "exts.h"
 #include "ext.h"
 #include "oid.h"
+#include "chain.h"
 
 #include "Ossl_Helper.h"
 
@@ -39,10 +40,29 @@ struct sslTemplateInfo {
     TrustedHandle<keyUsageStruct> keyUsage;
 };
 
--(void) createRequest :(char *)algorithm :(int)length :(int)keyUsage :(extKeyUsageStruct)extKeyUsage :(BOOL)exportableKey :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)outPathCsr :(char *)outPathKey;
--(void) createCertFromRequest :(char *)outPathCsr :(char *)outPathCer  :(char *)outPathKey;
--(sslTemplateInfo) getRequestinfo :(char *)outPathCsr :(char *)format;
--(sslTemplateInfo) getCertificateinfoForTemplate :(char *)serialNumber :(char *)category;
+struct sslRequestFileInfo {
+    TrustedHandle<std::string> subjectName;
+    TrustedHandle<std::string> pubKey;
+    BOOL hasInstallCert;
+    BOOL buildChain;
+    BOOL hasPrivateKey;
+};
+
+//создание запроса на сертификат
+-(void) createRequest :(char *)algorithm :(int)length :(int)keyUsage :(extKeyUsageStruct)extKeyUsage :(BOOL)exportableKey :(char *)cn :(char *)email :(char *)organization :(char *)locality :(char *)province :(char *)country :(char *)pathToCsr :(char *)pathToKey;
+
+//создание самоподписанного сертификата
+-(void) createCertFromRequest :(char *)pathToCsr :(char *)pathToCer  :(char *)outPathKey;
+
+//получение информации о запросе на сертификат при создании по шаблону
+-(sslTemplateInfo) getRequestinfo :(char *)pathToCsr :(char *)format;
+
+//получение информации о сертификате при создании по шаблону
+-(sslTemplateInfo) getCertificateInfo :(char *)serialNumber :(char *)category;
+
+//поиск установленного сертификата и закрытого ключа для запроса
+-(sslRequestFileInfo) getRequestFileInfo :(char *)reqFile :(char *)format;
+
 @end
 
 #endif /* Ossl_CertRequest_h */

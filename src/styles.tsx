@@ -80,6 +80,13 @@ export const styles = StyleSheet.create({
 		marginTop: 6,
 		right: 10
 	},
+	selectFiles: {
+		fontSize: 17,
+		height: 20,
+		color: "grey",
+		width: "70%",
+		paddingLeft: 4
+	},
 	// PropertiesCert
 	prop_cert_righttext: {
 		position: "absolute",
@@ -106,5 +113,29 @@ export const styles = StyleSheet.create({
 		position: "absolute",
 		left: 110,
 		top: 20
-	}
+	},
+	// Modal
+	wrapper: {
+		paddingTop: 50,
+		flex: 1
+	},
+
+	modal: {
+		justifyContent: "center",
+		alignItems: "center"
+	},
+
+	modal3: {
+		height: 300,
+		width: 300,
+		backgroundColor: "rgba(255, 255, 255, 0.85)",
+		borderRadius: 8,
+	},
+
+	btn: {
+		margin: 10,
+		backgroundColor: "#3B5998",
+		color: "white",
+		padding: 10
+	},
 });

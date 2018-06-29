@@ -60,6 +60,7 @@ RCT_EXPORT_METHOD(getCountsOfCertsInCryptoStore: (RCTResponseSenderBlock)callbac
  * @return NSMutableArray * - при успешном завершении, иначе throw
  */
 RCT_EXPORT_METHOD(getProviders: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
   try {
     std::vector<ProviderProps> prov = [csp_Store enumProvider];
     
@@ -78,6 +79,10 @@ RCT_EXPORT_METHOD(getProviders: (RCTResponseSenderBlock)callback) {
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -87,6 +92,7 @@ RCT_EXPORT_METHOD(getProviders: (RCTResponseSenderBlock)callback) {
  * @return NSMutableArray * - при успешном завершении, иначе throw
  */
 RCT_EXPORT_METHOD(getContainers: (NSInteger)nsType: (NSString *)nsName: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
   try {
     int type = (int)nsType;
     char *name = (char *) [nsName UTF8String];
@@ -118,6 +124,10 @@ RCT_EXPORT_METHOD(getContainers: (NSInteger)nsType: (NSString *)nsName: (RCTResp
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -126,6 +136,7 @@ RCT_EXPORT_METHOD(getContainers: (NSInteger)nsType: (NSString *)nsName: (RCTResp
  * @return NSMutableArray * - при успешном завершении, иначе throw
  */
 RCT_EXPORT_METHOD(getCertInfoFromContainer: (NSString *)nsContName: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
   try {
     NSMutableArray *listCertsCrypto = [NSMutableArray array];
     char *contName = (char *) [nsContName UTF8String];
@@ -138,6 +149,10 @@ RCT_EXPORT_METHOD(getCertInfoFromContainer: (NSString *)nsContName: (RCTResponse
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -146,6 +161,7 @@ RCT_EXPORT_METHOD(getCertInfoFromContainer: (NSString *)nsContName: (RCTResponse
  * @return true - при успешном завершении, иначе throw
  */
 RCT_EXPORT_METHOD(installCertFromContainer: (NSString *)nsContName: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
   try {
     char *contName = (char *) [nsContName UTF8String];
     
@@ -157,6 +173,10 @@ RCT_EXPORT_METHOD(installCertFromContainer: (NSString *)nsContName: (RCTResponse
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -167,6 +187,7 @@ RCT_EXPORT_METHOD(installCertFromContainer: (NSString *)nsContName: (RCTResponse
  * @return true - при успешном завершении, иначе throw
  */
 RCT_EXPORT_METHOD(installCertToCont: (NSString *)serialNumber: (NSString *)category: (NSString *)nsContName: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
   try {
     char *pSerialNumber = (char *) [serialNumber UTF8String];
     char *pCategory = (char *) [category UTF8String];
@@ -181,6 +202,10 @@ RCT_EXPORT_METHOD(installCertToCont: (NSString *)serialNumber: (NSString *)categ
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**

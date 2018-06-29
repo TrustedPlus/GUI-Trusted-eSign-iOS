@@ -47,28 +47,34 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 				NativeModules.Wrap_Cert.load(
 					this.props.navigation.state.params.cert.serialNumber,
 					this.props.navigation.state.params.cert.provider,
-					(err, load) => {
-						NativeModules.Wrap_Cert.save(
-							path,
-							this.state.code ? "DER" : "BASE64",
-							(err, load) => {
-								if (err) {
-									showToast(err);
-								} else {
-									Share.share({
-										url: path
-									}).then((action : {action}) => {
-										() => RNFS.unlink(path);
-										if (action.action === Share.dismissedAction) {
-											showToast("Отправка файла была отклонена");
-										} else {
-											showToast("Файл успешно отправлен");
-										}
-									}).catch(
-										errorMsg => showToast("Ошибка при экспорте сертификата")
-									);
+					(err) => {
+						if (err) {
+							showToast(err);
+						} {
+							NativeModules.Wrap_Cert.save(
+								path,
+								this.state.code ? "DER" : "BASE64",
+								(err) => {
+									if (err) {
+										showToast(err);
+									} else {
+										Share.share({
+											url: path
+										}).then((action: { action }) => {
+											() => RNFS.unlink(path);
+											if (action.action === Share.dismissedAction) {
+												showToast("Отправка файла была отклонена");
+											} else {
+												this.props.navigation.goBack();
+												showToast("Файл успешно отправлен");
+											}
+										}).catch(
+											errorMsg => showToast("Ошибка при экспорте сертификата")
+										);
+									}
 								}
-							});
+							);
+						}
 					});
 			} else {
 				path = path + ".pfx";
@@ -88,11 +94,12 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 							} else {
 								Share.share({
 									url: path
-								}).then((action : {action}) => {
+								}).then((action: { action }) => {
 									() => RNFS.unlink(path);
 									if (action.action === Share.dismissedAction) {
 										showToast("Отправка файла была отклонена");
 									} else {
+										this.props.navigation.goBack();
 										showToast("Файл успешно отправлен");
 									}
 								}).catch(
@@ -113,16 +120,14 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 				<Headers title="Экспорт сертификата" goBack={() => goBack()} />
 				<Content>
 					<View style={styles.sign_enc_view}>
-						<Text style={{ color: "grey", paddingLeft: 5, paddingRight: 5 }}>Формат экспортируемого файла: {!this.state.format ? "Файл обмена личной информацией PKCS#12 (PFX)" : "X509 (.CER) в кодировке BASE64"}</Text>
-						<View style={{ paddingLeft: 15, paddingRight: 15 }}>
-							<ListWithModalDropdown text="Экспортировать закрытый ключ вместе с сертификатом?"
-								defaultValue="Не экспортировать закрытый ключ"
-								changeValue={(value, index) => this.setState({ format: Number(index) })}
-								options={[{ value: "Экспортировать закрытый ключ" }, { value: "Не экспортировать закрытый ключ" }]} />
-						</View>
+						<Text style={{ color: "grey", paddingLeft: 15, paddingRight: 5 }}>Формат экспортируемого файла: {!this.state.format ? "Файл обмена личной информацией PKCS#12 (PFX)" : "X509 (.CER) в кодировке BASE64"}</Text>
+						<ListWithModalDropdown text="Экспортировать закрытый ключ вместе с сертификатом?"
+							defaultValue="Не экспортировать закрытый ключ"
+							changeValue={(value, index) => this.setState({ format: Number(index) })}
+							options={[{ value: "Экспортировать закрытый ключ" }, { value: "Не экспортировать закрытый ключ" }]} />
 					</View>
 					{!this.state.format ? <View style={styles.sign_enc_view}>
-						<Text style={{ color: "grey", paddingLeft: 5, paddingRight: 5 }}>Укажите пароль для защиты закрытого ключа:</Text>
+						<Text style={{ color: "grey", paddingLeft: 15, paddingRight: 5 }}>Укажите пароль для защиты закрытого ключа:</Text>
 						<Form>
 							<Item floatingLabel>
 								<Label>Пароль</Label>
@@ -134,16 +139,14 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 							</Item>
 						</Form>
 					</View> : <View style={styles.sign_enc_view}>
-							<Text style={{ color: "grey", paddingLeft: 5, paddingRight: 5 }}>Выберите тип кодировкиля примениения в экспортируемом файле:</Text>
-							<View style={{ paddingLeft: 15, paddingRight: 15 }} >
-								<ListWithModalDropdown text="Кодировка"
-									defaultValue="BASE-64"
-									changeValue={(value, index) => this.setState({ code: Number(index) })}
-									options={[{ value: "BASE-64" }, { value: "DER" }]} />
-							</View>
+							<Text style={{ color: "grey", paddingLeft: 15, paddingRight: 5 }}>Выберите тип кодировкиля примениения в экспортируемом файле:</Text>
+							<ListWithModalDropdown text="Кодировка"
+								defaultValue="BASE-64"
+								changeValue={(value, index) => this.setState({ code: Number(index) })}
+								options={[{ value: "BASE-64" }, { value: "DER" }]} />
 						</View>}
 					<View style={styles.sign_enc_view}>
-						<Text style={{ color: "grey", paddingLeft: 5, paddingRight: 5 }}>Сохранить как:</Text>
+						<Text style={{ color: "grey", paddingLeft: 15, paddingRight: 5 }}>Сохранить как:</Text>
 						<Form>
 							<Item stackedLabel>
 								<Input defaultValue={cert.subjectFriendlyName} onChangeText={(fileName) => this.setState({ fileName })} />

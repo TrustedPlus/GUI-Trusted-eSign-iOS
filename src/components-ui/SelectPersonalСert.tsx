@@ -74,7 +74,9 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
 						? <List>{this.ShowList(img)}</List>
 						: <Text style={[styles.sign_enc_prompt, { paddingTop: "50%" }]}>Сертификатов нет. Нажмите кнопку 'добавить' для импорта или создания сертификата</Text>}
 				</Content>
-				<AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password, fn) => addCert(uri, fileName, password, fn)} />
+				<AddCertButton
+					navigate={(page) => navigate(page)}
+					addCertFunc={(uri, fileName, password, fn) => addCert(uri, fileName, password, fn)} />
 			</Container>
 		);
 	}

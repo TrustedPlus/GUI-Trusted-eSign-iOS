@@ -163,21 +163,24 @@ RCT_EXPORT_METHOD(saveCertToStore: (NSString *)inCert: (NSString *)inFormat: (NS
  * @return true - при успешном завершении, иначе исключение throw.
  */
 RCT_EXPORT_METHOD(saveKeyToStore: (NSString *)inKey: (NSString *)inFormat: (NSString *)inPassword: (RCTResponseSenderBlock)callback) {
+#ifdef ProvOpenSSL
   try {
     char *infileKey = (char *) [inKey UTF8String];
     char *format = (char *) [inFormat UTF8String];
     char *password = (char *) [inPassword UTF8String];
     BOOL b = false;
     
-#ifdef ProvOpenSSL
     b = [ossl_Cert saveKeyToStore: infileKey :format :password];
-#endif
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
   }
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
   }
+#endif
+#ifndef ProvOpenSSL
+  callback(@[[@"Provider OpenSSL not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
 }
 
 /**
@@ -196,7 +199,7 @@ RCT_EXPORT_METHOD(deleteCertInStore: (NSString *)serialNumber: (NSString *)categ
     
 #ifdef ProvOpenSSL
     if (strcmp(prov, "SYSTEM") == 0) {
-      b = [ossl_Cert deleteCertInStore:pSerialNumber :pCategory];
+      b = [ossl_Cert deleteCertInStore:pSerialNumber :pCategory :deleteCont];
     }
 #endif
 #ifdef ProvCryptoPro

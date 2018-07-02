@@ -17,12 +17,14 @@ import { Journal } from "./Journal";
 import { SelectCert } from "./SelectCert";
 import { Containers } from "./Containers";
 import { Documents } from "./Documents";
+import { Requests } from "./Requests";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getProviders } from "../actions/getContainersAction";
 import { readCertKeys } from "../actions/certKeysAction";
 import { readFiles } from "../actions/index";
+import { readRequests } from "../actions/requestAction";
 
 function mapStateToProps(state) {
 	return {
@@ -37,7 +39,8 @@ function mapDispatchToProps(dispatch) {
 	return {
 		readFiles: bindActionCreators(readFiles, dispatch),
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
-		getProviders: bindActionCreators(getProviders, dispatch)
+		getProviders: bindActionCreators(getProviders, dispatch),
+		readRequests: bindActionCreators(readRequests, dispatch)
 	};
 }
 
@@ -50,6 +53,7 @@ interface MainProps {
 	readCertKeys(): any;
 	readFiles(): any;
 	getProviders(): any;
+	readRequests(): any;
 }
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
@@ -93,6 +97,7 @@ class Main extends React.Component<MainProps> {
 		this.props.readFiles();
 		this.props.readCertKeys();
 		this.props.getProviders();
+		this.props.readRequests();
 	}
 }
 
@@ -109,7 +114,8 @@ export const App = StackNavigator({
 	ExportCert: { screen: ExportCert },
 	SelectCert: { screen: SelectCert },
 	Containers: { screen: Containers },
-	Documents: { screen: Documents }
+	Documents: { screen: Documents },
+	Requests: { screen: Requests }
 });
 
 /* NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {

@@ -15,12 +15,17 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { readCertKeys, createCert } from "../actions/certKeysAction";
 import { getProviders } from "../actions/getContainersAction";
+import { readFiles } from "../actions/index";
+import { createRequest, readRequests } from "../actions/requestAction";
 
 function mapDispatchToProps(dispatch) {
 	return {
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
 		createCert: bindActionCreators(createCert, dispatch),
-		getProviders: bindActionCreators(getProviders, dispatch)
+		createRequest: bindActionCreators(createRequest, dispatch),
+		getProviders: bindActionCreators(getProviders, dispatch),
+		readFiles: bindActionCreators(readFiles, dispatch),
+		readRequests: bindActionCreators(readRequests, dispatch)
 	};
 }
 
@@ -42,14 +47,18 @@ interface CreateCertificateState {
 	country: string;
 	errorInputCN: boolean;
 	errorInputEmail: boolean;
+	isselfsign: boolean;
 }
 
 interface CreateCertificateProps {
 	navigation: any;
 	dispatch: any;
 	readCertKeys(): void;
+	readFiles(): void;
 	createCert(CN: string): void;
 	getProviders(): any;
+	createRequest(CN: string): void;
+	readRequests(): void;
 }
 
 @(connect(null, mapDispatchToProps) as any)
@@ -61,15 +70,17 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 
 	constructor(props) {
 		super(props);
+		const { requestsProperties } = this.props.navigation.state.params === undefined ? false : this.props.navigation.state.params;
+
 		this.state = {
 			algorithm: "GOST R 34.10-2012 256-bit",
 			keyLength: 512,
 			keyAssignment: 0,
 			certAssignment: true,
-			server_auth: false,
-			client_auth: true,
-			code_sign: false,
-			email_protection: true,
+			server_auth: requestsProperties ? Boolean(requestsProperties.extKeyUsage_server) : false,
+			client_auth: requestsProperties ? Boolean(requestsProperties.extKeyUsage_client) : true,
+			code_sign: requestsProperties ? Boolean(requestsProperties.extKeyUsage_code) : false,
+			email_protection: requestsProperties ? Boolean(requestsProperties.extKeyUsage_email) : true,
 			cert_template: 0,
 			CN: "",
 			email: "",
@@ -78,7 +89,8 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 			obl: "",
 			country: "RU",
 			errorInputCN: false,
-			errorInputEmail: false
+			errorInputEmail: false,
+			isselfsign: false
 		};
 		this.onPressCertRequest = this.onPressCertRequest.bind(this);
 	}
@@ -109,15 +121,23 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 					this.state.org,
 					this.state.city,
 					this.state.obl,
-					this.state.country
+					this.state.country,
+					this.state.isselfsign
 				).then(() => {
 					setTimeout(() => {
-						this.props.createCert(this.state.CN);
-						RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + this.state.CN + ".cer");
-						this.props.readCertKeys();
-						this.props.getProviders();
-						this.props.navigation.goBack();
-						showToast("Сертификат и ключ создан");
+						if (this.state.isselfsign) {
+							this.props.createCert(this.state.CN); // TODO, исправить
+							RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + this.state.CN + ".cer");
+							this.props.readCertKeys();
+							this.props.getProviders();
+							this.props.navigation.goBack();
+							showToast("Сертификат и ключ создан");
+						} else {
+							this.props.createRequest(this.state.CN); // TODO, исправить
+							this.props.readRequests();
+							this.props.navigation.goBack();
+							showToast("Запрос на сертификат создан и сохранен в 'Управление сертификатами/Запросы'");
+						}
 					}, 500);
 				}).catch(err => {
 					if (err.indexOf("0x8010006E") !== 1) {
@@ -135,18 +155,46 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 
 	render() {
 		const { navigate, goBack } = this.props.navigation;
+		const { requestsProperties } = this.props.navigation.state.params === undefined ? false : this.props.navigation.state.params;
+		let defaultEmail, defaultOrg, defaultCity, defaultObl, defaultCountry;
+		const defaultCN = requestsProperties ? requestsProperties.subjectName.match(/CN=[^,]{1,}/)[0].replace("CN=", "") : null;
+		if (requestsProperties) {
+			defaultEmail = requestsProperties.subjectName.match(/E=[^,]{1,}/);
+			defaultEmail = defaultEmail ? defaultEmail[0].replace("E=", "") : null;
+
+			defaultOrg = requestsProperties.subjectName.match(/O=[^,]{1,}/);
+			defaultOrg = defaultOrg ? defaultOrg[0].replace("O=", "") : null;
+
+			defaultCity = requestsProperties.subjectName.match(/L=[^,]{1,}/);
+			defaultCity = defaultCity ? defaultCity[0].replace("L=", "") : null;
+
+			defaultObl = requestsProperties.subjectName.match(/S=[^,]{1,}/);
+			defaultObl = defaultObl ? defaultObl[0].replace("S=", "") : null;
+
+			defaultCountry = requestsProperties.subjectName.match(/C=[^,]{1,}/);
+			defaultCountry = defaultCountry ? defaultCountry[0].replace("C=", "") : null;
+		}
+		let defaultkeyUsage;
+		if (requestsProperties) {
+			switch (requestsProperties.keyUsage) {
+				case 0: defaultkeyUsage = "Подпись и шифрование"; break;
+				case 1: defaultkeyUsage = "Шифрование"; break;
+				case 2: defaultkeyUsage = "Подпись"; break;
+				default: defaultkeyUsage = "Подпись и шифрование";
+			}
+		} else { defaultkeyUsage = "Подпись и шифрование"; }
 		return (
 			<Container style={styles.container}>
-				<Headers title="Создание сертификата" goBack={() => goBack()} />
+				<Headers title="Создание запроса на сертификат" goBack={() => goBack()} />
 				<Content>
 					<View>
 						<ListWithModalDropdown text="Алгоритм"
-							defaultValue="GOST R 34.10-2012 256-bit"
+							defaultValue={requestsProperties ? requestsProperties.pubKey : "GOST R 34.10-2012 256-bit"}
 							changeValue={(value) => this.setState({ algorithm: value })}
 							options={[{ value: "GOST R 34.10-2001" }, { value: "GOST R 34.10-2012 256-bit" }, { value: "GOST R 34.10-2012 512-bit" }]} />
 						{this.state.algorithm !== "RSA"
 							? <ListWithModalDropdown text="Назначение ключа"
-								defaultValue="Подпись и шифрование"
+								defaultValue={defaultkeyUsage}
 								changeValue={(value, index) => this.setState({ keyAssignment: Number(index) })}
 								options={[{ value: "Подпись и шифрование" }, { value: "Шифрование" }, { value: "Подпись" }]} />
 							: <ListWithModalDropdown text="Шаблон сертификата"
@@ -163,37 +211,38 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 								{ value: "Сертификат пользователя DSS" }, { value: "Сертификат сервера" },
 								{ value: "Совсем временный сертификат" }]} />}
 					</View>
+					<View style={{ paddingTop: 15, paddingBottom: 15 }}>
+						<ListWithSwitch text="Создать как самоподписаннный сертификат" value={this.state.isselfsign} changeValue={() => this.setState({ isselfsign: !this.state.isselfsign })} />
+					</View>
 					<View style={styles.sign_enc_view}>
 						<Text style={{ color: "grey" }}>Параметры субъекта</Text>
 					</View>
 					<Form>
 						<Item floatingLabel error={this.state.errorInputCN ? true : false} >
 							<Label>CN*</Label>
-							<Input onChangeText={(CN) => this.setState({ CN })} />
+							<Input value={defaultCN} onChangeText={(CN) => this.setState({ CN })} />
 						</Item>
 						<Item floatingLabel error={this.state.errorInputEmail ? true : false} >
 							<Label>email</Label>
-							<Input onChangeText={(email) => this.setState({ email })} />
+							<Input value={defaultEmail ? defaultEmail : null} onChangeText={(email) => this.setState({ email })} />
 						</Item>
 						<Item floatingLabel>
 							<Label>организация</Label>
-							<Input onChangeText={(org) => this.setState({ org })} />
+							<Input value={defaultOrg ? defaultOrg : null} onChangeText={(org) => this.setState({ org })} />
 						</Item>
 						<Item floatingLabel>
 							<Label>город</Label>
-							<Input onChangeText={(city) => this.setState({ city })} />
+							<Input value={defaultCity ? defaultCity : null} onChangeText={(city) => this.setState({ city })} />
 						</Item>
 						<Item floatingLabel>
 							<Label>область</Label>
-							<Input onChangeText={(obl) => this.setState({ obl })} />
+							<Input value={defaultObl ? defaultObl : null} onChangeText={(obl) => this.setState({ obl })} />
 						</Item>
 					</Form>
-					<View style={{ paddingLeft: 15 }}>
-						<ListWithModalDropdown text="страна"
-							defaultValue="RU"
-							changeValue={(value) => this.setState({ country: value })}
-							options={[{ value: "RU" }, { value: "GER" }]} />
-					</View>
+					<ListWithModalDropdown text="страна"
+						defaultValue={defaultCountry ? defaultCountry : "RU"}
+						changeValue={(value) => this.setState({ country: value })}
+						options={[{ value: "RU" }, { value: "GER" }]} />
 					<Button style={{ width: "100%", backgroundColor: "white" }} onPress={() => this.setState({ certAssignment: !this.state.certAssignment })}>
 						<Text style={{ color: "grey" }}>Назначение сертификата</Text>
 						{this.state.certAssignment

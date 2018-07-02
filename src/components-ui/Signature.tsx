@@ -129,7 +129,6 @@ export class Signature extends React.Component<SignatureProps> {
 
 		let img = iconSelection(files, files.length); // какое расширение у файлов
 		const filesView = this.getFilesView(files, isFetching, img, readFiles);
-
 		if (personalCert.title) { // выбран ли сертификат
 			certificate = <List>
 				<ListMenu title={personalCert.title} img={personalCert.img}
@@ -171,7 +170,7 @@ export class Signature extends React.Component<SignatureProps> {
 					</Button>
 				</View>
 				{filesView}
-				{footer.arrButton.length ? <FooterSign /> : null}
+				{footer.arrButton.length ? <FooterSign files={files} personalCert={personalCert} footer={footer}/> : null}
 			</Container>
 		);
 	}

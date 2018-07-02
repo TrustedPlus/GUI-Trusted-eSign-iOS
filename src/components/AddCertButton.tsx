@@ -25,25 +25,23 @@ export class AddCertButton extends React.Component<AddCertButtonProps, AddCertBu
 		AlertIOS.prompt(
 			this.state.numInvalidPassword ? "Ошибка, введите корректный пароль" : "Введите пароль для сертификата",
 			null,
-			[
-				{
-					text: "Отмена",
-					onPress: () => null,
-					style: "cancel",
-				},
-				{
-					text: "Ввести",
-					onPress: (password) => this.props.addCertFunc(res.uri, res.fileName, password, (err) => {
-						let index = err.indexOf("Action canceled by user!");
-						if (index === -1) {
-							this.setState({ numInvalidPassword: this.state.numInvalidPassword + 1 });
-							this.state.numInvalidPassword < 3 ? this.Prompt(res) : AlertIOS.alert("Вы превысили максимальное число попыток");
-						} else {
-							setTimeout(() => AlertIOS.alert("Добавление было отменено"), 400);
-						}
-					}),
-				},
-			],
+			[{
+				text: "Отмена",
+				onPress: () => null,
+				style: "cancel",
+			},
+			{
+				text: "Ввести",
+				onPress: (password) => this.props.addCertFunc(res.uri, res.fileName, password, (err) => {
+					let index = err.indexOf("Action canceled by user!");
+					if (index === -1) {
+						this.setState({ numInvalidPassword: this.state.numInvalidPassword + 1 });
+						this.state.numInvalidPassword < 3 ? this.Prompt(res) : AlertIOS.alert("Вы превысили максимальное число попыток");
+					} else {
+						setTimeout(() => AlertIOS.alert("Добавление было отменено"), 400);
+					}
+				}),
+			}],
 			"secure-text"
 		);
 	}
@@ -52,7 +50,7 @@ export class AddCertButton extends React.Component<AddCertButtonProps, AddCertBu
 		DocumentPicker.show({
 			filetype: ["public.item"]
 		}, (error: any, res: any) => {
-			let point, name, extension;
+			let point, extension;
 			point = res.fileName.indexOf(".");
 			extension = res.fileName.substring(point + 1);
 			if (extension === "pfx") {
@@ -66,11 +64,11 @@ export class AddCertButton extends React.Component<AddCertButtonProps, AddCertBu
 	render() {
 		return (<Button transparent style={{ position: "absolute", bottom: 40, right: 30 }} onPress={() => {
 			AlertIOS.alert(
-				"Добавление сертификата",
+				"Выберите действие",
 				null,
 				[
-					{ text: "Импорт", onPress: () => {this.documentPicker(); this.setState({numInvalidPassword: 0}); }},
-					{ text: "Создание", onPress: () => this.props.navigate("CreateCertificate") },
+					{ text: "Импортировать", onPress: () => { this.documentPicker(); this.setState({ numInvalidPassword: 0 }); } },
+					{ text: "Создание запроса на сертификат", onPress: () => this.props.navigate("CreateCertificate") },
 					{ text: "Отмена", onPress: () => null, style: "destructive" }
 				]
 			);

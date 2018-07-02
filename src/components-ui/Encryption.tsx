@@ -169,7 +169,7 @@ export class Encryption extends React.Component<EncryptionProps> {
 					</Button>
 				</View>
 				{filesView}
-				{footer.arrButton.length ? <FooterEnc /> : null}
+				{footer.arrButton.length ? <FooterEnc files={files} otherCert={otherCert} footer={footer} /> : null}
 			</Container>
 		);
 	}

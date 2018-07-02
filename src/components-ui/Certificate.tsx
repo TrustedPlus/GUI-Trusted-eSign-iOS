@@ -11,7 +11,8 @@ import { addCert } from "../actions/index";
 
 function mapStateToProps(state) {
 	return {
-		certificates: state.certificates.certificates
+		certificates: state.certificates.certificates,
+		requests: state.requests.arrRequests
 	};
 }
 
@@ -24,6 +25,7 @@ function mapDispatchToProps(dispatch) {
 interface CertificateProps {
 	navigation: any;
 	certificates: any;
+	requests: any;
 	addCert(uri: string, fileName: string, password: string, fn: Function): Function;
 }
 
@@ -41,10 +43,11 @@ export class Certificate extends React.Component<CertificateProps> {
 
 	render() {
 		const { navigate, goBack } = this.props.navigation;
-			let lengthPersCert = this.props.certificates.filter((cert) => cert.category.toUpperCase() === "MY").length;
-			let lengthOtherCert = this.props.certificates.filter((cert) => (cert.category.toUpperCase() === "OTHERS") || (cert.category.toUpperCase() === "ADDRESSBOOK")).length;
-			let lengthAdressBookCert = this.props.certificates.filter((cert) => cert.category.toUpperCase() === "CA").length;
-			let lengthRootCert = this.props.certificates.filter((cert) => (cert.category.toUpperCase() === "ROOT") || (cert.category.toUpperCase() === "TRUST")).length;
+		let lengthPersCert = this.props.certificates.filter((cert) => cert.category.toUpperCase() === "MY").length;
+		let lengthOtherCert = this.props.certificates.filter((cert) => (cert.category.toUpperCase() === "OTHERS") || (cert.category.toUpperCase() === "ADDRESSBOOK")).length;
+		let lengthAdressBookCert = this.props.certificates.filter((cert) => cert.category.toUpperCase() === "CA").length;
+		let lengthRootCert = this.props.certificates.filter((cert) => (cert.category.toUpperCase() === "ROOT") || (cert.category.toUpperCase() === "TRUST")).length;
+		let lengthRequests = this.props.requests.length;
 		return (
 			<Container style={styles.container}>
 				<Headers title="Сертификаты" goBack={() => goBack()} />
@@ -58,6 +61,8 @@ export class Certificate extends React.Component<CertificateProps> {
 							note={"количество сертификатов: " + lengthAdressBookCert} nav={() => navigate("ListCertCategory", { title: "Промежуточные сертификаты", category: ["CA", null] })} />
 						<ListMenu title="Доверенные корневые сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
 							note={"количество сертификатов: " + lengthRootCert} nav={() => navigate("ListCertCategory", { title: "Доверенные корневые сертификаты", category: ["ROOT", "TRUST"] })} />
+						<ListMenu title="Запросы" img={require("../../imgs/general/certificates_menu_icon.png")}
+							note={"количество запросов: " + lengthRequests} nav={() => navigate("Requests", { title: "Доверенные корневые сертификаты", category: ["ROOT", "TRUST"] })} />
 					</List>
 				</Content>
 				<AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password, fn) => this.props.addCert(uri, fileName, password, fn)} />

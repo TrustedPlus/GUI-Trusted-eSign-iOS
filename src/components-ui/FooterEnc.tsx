@@ -7,15 +7,6 @@ import { bindActionCreators } from "redux";
 import { encAssymmetric, decAssymmetric } from "../actions/encDecAction";
 import { uploadFile, deleteFile } from "../actions/uploadFileAction";
 
-function mapStateToProps(state) {
-	return {
-		files: state.files.files,
-		footer: state.footer,
-		otherCert: state.otherCert,
-		certificates: state.certificates.certificates
-	};
-}
-
 function mapDispatchToProps(dispatch) {
 	return {
 		encAssymmetric: bindActionCreators(encAssymmetric, dispatch),
@@ -33,16 +24,15 @@ interface IFile {
 
 interface FooterEncProps {
 	footer?: any;
-	files?: IFile[];
+	files?: any;
 	otherCert?: any;
-	certificates?: any;
 	encAssymmetric?(files: IFile[], otherCert: string[], footer: string[]): void;
 	decAssymmetric?(files: IFile[], footer: string[]): void;
 	uploadFile?(files: IFile[], footer): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
 }
 
-@(connect(mapStateToProps, mapDispatchToProps) as any)
+@(connect(null, mapDispatchToProps) as any)
 export class FooterEnc extends React.Component<FooterEncProps> {
 
 	render() {

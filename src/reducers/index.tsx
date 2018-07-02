@@ -6,6 +6,7 @@ import { Files } from "./Files";
 import { Logger } from "./Logger";
 import { certificates } from "./CertificatesReducers";
 import { containers } from "./GetContainersReducers";
+import { requests } from "./requestReducer";
 
 const rootReducer = combineReducers({
 	footer: Footer,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
 	logger: Logger,
 	certificates: certificates,
 	otherCert: otherCert,
-	containers: containers
+	containers: containers,
+	requests: requests
 });
 
 export default rootReducer;

@@ -13,14 +13,6 @@ import { readFiles } from "../actions/index";
 import * as Modal from "react-native-modalbox";
 import { styles } from "../styles";
 
-function mapStateToProps(state) {
-	return {
-		files: state.files.files,
-		footer: state.footer,
-		personalCert: state.personalCert
-	};
-}
-
 function mapDispatchToProps(dispatch) {
 	return {
 		signFile: bindActionCreators(signFile, dispatch),
@@ -41,7 +33,7 @@ interface IFile {
 
 interface FooterSignProps {
 	footer?: any;
-	files?: IFile[];
+	files?: any;
 	personalCert?: any;
 	modalView?: Function;
 	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean): void;
@@ -62,7 +54,7 @@ interface IModals {
 	basicModal: Modal.default;
 }
 
-@(connect(mapStateToProps, mapDispatchToProps) as any)
+@(connect(null, mapDispatchToProps) as any)
 export class FooterSign extends React.Component<FooterSignProps, FooterSignState> {
 
 	constructor(props) {

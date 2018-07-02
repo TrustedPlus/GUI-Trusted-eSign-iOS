@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Container, Content, Text, Footer, FooterTab, Button, View, Form, Item, Label, Input } from "native-base";
-import { NativeModules, Alert, Share } from "react-native";
+import { NativeModules, Share } from "react-native";
 import { styles } from "../styles";
 import { showToast } from "../utils/toast";
 import * as RNFS from "react-native-fs";
@@ -69,7 +69,7 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 												showToast("Файл успешно отправлен");
 											}
 										}).catch(
-											errorMsg => showToast("Ошибка при экспорте сертификата")
+											() => showToast("Ошибка при экспорте сертификата")
 										);
 									}
 								}
@@ -88,7 +88,7 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 						true,
 						this.state.password,
 						path,
-						(err, exp) => {
+						(err) => {
 							if (err) {
 								showToast(err);
 							} else {
@@ -103,7 +103,7 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 										showToast("Файл успешно отправлен");
 									}
 								}).catch(
-									errorMsg => showToast("Ошибка при экспорте сертификата")
+									() => showToast("Ошибка при экспорте сертификата")
 								);
 							}
 						});

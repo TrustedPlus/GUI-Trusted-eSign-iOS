@@ -14,7 +14,7 @@ interface IFile {
 	name: string;
 }
 
-export function encAssymmetric(files: IFile[], otherCert, footer) {
+export function encAssymmetric(files: IFile[], otherCert, footer, signature, deleteAfter) {
 	return function action(dispatch) {
 		dispatch({ type: ENCODE_FILES });
 		if (!otherCert.arrEncCertificates.length) {
@@ -32,7 +32,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer) {
 					otherCert.arrEncCertificates[0].provider,
 					path,
 					path + ".enc",
-					"BASE64",
+					signature === "BASE-64" ? "BASE64" : "DER",
 					(err) => {
 						if (err) {
 							showToastDanger(err);
@@ -40,6 +40,9 @@ export function encAssymmetric(files: IFile[], otherCert, footer) {
 						} else {
 							// RNFS.copyFile(path + ".enc", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".enc");
 							dispatch({ type: ENCODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
+							if (deleteAfter) { RNFS.unlink(path); showToast("Файл успешно зашифрован\nИсходный файл был удален"); } else {
+								showToast("Файл успешно зашифрован");
+							}
 						}
 					});
 			}
@@ -54,7 +57,7 @@ export function decAssymmetric(files: IFile[], footer) {
 	return function action(dispatch) {
 		dispatch({ type: DECODE_FILES });
 		for (let i = 0; i < footer.arrButton.length; i++) {
-			debugger;
+
 			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
 			let point = files[footer.arrButton[i]].extensionAll.lastIndexOf(".");
 			let extension = files[footer.arrButton[i]].extensionAll.substring(0, point);
@@ -81,6 +84,7 @@ export function decAssymmetric(files: IFile[], footer) {
 						} else {
 							// RNFS.copyFile(path + "." + extension, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + extension);
 							dispatch({ type: DECODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
+							showToast("Файл успешно расшифрован");
 						}
 					}
 				)

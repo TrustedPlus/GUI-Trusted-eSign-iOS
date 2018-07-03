@@ -36,7 +36,7 @@ interface FooterSignProps {
 	files?: any;
 	personalCert?: any;
 	modalView?: Function;
-	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean): void;
+	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean, signature: string): void;
 	verifySign?(files: IFile[], footer: string[]): void;
 	UnSignFile?(files: IFile[], footer: string[]): void;
 	uploadFile?(files: IFile[], footer: string[]): void;
@@ -108,14 +108,14 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 					ref={ref => this.modals.basicModal = ref}
 					style={[styles.modal, styles.modal3]}
 					position={"center"}
-					isDisabled={false}>
+					swipeToClose={false}>
 					<View style={{ width: "100%", height: "100%" }}>
 						<ListWithModalDropdown text="Кодировка"
 							defaultValue={this.state.signature}
 							changeValue={(value) => this.setState({ signature: value })}
 							options={[{ value: "BASE-64" }, { value: "DER" }]} />
 						<ListWithSwitch text="Сохранить подпись отдельно" disabled={this.state.isSign} value={this.state.detached} changeValue={() => this.setState({ detached: !this.state.detached })} />
-						<Button transparent onPress={() => { this.modals.basicModal.close(); signFile(files, personalCert, footer, this.state.detached); }} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
+						<Button transparent onPress={() => { this.modals.basicModal.close(); signFile(files, personalCert, footer, this.state.detached, this.state.signature); }} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
 							<Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>ОК</Text>
 						</Button>
 						<Button transparent onPress={() => this.modals.basicModal.close()} style={{ borderTopWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0, right: 0 }}><Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>Отмена</Text></Button>

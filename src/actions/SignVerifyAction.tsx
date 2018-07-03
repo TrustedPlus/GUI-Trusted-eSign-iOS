@@ -14,7 +14,7 @@ interface IFile {
 	name: string;
 }
 
-export function signFile(files: IFile[], personalCert, footer, detached) {
+export function signFile(files: IFile[], personalCert, footer, detached, signature) {
 	return function action(dispatch) {
 		let lengthError = 0;
 		dispatch({ type: SIGN_FILE });
@@ -27,7 +27,7 @@ export function signFile(files: IFile[], personalCert, footer, detached) {
 					personalCert.provider,
 					path,
 					path,
-					"BASE64",
+					signature === "BASE-64" ? "BASE64" : "DER",
 					false,
 					(err) => {
 						if (err) {
@@ -57,7 +57,7 @@ export function signFile(files: IFile[], personalCert, footer, detached) {
 					personalCert.provider,
 					path,
 					path + ".sig",
-					"BASE64",
+					signature === "BASE-64" ? "BASE64" : "DER",
 					detached,
 					(err) => {
 						if (err) {

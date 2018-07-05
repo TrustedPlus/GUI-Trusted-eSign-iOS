@@ -11,70 +11,70 @@ import { bindActionCreators } from "redux";
 import { getProviders } from "../actions/getContainersAction";
 
 function mapStateToProps(state) {
-	return {
-		containers: state.containers.containers
-	};
+   return {
+      containers: state.containers.containers
+   };
 }
 
 function mapDispatchToProps(dispatch) {
-	return {
-		getProviders: bindActionCreators(getProviders, dispatch)
-	};
+   return {
+      getProviders: bindActionCreators(getProviders, dispatch)
+   };
 }
 
 interface ContainersProps {
-	navigation: any;
-	goBack: void;
-	containers: any;
-	getProviders(): void;
+   navigation: any;
+   goBack: void;
+   containers: any;
+   getProviders(): void;
 }
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Containers extends React.Component<ContainersProps> {
 
-	static navigationOptions = {
-		header: null
-	};
+   static navigationOptions = {
+      header: null
+   };
 
-	constructor(props) {
-		super(props);
-		this.props.navigation.state.key = "Home";
-	}
+   constructor(props) {
+      super(props);
+      this.props.navigation.state.key = "Home";
+   }
 
-	showList() {
-		if (this.props.containers[0]) {
-			return (this.props.containers.map((containers, key) => <ListMenu
-				key={key}
-				note={"HDIMAGE"}
-				title={containers.container}
-				nav={() => NativeModules.Wrap_Main.getCertInfoFromContainer(
-					containers["fqcnA"],
-					(err, cert) => {
-						if (err) {
-							showToast("В контейнере нет сертификата");
-						} else {
-							this.props.navigation.navigate("PropertiesCert", { cert: cert[0], isCertInContainers: true, containers: containers["fqcnA"] });
-						}
-					})
-				} />));
-		}
-	}
+   showList() {
+      if (this.props.containers[0]) {
+         return (this.props.containers.map((containers, key) => <ListMenu
+            key={key}
+            note={"HDIMAGE"}
+            title={containers.container}
+            nav={() => NativeModules.Wrap_Main.getCertInfoFromContainer(
+               containers["fqcnA"],
+               (err, cert) => {
+                  if (err) {
+                     showToast("В контейнере нет сертификата");
+                  } else {
+                     this.props.navigation.navigate("PropertiesCert", { cert: cert[0], isCertInContainers: true, containers: containers["fqcnA"] });
+                  }
+               })
+            } />));
+      }
+   }
 
-	render() {
-		const { goBack } = this.props.navigation;
-		return (
-			<Container style={styles.container}>
-				<Headers title="Контейнеры" goBack={() => goBack()} />
-				<Content>
-					{this.props.containers.length !== 0 ?
-						<List>{this.showList()}</List> :
-						<Text style={[styles.sign_enc_prompt, { paddingTop: "50%", paddingLeft: 5, paddingRight: 5 }]}>Контейнеров нет. Создайте или импортируйте сертификат с закрытым ключом.</Text>}
-				</Content>
-			</Container>
-		);
-	}
+   render() {
+      const { goBack } = this.props.navigation;
+      return (
+         <Container style={styles.container}>
+            <Headers title="Контейнеры" goBack={() => goBack()} />
+            <Content>
+               {this.props.containers.length !== 0 ?
+                  <List>{this.showList()}</List> :
+                  <Text style={[styles.sign_enc_prompt, { paddingTop: "50%", paddingLeft: 5, paddingRight: 5 }]}>Контейнеров нет. Создайте или импортируйте сертификат с закрытым ключом.</Text>}
+            </Content>
+         </Container>
+      );
+   }
 
-	componentDidMount() {
-		this.props.getProviders();
-	}
+   componentDidMount() {
+      this.props.getProviders();
+   }
 }

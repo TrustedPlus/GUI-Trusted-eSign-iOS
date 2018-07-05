@@ -170,7 +170,7 @@ export class Signature extends React.Component<SignatureProps> {
 					</Button>
 				</View>
 				{filesView}
-				{footer.arrButton.length ? <FooterSign files={files} personalCert={personalCert} footer={footer}/> : null}
+				{footer.arrButton.length ? <FooterSign files={files} personalCert={personalCert} footer={footer} navigate={(page, cert) => navigate(page, {cert: cert})}/> : null}
 			</Container>
 		);
 	}

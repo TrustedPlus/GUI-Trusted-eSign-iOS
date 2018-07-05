@@ -4,6 +4,7 @@ import { Image, AlertIOS, NativeModules, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { FooterButton } from "../components/FooterButton";
+import { ListForCert } from "../components/ListForCert";
 import { showToast } from "../utils/toast";
 
 import { connect } from "react-redux";
@@ -16,25 +17,6 @@ function mapDispatchToProps(dispatch) {
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
 		deleteCertAction: bindActionCreators(deleteCertAction, dispatch)
 	};
-}
-
-interface ListForCertProps {
-	title: string;
-	value?: string;
-	first?: boolean;
-	itemHeader?: boolean;
-}
-
-class ListForCert extends React.Component<ListForCertProps> {
-
-	render() {
-		return (
-			<ListItem first={this.props.first} itemHeader={this.props.itemHeader}>
-				<Text style={{ width: "50%" }}>{this.props.title}</Text>
-				{this.props.value ? <Text style={styles.prop_cert_righttext}>{this.props.value}</Text> : null}
-			</ListItem>
-		);
-	}
 }
 
 interface PropertiesCertProps {

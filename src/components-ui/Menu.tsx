@@ -18,6 +18,7 @@ import { SelectCert } from "./SelectCert";
 import { Containers } from "./Containers";
 import { Documents } from "./Documents";
 import { Requests } from "./Requests";
+import { AboutSignCert } from "./AboutSignCert";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -115,7 +116,8 @@ export const App = StackNavigator({
 	SelectCert: { screen: SelectCert },
 	Containers: { screen: Containers },
 	Documents: { screen: Documents },
-	Requests: { screen: Requests }
+	Requests: { screen: Requests },
+	AboutSignCert: { screen: AboutSignCert}
 });
 
 /* NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {

@@ -6,6 +6,8 @@ import { ListMenu } from "../components/ListMenu";
 import { Headers } from "../components/Headers";
 import { FooterButton } from "../components/FooterButton";
 import { styles } from "../styles";
+import { Share } from "react-native";
+import { showToast, showToastDanger } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -77,8 +79,22 @@ export class Requests extends React.Component<RequestsProps, RequestsState> {
 			RNFS.DocumentDirectoryPath + "/Requests/" + this.props.requests[this.state.selectedRequests].name + ".csr",
 			"BASE64",
 			(err, verify) => {
-				this.props.navigation.navigate("CreateCertificate", { requestsProperties: verify });
+				this.props.navigation.navigate("CreateCertificate", { requestsProperties: verify, clearSelectesRequests: () => this.setState({ selectedRequests: [] }) });
 			});
+	}
+
+	uploadFile(requests, selectedRequests) {
+		Share.share({
+			url: RNFS.DocumentDirectoryPath + "/Requests/" + requests[selectedRequests[0]].name + ".csr"
+		}).then((action: { action }) => {
+			if (action.action === Share.dismissedAction) {
+				showToast("Отправка запроса была отклонена");
+			} else {
+				showToast("Запрос успешно отправлен");
+			}
+		}).catch(
+			errorMsg => showToastDanger(errorMsg)
+		);
 	}
 
 	render() {
@@ -90,12 +106,13 @@ export class Requests extends React.Component<RequestsProps, RequestsState> {
 					<List>{this.showList()}</List>
 				</Content>
 				{this.state.selectedRequests.length ?
-				<Footer>
-					<FooterTab>
-						<FooterButton disabled={this.state.selectedRequests.length !== 1} title="Создать сертифкат по шаблону" icon="create" nav={() => this.onPressGetRequestInfo()} />
-						<FooterButton title="Удалить" icon="md-trash" nav={() => this.props.deleteRequests(this.props.requests, this.state.selectedRequests)} />
-					</FooterTab>
-				</Footer> : null}
+					<Footer>
+						<FooterTab>
+							<FooterButton disabled={this.state.selectedRequests.length !== 1} title="Создать запрос по шаблону" icon="create" nav={() => this.onPressGetRequestInfo()} />
+							<FooterButton disabled={this.state.selectedRequests.length !== 1} title="Отправить" icon="ios-share-alt-outline" nav={() => this.uploadFile(this.props.requests, this.state.selectedRequests)} />
+							<FooterButton title="Удалить" icon="md-trash" nav={() => this.props.deleteRequests(this.props.requests, this.state.selectedRequests)} />
+						</FooterTab>
+					</Footer> : null}
 			</Container>
 		);
 	}

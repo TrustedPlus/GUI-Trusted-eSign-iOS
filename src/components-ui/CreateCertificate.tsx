@@ -72,6 +72,25 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 		super(props);
 		const { requestsProperties } = this.props.navigation.state.params === undefined ? false : this.props.navigation.state.params;
 
+		let defaultEmail = "", defaultOrg = "", defaultCity = "", defaultObl = "", defaultCountry = "RU";
+		const defaultCN = requestsProperties ? requestsProperties.subjectName.match(/CN=[^,]{1,}/)[0].replace("CN=", "") : "";
+		if (requestsProperties) {
+			defaultEmail = requestsProperties.subjectName.match(/E=[^,]{1,}/);
+			defaultEmail = defaultEmail ? defaultEmail[0].replace("E=", "") : "";
+
+			defaultOrg = requestsProperties.subjectName.match(/O=[^,]{1,}/);
+			defaultOrg = defaultOrg ? defaultOrg[0].replace("O=", "") : "";
+
+			defaultCity = requestsProperties.subjectName.match(/L=[^,]{1,}/);
+			defaultCity = defaultCity ? defaultCity[0].replace("L=", "") : "";
+
+			defaultObl = requestsProperties.subjectName.match(/S=[^,]{1,}/);
+			defaultObl = defaultObl ? defaultObl[0].replace("S=", "") : "";
+
+			defaultCountry = requestsProperties.subjectName.match(/C=[^,]{1,}/);
+			defaultCountry = defaultCountry ? defaultCountry[0].replace("C=", "") : "RU";
+		}
+
 		this.state = {
 			algorithm: "GOST R 34.10-2012 256-bit",
 			keyLength: 512,
@@ -82,12 +101,12 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 			code_sign: requestsProperties ? Boolean(requestsProperties.extKeyUsage_code) : false,
 			email_protection: requestsProperties ? Boolean(requestsProperties.extKeyUsage_email) : true,
 			cert_template: 0,
-			CN: "",
-			email: "",
-			org: "",
-			city: "",
-			obl: "",
-			country: "RU",
+			CN: defaultCN,
+			email: defaultEmail,
+			org: defaultOrg,
+			city: defaultCity,
+			obl: defaultObl,
+			country: defaultCountry,
 			errorInputCN: false,
 			errorInputEmail: false,
 			isselfsign: false
@@ -107,6 +126,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 				this.setState({ errorInputEmail: true });
 				showToast("Поле email не корректно");
 			} else {
+
 				genSelfSignedCertWithoutRequest(
 					this.state.algorithm,
 					this.state.keyAssignment,
@@ -125,6 +145,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 					this.state.isselfsign
 				).then(() => {
 					setTimeout(() => {
+						this.props.navigation.state.params ? this.props.navigation.state.params.clearSelectesRequests() : null;
 						if (this.state.isselfsign) {
 							this.props.createCert(this.state.CN); // TODO, исправить
 							RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + this.state.CN + ".cer");
@@ -140,7 +161,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 						}
 					}, 500);
 				}).catch(err => {
-					if (err.indexOf("0x8010006E") !== 1) {
+					if (err.indexOf("0x8010006E") !== -1) {
 						showToast("Действие было отменено");
 					} else {
 						showToastDanger(err + "");
@@ -156,24 +177,6 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 	render() {
 		const { navigate, goBack } = this.props.navigation;
 		const { requestsProperties } = this.props.navigation.state.params === undefined ? false : this.props.navigation.state.params;
-		let defaultEmail, defaultOrg, defaultCity, defaultObl, defaultCountry;
-		const defaultCN = requestsProperties ? requestsProperties.subjectName.match(/CN=[^,]{1,}/)[0].replace("CN=", "") : null;
-		if (requestsProperties) {
-			defaultEmail = requestsProperties.subjectName.match(/E=[^,]{1,}/);
-			defaultEmail = defaultEmail ? defaultEmail[0].replace("E=", "") : null;
-
-			defaultOrg = requestsProperties.subjectName.match(/O=[^,]{1,}/);
-			defaultOrg = defaultOrg ? defaultOrg[0].replace("O=", "") : null;
-
-			defaultCity = requestsProperties.subjectName.match(/L=[^,]{1,}/);
-			defaultCity = defaultCity ? defaultCity[0].replace("L=", "") : null;
-
-			defaultObl = requestsProperties.subjectName.match(/S=[^,]{1,}/);
-			defaultObl = defaultObl ? defaultObl[0].replace("S=", "") : null;
-
-			defaultCountry = requestsProperties.subjectName.match(/C=[^,]{1,}/);
-			defaultCountry = defaultCountry ? defaultCountry[0].replace("C=", "") : null;
-		}
 		let defaultkeyUsage;
 		if (requestsProperties) {
 			switch (requestsProperties.keyUsage) {
@@ -220,27 +223,27 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 					<Form>
 						<Item floatingLabel error={this.state.errorInputCN ? true : false} >
 							<Label>CN*</Label>
-							<Input value={defaultCN} onChangeText={(CN) => this.setState({ CN })} />
+							<Input value={this.state.CN} onChangeText={(CN) => this.setState({ CN })} />
 						</Item>
 						<Item floatingLabel error={this.state.errorInputEmail ? true : false} >
 							<Label>email</Label>
-							<Input value={defaultEmail ? defaultEmail : null} onChangeText={(email) => this.setState({ email })} />
+							<Input value={this.state.email} onChangeText={(email) => this.setState({ email })} />
 						</Item>
 						<Item floatingLabel>
 							<Label>организация</Label>
-							<Input value={defaultOrg ? defaultOrg : null} onChangeText={(org) => this.setState({ org })} />
+							<Input value={this.state.org} onChangeText={(org) => this.setState({ org })} />
 						</Item>
 						<Item floatingLabel>
 							<Label>город</Label>
-							<Input value={defaultCity ? defaultCity : null} onChangeText={(city) => this.setState({ city })} />
+							<Input value={this.state.city} onChangeText={(city) => this.setState({ city })} />
 						</Item>
 						<Item floatingLabel>
 							<Label>область</Label>
-							<Input value={defaultObl ? defaultObl : null} onChangeText={(obl) => this.setState({ obl })} />
+							<Input value={this.state.obl} onChangeText={(obl) => this.setState({ obl })} />
 						</Item>
 					</Form>
 					<ListWithModalDropdown text="страна"
-						defaultValue={defaultCountry ? defaultCountry : "RU"}
+						defaultValue={this.state.country}
 						changeValue={(value) => this.setState({ country: value })}
 						options={[{ value: "RU" }, { value: "GER" }]} />
 					<Button style={{ width: "100%", backgroundColor: "white" }} onPress={() => this.setState({ certAssignment: !this.state.certAssignment })}>

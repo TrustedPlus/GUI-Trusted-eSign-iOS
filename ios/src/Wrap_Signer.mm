@@ -178,7 +178,7 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
         else
           arrayInfoAboutSigner[@"status"] = @("0");
         arrayInfoAboutSigner[@"signatureAlgorithm"] = @(vec[i].cert->getSignatureAlgorithm()->c_str());
-        arrayInfoAboutSigner[@"SubjectName"] = @(vec[i].cert->getSubjectName()->c_str());
+        arrayInfoAboutSigner[@"subjectName"] = @(vec[i].cert->getSubjectName()->c_str());
         arrayInfoAboutSigner[@"issuerName"] = @(vec[i].cert->getIssuerName()->c_str());
         arrayInfoAboutSigner[@"notAfter"] = @(vec[i].cert->getNotAfter()->c_str());
         
@@ -213,7 +213,7 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
             arrayInfoAboutSigner[@"signatureAlgorithm"] = @(publicKeyAlgorithm_GOST_R_3410_2012_256);
           }
         }
-        arrayInfoAboutSigner[@"SubjectName"] = @(vec[i].cert->getSubjectName()->c_str());
+        arrayInfoAboutSigner[@"subjectName"] = @(vec[i].cert->getSubjectName()->c_str());
         arrayInfoAboutSigner[@"issuerName"] = @(vec[i].cert->getIssuerName()->c_str());
         arrayInfoAboutSigner[@"notAfter"] = @(vec[i].cert->getNotAfter()->c_str());
         

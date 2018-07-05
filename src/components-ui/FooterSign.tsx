@@ -6,7 +6,7 @@ import { ListWithSwitch } from "../components/ListWithSwitch";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { signFile, verifySign, UnSignFile } from "../actions/signVerifyAction";
+import { signFile, verifySign, UnSignFile, getSignInfo } from "../actions/signVerifyAction";
 import { uploadFile, deleteFile } from "../actions/uploadFileAction";
 import { readFiles } from "../actions/index";
 
@@ -20,7 +20,8 @@ function mapDispatchToProps(dispatch) {
 		UnSignFile: bindActionCreators(UnSignFile, dispatch),
 		uploadFile: bindActionCreators(uploadFile, dispatch),
 		deleteFile: bindActionCreators(deleteFile, dispatch),
-		readFiles: bindActionCreators(readFiles, dispatch)
+		readFiles: bindActionCreators(readFiles, dispatch),
+		getSignInfo: bindActionCreators(getSignInfo, dispatch)
 	};
 }
 
@@ -36,11 +37,13 @@ interface FooterSignProps {
 	files?: any;
 	personalCert?: any;
 	modalView?: Function;
+	navigate?: any;
 	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean, signature: string): void;
 	verifySign?(files: IFile[], footer: string[]): void;
 	UnSignFile?(files: IFile[], footer: string[]): void;
 	uploadFile?(files: IFile[], footer: string[]): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
+	getSignInfo?(files: IFile[], footer: string[], navigate): void;
 	readFiles?(): any;
 }
 
@@ -48,6 +51,7 @@ interface FooterSignState {
 	signature: string;
 	detached: boolean;
 	isSign: boolean;
+	modalMore: boolean;
 }
 
 interface IModals {
@@ -62,7 +66,8 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 		this.state = {
 			signature: "BASE-64",
 			detached: false,
-			isSign: false
+			isSign: false,
+			modalMore: false
 		};
 	}
 
@@ -79,18 +84,48 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 	}
 
 	render() {
-		const { files, personalCert, verifySign, signFile, UnSignFile, uploadFile, deleteFile, footer } = this.props;
-		let certIsNotNull, isSign = false, allIsSign = null;
+		console.log(this.props);
+		const { files, personalCert, verifySign, signFile, UnSignFile, uploadFile, deleteFile, footer, getSignInfo, navigate } = this.props;
+		let certIsNotNull, isSign = false, allIsSign = null, numSelectedFilesIsOne = false;
 		if (!personalCert.title) {
 			certIsNotNull = "noCert";
 		}
 		if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "sig").length) {
 			allIsSign = "sig";
 		}
+		if (footer.arrExtension.length === 1) {
+			numSelectedFilesIsOne = true;
+		}
+		// deleteFile(files, footer)
+		// <FooterButton title="Снять" disabled={allIsSign === "sig" ? false : true} icon="md-crop" nav={() => UnSignFile(files, footer)} />
+		// <FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />
+		//
 		return (
 			<>
 				<Footer>
 					<FooterTab>
+						{this.state.modalMore
+							? <View style={{ width: 200, height: 110, position: "absolute", bottom: 70, right: 20, shadowColor: '#000000',
+							shadowOffset: {
+							  width: 0,
+							  height: 3
+							},
+							shadowRadius: 5,
+							shadowOpacity: 1.0}}>
+								<Footer>
+									<FooterTab>
+										<FooterButton title="Снять" disabled={allIsSign === "sig" ? false : true} icon="md-crop" nav={() => UnSignFile(files, footer)} />
+										<FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />
+									</FooterTab>
+								</Footer>
+								<Footer>
+									<FooterTab>
+										<FooterButton style={{ backgroundColor: "#F8F8F8" }} title="Архивировать" icon="help" nav={() => null} />
+										<FooterButton style={{ backgroundColor: "#F8F8F8" }} title="Удалить" icon="ios-trash" nav={() => deleteFile(files, footer)} />
+									</FooterTab>
+								</Footer>
+							</View>
+							: null}
 						<FooterButton title="Проверить"
 							disabled={allIsSign === "sig" ? false : true}
 							icon="md-done-all"
@@ -99,9 +134,8 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							disabled={certIsNotNull === "noCert" ? true : false}
 							icon="md-create"
 							nav={() => { this.func(footer, files); this.modals.basicModal.open(); }} />
-						<FooterButton title="Снять" disabled={allIsSign === "sig" ? false : true} icon="md-crop" nav={() => UnSignFile(files, footer)} />
-						<FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />
-						<FooterButton title="Удалить" icon="md-trash" nav={() => deleteFile(files, footer)} />
+						<FooterButton title="Свойства" disabled={numSelectedFilesIsOne ? allIsSign === "sig" ? false : true : false} icon="ios-information" nav={() => getSignInfo(files, footer, (page, cert) => navigate(page, {cert: cert}))} />
+						<FooterButton title="Больше" icon="ios-more" nav={() => this.setState({ modalMore: !this.state.modalMore })} />
 					</FooterTab>
 				</Footer>
 				<Modal

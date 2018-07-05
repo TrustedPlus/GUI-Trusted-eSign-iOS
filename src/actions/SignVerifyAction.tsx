@@ -172,11 +172,50 @@ export function UnSignFile(files: IFile[], footer) {
 					path.substr(0, path.length - 4),
 					(err) => {
 						if (err) {
-							showToast("Открепленная подпись. При снятии подписи произошла ошибка.");
+							showToastDanger("Открепленная подпись. При снятии подписи произошла ошибка.");
 						} else {
 							RNFS.unlink(path);
 							dispatch(readFiles());
 							showToast("Подпись была успешно снята");
+						}
+					}
+				)
+			);
+		}
+	};
+}
+
+export function getSignInfo(files: IFile[], footer, navigate) {
+	return function action(dispatch) {
+		for (let i = 0; i < footer.arrButton.length; i++) {
+			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+			let encoding;
+			const read = RNFS.read(path, 2, 0, "utf8");
+
+			read.then(
+				success => encoding = "BASE64",
+				err => encoding = "DER"
+			).then(
+				() => NativeModules.Wrap_Signer.isDetachedSignMessage(
+					path,
+					encoding,
+					(err, verify) => {
+						if (err) {
+							showToastDanger(err);
+						} else {
+							NativeModules.Wrap_Signer.getSignInfo(
+								verify ? path.substring(0, path.length - 4) : "",
+								path,
+								encoding,
+								verify ? true : false,
+								(err, verify) => {
+									if (err) {
+										showToastDanger(err);
+									} else {
+										navigate("AboutSignCert", verify);
+									}
+								}
+							);
 						}
 					}
 				)

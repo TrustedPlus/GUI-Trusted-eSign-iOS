@@ -117,7 +117,7 @@ export const App = StackNavigator({
 	Containers: { screen: Containers },
 	Documents: { screen: Documents },
 	Requests: { screen: Requests },
-	AboutSignCert: { screen: AboutSignCert}
+	AboutSignCert: { screen: AboutSignCert }
 });
 
 /* NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {

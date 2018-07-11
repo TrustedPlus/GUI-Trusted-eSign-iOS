@@ -202,20 +202,58 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
         else
           arrayInfoAboutSigner[@"signingTime"] = @(vec[i].signingTime->c_str());
         
-        if ((!(strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.3") == 0)) && (!(strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.2") == 0))) {
-          arrayInfoAboutSigner[@"signatureAlgorithm"] = @(vec[i].cert->getSignatureAlgorithm()->c_str());
+        arrayInfoAboutSigner[@"version"] = @(vec[i].cert->getVersion() + 1);
+        arrayInfoAboutSigner[@"serialNumber"] = @(vec[i].cert->getSerialNumber()->c_str());
+        arrayInfoAboutSigner[@"notBefore"] = @(vec[i].cert->getNotBefore()->c_str());
+        arrayInfoAboutSigner[@"notAfter"] = @(vec[i].cert->getNotAfter()->c_str());
+        arrayInfoAboutSigner[@"issuerFriendlyName"] = @(vec[i].cert->getIssuerFriendlyName()->c_str());
+        arrayInfoAboutSigner[@"issuerName"] = @(vec[i].cert->getIssuerName()->c_str());
+        arrayInfoAboutSigner[@"subjectFriendlyName"] = @(vec[i].cert->getSubjectFriendlyName()->c_str());
+        arrayInfoAboutSigner[@"subjectName"] = @(vec[i].cert->getSubjectName()->c_str());
+        arrayInfoAboutSigner[@"thumbprint"] = @(vec[i].cert->getThumbprint()->c_str());
+        
+        if (strcmp(vec[i].cert->getPublicKeyAlgorithm()->c_str(), szOID_CP_GOST_R3410_12_512) == 0){
+          arrayInfoAboutSigner[@"publicKeyAlgorithm"] = @(publicKeyAlgorithm_GOST_R_3410_2012_512);
+        }
+        else if (strcmp(vec[i].cert->getPublicKeyAlgorithm()->c_str(), szOID_CP_GOST_R3410_12_256) == 0){
+          arrayInfoAboutSigner[@"publicKeyAlgorithm"] = @(publicKeyAlgorithm_GOST_R_3410_2012_256);
         }
         else{
-          if (strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), "1.2.643.7.1.1.3.3") == 0) {
-            arrayInfoAboutSigner[@"signatureAlgorithm"] = @(publicKeyAlgorithm_GOST_R_3410_2012_512);
+          arrayInfoAboutSigner[@"publicKeyAlgorithm"] = @(vec[i].cert->getPublicKeyAlgorithm()->c_str());
+        }
+        
+        if ((!(strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), szOID_CP_GOST_R3411_12_512_R3410) == 0)) &&
+            (!(strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), szOID_CP_GOST_R3411_12_256_R3410) == 0))){
+          arrayInfoAboutSigner[@"signatureAlgorithm"] = @(vec[i].cert->getSignatureAlgorithm()->c_str());
+          arrayInfoAboutSigner[@"signatureDigestAlgorithm"] = @(vec[i].cert->getSignatureDigestAlgorithm()->c_str());
+        }
+        else{
+          if (strcmp(vec[i].cert->getSignatureAlgorithm()->c_str(), szOID_CP_GOST_R3411_12_512_R3410) == 0){
+            arrayInfoAboutSigner[@"signatureAlgorithm"] = @(signatureAlgorithm_GOST_R_3410_2012_512);
+            arrayInfoAboutSigner[@"signatureDigestAlgorithm"] = @(signatureDigestAlgorithm_GOST_R_3411_2012_512);
           }
-          else {
-            arrayInfoAboutSigner[@"signatureAlgorithm"] = @(publicKeyAlgorithm_GOST_R_3410_2012_256);
+          else{
+            arrayInfoAboutSigner[@"signatureAlgorithm"] = @(signatureAlgorithm_GOST_R_3410_2012_256);
+            arrayInfoAboutSigner[@"signatureDigestAlgorithm"] = @(signatureDigestAlgorithm_GOST_R_3411_2012_256);
           }
         }
-        arrayInfoAboutSigner[@"subjectName"] = @(vec[i].cert->getSubjectName()->c_str());
-        arrayInfoAboutSigner[@"issuerName"] = @(vec[i].cert->getIssuerName()->c_str());
-        arrayInfoAboutSigner[@"notAfter"] = @(vec[i].cert->getNotAfter()->c_str());
+        arrayInfoAboutSigner[@"organizationName"] = @(vec[i].cert->getOrganizationName()->c_str());
+        arrayInfoAboutSigner[@"keyUsage"] = @(vec[i].cert->getKeyUsage());
+        arrayInfoAboutSigner[@"selfSigned"] = @(vec[i].cert->isSelfSigned());
+        arrayInfoAboutSigner[@"isCA"] = @(vec[i].cert->isCA());
+        arrayInfoAboutSigner[@"provider"] = @("CRYPTOPRO");
+        arrayInfoAboutSigner[@"type"] = @("CERTIFICATE");
+        
+        NSMutableArray *arrayChainCerts = [NSMutableArray array];
+        [arrayChainCerts removeAllObjects];
+        for (int count = 0; count < vec[i].certs.size(); count++) {
+          NSMutableDictionary *chainCert = [NSMutableDictionary dictionary];
+          chainCert[@"errorCode"] = @(vec[i].certs[count].errorCode);
+          chainCert[@"subjectName"] = @(vec[i].certs[count].cert->getSubjectName()->c_str());
+          chainCert[@"issuerName"] = @(vec[i].certs[count].cert->getIssuerName()->c_str());
+          [arrayChainCerts addObject: chainCert];
+        }
+        [arrayInfoAboutSigner setObject:arrayChainCerts  forKey:@"chain"];
         
         [arrayInfoAboutSigners addObject: arrayInfoAboutSigner];
       }

@@ -21,34 +21,51 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 		for (let i = 0; i < footer.arrButton.length; i++) {
 			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
 			if (files[footer.arrButton[i]].extension === "sig") {
-				NativeModules.Wrap_Signer.coSign(
-					personalCert.serialNumber,
-					personalCert.category,
-					personalCert.provider,
-					path,
-					path,
-					signature === "BASE-64" ? "BASE64" : "DER",
-					false,
-					(err) => {
-						if (err) {
-							lengthError++;
-							dispatch({ type: SIGN_FILE_ERROR, payload: err });
-						} else {
-							setTimeout(() => {
-								dispatch(readFiles());
-								if ((footer.arrButton.length === 1) && (lengthError === 0)) {
-									showToast("Подпись была добавлена");
-								}
-								if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
-									showToast("Ошибка при добавлении подписи");
-								}
-								if ((footer.arrButton.length > 1) && (lengthError > 0)) {
-									showToast("Для некоторых файлов подпись не смогла быть добавлена");
-								}
-							}, 300);
-							dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
+				const read = RNFS.read(path, 2, 0, "utf8");
+				let encoding;
+				read.then(
+					success => encoding = "BASE64",
+					err => encoding = "DER"
+				).then(
+					() => NativeModules.Wrap_Signer.isDetachedSignMessage(
+						path,
+						encoding,
+						(err, verify) => {
+							if (err) {
+								showToastDanger(err);
+							} else {
+								NativeModules.Wrap_Signer.coSign(
+									personalCert.serialNumber,
+									personalCert.category,
+									personalCert.provider,
+									verify ? path.substring(0, path.length - 4) : "",
+									path,
+									encoding,
+									verify ? true : false,
+									(err) => {
+										if (err) {
+											lengthError++;
+											dispatch({ type: SIGN_FILE_ERROR, payload: err });
+										} else {
+											setTimeout(() => {
+												dispatch(readFiles());
+												if ((footer.arrButton.length === 1) && (lengthError === 0)) {
+													showToast("Подпись была добавлена");
+												}
+												if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
+													showToast("Ошибка при добавлении подписи");
+												}
+												if ((footer.arrButton.length > 1) && (lengthError > 0)) {
+													showToast("Для некоторых файлов подпись не смогла быть добавлена");
+												}
+											}, 300);
+											dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
+										}
+									}
+								);
+							}
 						}
-					}
+					)
 				);
 			} else {
 				NativeModules.Wrap_Signer.sign(
@@ -123,7 +140,11 @@ export function verifySign(files: IFile[], footer) {
 					encoding,
 					(err, verify) => {
 						if (err) {
-							showToastDanger(err);
+							if (err.indexOf("PEM_read_bio_CMS") !== -1) {
+								showToastDanger("Ошибка чтения файла подписи");
+							} else {
+								showToastDanger(err);
+							}
 						} else {
 							NativeModules.Wrap_Signer.verify(
 								verify ? path.substring(0, path.length - 4) : "",
@@ -132,10 +153,15 @@ export function verifySign(files: IFile[], footer) {
 								verify ? true : false,
 								(err) => {
 									if (err) {
+										console.log(err);
 										if (err.indexOf("readFile Cannot open input file.") !== -1) {
 											showToastDanger("Отделенная подпись. Для проверки необходимо переместить исходный файл в Документы");
 										} else if (err.indexOf("For one of the signed certificates, the chain could not be established.") !== -1) {
 											showToastDanger("Для одного из сертификатов, подписавших файл, цепочка не может быть построена");
+										} else if (err.indexOf("Signature not validated!") !== -1) {
+											showToastDanger("Подпись недействительна");
+										} else if (err.indexOf("0x80090005") !== -1) {
+											showToastDanger("Недействительный сертификат подписи");
 										} else {
 											showToastDanger(err);
 										}
@@ -187,39 +213,37 @@ export function UnSignFile(files: IFile[], footer) {
 
 export function getSignInfo(files: IFile[], footer, navigate) {
 	return function action(dispatch) {
-		for (let i = 0; i < footer.arrButton.length; i++) {
-			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
-			let encoding;
-			const read = RNFS.read(path, 2, 0, "utf8");
+		let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[0]].name + "." + files[footer.arrButton[0]].extensionAll;
+		let encoding;
+		const read = RNFS.read(path, 2, 0, "utf8");
 
-			read.then(
-				success => encoding = "BASE64",
-				err => encoding = "DER"
-			).then(
-				() => NativeModules.Wrap_Signer.isDetachedSignMessage(
-					path,
-					encoding,
-					(err, verify) => {
-						if (err) {
-							showToastDanger(err);
-						} else {
-							NativeModules.Wrap_Signer.getSignInfo(
-								verify ? path.substring(0, path.length - 4) : "",
-								path,
-								encoding,
-								verify ? true : false,
-								(err, verify) => {
-									if (err) {
-										showToastDanger(err);
-									} else {
-										navigate("AboutSignCert", verify);
-									}
+		read.then(
+			success => encoding = "BASE64",
+			err => encoding = "DER"
+		).then(
+			() => NativeModules.Wrap_Signer.isDetachedSignMessage(
+				path,
+				encoding,
+				(err, verify) => {
+					if (err) {
+						showToastDanger(err);
+					} else {
+						NativeModules.Wrap_Signer.getSignInfo(
+							verify ? path.substring(0, path.length - 4) : "",
+							path,
+							encoding,
+							verify ? true : false,
+							(err, verify) => {
+								if (err) {
+									showToastDanger(err);
+								} else {
+									navigate("AboutSignCert", verify);
 								}
-							);
-						}
+							}
+						);
 					}
-				)
-			);
-		}
+				}
+			)
+		);
 	};
 }

@@ -7,6 +7,7 @@ interface ListWithModalDropdownProps {
 	defaultValue: string;
 	changeValue: any;
 	options: any;
+	disabled?: boolean;
 }
 
 export class ListWithModalDropdown extends React.Component<ListWithModalDropdownProps> {
@@ -16,6 +17,7 @@ export class ListWithModalDropdown extends React.Component<ListWithModalDropdown
 			<List>
 				<View style={{paddingLeft: 15}}>
 					<Dropdown
+						disabled={this.props.disabled}
 						onChangeText={this.props.changeValue}
 						value={this.props.defaultValue}
 						label={this.props.text}

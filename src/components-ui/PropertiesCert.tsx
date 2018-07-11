@@ -1,11 +1,12 @@
 import * as React from "react";
-import { Container, ListItem, View, List, Content, Text, Footer, FooterTab } from "native-base";
+import { Container, ListItem, View, List, Content, Segment, Button, Text, Footer, FooterTab } from "native-base";
 import { Image, AlertIOS, NativeModules, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { FooterButton } from "../components/FooterButton";
 import { ListForCert } from "../components/ListForCert";
 import { showToast } from "../utils/toast";
+import { ListMenu } from "../components/ListMenu";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -19,6 +20,11 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
+interface PropertiesCertState {
+	numPage: number;
+	chain: any;
+}
+
 interface PropertiesCertProps {
 	navigation: any;
 	cert: string;
@@ -27,11 +33,20 @@ interface PropertiesCertProps {
 }
 
 @(connect(null, mapDispatchToProps) as any)
-export class PropertiesCert extends React.Component<PropertiesCertProps> {
+export class PropertiesCert extends React.Component<PropertiesCertProps, PropertiesCertState> {
 
 	static navigationOptions = {
 		header: null
 	};
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			numPage: 1,
+			chain: []
+		};
+	}
 
 	deleteCert() {
 		const { cert } = this.props.navigation.state.params;
@@ -43,11 +58,9 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 				null,
 				[{
 					text: "Да", onPress: () => deleteCertAction(cert, true, goBack())
-				},
-				{
+				}, {
 					text: "Нет", onPress: () => deleteCertAction(cert, false, goBack())
-				},
-				{
+				}, {
 					text: "Отмена", onPress: () => null, style: "cancel"
 				}]
 			);
@@ -57,12 +70,26 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 				null,
 				[{
 					text: "Да", onPress: () => deleteCertAction(cert, false, goBack())
-				},
-				{
+				}, {
 					text: "Отмена", onPress: () => null, style: "cancel"
 				}]
 			);
 		}
+	}
+
+	chainList() {
+		return (
+			this.state.chain.map((cert, key, arr) =>
+				<List key={key} style={{ paddingTop: 10 }}>
+					<ListMenu
+						numChain={key}
+						lengthChain={arr.length}
+						title={cert.subjectName.match(/2.5.4.3=[^\/]{1,}/)[0].replace("2.5.4.3=", "")}
+						img={console.log(cert.chainBuilding) ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")}
+						note={cert.subjectName.match(/2.5.4.10=[^\/]{1,}/) ? cert.subjectName.match(/2.5.4.10=[^\/]{1,}/)[0].replace("2.5.4.10=", "") : null} nav={() => null} />
+				</List>
+			)
+		);
 	}
 
 	render() {
@@ -98,66 +125,87 @@ export class PropertiesCert extends React.Component<PropertiesCertProps> {
 		return (
 			<Container style={styles.container}>
 				<Headers title="Свойства сертфиката" goBack={() => goBack()} goHome={() => this.props.navigation.goBack("Home")} />
-				<Content style={{ backgroundColor: "white" }}>
-					<View>
-						<Image style={styles.prop_cert_img} source={cert.chainBuilding ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />
-						<Text style={styles.prop_cert_title}>{cert.subjectFriendlyName}</Text>
-						<Text style={styles.prop_cert_status}>Cтатус сертификата:{"\n"}
-							{cert.chainBuilding ? <Text style={{ color: "green" }}>действителен</Text> : <Text style={{ color: "red" }}>не действителен</Text>}
-						</Text>
-					</View>
-					<List>
-						{cert.selfSigned ? null : <>
-							<ListForCert itemHeader first title="Владелец" />
-							<ListForCert title="Имя:" value={subjectFriendlyName} />
-							{subjectEmail ? <ListForCert title="Email:" value={subjectEmail} /> : null}
-							{cert.organizationName ? <ListForCert title="Огранизация:" value={cert.organizationName} /> : null}
-							{subjectCountry ? <ListForCert title="Страна:" value={subjectCountry} /> : null}
-							{subjectRegion ? <ListForCert title="Регион:" value={subjectRegion} /> : null}
-							{subjectCity ? <ListForCert title="Город:" value={subjectCity} /> : null}
-						</>}
-						<ListForCert itemHeader first title={"Издатель " + [cert.selfSigned ? "и владелец" : null]} />
-						<ListForCert title="Имя:" value={cert.issuerFriendlyName} />
-						{issuerEmail ? <ListForCert title="Email:" value={issuerEmail} /> : null}
-						{organizationName ? <ListForCert title="Огранизация:" value={organizationName} /> : null}
-						{issuerCountry ? <ListForCert title="Страна:" value={issuerCountry} /> : null}
-						{issuerRegion ? <ListForCert title="Регион:" value={issuerRegion} /> : null}
-						{issuerCity ? <ListForCert title="Город:" value={issuerCity} /> : null}
+				<Segment style={{ backgroundColor: "white" }}>
+					<Button first style={[{ width: "48%", borderColor: "grey" }, this.state.numPage === 1 ? { backgroundColor: "lightgrey" } : null]}
+						active={this.state.numPage === 1 ? true : false} onPress={() => this.setState({ numPage: 1 })}>
+						<Text style={{ color: "black" }}>Сертификат</Text>
+					</Button>
+					<Button last style={[{ width: "48%", borderColor: "grey" }, this.state.numPage === 2 ? { backgroundColor: "lightgrey" } : null]}
+						active={this.state.numPage === 2 ? true : false} onPress={() => this.setState({ numPage: 2 })}>
+						<Text style={{ color: "black" }}>Цепочка доверия</Text>
+					</Button>
+				</Segment>
+				{this.state.numPage === 1
+					? <><Content style={{ backgroundColor: "white" }}>
+						<View>
+							<Image style={styles.prop_cert_img} source={cert.chainBuilding ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />
+							<Text style={styles.prop_cert_title}>{cert.subjectFriendlyName}</Text>
+							<Text style={styles.prop_cert_status}>Cтатус сертификата:{"\n"}
+								{cert.chainBuilding ? <Text style={{ color: "green" }}>действителен</Text> : <Text style={{ color: "red" }}>не действителен</Text>}
+							</Text>
+						</View>
+						<List>
+							{cert.selfSigned ? null : <>
+								<ListForCert itemHeader first title="Владелец" />
+								<ListForCert title="Имя:" value={subjectFriendlyName} />
+								{subjectEmail ? <ListForCert title="Email:" value={subjectEmail} /> : null}
+								{cert.organizationName ? <ListForCert title="Огранизация:" value={cert.organizationName} /> : null}
+								{subjectCountry ? <ListForCert title="Страна:" value={subjectCountry} /> : null}
+								{subjectRegion ? <ListForCert title="Регион:" value={subjectRegion} /> : null}
+								{subjectCity ? <ListForCert title="Город:" value={subjectCity} /> : null}
+							</>}
+							<ListForCert itemHeader first title={"Издатель " + [cert.selfSigned ? "и владелец" : null]} />
+							<ListForCert title="Имя:" value={cert.issuerFriendlyName} />
+							{issuerEmail ? <ListForCert title="Email:" value={issuerEmail} /> : null}
+							{organizationName ? <ListForCert title="Огранизация:" value={organizationName} /> : null}
+							{issuerCountry ? <ListForCert title="Страна:" value={issuerCountry} /> : null}
+							{issuerRegion ? <ListForCert title="Регион:" value={issuerRegion} /> : null}
+							{issuerCity ? <ListForCert title="Город:" value={issuerCity} /> : null}
 
-						<ListForCert itemHeader title="Сертфикат" />
-						<ListForCert title="Серийный номер:" value={cert.serialNumber} />
-						<ListForCert title="Годен до:" value={cert.notAfter} />
-						<ListForCert title="Алгоритм подписи:" value={cert.publicKeyAlgorithm} />
-						<ListForCert title="Хэш-алгоритм:" value={cert.signatureDigestAlgorithm} />
-						<ListForCert title="Закрытый ключ:" value={cert.hasPrivateKey ? "присутствует" : "отсутствует"} />
-					</List>
-				</Content>
-				<Footer>
-					{isCertInContainers === true ?
-						<FooterTab>
-							<FooterButton title="Установить"
-								icon="md-add"
-								nav={() => {
-									NativeModules.Wrap_Main.installCertFromContainer(containers, (err) => {
-										if (err) {
-											showToast("Установка сертификата не удалась");
-										} else {
-											this.props.readCertKeys();
-											this.props.navigation.goBack("Home");
-											showToast("Сертификат установлен");
-										}
-									});
-								}} />
-						</FooterTab> :
-						<FooterTab>
-							<FooterButton title="Экспортировать"
-								icon="ios-share-alt-outline"
-								nav={() => navigate("ExportCert", { cert: cert })} />
-							<FooterButton title="Удалить" icon="md-trash" nav={() => this.deleteCert()} />
-						</FooterTab>
-					}
-				</Footer>
+							<ListForCert itemHeader title="Сертфикат" />
+							<ListForCert title="Серийный номер:" value={cert.serialNumber} />
+							<ListForCert title="Годен до:" value={cert.notAfter} />
+							<ListForCert title="Алгоритм подписи:" value={cert.publicKeyAlgorithm} />
+							<ListForCert title="Хэш-алгоритм:" value={cert.signatureDigestAlgorithm} />
+							<ListForCert title="Закрытый ключ:" value={cert.hasPrivateKey ? "присутствует" : "отсутствует"} />
+						</List>
+					</Content>
+						<Footer>
+							{isCertInContainers === true ?
+								<FooterTab>
+									<FooterButton title="Установить"
+										icon="md-add"
+										nav={() => {
+											NativeModules.Wrap_Main.installCertFromContainer(containers, (err) => {
+												if (err) {
+													showToast("Установка сертификата не удалась");
+												} else {
+													this.props.readCertKeys();
+													showToast("Сертификат установлен");
+													this.props.navigation.goBack("Home");
+												}
+											});
+										}} />
+								</FooterTab> :
+								<FooterTab>
+									<FooterButton title="Экспортировать"
+										icon="ios-share-alt-outline"
+										nav={() => navigate("ExportCert", { cert: cert })} />
+									<FooterButton title="Удалить" icon="md-trash" nav={() => this.deleteCert()} />
+								</FooterTab>
+							}
+						</Footer></>
+					: this.chainList()}
 			</Container>
 		);
+	}
+
+	componentDidMount() {
+		const { cert } = this.props.navigation.state.params;
+		NativeModules.Wrap_Cert.getChainCerts(
+			cert.serialNumber,
+			cert.category,
+			cert.provider,
+			(err, chain) => this.setState({ chain: chain }));
 	}
 }

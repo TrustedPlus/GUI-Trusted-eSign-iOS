@@ -32,6 +32,36 @@ export const styles = StyleSheet.create({
 	thumbnail: {
 		marginLeft: 5
 	},
+	numChain: {
+		width: 30,
+		height: 30,
+		backgroundColor: "white",
+		marginLeft: 10,
+		marginTop: 10,
+		borderRadius: 15,
+		borderColor: "darkblue",
+		borderWidth: 1
+	},
+	vert: {
+		position: "absolute",
+		left: 25,
+		top: 45,
+		height: 30, // или сколько нужно в пикселях или процентах
+		width: 1,
+		borderWidth: 0,
+		borderLeftWidth: 3,
+		borderColor: "lightblue",
+	},
+	vertfirst: {
+		position: "absolute",
+		left: 25,
+		top: -25,
+		height: 30, // или сколько нужно в пикселях или процентах
+		width: 1,
+		borderWidth: 0,
+		borderLeftWidth: 3,
+		borderColor: "lightblue",
+	},
 	// SideListItem
 	sideListItem: {
 		marginLeft: 2,
@@ -100,7 +130,7 @@ export const styles = StyleSheet.create({
 		color: "grey",
 		position: "absolute",
 		left: 110,
-		top: 50,
+		top: 60,
 		right: 5
 	},
 	prop_cert_img: {
@@ -112,7 +142,8 @@ export const styles = StyleSheet.create({
 		fontSize: 20,
 		position: "absolute",
 		left: 110,
-		top: 20
+		right: 5,
+		top: 15
 	},
 	// Modal
 	wrapper: {

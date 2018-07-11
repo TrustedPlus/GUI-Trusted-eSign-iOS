@@ -45,6 +45,9 @@ TrustedHandle<PkiItem> objectToPKIItem(TrustedHandle<Certificate> cert);
 -(void) installCertificateToContainer :(char *)serialNumber :(char *)category :(TrustedHandle<std::string>)contName;
 -(void) installCertificateToContainer :(PCCERT_CONTEXT)pCertContext :(TrustedHandle<std::string>)contName;
 
+//удаление контейнера
+-(bool) deleteContainer :(TrustedHandle<std::string>)contName :(int)provType :(TrustedHandle<std::string>)provName :(bool)deleteCert;
+
 @end
 
 #endif /* CSP_Csp_h */

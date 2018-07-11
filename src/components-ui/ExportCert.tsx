@@ -115,6 +115,7 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 	render() {
 		const { navigate, goBack } = this.props.navigation;
 		const { cert } = this.props.navigation.state.params;
+		console.log(cert);
 		return (
 			<Container style={styles.container}>
 				<Headers title="Экспорт сертификата" goBack={() => goBack()} />
@@ -122,6 +123,7 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 					<View style={styles.sign_enc_view}>
 						<Text style={{ color: "grey", paddingLeft: 15, paddingRight: 5 }}>Формат экспортируемого файла: {!this.state.format ? "Файл обмена личной информацией PKCS#12 (PFX)" : "X509 (.CER) в кодировке BASE64"}</Text>
 						<ListWithModalDropdown text="Экспортировать закрытый ключ вместе с сертификатом?"
+							disabled={cert.hasPrivateKey ? false : true}
 							defaultValue="Не экспортировать закрытый ключ"
 							changeValue={(value, index) => this.setState({ format: Number(index) })}
 							options={[{ value: "Экспортировать закрытый ключ" }, { value: "Не экспортировать закрытый ключ" }]} />

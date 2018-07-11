@@ -57,6 +57,8 @@
 -(int) getSelfSigned;
 -(int) isCA;
 
+-(std::vector<chainCertStruct>) getChainCerts :(char *)serialNumber :(char *)category;
+
 @end
 
 #endif /* CSP_Cert_h */

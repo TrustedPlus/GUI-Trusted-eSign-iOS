@@ -75,18 +75,9 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 		basicModal: null
 	};
 
-	func(footer, files) {
-		let isSign = false;
-		footer.arrButton.forEach(function (i) {
-			if (files[i].extension === "sig") { isSign = true; }
-		});
-		this.setState({ isSign: isSign });
-	}
-
 	render() {
-		console.log(this.props);
 		const { files, personalCert, verifySign, signFile, UnSignFile, uploadFile, deleteFile, footer, getSignInfo, navigate } = this.props;
-		let certIsNotNull, isSign = false, allIsSign = null, numSelectedFilesIsOne = false;
+		let certIsNotNull, allIsSign = null, numSelectedFilesIsOne = false;
 		if (!personalCert.title) {
 			certIsNotNull = "noCert";
 		}
@@ -105,13 +96,15 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 				<Footer>
 					<FooterTab>
 						{this.state.modalMore
-							? <View style={{ width: 200, height: 110, position: "absolute", bottom: 70, right: 20, shadowColor: '#000000',
-							shadowOffset: {
-							  width: 0,
-							  height: 3
-							},
-							shadowRadius: 5,
-							shadowOpacity: 1.0}}>
+							? <View style={{
+								width: 200, height: 110, position: "absolute", bottom: 70, right: 20, shadowColor: "#000000",
+								shadowOffset: {
+									width: 0,
+									height: 3
+								},
+								shadowRadius: 5,
+								shadowOpacity: 1.0
+							}}>
 								<Footer>
 									<FooterTab>
 										<FooterButton title="Снять" disabled={allIsSign === "sig" ? false : true} icon="md-crop" nav={() => UnSignFile(files, footer)} />
@@ -129,12 +122,12 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 						<FooterButton title="Проверить"
 							disabled={allIsSign === "sig" ? false : true}
 							icon="md-done-all"
-							nav={() => verifySign(files, footer)} />
+							nav={() => { this.setState({ modalMore: false }); verifySign(files, footer); }} />
 						<FooterButton title="Подписать"
 							disabled={certIsNotNull === "noCert" ? true : false}
 							icon="md-create"
-							nav={() => { this.func(footer, files); this.modals.basicModal.open(); }} />
-						<FooterButton title="Свойства" disabled={numSelectedFilesIsOne ? allIsSign === "sig" ? false : true : false} icon="ios-information" nav={() => getSignInfo(files, footer, (page, cert) => navigate(page, {cert: cert}))} />
+							nav={() => { allIsSign === "sig" ? signFile(files, personalCert, footer, null, null) : this.modals.basicModal.open(); }} />
+						<FooterButton title="Свойства" disabled={numSelectedFilesIsOne ? allIsSign === "sig" ? false : true : true} icon="ios-information" nav={() => getSignInfo(files, footer, (page, cert) => navigate(page, { cert: cert }))} />
 						<FooterButton title="Больше" icon="ios-more" nav={() => this.setState({ modalMore: !this.state.modalMore })} />
 					</FooterTab>
 				</Footer>
@@ -148,7 +141,7 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							defaultValue={this.state.signature}
 							changeValue={(value) => this.setState({ signature: value })}
 							options={[{ value: "BASE-64" }, { value: "DER" }]} />
-						<ListWithSwitch text="Сохранить подпись отдельно" disabled={this.state.isSign} value={this.state.detached} changeValue={() => this.setState({ detached: !this.state.detached })} />
+						<ListWithSwitch text="Сохранить подпись отдельно" value={this.state.detached} changeValue={() => this.setState({ detached: !this.state.detached })} />
 						<Button transparent onPress={() => { this.modals.basicModal.close(); signFile(files, personalCert, footer, this.state.detached, this.state.signature); }} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
 							<Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>ОК</Text>
 						</Button>

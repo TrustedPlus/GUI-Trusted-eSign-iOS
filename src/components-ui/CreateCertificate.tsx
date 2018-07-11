@@ -48,6 +48,7 @@ interface CreateCertificateState {
 	errorInputCN: boolean;
 	errorInputEmail: boolean;
 	isselfsign: boolean;
+	exportKey: boolean;
 }
 
 interface CreateCertificateProps {
@@ -109,7 +110,8 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 			country: defaultCountry,
 			errorInputCN: false,
 			errorInputEmail: false,
-			isselfsign: false
+			isselfsign: false,
+			exportKey: true
 		};
 		this.onPressCertRequest = this.onPressCertRequest.bind(this);
 	}
@@ -142,7 +144,8 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 					this.state.city,
 					this.state.obl,
 					this.state.country,
-					this.state.isselfsign
+					this.state.isselfsign,
+					this.state.exportKey
 				).then(() => {
 					setTimeout(() => {
 						this.props.navigation.state.params ? this.props.navigation.state.params.clearSelectesRequests() : null;
@@ -216,6 +219,9 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 					</View>
 					<View style={{ paddingTop: 15, paddingBottom: 15 }}>
 						<ListWithSwitch text="Создать как самоподписаннный сертификат" value={this.state.isselfsign} changeValue={() => this.setState({ isselfsign: !this.state.isselfsign })} />
+					</View>
+					<View style={{ paddingTop: 15, paddingBottom: 15 }}>
+						<ListWithSwitch text="Экспортируемый ключ" value={this.state.exportKey} changeValue={() => this.setState({ exportKey: !this.state.exportKey })} />
 					</View>
 					<View style={styles.sign_enc_view}>
 						<Text style={{ color: "grey" }}>Параметры субъекта</Text>

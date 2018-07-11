@@ -1,4 +1,4 @@
-import { READ_CONTAINERS } from "../constants";
+import { READ_CONTAINERS, ADD_PROVIDERS } from "../constants";
 import { NativeModules } from "react-native";
 import { showToast } from "../utils/toast";
 
@@ -9,6 +9,7 @@ export function getProviders() {
 				if (err) {
 					showToast(err);
 				} else {
+					dispatch({type: ADD_PROVIDERS, payload: verify});
 					NativeModules.Wrap_Main.getContainers(
 						verify[0]["type"],
 						verify[0]["name"],

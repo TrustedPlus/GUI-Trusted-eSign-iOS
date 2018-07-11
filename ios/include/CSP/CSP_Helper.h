@@ -27,6 +27,11 @@ struct ContainerName {
     TrustedHandle<std::wstring> fqcnW; //PP_FQCN with mbstowcs
 };
 
+struct chainCertStruct {
+    DWORD errorCode;
+    TrustedHandle<Certificate> cert;
+};
+
 //поиск сертификата в хранилище криптоПРО
 PCCERT_CONTEXT findCertInCSPStore(char *serialNumber, char *category);
 TrustedHandle<Certificate> findCertInCSPStoreTH(char *serialNumber, char *category);
@@ -78,8 +83,5 @@ PCCERT_CONTEXT bindCertToPrivateKey(PCCERT_CONTEXT pCertContext, LPCSTR contName
 
 //преобразование из char * в wchar *
 WCHAR *ConvertCharToWchar(const char *name, int &length);
-
-//удаление контейнера
-bool deleteContainer(TrustedHandle<std::string> contName, int provType, TrustedHandle<std::string> provName);
 
 #endif /* CSP_Helper_h */

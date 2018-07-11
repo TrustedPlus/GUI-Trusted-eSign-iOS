@@ -9,11 +9,12 @@
 #import <CPROCSP/CPROCSP.h>
 #import <CPROCSP/CPCrypt.h>
 
-@interface CSP_Signer : NSObject{
+@interface CSP_Signer : NSObject{    
     struct signInfoStruct {
         bool status;
         TrustedHandle<std::string> signingTime;
         TrustedHandle<Certificate> cert;
+        std::vector<chainCertStruct> certs;
     };
 }
 

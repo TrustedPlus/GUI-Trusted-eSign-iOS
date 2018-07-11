@@ -6,10 +6,8 @@ import { styles } from "../styles";
 import { ListMenu } from "../components/ListMenu";
 import { FooterSign } from "./FooterSign";
 import { iconSelection } from "../utils/forListFiles";
-import { showToast } from "../utils/toast";
 import { readCertKeys } from "../actions/certKeysAction";
 import { DocumentPicker } from "react-native-document-picker";
-import * as Modal from "react-native-modalbox";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -170,7 +168,7 @@ export class Signature extends React.Component<SignatureProps> {
 					</Button>
 				</View>
 				{filesView}
-				{footer.arrButton.length ? <FooterSign files={files} personalCert={personalCert} footer={footer} navigate={(page, cert) => navigate(page, {cert: cert})}/> : null}
+				{footer.arrButton.length ? <FooterSign files={files} personalCert={personalCert} footer={footer} navigate={(page, cert) => navigate(page, { cert: cert })} /> : null}
 			</Container>
 		);
 	}

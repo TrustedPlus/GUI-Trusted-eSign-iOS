@@ -131,6 +131,36 @@ RCT_EXPORT_METHOD(getContainers: (NSInteger)nsType: (NSString *)nsName: (RCTResp
 }
 
 /**
+ * удаление контейнера с удалением привязанного сертификата при необходимости
+ * @param contName - имя контейнера
+ * @param nsType - тип провайдера
+ * @param nsProvName - имя провайдера
+ * @param deleteCert - удалить ли привязанный сертификат
+ * @return NSMutableArray * - при успешном завершении, иначе throw
+ */
+RCT_EXPORT_METHOD(deleteContainer: (NSString *)nsContName: (NSInteger)nsType: (NSString *)nsProvName: (BOOL)deleteCert: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
+  try {
+    char *contName = (char *) [nsContName UTF8String];
+    int type = (int)nsType;
+    char *provName = (char *) [nsProvName UTF8String];
+    
+    TrustedHandle<std::string> hContName = new std::string(contName);
+    TrustedHandle<std::string> hProvName = new std::string(provName);
+    bool b = [csp_Store deleteContainer:hContName :type :hProvName :deleteCert];
+    
+    callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
+  }
+  catch (TrustedHandle<Exception> e) {
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
+  }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
+}
+
+/**
  * получение информации о сертификате из контейнера
  * @param contName - имя контейнера
  * @return NSMutableArray * - при успешном завершении, иначе throw

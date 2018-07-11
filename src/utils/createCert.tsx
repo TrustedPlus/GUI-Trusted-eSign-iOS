@@ -12,7 +12,7 @@ function randomRowGeneration(length) {
 	return text;
 }
 
-export function genSelfSignedCertWithoutRequest(algorithm, keyAssignment, certAssignment: boolean[], CN, email, org, city, obl, country, isselfsign) {
+export function genSelfSignedCertWithoutRequest(algorithm, keyAssignment, certAssignment: boolean[], CN, email, org, city, obl, country, isselfsign, exportKey) {
 	return new Promise((resolve, reject) => {
 		if (isselfsign) {
 			NativeModules.Wrap_CertRequest.genSelfSignedCertWithoutRequest(
@@ -20,7 +20,7 @@ export function genSelfSignedCertWithoutRequest(algorithm, keyAssignment, certAs
 				randomRowGeneration(8) + "-" + randomRowGeneration(4) + "-" + randomRowGeneration(4) + "-" + randomRowGeneration(4) + "-" + randomRowGeneration(12),
 				keyAssignment,
 				certAssignment,
-				true, CN, email, org, city, obl, country,
+				exportKey, CN, email, org, city, obl, country,
 				RNFS.DocumentDirectoryPath + "/Files/" + CN + ".cer",
 				(err, verify) => {
 					if (!!verify) {
@@ -36,7 +36,7 @@ export function genSelfSignedCertWithoutRequest(algorithm, keyAssignment, certAs
 				randomRowGeneration(8) + "-" + randomRowGeneration(4) + "-" + randomRowGeneration(4) + "-" + randomRowGeneration(4) + "-" + randomRowGeneration(12),
 				keyAssignment,
 				certAssignment,
-				true, CN, email, org, city, obl, country,
+				exportKey, CN, email, org, city, obl, country,
 				RNFS.DocumentDirectoryPath + "/Requests/" + CN + ".csr",
 				(err, verify) => {
 					if (!!verify) {

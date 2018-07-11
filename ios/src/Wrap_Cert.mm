@@ -600,4 +600,80 @@ RCT_EXPORT_METHOD(isCA: (RCTResponseSenderBlock)callback) {
   }
 }
 
+/**
+ * получение цепочки сертификатов для входного сертификата
+ * @param serialNumber - серийный номер сертификата
+ * @param category - указывает хранилище сертификата
+ * @param provider - провайдер
+ * @return массив элементов - при успешном завершении, иначе исключение throw.
+ */
+RCT_EXPORT_METHOD(getChainCerts: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (RCTResponseSenderBlock)callback) {
+  try {
+    char *serial = (char *) [serialNumber UTF8String];
+    char *chCategory = (char *) [category UTF8String];
+    char *prov = (char *) [provider UTF8String];
+    std::vector<chainCertStruct> chainCerts;
+    NSMutableArray *arrayCerts = [NSMutableArray array];
+    
+#ifdef ProvCryptoPro
+    if (strcmp(prov, "CRYPTOPRO") == 0) {
+      [arrayCerts removeAllObjects];
+      chainCerts = [csp_Cert getChainCerts:serial :chCategory];
+      for (int i = 0; i < chainCerts.size(); i++) {
+        NSMutableDictionary *arrayPropertyCert = [NSMutableDictionary dictionary];
+        arrayPropertyCert[@"version"] = @(chainCerts[i].cert->getVersion() + 1);
+        arrayPropertyCert[@"serialNumber"] = @(chainCerts[i].cert->getSerialNumber()->c_str());
+        arrayPropertyCert[@"notBefore"] = @(chainCerts[i].cert->getNotBefore()->c_str());
+        arrayPropertyCert[@"notAfter"] = @(chainCerts[i].cert->getNotAfter()->c_str());
+        arrayPropertyCert[@"issuerFriendlyName"] = @(chainCerts[i].cert->getIssuerFriendlyName()->c_str());
+        arrayPropertyCert[@"issuerName"] = @(chainCerts[i].cert->getIssuerName()->c_str());
+        arrayPropertyCert[@"subjectFriendlyName"] = @(chainCerts[i].cert->getSubjectFriendlyName()->c_str());
+        arrayPropertyCert[@"subjectName"] = @(chainCerts[i].cert->getSubjectName()->c_str());
+        arrayPropertyCert[@"thumbprint"] = @(chainCerts[i].cert->getThumbprint()->c_str());
+        
+        if (strcmp(chainCerts[i].cert->getPublicKeyAlgorithm()->c_str(), szOID_CP_GOST_R3410_12_512) == 0) {
+          arrayPropertyCert[@"publicKeyAlgorithm"] = @(publicKeyAlgorithm_GOST_R_3410_2012_512);
+        }
+        else if (strcmp(chainCerts[i].cert->getPublicKeyAlgorithm()->c_str(), szOID_CP_GOST_R3410_12_256) == 0) {
+          arrayPropertyCert[@"publicKeyAlgorithm"] = @(publicKeyAlgorithm_GOST_R_3410_2012_256);
+        }
+        else {
+          arrayPropertyCert[@"publicKeyAlgorithm"] = @(chainCerts[i].cert->getPublicKeyAlgorithm()->c_str());
+        }
+        
+        if ((!(strcmp(chainCerts[i].cert->getSignatureAlgorithm()->c_str(), szOID_CP_GOST_R3411_12_512_R3410) == 0)) &&
+            (!(strcmp(chainCerts[i].cert->getSignatureAlgorithm()->c_str(), szOID_CP_GOST_R3411_12_256_R3410) == 0))) {
+          arrayPropertyCert[@"signatureAlgorithm"] = @(chainCerts[i].cert->getSignatureAlgorithm()->c_str());
+          arrayPropertyCert[@"signatureDigestAlgorithm"] = @(chainCerts[i].cert->getSignatureDigestAlgorithm()->c_str());
+        }
+        else {
+          if (strcmp(chainCerts[i].cert->getSignatureAlgorithm()->c_str(), szOID_CP_GOST_R3411_12_512_R3410) == 0){
+            arrayPropertyCert[@"signatureAlgorithm"] = @(signatureAlgorithm_GOST_R_3410_2012_512);
+            arrayPropertyCert[@"signatureDigestAlgorithm"] = @(signatureDigestAlgorithm_GOST_R_3411_2012_512);
+          }
+          else{
+            arrayPropertyCert[@"signatureAlgorithm"] = @(signatureAlgorithm_GOST_R_3410_2012_256);
+            arrayPropertyCert[@"signatureDigestAlgorithm"] = @(signatureDigestAlgorithm_GOST_R_3411_2012_256);
+          }
+        }
+        arrayPropertyCert[@"organizationName"] = @(chainCerts[i].cert->getOrganizationName()->c_str());
+        arrayPropertyCert[@"keyUsage"] = @(chainCerts[i].cert->getKeyUsage());
+        arrayPropertyCert[@"selfSigned"] = @(chainCerts[i].cert->isSelfSigned());
+        arrayPropertyCert[@"isCA"] = @(chainCerts[i].cert->isCA());
+        arrayPropertyCert[@"provider"] = @("CRYPTOPRO");
+        arrayPropertyCert[@"type"] = @("CERTIFICATE");
+        arrayPropertyCert[@"errorCode"] = @(chainCerts[i].errorCode);
+        
+        [arrayCerts addObject: arrayPropertyCert];
+      }
+    }
+#endif
+    
+    callback(@[[NSNull null], [arrayCerts copy]]);
+  }
+  catch (TrustedHandle<Exception> e) {
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
+  }
+}
+
 @end

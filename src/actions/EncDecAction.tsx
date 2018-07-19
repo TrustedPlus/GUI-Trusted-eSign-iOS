@@ -53,7 +53,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 	};
 }
 
-export function decAssymmetric(files: IFile[], footer) {
+export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Function) {
 	return function action(dispatch) {
 		dispatch({ type: DECODE_FILES });
 		for (let i = 0; i < footer.arrButton.length; i++) {
@@ -92,6 +92,7 @@ export function decAssymmetric(files: IFile[], footer) {
 		}
 		setTimeout(() => {
 			dispatch(readFiles());
+			clearselectedFiles();
 		}, 400);
 	};
 }

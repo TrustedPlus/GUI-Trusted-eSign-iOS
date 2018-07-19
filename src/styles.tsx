@@ -45,8 +45,8 @@ export const styles = StyleSheet.create({
 	vert: {
 		position: "absolute",
 		left: 25,
-		top: 45,
-		height: 30, // или сколько нужно в пикселях или процентах
+		top: 43,
+		height: 35, // или сколько нужно в пикселях или процентах
 		width: 1,
 		borderWidth: 0,
 		borderLeftWidth: 3,
@@ -55,8 +55,8 @@ export const styles = StyleSheet.create({
 	vertfirst: {
 		position: "absolute",
 		left: 25,
-		top: -25,
-		height: 30, // или сколько нужно в пикселях или процентах
+		top: -27,
+		height: 35, // или сколько нужно в пикселях или процентах
 		width: 1,
 		borderWidth: 0,
 		borderLeftWidth: 3,
@@ -169,4 +169,28 @@ export const styles = StyleSheet.create({
 		color: "white",
 		padding: 10
 	},
+
+	// FooterSignModal
+	modalMore: {
+		position: "absolute",
+		bottom: 70,
+		right: 20,
+		shadowColor: "#000000",
+		shadowOffset: {
+			width: 0,
+			height: 3
+		},
+		shadowRadius: 5,
+		shadowOpacity: 1.0
+	},
+
+	modalMore4: {
+		width: 200,
+		height: 110
+	},
+
+	modalMore6: {
+		width: 300,
+		height: 110
+	}
 });

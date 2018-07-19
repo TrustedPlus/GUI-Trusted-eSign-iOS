@@ -14,7 +14,7 @@ export class FooterButton extends React.PureComponent<FooterButtonProps> {
 	render() {
 		const { disabled, style, icon, title, nav } = this.props;
 		return (
-			<Button disabled={disabled} style={[disabled ? { backgroundColor: "#F8F8F8", borderRadius: 0, borderColor: "#cbcbcb", borderTopWidth: 0.25 } : { borderRadius: 0 }, style]} vertical onPress={() => nav()}>
+			<Button disabled={disabled} style={[{borderRadius: 0, backgroundColor: "#F8F8F8", borderColor: "#cbcbcb", borderTopWidth: 0.25}, style]} vertical onPress={() => nav()}>
 				<Icon style={disabled ? {
 					color: "lightgrey",
 					width: 150,

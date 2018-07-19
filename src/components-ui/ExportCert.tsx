@@ -38,6 +38,7 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 	}
 
 	ExportCert() {
+		const { cert } = this.props.navigation.state.params;
 		if (!this.state.fileName) {
 			showToast("Имя файла не может быть пустым");
 		} else {
@@ -45,8 +46,8 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 			if (this.state.format) {
 				path = path + ".crt";
 				NativeModules.Wrap_Cert.load(
-					this.props.navigation.state.params.cert.serialNumber,
-					this.props.navigation.state.params.cert.provider,
+					cert.serialNumber,
+					cert.provider,
 					(err) => {
 						if (err) {
 							showToast(err);
@@ -82,9 +83,9 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 					showToast("Пароли не совпадают");
 				} else {
 					NativeModules.Wrap_Pkcs12.exportPFX(
-						this.props.navigation.state.params.cert.serialNumber,
-						this.props.navigation.state.params.cert.category,
-						this.props.navigation.state.params.cert.provider,
+						cert.serialNumber,
+						cert.category,
+						cert.provider,
 						true,
 						this.state.password,
 						path,
@@ -115,7 +116,6 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 	render() {
 		const { navigate, goBack } = this.props.navigation;
 		const { cert } = this.props.navigation.state.params;
-		console.log(cert);
 		return (
 			<Container style={styles.container}>
 				<Headers title="Экспорт сертификата" goBack={() => goBack()} />

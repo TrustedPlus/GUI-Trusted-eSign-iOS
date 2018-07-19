@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, View, List, Button, Text } from "native-base";
+import { Container, View, List, Button, Text, Content } from "native-base";
 import { Image, RefreshControl, ScrollView } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
@@ -11,22 +11,17 @@ import { DocumentPicker } from "react-native-document-picker";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { footerAction, footerClose, readFiles, addFiles } from "../actions/index";
+import { addFiles } from "../actions/index";
 
 function mapStateToProps(state) {
 	return {
-		footer: state.footer,
 		personalCert: state.personalCert,
-		files: state.files.files,
-		isFetching: state.files.isFetching
+		files: state.workspaceSign.files
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		footerAction: bindActionCreators(footerAction, dispatch),
-		footerClose: bindActionCreators(footerClose, dispatch),
-		readFiles: bindActionCreators(readFiles, dispatch),
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
 		addFiles: bindActionCreators(addFiles, dispatch)
 	};
@@ -44,38 +39,62 @@ interface IFile {
 
 interface SignatureProps {
 	navigation: any;
-	footer: any;
 	personalCert: any;
 	files: IFile[];
-	isFetching: boolean;
-	footerAction(key: number, extension: string): void;
-	footerClose(): void;
-	readFiles(): void;
 	readCertKeys(): void;
 	addFiles(uri: string, fileName: string): void;
 }
-/*
-interface IModals {
-	basicModal: Modal.default;
-}*/
+
+interface ISelectedFiles {
+	arrNum: Array<number>;
+	arrExtension: Array<string>;
+}
+
+interface SignatureState {
+	selectedFiles?: ISelectedFiles;
+	activeFiles?: boolean;
+}
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
-export class Signature extends React.Component<SignatureProps> {
+export class Signature extends React.Component<SignatureProps, SignatureState> {
 
 	static navigationOptions = {
 		header: null
 	};
 
-	/*private modals: IModals = {
-		basicModal: null
-	};*/
-
 	constructor(props) {
 		super(props);
-
+		this.state = {
+			selectedFiles: {
+				arrNum: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrNum : [],
+				arrExtension: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrExtension : [],
+			},
+			activeFiles: this.props.navigation.state.params.selectedFiles ? true : false
+		};
 		this.props.navigation.state.key = "Home";
-		this.showList = this.showList.bind(this);
-		this.documentPicker = this.documentPicker.bind(this);
+	}
+
+	changeSelectedRequests(oldSelectedFiles, key, extension) {
+		let index = oldSelectedFiles.arrNum.indexOf(key);
+		let newSelectedFiles;
+		if (index !== -1) {
+			oldSelectedFiles.arrNum.splice(index, 1); // удаление из массива
+			oldSelectedFiles.arrExtension.splice(index, 1);
+		} else {
+			oldSelectedFiles.arrNum.push(key);
+			oldSelectedFiles.arrExtension.push(extension);
+		}
+		newSelectedFiles = oldSelectedFiles;
+		return newSelectedFiles; // добавление в массив
+	}
+
+	clearselectedFiles() {
+		this.setState({
+			selectedFiles: {
+				arrNum: [],
+				arrExtension: []
+			}
+		});
 	}
 
 	showList(img) {
@@ -87,26 +106,27 @@ export class Signature extends React.Component<SignatureProps> {
 				verify={file.verify}
 				img={img[key]}
 				checkbox
-				nav={() => this.props.footerAction(key, file.extension)} />));
+				active={this.state.activeFiles ? true : false}
+				nav={() => {
+					const newSelectedFiles = this.changeSelectedRequests(this.state.selectedFiles, key, file.extension);
+					this.setState({ selectedFiles: { arrNum: newSelectedFiles.arrNum, arrExtension: newSelectedFiles.arrExtension } });
+				}} />));
 	}
+	/*
+		documentPicker() {
+			DocumentPicker.show({
+				filetype: ["public.item"]
+			}, (error: any, res: any) => {
+				this.props.addFiles(res.uri, res.fileName);
+			});
+		} */
 
-	documentPicker() {
-		DocumentPicker.show({
-			filetype: ["public.item"]
-		}, (error: any, res: any) => {
-			this.props.addFiles(res.uri, res.fileName);
-		});
-	}
-
-	private getFilesView(files, isFetching, img, readFiles) {
+	private getFilesView(files, img) {
 		if (files.length) {
 			return (
-				<ScrollView refreshControl={
-					<RefreshControl
-						refreshing={isFetching}
-						onRefresh={() => readFiles()} />}>
+				<Content>
 					<List>{this.showList(img)}</List>
-				</ScrollView>
+				</Content>
 			);
 		}
 
@@ -114,19 +134,19 @@ export class Signature extends React.Component<SignatureProps> {
 			<View style={styles.sign_enc_view}>
 				<Text
 					style={styles.sign_enc_prompt}
-					onPress={() => this.documentPicker()}>[Добавьте файлы]</Text>
+					onPress={() => this.props.navigation.navigate("Documents")}>[Добавьте файлы]</Text>
 			</View>
 		);
 	}
 
 	render() {
-		const { footerAction, footerClose, footer, files, isFetching, readFiles, readCertKeys, personalCert } = this.props;
+		const { files, readCertKeys, personalCert } = this.props;
 		const { navigate, goBack } = this.props.navigation;
 
-		let certificate;
+		const img = iconSelection(files, files.length); // какое расширение у файлов
+		const filesView = this.getFilesView(files, img);
 
-		let img = iconSelection(files, files.length); // какое расширение у файлов
-		const filesView = this.getFilesView(files, isFetching, img, readFiles);
+		let certificate;
 		if (personalCert.title) { // выбран ли сертификат
 			certificate = <List>
 				<ListMenu title={personalCert.title} img={personalCert.img}
@@ -138,16 +158,16 @@ export class Signature extends React.Component<SignatureProps> {
 			</View>;
 		}
 
-		let selectFiles = null;
-		if (footer.arrButton.length) { // выбраны ли файлы
-			selectFiles = <Text style={styles.selectFiles}>
-				выбрано файлов: {footer.arrButton.length} </Text>;
+		let selectFilesView;
+		if (this.state.selectedFiles.arrNum.length) { // выбраны ли файлы
+			selectFilesView = <Text style={styles.selectFiles}>
+				выбрано файлов: {this.state.selectedFiles.arrNum.length} </Text>;
 		} else {
 			if (files.length) {
-				selectFiles = <Text style={styles.selectFiles}>
+				selectFilesView = <Text style={styles.selectFiles}>
 					всего файлов: {files.length}</Text>;
 			} else {
-				selectFiles = null;
+				selectFilesView = null;
 			}
 		}
 		return (
@@ -162,18 +182,24 @@ export class Signature extends React.Component<SignatureProps> {
 				{certificate}
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
-					{selectFiles}
-					<Button transparent style={styles.sign_enc_button} onPress={() => this.documentPicker()}>
+					{selectFilesView}
+					<Button transparent style={styles.sign_enc_button} onPress={() => navigate("Documents")}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
 				{filesView}
-				{footer.arrButton.length ? <FooterSign files={files} personalCert={personalCert} footer={footer} navigate={(page, cert) => navigate(page, { cert: cert })} /> : null}
+				{this.state.selectedFiles.arrNum.length
+					? <FooterSign
+						files={files} personalCert={personalCert}
+						footer={{ arrButton: this.state.selectedFiles.arrNum, arrExtension: this.state.selectedFiles.arrExtension }}
+						navigate={(page, cert) => navigate(page, { cert: cert })}
+						clearselectedFiles = {() => this.clearselectedFiles()}/>
+					: null}
 			</Container>
 		);
 	}
 
 	componentDidMount() {
-		this.props.footerClose();
+		this.setState({ activeFiles: false });
 	}
 }

@@ -69,12 +69,12 @@ export function Files(state = initialState, action) {
 		case VERIFY_SIGN_SUCCESS:
 			return {
 				...state,
-				files: verySignSuccess(state.files, action)
+				files: verySignSuccess(state.files.concat(), action)
 			};
 		case VERIFY_SIGN_ERROR:
 			return {
 				...state,
-				files: verySignError(state.files, action)
+				files: verySignError(state.files.concat(), action)
 			};
 		case VERIFY_SIGN_END:
 			return {

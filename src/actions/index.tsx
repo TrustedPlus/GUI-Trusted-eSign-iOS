@@ -79,7 +79,6 @@ export function readFiles() {
 				return request.then(
 					response => {
 						dispatch(clearFiles());
-						dispatch(footerClose());
 						dispatch(readFilesSuccess(response));
 					},
 					err => dispatch({ type: READ_FILES_ERROR })
@@ -94,7 +93,6 @@ export function readFilesSuccess(file) {
 	return function action(dispatch) {
 		let filearr = [], point, name, extensionAll, extension, date, month, year, time, verify = 0;
 		let length = file.length;
-		let k = 0;
 		for (let i = 0; i < length; i++) {
 			point = file[i].name.indexOf(".");
 			name = file[i].name.substring(0, point);
@@ -124,9 +122,9 @@ export function readFilesSuccess(file) {
 				// k++;
 				name = extension;
 				extension = 0;
-				filearr[i - k] = { name, extension, extensionAll, date, month, year, time, verify };
+				filearr[i] = { name, extension, extensionAll, date, month, year, time, verify };
 			} else {
-				filearr[i - k] = { name, extension, extensionAll, date, month, year, time, verify };
+				filearr[i] = { name, extension, extensionAll, date, month, year, time, verify };
 			}
 		}
 		dispatch({ type: READ_FILES_SUCCESS, payload: filearr });

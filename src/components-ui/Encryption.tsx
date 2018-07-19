@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, View, List, Button, Text } from "native-base";
+import { Container, View, List, Button, Text, Content } from "native-base";
 import { Image, RefreshControl, ScrollView, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
@@ -17,9 +17,8 @@ import { footerAction, footerClose, readFiles, addFiles } from "../actions/index
 function mapStateToProps(state) {
 	return {
 		footer: state.footer,
-		files: state.files.files,
+		files: state.workspaceEnc.files,
 		otherCert: state.otherCert,
-		isFetching: state.files.isFetching,
 		certificates: state.certificates.certificates
 	};
 }
@@ -49,7 +48,6 @@ interface EncryptionProps {
 	footer: any;
 	otherCert: any;
 	files: IFile[];
-	isFetching: boolean;
 	certificates: any;
 	footerAction(key: number, extension: string): void;
 	footerClose(): void;
@@ -68,9 +66,6 @@ export class Encryption extends React.Component<EncryptionProps> {
 		super(props);
 
 		this.props.navigation.state.key = "Home";
-		this.showListFiles = this.showListFiles.bind(this);
-		this.showListEncCertificates = this.showListEncCertificates.bind(this);
-		this.documentPicker = this.documentPicker.bind(this);
 	}
 
 	showListEncCertificates() {
@@ -85,6 +80,7 @@ export class Encryption extends React.Component<EncryptionProps> {
 	}
 
 	showListFiles(img) {
+		const { selectedFiles } = this.props.navigation.state.params;
 		return (
 			this.props.files.map((file, key) => <ListMenu
 				key={key + file.time}
@@ -92,26 +88,46 @@ export class Encryption extends React.Component<EncryptionProps> {
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 				img={img[key]}
 				checkbox
+				active={selectedFiles ? true : false}
 				nav={() => this.props.footerAction(key, file.extension)} />));
 	}
+	/*
+		documentPicker() {
+			DocumentPicker.show({
+				filetype: ["public.item"]
+			}, (error: any, res: any) => {
+				if (error) {
+					showToast(error);
+				} else {
+					this.props.addFiles(res.uri, res.fileName);
+				}
+			});
+		} */
 
-	documentPicker() {
-		DocumentPicker.show({
-			filetype: ["public.item"]
-		}, (error: any, res: any) => {
-			if (error) {
-				showToast(error);
-			} else {
-				this.props.addFiles(res.uri, res.fileName);
-			}
-		});
+	private getFilesView(files, img, readFiles) {
+		if (files.length) {
+			return (
+				<Content>
+					<List>{this.showListFiles(img)}</List>
+				</Content>
+			);
+		}
+
+		return (
+			<View style={styles.sign_enc_view}>
+				<Text
+					style={styles.sign_enc_prompt}
+					onPress={() => this.props.navigation.navigate("Documents")}>[Добавьте файлы]</Text>
+			</View>
+		);
 	}
 
 	render() {
-		const { files, footer, readFiles, readCertKeys, otherCert, isFetching } = this.props;
+		const { files, footer, readFiles, readCertKeys, otherCert } = this.props;
 		const { navigate, goBack } = this.props.navigation;
+		const { selectedFiles } = this.props.navigation.state.params;
 
-		let certificate, filesView;
+		let certificate;
 		if (otherCert.arrEncCertificates.length) { // выбран ли сертификат
 			certificate = <ScrollView alwaysBounceVertical={true} style={{ maxHeight: 150 }}><List>
 				{this.showListEncCertificates()}
@@ -125,17 +141,7 @@ export class Encryption extends React.Component<EncryptionProps> {
 
 		let img = iconSelection(files, files.length); // какое расширение у файлов
 
-		if (files.length) {
-			filesView = <ScrollView refreshControl={
-				<RefreshControl refreshing={isFetching}
-					onRefresh={() => readFiles()} />}>
-				<List>{this.showListFiles(img)}</List>
-			</ScrollView>;
-		} else {
-			filesView = <View style={styles.sign_enc_view}>
-				<Text style={styles.sign_enc_prompt} onPress={() => { this.documentPicker(); }}>[Добавьте файлы]</Text>
-			</View>;
-		}
+		const filesView = this.getFilesView(files, img, readFiles);
 
 		let selectFiles = null;
 		if (footer.arrButton.length) { // выбраны ли файлы
@@ -164,7 +170,7 @@ export class Encryption extends React.Component<EncryptionProps> {
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{selectFiles}
-					<Button transparent style={styles.sign_enc_button} onPress={() => { this.documentPicker(); }}>
+					<Button transparent style={styles.sign_enc_button} onPress={() => navigate("Documents")}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>

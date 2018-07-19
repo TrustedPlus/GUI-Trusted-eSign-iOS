@@ -6,6 +6,7 @@ import {
 	SIGN_FILE, SIGN_FILE_SUCCESS, SIGN_FILE_ERROR, SIGN_FILE_END,
 	VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END
 } from "../constants";
+import { addSingleFileInWorkspaceSign, clearOriginalFileInWorkspaceSign } from "./workspaceAction";
 
 interface IFile {
 	mtime: string;
@@ -14,10 +15,10 @@ interface IFile {
 	name: string;
 }
 
-export function signFile(files: IFile[], personalCert, footer, detached, signature) {
+export function signFile(files: IFile[], personalCert, footer, detached, signature, clearselectedFiles) {
 	return function action(dispatch) {
 		let lengthError = 0;
-		dispatch({ type: SIGN_FILE });
+		let arrDeletedFilesInWorkspacwSign = [];
 		for (let i = 0; i < footer.arrButton.length; i++) {
 			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
 			if (files[footer.arrButton[i]].extension === "sig") {
@@ -98,6 +99,45 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 							); */
 							setTimeout(() => {
 								dispatch(readFiles());
+								const request = RNFS.stat(path + ".sig");
+								request.then(
+									response => {
+										const verify = 0;
+										let filearr;
+										const name = files[footer.arrButton[i]].name;
+										const extensionAll = files[footer.arrButton[i]].extensionAll + ".sig";
+										const extension = "sig";
+										const mtime: any = response.mtime;
+										const date = mtime.getDate();
+										let month = mtime.getMonth();
+										switch (month) {
+											case 0: month = "января"; break;
+											case 1: month = "февраля"; break;
+											case 2: month = "марта"; break;
+											case 3: month = "апреля"; break;
+											case 4: month = "мая"; break;
+											case 5: month = "июня"; break;
+											case 6: month = "июля"; break;
+											case 7: month = "августа"; break;
+											case 8: month = "сентября"; break;
+											case 9: month = "октября"; break;
+											case 10: month = "ноября"; break;
+											case 11: month = "декабря"; break;
+											default: break;
+										}
+										const year = mtime.getFullYear();
+										const time = mtime.toLocaleTimeString();
+										filearr = { name, extension, extensionAll, date, month, year, time, verify };
+										dispatch(addSingleFileInWorkspaceSign(filearr));
+										arrDeletedFilesInWorkspacwSign.push({name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll});
+										if (i === footer.arrButton.length - 1) {
+											for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
+												dispatch(clearOriginalFileInWorkspaceSign(arrDeletedFilesInWorkspacwSign[i].name, arrDeletedFilesInWorkspacwSign[i].extensionAll));
+											}
+										}
+									},
+									err => console.log(err)
+								);
 								if ((footer.arrButton.length === 1) && (lengthError === 0)) {
 									showToast("Файл был подписан");
 								}
@@ -120,6 +160,7 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 				);
 			}
 		}
+		clearselectedFiles();
 	};
 }
 
@@ -181,7 +222,7 @@ export function verifySign(files: IFile[], footer) {
 	};
 }
 
-export function UnSignFile(files: IFile[], footer) {
+export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 	return function action(dispatch) {
 		for (let i = 0; i < footer.arrButton.length; i++) {
 			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
@@ -200,6 +241,7 @@ export function UnSignFile(files: IFile[], footer) {
 						if (err) {
 							showToastDanger("Открепленная подпись. При снятии подписи произошла ошибка.");
 						} else {
+							clearselectedFiles();
 							RNFS.unlink(path);
 							dispatch(readFiles());
 							showToast("Подпись была успешно снята");

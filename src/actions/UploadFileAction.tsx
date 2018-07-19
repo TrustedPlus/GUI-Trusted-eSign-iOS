@@ -13,35 +13,38 @@ interface IFile {
 	name: string;
 }
 
-export function uploadFile(files: IFile[], footer) {
+interface ISelectedFiles {
+	arrNum: Array<number>;
+	arrExtension: Array<number>;
+}
+
+export function uploadFile(files: IFile[], selectedFiles: ISelectedFiles) {
 	return function action(dispatch) {
 		dispatch({ type: UPLOAD_FILES });
-		for (let i = 0; i < footer.arrButton.length; i++) {
-			Share.share({
-				url: RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll
-			}).then(
-				result => dispatch({ type: UPLOAD_FILES_SUCCESS, payload: files[footer.arrButton[i]].name })
-			).catch(
-				errorMsg => dispatch({ type: UPLOAD_FILES_ERROR, payload: errorMsg })
-			);
-		}
+		Share.share({
+			url: RNFS.DocumentDirectoryPath + "/Files/" + files[selectedFiles.arrNum[0]].name + "." + files[selectedFiles.arrNum[0]].extensionAll
+		}).then(
+			result => dispatch({ type: UPLOAD_FILES_SUCCESS, payload: files[selectedFiles.arrNum[0]].name })
+		).catch(
+			errorMsg => dispatch({ type: UPLOAD_FILES_ERROR, payload: errorMsg })
+		);
 		dispatch({ type: UPLOAD_FILES_END });
 	};
 }
 
-export function deleteFile(files: IFile[], footer) {
+export function deleteFile(files: IFile[], selectedFiles: ISelectedFiles, clearselectedFiles: Function) {
 	return function action(dispatch) {
 		dispatch({ type: DELETE_FILES });
-		for (let i = 0; i < footer.arrButton.length; i++) {
+		for (let i = 0; i < selectedFiles.arrNum.length; i++) {
 			let path;
-			if (files[footer.arrButton[i]].extension) {
-				path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+			if (files[selectedFiles.arrNum[i]].extension) {
+				path = RNFS.DocumentDirectoryPath + "/Files/" + files[selectedFiles.arrNum[i]].name + "." + files[selectedFiles.arrNum[i]].extensionAll;
 			} else {
-				path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
+				path = RNFS.DocumentDirectoryPath + "/Files/" + files[selectedFiles.arrNum[i]].name;
 			}
 			RNFS.unlink(path)
 				.then(() => {
-					dispatch({ type: DELETE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
+					dispatch({ type: DELETE_FILES_SUCCESS, payload: files[selectedFiles.arrNum[i]].name });
 				})
 				.catch((err) => {
 					dispatch({ type: DELETE_FILES_ERROR, payload: err });
@@ -49,6 +52,7 @@ export function deleteFile(files: IFile[], footer) {
 		}
 		setTimeout(() => {
 			dispatch(readFiles());
+			clearselectedFiles();
 		}, 300);
 	};
 }

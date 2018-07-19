@@ -14,19 +14,20 @@ interface ListItemProps {
 	checkbox?: boolean;
 	numChain?: number;
 	lengthChain?: number;
-	nav(): void;
+	active?: boolean;
+	nav?(): void;
 }
 
 export class ListMenu extends React.Component<ListItemProps, { active: boolean }> {
 
 	constructor(props) {
 		super(props);
-		this.state = { active: false };
+		this.state = this.props.active ? {active: true } : {active: false };
 	}
 
 	onPress() {
 		if (this.props.checkbox) { this.state.active ? this.setState({ active: false }) : this.setState({ active: true }); }
-		this.props.nav();
+		this.props.nav ? this.props.nav() : null;
 	}
 
 	render() {
@@ -39,7 +40,10 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 			righticon = <Icon style={{ position: "absolute", right: 15, top: 15 }} name={this.props.righticon} />;
 		}
 		return (
-			<ListItem style={[styles.listItem, this.state.active ? { backgroundColor: "lightgrey" } : null]} avatar onPress={this.onPress.bind(this)} >
+			<ListItem
+			style={[styles.listItem, this.state.active ? { backgroundColor: "lightgrey" } : null]}
+			avatar
+			onPress={() => this.onPress()}>
 				{this.props.img ? <Left>
 					{this.props.numChain !== undefined
 						? <>

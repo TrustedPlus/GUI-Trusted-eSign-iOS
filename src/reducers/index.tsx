@@ -7,6 +7,8 @@ import { Logger } from "./Logger";
 import { certificates } from "./CertificatesReducers";
 import { containers } from "./GetContainersReducers";
 import { requests } from "./requestReducer";
+import { workspaceSign } from "./workspaceSign";
+import { workspaceEnc } from "./workspaceEnc";
 
 const rootReducer = combineReducers({
 	footer: Footer,
@@ -16,7 +18,9 @@ const rootReducer = combineReducers({
 	certificates: certificates,
 	otherCert: otherCert,
 	containers: containers,
-	requests: requests
+	requests: requests,
+	workspaceSign: workspaceSign,
+	workspaceEnc: workspaceEnc
 });
 
 export default rootReducer;

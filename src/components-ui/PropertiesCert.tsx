@@ -79,14 +79,14 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 
 	chainList() {
 		return (
-			this.state.chain.map((cert, key, arr) =>
+			this.state.chain.map((chain, key, arr) =>
 				<List key={key} style={{ paddingTop: 10 }}>
 					<ListMenu
 						numChain={key}
 						lengthChain={arr.length}
-						title={cert.subjectName.match(/2.5.4.3=[^\/]{1,}/)[0].replace("2.5.4.3=", "")}
-						img={console.log(cert.chainBuilding) ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")}
-						note={cert.subjectName.match(/2.5.4.10=[^\/]{1,}/) ? cert.subjectName.match(/2.5.4.10=[^\/]{1,}/)[0].replace("2.5.4.10=", "") : null} nav={() => null} />
+						title={chain.subjectName.match(/2.5.4.3=[^\/]{1,}/)[0].replace("2.5.4.3=", "")}
+						img={this.props.navigation.state.params.cert.chainBuilding ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")}
+						note={chain.subjectName.match(/2.5.4.10=[^\/]{1,}/) ? chain.subjectName.match(/2.5.4.10=[^\/]{1,}/)[0].replace("2.5.4.10=", "") : null} nav={() => null} />
 				</List>
 			)
 		);
@@ -162,7 +162,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 							{issuerRegion ? <ListForCert title="Регион:" value={issuerRegion} /> : null}
 							{issuerCity ? <ListForCert title="Город:" value={issuerCity} /> : null}
 
-							<ListForCert itemHeader title="Сертфикат" />
+							<ListForCert itemHeader title="Сертификат" />
 							<ListForCert title="Серийный номер:" value={cert.serialNumber} />
 							<ListForCert title="Годен до:" value={cert.notAfter} />
 							<ListForCert title="Алгоритм подписи:" value={cert.publicKeyAlgorithm} />

@@ -18,7 +18,7 @@ export function otherCert(state = initialState, action) {
 				arrNumEncCertificates: []
 			};
 		case ENC_CERT_CLEAR_CERT:
-			let oldArrEncCertificates = state.arrEncCertificates;
+			let oldArrEncCertificates = state.arrEncCertificates.concat();
 			let index = -1;
 			oldArrEncCertificates.forEach((cert, i) => {
 				if ((cert.issuerName === action.payload.issuerName) && (cert.category === action.payload.category) && (cert.serialNumber === action.payload.serialNumber)) {

@@ -113,7 +113,6 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 			isselfsign: false,
 			exportKey: true
 		};
-		this.onPressCertRequest = this.onPressCertRequest.bind(this);
 	}
 
 	onValueChange(value: string) {

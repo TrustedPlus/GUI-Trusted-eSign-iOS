@@ -175,7 +175,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 				<Headers title="Подпись / Проверка" goBack={() => goBack()} />
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Сертификат подписи</Text>
-					<Button transparent onPress={() => { readCertKeys(); navigate("SelectPersonalСert", { isCertInContainers: true }); }} style={styles.sign_enc_button}>
+					<Button transparent onPressIn={() => { readCertKeys(); navigate("SelectPersonalСert", { isCertInContainers: true }); }} style={styles.sign_enc_button}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
@@ -183,14 +183,15 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{selectFilesView}
-					<Button transparent style={styles.sign_enc_button} onPress={() => navigate("Documents")}>
+					<Button transparent style={styles.sign_enc_button} onPressIn={() => navigate("Documents")}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
 				{filesView}
 				{this.state.selectedFiles.arrNum.length
 					? <FooterSign
-						files={files} personalCert={personalCert}
+						files={files}
+						personalCert={personalCert}
 						footer={{ arrButton: this.state.selectedFiles.arrNum, arrExtension: this.state.selectedFiles.arrExtension }}
 						navigate={(page, cert) => navigate(page, { cert: cert })}
 						clearselectedFiles = {() => this.clearselectedFiles()}/>

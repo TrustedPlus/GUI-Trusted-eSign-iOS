@@ -72,14 +72,14 @@ export class AboutSignCert extends React.Component<AboutSignCertProps, AboutSign
 						first
 						style={[{ width: "48%", borderColor: "grey" }, this.state.numPage === 1 ? { backgroundColor: "lightgrey" } : null]}
 						active={this.state.numPage === 1 ? true : false}
-						onPress={() => this.setState({ numPage: 1 })}>
+						onPressIn={() => this.setState({ numPage: 1 })}>
 						<Text style={{ color: "black" }}>Сертификат</Text>
 					</Button>
 					<Button
 						last
 						style={[{ width: "48%", borderColor: "grey" }, this.state.numPage === 2 ? { backgroundColor: "lightgrey" } : null]}
 						active={this.state.numPage === 2 ? true : false}
-						onPress={() => this.setState({ numPage: 2 })}>
+						onPressIn={() => this.setState({ numPage: 2 })}>
 						<Text style={{ color: "black" }}>Цепочка доверия</Text>
 					</Button>
 				</Segment>

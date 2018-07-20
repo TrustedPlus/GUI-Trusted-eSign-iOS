@@ -12,22 +12,19 @@ import { showToast } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { footerAction, footerClose, readFiles, addFiles } from "../actions/index";
+import { /*footerAction, footerClose,*/ readFiles, addFiles } from "../actions/index";
 
 function mapStateToProps(state) {
 	return {
-		footer: state.footer,
 		files: state.workspaceEnc.files,
-		otherCert: state.otherCert,
-		certificates: state.certificates.certificates
+		otherCert: state.otherCert
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		footerAction: bindActionCreators(footerAction, dispatch),
-		footerClose: bindActionCreators(footerClose, dispatch),
-		readFiles: bindActionCreators(readFiles, dispatch),
+		/*footerAction: bindActionCreators(footerAction, dispatch),
+		footerClose: bindActionCreators(footerClose, dispatch),*/
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
 		addFiles: bindActionCreators(addFiles, dispatch)
 	};
@@ -45,18 +42,26 @@ interface IFile {
 
 interface EncryptionProps {
 	navigation: any;
-	footer: any;
 	otherCert: any;
 	files: IFile[];
-	certificates: any;
-	footerAction(key: number, extension: string): void;
-	footerClose(): void;
-	readFiles(): void;
+	/*footerAction(key: number, extension: string): void;
+	footerClose(): void;*/
 	readCertKeys(): void;
 	addFiles(uri: string, fileName: string): void;
 }
+
+interface ISelectedFiles {
+	arrNum: Array<number>;
+	arrExtension: Array<string>;
+}
+
+interface EncryptionState {
+	selectedFiles?: ISelectedFiles;
+	activeFiles?: boolean;
+}
+
 @(connect(mapStateToProps, mapDispatchToProps) as any)
-export class Encryption extends React.Component<EncryptionProps> {
+export class Encryption extends React.Component<EncryptionProps, EncryptionState> {
 
 	static navigationOptions = {
 		header: null
@@ -64,7 +69,13 @@ export class Encryption extends React.Component<EncryptionProps> {
 
 	constructor(props) {
 		super(props);
-
+		this.state = {
+			selectedFiles: {
+				arrNum: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrNum : [],
+				arrExtension: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrExtension : [],
+			},
+			activeFiles: this.props.navigation.state.params.selectedFiles ? true : false
+		};
 		this.props.navigation.state.key = "Home";
 	}
 
@@ -79,8 +90,21 @@ export class Encryption extends React.Component<EncryptionProps> {
 			/>));
 	}
 
+	changeSelectedRequests(oldSelectedFiles, key, extension) {
+		let index = oldSelectedFiles.arrNum.indexOf(key);
+		let newSelectedFiles;
+		if (index !== -1) {
+			oldSelectedFiles.arrNum.splice(index, 1); // удаление из массива
+			oldSelectedFiles.arrExtension.splice(index, 1);
+		} else {
+			oldSelectedFiles.arrNum.push(key);
+			oldSelectedFiles.arrExtension.push(extension);
+		}
+		newSelectedFiles = oldSelectedFiles;
+		return newSelectedFiles; // добавление в массив
+	}
+
 	showListFiles(img) {
-		const { selectedFiles } = this.props.navigation.state.params;
 		return (
 			this.props.files.map((file, key) => <ListMenu
 				key={key + file.time}
@@ -88,8 +112,11 @@ export class Encryption extends React.Component<EncryptionProps> {
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 				img={img[key]}
 				checkbox
-				active={selectedFiles ? true : false}
-				nav={() => this.props.footerAction(key, file.extension)} />));
+				active={this.state.activeFiles ? true : false}
+				nav={() => {
+					const newSelectedFiles = this.changeSelectedRequests(this.state.selectedFiles, key, file.extension);
+					this.setState({ selectedFiles: { arrNum: newSelectedFiles.arrNum, arrExtension: newSelectedFiles.arrExtension } });
+				}/*this.props.footerAction(key, file.extension)*/} />));
 	}
 	/*
 		documentPicker() {
@@ -104,7 +131,16 @@ export class Encryption extends React.Component<EncryptionProps> {
 			});
 		} */
 
-	private getFilesView(files, img, readFiles) {
+	clearselectedFiles() {
+		this.setState({
+			selectedFiles: {
+				arrNum: [],
+				arrExtension: []
+			}
+		});
+	}
+
+	private getFilesView(files, img) {
 		if (files.length) {
 			return (
 				<Content>
@@ -123,9 +159,8 @@ export class Encryption extends React.Component<EncryptionProps> {
 	}
 
 	render() {
-		const { files, footer, readFiles, readCertKeys, otherCert } = this.props;
+		const { files, readCertKeys, otherCert } = this.props;
 		const { navigate, goBack } = this.props.navigation;
-		const { selectedFiles } = this.props.navigation.state.params;
 
 		let certificate;
 		if (otherCert.arrEncCertificates.length) { // выбран ли сертификат
@@ -141,18 +176,18 @@ export class Encryption extends React.Component<EncryptionProps> {
 
 		let img = iconSelection(files, files.length); // какое расширение у файлов
 
-		const filesView = this.getFilesView(files, img, readFiles);
+		const filesView = this.getFilesView(files, img);
 
-		let selectFiles = null;
-		if (footer.arrButton.length) { // выбраны ли файлы
-			selectFiles = <Text style={styles.selectFiles}>
-				выбрано файлов: {footer.arrButton.length}</Text>;
+		let selectFilesView = null;
+		if (this.state.selectedFiles.arrNum.length) { // выбраны ли файлы
+			selectFilesView = <Text style={styles.selectFiles}>
+				выбрано файлов: {this.state.selectedFiles.arrNum.length}</Text>;
 		} else {
 			if (files.length) {
-				selectFiles = <Text style={styles.selectFiles}>
+				selectFilesView = <Text style={styles.selectFiles}>
 					всего файлов: {files.length}</Text>;
 			} else {
-				selectFiles = null;
+				selectFilesView = null;
 			}
 		}
 		return (
@@ -160,7 +195,7 @@ export class Encryption extends React.Component<EncryptionProps> {
 				<Headers title="Шифрование / Расшифрование" goBack={() => goBack()} />
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Сертификаты получателей</Text>
-					<Button transparent style={styles.sign_enc_button} onPress={() => { readCertKeys(); navigate("SelectCert"); }}>
+					<Button transparent style={styles.sign_enc_button} onPressIn={() => { readCertKeys(); navigate("SelectCert"); }}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
@@ -169,18 +204,24 @@ export class Encryption extends React.Component<EncryptionProps> {
 				</View>
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
-					{selectFiles}
-					<Button transparent style={styles.sign_enc_button} onPress={() => navigate("Documents")}>
+					{selectFilesView}
+					<Button transparent style={styles.sign_enc_button} onPressIn={() => navigate("Documents")}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
 				{filesView}
-				{footer.arrButton.length ? <FooterEnc files={files} otherCert={otherCert} footer={footer} /> : null}
+				{this.state.selectedFiles.arrNum.length
+					? <FooterEnc
+						files={files}
+						otherCert={otherCert}
+						footer={{ arrButton: this.state.selectedFiles.arrNum, arrExtension: this.state.selectedFiles.arrExtension }}
+						clearselectedFiles={() => this.clearselectedFiles()} />
+					: null}
 			</Container>
 		);
 	}
 
 	componentDidMount() {
-		this.props.footerClose();
+		this.setState({ activeFiles: false });
 	}
 }

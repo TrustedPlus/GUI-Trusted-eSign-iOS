@@ -11,9 +11,11 @@ import { uploadFile, deleteFile } from "../actions/uploadFileAction";
 
 import * as Modal from "react-native-modalbox";
 import { styles } from "../styles";
+import { clearOriginalFileInWorkspaceEnc } from "../actions/workspaceAction";
 
 function mapDispatchToProps(dispatch) {
 	return {
+		clearOriginalFileInWorkspaceEnc: bindActionCreators(clearOriginalFileInWorkspaceEnc, dispatch),
 		encAssymmetric: bindActionCreators(encAssymmetric, dispatch),
 		decAssymmetric: bindActionCreators(decAssymmetric, dispatch),
 		uploadFile: bindActionCreators(uploadFile, dispatch),
@@ -31,9 +33,11 @@ interface FooterEncProps {
 	footer?: any;
 	files?: any;
 	otherCert?: any;
-	encAssymmetric?(files: IFile[], otherCert: string[], footer: string[], signature: string, deleteAfter: boolean): void;
-	decAssymmetric?(files: IFile[], footer: string[]): void;
-	uploadFile?(files: IFile[], footer): void;
+	clearselectedFiles?(): void;
+	clearOriginalFileInWorkspaceEnc?(name, extensionAll): void;
+	encAssymmetric?(files: IFile[], otherCert: string[], footer: string[], signature: string, deleteAfter: boolean, clearselectedFiles: Function): void;
+	decAssymmetric?(files: IFile[], footer: string[], clearselectedFiles: Function): void;
+	uploadFile?(files: IFile[], footer: Object): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
 }
 
@@ -61,6 +65,13 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 		basicModal: null
 	};
 
+	clearSelectedFilesInWorkspaceEnc() {
+		for (let i = 0; i < this.props.footer.arrButton.length; i++) {
+			this.props.clearOriginalFileInWorkspaceEnc(this.props.files[this.props.footer.arrButton[i]].name, this.props.files[this.props.footer.arrButton[i]].extensionAll);
+		}
+		this.props.clearselectedFiles();
+	}
+
 	render() {
 		const { files, otherCert, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer } = this.props;
 		let certIsNotNull, isDec, isEnc = null;
@@ -85,9 +96,9 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 						<FooterButton title="Расшифровать"
 							disabled={isDec === "dec" ? false : true}
 							icon="md-unlock"
-							nav={() => decAssymmetric(files, footer)} />
-						<FooterButton title="Отправить" disabled={/*footer.arrExtension.length === 1 ? false : */true} icon="ios-share-alt-outline" nav={() => uploadFile(files, footer)} />
-						<FooterButton title="Удалить" disabled={true} icon="md-trash" nav={() => deleteFile(files, footer)} />
+							nav={() => decAssymmetric(files, footer,  () => this.props.clearselectedFiles())} />
+						<FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, {arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
+						<FooterButton title="Очистить" icon="md-trash" nav={() => this.clearSelectedFilesInWorkspaceEnc()} />
 					</FooterTab>
 				</Footer>
 				<Modal
@@ -101,10 +112,10 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 							changeValue={(value) => this.setState({ signature: value })}
 							options={[{ value: "BASE-64" }, { value: "DER" }]} />
 						<ListWithSwitch text="Удалить после шифрования" disabled={this.state.deleteAfter} value={this.state.deleteAfter} changeValue={() => this.setState({ deleteAfter: !this.state.deleteAfter })} />
-						<Button transparent onPress={() => { this.modals.basicModal.close(); encAssymmetric(files, otherCert, footer, this.state.signature, this.state.deleteAfter); }} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
+						<Button transparent onPressIn={() => { this.modals.basicModal.close(); encAssymmetric(files, otherCert, footer, this.state.signature, this.state.deleteAfter, () => this.props.clearselectedFiles()); }} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
 							<Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>ОК</Text>
 						</Button>
-						<Button transparent onPress={() => this.modals.basicModal.close()} style={{ borderTopWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0, right: 0 }}><Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>Отмена</Text></Button>
+						<Button transparent onPressIn={() => this.modals.basicModal.close()} style={{ borderTopWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0, right: 0 }}><Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>Отмена</Text></Button>
 					</View>
 				</Modal>
 			</>

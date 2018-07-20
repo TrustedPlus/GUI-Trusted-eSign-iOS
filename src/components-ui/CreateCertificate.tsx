@@ -251,7 +251,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 						defaultValue={this.state.country}
 						changeValue={(value) => this.setState({ country: value })}
 						options={[{ value: "RU" }, { value: "GER" }]} />
-					<Button style={{ width: "100%", backgroundColor: "white" }} onPress={() => this.setState({ certAssignment: !this.state.certAssignment })}>
+					<Button style={{ width: "100%", backgroundColor: "white" }} onPressIn={() => this.setState({ certAssignment: !this.state.certAssignment })}>
 						<Text style={{ color: "grey" }}>Назначение сертификата</Text>
 						{this.state.certAssignment
 							? <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-down" />

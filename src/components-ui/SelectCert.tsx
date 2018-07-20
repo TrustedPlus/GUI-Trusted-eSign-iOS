@@ -112,7 +112,7 @@ export class SelectCert extends React.Component<SelectCertProps, SelectCertState
 				<Content>
 					<List>
 						{(certificates.filter((cert) => (cert.category.toUpperCase() === "MY") && (cert.hasPrivateKey))).length !== 0 ?
-							<Button style={{ width: "100%", backgroundColor: "white" }} onPress={() => this.setState({ collapsedPersonalCert: !this.state.collapsedPersonalCert })}>
+							<Button style={{ width: "100%", backgroundColor: "white" }} onPressIn={() => this.setState({ collapsedPersonalCert: !this.state.collapsedPersonalCert })}>
 								<Text style={{ color: "grey" }}>Личные сертификаты</Text>
 								{this.state.collapsedPersonalCert
 									? <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-down" />
@@ -122,7 +122,7 @@ export class SelectCert extends React.Component<SelectCertProps, SelectCertState
 							<List>{this.ShowList(img)}</List>
 						</Collapsible>
 						{(certificates.filter((cert) => ((cert.category.toUpperCase() === "OTHERS") || (cert.category.toUpperCase() === "ADDRESSBOOK")))).length !== 0 ?
-							<Button style={{ width: "100%", backgroundColor: "white" }} onPress={() => this.setState({ collapsedOtherCert: !this.state.collapsedOtherCert })}>
+							<Button style={{ width: "100%", backgroundColor: "white" }} onPressIn={() => this.setState({ collapsedOtherCert: !this.state.collapsedOtherCert })}>
 								<Text style={{ color: "grey" }}>Сертификаты других пользователей</Text>
 								{this.state.collapsedOtherCert
 									? <Icon style={{ color: "grey", position: "absolute", right: "5%" }} name="ios-arrow-down" />
@@ -136,7 +136,7 @@ export class SelectCert extends React.Component<SelectCertProps, SelectCertState
 				{
 					this.state.arrEncCertificates.length === 0
 						? <AddCertButton navigate={(page) => navigate(page)} addCertFunc={(uri, fileName, password, fn) => addCert(uri, fileName, password, fn)} />
-						: <Button transparent style={{ position: "absolute", bottom: 40, right: 30 }} onPress={() => {
+						: <Button transparent style={{ position: "absolute", bottom: 40, right: 30 }} onPressIn={() => {
 							addCertForEnc(this.state.arrEncCertificates);
 							this.props.navigation.goBack();
 						}}>

@@ -17,6 +17,7 @@ interface IFile {
 
 export function signFile(files: IFile[], personalCert, footer, detached, signature, clearselectedFiles) {
 	return function action(dispatch) {
+		clearselectedFiles();
 		let lengthError = 0;
 		let arrDeletedFilesInWorkspacwSign = [];
 		for (let i = 0; i < footer.arrButton.length; i++) {
@@ -48,18 +49,53 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 											lengthError++;
 											dispatch({ type: SIGN_FILE_ERROR, payload: err });
 										} else {
-											setTimeout(() => {
-												dispatch(readFiles());
-												if ((footer.arrButton.length === 1) && (lengthError === 0)) {
-													showToast("Подпись была добавлена");
-												}
-												if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
-													showToast("Ошибка при добавлении подписи");
-												}
-												if ((footer.arrButton.length > 1) && (lengthError > 0)) {
-													showToast("Для некоторых файлов подпись не смогла быть добавлена");
-												}
-											}, 300);
+											const request = RNFS.stat(path);
+											request.then(
+												response => {
+													const verify = 0;
+													let filearr;
+													const name = files[footer.arrButton[i]].name;
+													const extensionAll = files[footer.arrButton[i]].extensionAll;
+													const extension = "sig";
+													const mtime: any = response.mtime;
+													const date = mtime.getDate();
+													let month = mtime.getMonth();
+													switch (month) {
+														case 0: month = "января"; break;
+														case 1: month = "февраля"; break;
+														case 2: month = "марта"; break;
+														case 3: month = "апреля"; break;
+														case 4: month = "мая"; break;
+														case 5: month = "июня"; break;
+														case 6: month = "июля"; break;
+														case 7: month = "августа"; break;
+														case 8: month = "сентября"; break;
+														case 9: month = "октября"; break;
+														case 10: month = "ноября"; break;
+														case 11: month = "декабря"; break;
+														default: break;
+													}
+													const year = mtime.getFullYear();
+													const time = mtime.toLocaleTimeString();
+													filearr = { name, extension, extensionAll, date, month, year, time, verify };
+													dispatch(addSingleFileInWorkspaceSign(filearr));
+													if (i === footer.arrButton.length - 1) {
+														for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
+															dispatch(clearOriginalFileInWorkspaceSign(arrDeletedFilesInWorkspacwSign[i].name, arrDeletedFilesInWorkspacwSign[i].extensionAll));
+														}
+													}
+												},
+												err => console.log(err)
+											);
+											if ((footer.arrButton.length === 1) && (lengthError === 0)) {
+												showToast("Подпись была добавлена");
+											}
+											if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
+												showToast("Ошибка при добавлении подписи");
+											}
+											if ((footer.arrButton.length > 1) && (lengthError > 0)) {
+												showToast("Для некоторых файлов подпись не смогла быть добавлена");
+											}
 											dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
 										}
 									}
@@ -97,70 +133,69 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 									});
 								}
 							); */
-							setTimeout(() => {
-								dispatch(readFiles());
-								const request = RNFS.stat(path + ".sig");
-								request.then(
-									response => {
-										const verify = 0;
-										let filearr;
-										const name = files[footer.arrButton[i]].name;
-										const extensionAll = files[footer.arrButton[i]].extensionAll + ".sig";
-										const extension = "sig";
-										const mtime: any = response.mtime;
-										const date = mtime.getDate();
-										let month = mtime.getMonth();
-										switch (month) {
-											case 0: month = "января"; break;
-											case 1: month = "февраля"; break;
-											case 2: month = "марта"; break;
-											case 3: month = "апреля"; break;
-											case 4: month = "мая"; break;
-											case 5: month = "июня"; break;
-											case 6: month = "июля"; break;
-											case 7: month = "августа"; break;
-											case 8: month = "сентября"; break;
-											case 9: month = "октября"; break;
-											case 10: month = "ноября"; break;
-											case 11: month = "декабря"; break;
-											default: break;
+							const request = RNFS.stat(path + ".sig");
+							request.then(
+								response => {
+									const verify = 0;
+									let filearr;
+									const name = files[footer.arrButton[i]].name;
+									const extensionAll = files[footer.arrButton[i]].extensionAll + ".sig";
+									const extension = "sig";
+									const mtime: any = response.mtime;
+									const date = mtime.getDate();
+									let month = mtime.getMonth();
+									switch (month) {
+										case 0: month = "января"; break;
+										case 1: month = "февраля"; break;
+										case 2: month = "марта"; break;
+										case 3: month = "апреля"; break;
+										case 4: month = "мая"; break;
+										case 5: month = "июня"; break;
+										case 6: month = "июля"; break;
+										case 7: month = "августа"; break;
+										case 8: month = "сентября"; break;
+										case 9: month = "октября"; break;
+										case 10: month = "ноября"; break;
+										case 11: month = "декабря"; break;
+										default: break;
+									}
+									const year = mtime.getFullYear();
+									const time = mtime.toLocaleTimeString();
+									filearr = { name, extension, extensionAll, date, month, year, time, verify };
+									dispatch(addSingleFileInWorkspaceSign(filearr));
+									arrDeletedFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
+									if (i === footer.arrButton.length - 1) {
+										for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
+											dispatch(clearOriginalFileInWorkspaceSign(arrDeletedFilesInWorkspacwSign[i].name, arrDeletedFilesInWorkspacwSign[i].extensionAll));
 										}
-										const year = mtime.getFullYear();
-										const time = mtime.toLocaleTimeString();
-										filearr = { name, extension, extensionAll, date, month, year, time, verify };
-										dispatch(addSingleFileInWorkspaceSign(filearr));
-										arrDeletedFilesInWorkspacwSign.push({name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll});
-										if (i === footer.arrButton.length - 1) {
-											for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
-												dispatch(clearOriginalFileInWorkspaceSign(arrDeletedFilesInWorkspacwSign[i].name, arrDeletedFilesInWorkspacwSign[i].extensionAll));
-											}
-										}
-									},
-									err => console.log(err)
-								);
-								if ((footer.arrButton.length === 1) && (lengthError === 0)) {
-									showToast("Файл был подписан");
-								}
-								if ((footer.arrButton.length > 1) && (lengthError === 0)) {
-									showToast("Файлы был подписаны");
-								}
-								if ((footer.arrButton.length === 1) && (lengthError === 1)) {
-									showToast("Ошибка при подписи файла");
-								}
-								if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
-									showToast("Ошибка при подписи файлов");
-								}
-								if ((footer.arrButton.length > 1) && (lengthError > 0)) {
-									showToast("При подписи некоторые файлы не были подписаны");
-								}
-							}, 300);
+									}
+								},
+								err => console.log(err)
+							);
+							if ((footer.arrButton.length === 1) && (lengthError === 0)) {
+								showToast("Файл был подписан");
+							}
+							if ((footer.arrButton.length > 1) && (lengthError === 0)) {
+								showToast("Файлы был подписаны");
+							}
+							if ((footer.arrButton.length === 1) && (lengthError === 1)) {
+								showToast("Ошибка при подписи файла");
+							}
+							if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
+								showToast("Ошибка при подписи файлов");
+							}
+							if ((footer.arrButton.length > 1) && (lengthError > 0)) {
+								showToast("При подписи некоторые файлы не были подписаны");
+							}
 							dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name });
 						}
 					}
 				);
 			}
 		}
-		clearselectedFiles();
+		setTimeout(() => {
+			dispatch(readFiles());
+		}, 300);
 	};
 }
 
@@ -224,6 +259,8 @@ export function verifySign(files: IFile[], footer) {
 
 export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 	return function action(dispatch) {
+		let arrDeletedFilesInWorkspacwSign = [];
+		clearselectedFiles();
 		for (let i = 0; i < footer.arrButton.length; i++) {
 			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
 			let encoding;
@@ -241,8 +278,46 @@ export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 						if (err) {
 							showToastDanger("Открепленная подпись. При снятии подписи произошла ошибка.");
 						} else {
-							clearselectedFiles();
-							RNFS.unlink(path);
+							const request = RNFS.stat(path.substr(0, path.length - 4));
+							request.then(
+								response => {
+									const verify = 0;
+									let filearr;
+									const name = files[footer.arrButton[i]].name;
+									const extensionAll = files[footer.arrButton[i]].extensionAll.substr(0, files[footer.arrButton[i]].extensionAll.length - 4);
+									const point = extensionAll.lastIndexOf(".");
+									const extension = extensionAll.substring(point + 1);
+									const mtime: any = response.mtime;
+									const date = mtime.getDate();
+									let month = mtime.getMonth();
+									switch (month) {
+										case 0: month = "января"; break;
+										case 1: month = "февраля"; break;
+										case 2: month = "марта"; break;
+										case 3: month = "апреля"; break;
+										case 4: month = "мая"; break;
+										case 5: month = "июня"; break;
+										case 6: month = "июля"; break;
+										case 7: month = "августа"; break;
+										case 8: month = "сентября"; break;
+										case 9: month = "октября"; break;
+										case 10: month = "ноября"; break;
+										case 11: month = "декабря"; break;
+										default: break;
+									}
+									const year = mtime.getFullYear();
+									const time = mtime.toLocaleTimeString();
+									filearr = { name, extension, extensionAll, date, month, year, time, verify };
+									dispatch(addSingleFileInWorkspaceSign(filearr));
+									arrDeletedFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
+									if (i === footer.arrButton.length - 1) {
+										for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
+											dispatch(clearOriginalFileInWorkspaceSign(arrDeletedFilesInWorkspacwSign[i].name, arrDeletedFilesInWorkspacwSign[i].extensionAll));
+										}
+									}
+								},
+								err => console.log(err)
+							);
 							dispatch(readFiles());
 							showToast("Подпись была успешно снята");
 						}

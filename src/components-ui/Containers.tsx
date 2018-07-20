@@ -122,7 +122,7 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 					swipeToClose={false}>
 					<View style={{ width: "100%", height: "100%" }}>
 						<ListWithSwitch text="Удалить по возможности вместе с сертификатом" value={this.state.deleteCert} changeValue={() => this.setState({ deleteCert: !this.state.deleteCert })} />
-						<Button transparent onPress={() => {
+						<Button transparent onPressIn={() => {
 							this.modals.basicModal.close();
 							for (let i = 0; i < this.state.selectedContainers.length; i++) {
 								NativeModules.Wrap_Main.deleteContainer(
@@ -137,7 +137,7 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 						}} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
 							<Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>ОК</Text>
 						</Button>
-						<Button transparent onPress={() => this.modals.basicModal.close()} style={{ borderTopWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0, right: 0 }}><Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>Отмена</Text></Button>
+						<Button transparent onPressIn={() => this.modals.basicModal.close()} style={{ borderTopWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0, right: 0 }}><Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>Отмена</Text></Button>
 					</View>
 				</Modal>
 			</Container>

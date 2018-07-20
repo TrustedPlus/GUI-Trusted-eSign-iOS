@@ -19,7 +19,7 @@ export class Headers extends React.Component<HeadersProps> {
 						<Image style={{width: 35, height: 35}}
 							source={require("../../imgs/general/back_icon.png")} />
 					</Button>
-					{this.props.goHome ? <Button style={{width: 50, height: 50, position: "absolute", left: 60, top: 0}} transparent onPress={() => { this.props.goHome(); }} >
+					{this.props.goHome ? <Button style={{width: 50, height: 50, position: "absolute", left: 60, top: 0}} transparent onPressIn={() => { this.props.goHome(); }} >
 						<Icon name="ios-home" style={{color: "white"}}/>
 					</Button> : null}
 				</Left> : null}

@@ -94,6 +94,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 				title={file.name}
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 				checkbox
+				verify={file.verify}
 				img={img[key]}
 				nav={() => {
 					const newSelectedFiles = this.changeSelectedRequests(this.state.selectedFiles, key, file.extension);
@@ -173,7 +174,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 				<Button
 					transparent
 					style={{ position: "absolute", bottom: 80, right: 30 }}
-					onPress={() => this.documentPicker()}>
+					onPressIn={() => this.documentPicker()}>
 					<Image
 						style={{ width: 60, height: 60 }}
 						source={require("../../imgs/general/add_icon.png")} />
@@ -183,7 +184,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 						files={files}
 						selectedFiles={selectedFiles}
 						clearselectedFiles={() => this.clearselectedFiles()}
-						navigate={navigate} />
+						navigate={(page, cert) => navigate(page, { cert: cert })} />
 					: null
 				}
 			</Container>

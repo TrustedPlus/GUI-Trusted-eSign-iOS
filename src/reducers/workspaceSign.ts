@@ -1,8 +1,32 @@
-import { ADD_FILES_IN_WORKSPACE_SIGN, ADD_SINGLE_FILE_IN_WORKSPACE_SIGN, CLEAR_ORIGINAL_FILE_IN_WORKSPACE_SIGN } from "../constants";
+import {
+	ADD_FILES_IN_WORKSPACE_SIGN, ADD_SINGLE_FILE_IN_WORKSPACE_SIGN, CLEAR_ORIGINAL_FILE_IN_WORKSPACE_SIGN,
+	VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR
+} from "../constants";
 
 const initialState = {
 	files: []
 };
+
+function verySignSuccess(oldFiles, action) {
+	for (let i = 0; i < oldFiles.length; i++) {
+		if ((oldFiles[i].name === action.payload) && (oldFiles[i].extension === "sig")) {
+			oldFiles[i].verify = 1;
+			return oldFiles;
+		}
+	}
+	return oldFiles;
+}
+
+function verySignError(oldFiles, action) {
+	if (action.payload === 0) { return oldFiles; }
+	for (let i = 0; i < oldFiles.length; i++) {
+		if ((oldFiles[i].name === action.payload) && (oldFiles[i].extension === "sig")) {
+			oldFiles[i].verify = -1;
+			return oldFiles;
+		}
+	}
+	return oldFiles;
+}
 
 export function workspaceSign(state = initialState, action) {
 	switch (action.type) {
@@ -37,6 +61,16 @@ export function workspaceSign(state = initialState, action) {
 			return {
 				...state,
 				files: oldFiles
+			};
+		case VERIFY_SIGN_SUCCESS:
+			return {
+				...state,
+				files: verySignSuccess(state.files.concat(), action)
+			};
+		case VERIFY_SIGN_ERROR:
+			return {
+				...state,
+				files: verySignError(state.files.concat(), action)
 			};
 		default:
 			return state;

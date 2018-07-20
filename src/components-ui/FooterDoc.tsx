@@ -49,7 +49,7 @@ interface FooterDocProps {
 	UnSignFile?(files: IFile[], selectedFiles: Object, clearselectedFiles: Function): void;
 	uploadFile?(files: IFile[], selectedFiles: ISelectedFiles): void;
 	deleteFile?(files: IFile[], selectedFiles: ISelectedFiles, clearselectedFiles: Function): void;
-	getSignInfo?(files: IFile[], selectedFiles: string[], navigate): void;
+	getSignInfo?(files: IFile[], selectedFiles: Object, navigate): void;
 	addFilesInWorkspaceSign?(files: IFile[], selectedFiles: ISelectedFiles);
 	decAssymmetric?(files: IFile[], selectedFiles: Object, clearselectedFiles: Function): void;
 	addFilesInWorkspaceEnc?(files: IFile[], selectedFiles: ISelectedFiles);
@@ -61,7 +61,7 @@ interface FooterDocState {
 }
 
 enum WhatSelected {
-	"other", "allSig", "allEnc"
+	"other", "allSig", "allEnc", "selected sign", "selected enc", "selected enc and sign"
 }
 
 @(connect(null, mapDispatchToProps) as any)
@@ -79,10 +79,21 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 			selectedFiles, files, navigate, clearselectedFiles,
 			addFilesInWorkspaceSign, addFilesInWorkspaceEnc,
 			uploadFile, deleteFile, readFiles,
-			verifySign, UnSignFile,
+			verifySign, UnSignFile, getSignInfo,
 			decAssymmetric } = this.props;
 		const selectedFilesObject = { arrButton: selectedFiles.arrNum, arrExtension: selectedFiles.arrExtension };
 		let mark: WhatSelected = 0;
+
+		if (selectedFiles.arrExtension.filter(extension => extension === "sig").length >= 1 && selectedFiles.arrExtension.filter(extension => extension === "enc").length >= 1) {
+			mark = 5;
+		} else {
+			if (selectedFiles.arrExtension.filter(extension => extension === "sig").length) {
+				mark = 3;
+			}
+			if (selectedFiles.arrExtension.filter(extension => extension === "enc").length) {
+				mark = 4;
+			}
+		}
 		if (selectedFiles.arrExtension.length === selectedFiles.arrExtension.filter(extension => extension === "sig").length) {
 			mark = 1;
 		} else {
@@ -90,7 +101,6 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 				mark = 2;
 			}
 		}
-
 		return (
 			<Footer>
 				<FooterTab>
@@ -130,6 +140,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 						: null}
 					<FooterButton title="Подписать"
 						icon="md-create"
+						disabled={(mark === 5) || (mark === 4) || (mark === 2)}
 						nav={() => {
 							let selectedFilesForSign = [];
 							for (let i = 0; i < selectedFiles.arrNum.length; i++) {
@@ -146,8 +157,13 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 						}} />
 					<FooterButton title="Зашифровать"
 						icon="md-lock"
+						disabled={(mark === 5) || (mark === 3) || (mark === 1)}
 						nav={() => {
-							addFilesInWorkspaceEnc(files, selectedFiles); navigate("Encryption", { selectedFiles: selectedFiles }); setTimeout(
+							let selectedFilesForEnc = [];
+							for (let i = 0; i < selectedFiles.arrNum.length; i++) {
+								selectedFilesForEnc.push(i);
+							}
+							addFilesInWorkspaceEnc(files, selectedFiles); navigate("Encryption", { selectedFiles: { arrNum: selectedFilesForEnc, arrExtension: selectedFiles.arrExtension } }); setTimeout(
 								() => {
 									clearselectedFiles();
 									readFiles();

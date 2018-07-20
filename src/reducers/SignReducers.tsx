@@ -1,4 +1,4 @@
-import { AnyAction } from "redux";
+/*import { AnyAction } from "redux";
 import { FOOTER_ACTION, FOOTER_CLOSE } from "../constants";
 
 const initialState = {
@@ -37,4 +37,4 @@ export function Footer(state = initialState, action: AnyAction) {
 		default:
 			return state;
 	}
-}
+} */

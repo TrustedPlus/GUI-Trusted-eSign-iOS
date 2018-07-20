@@ -6,6 +6,7 @@ import {
 	ENCODE_FILES, ENCODE_FILES_SUCCESS, ENCODE_FILES_ERROR, ENCODE_FILES_END,
 	DECODE_FILES, DECODE_FILES_SUCCESS, DECODE_FILES_ERROR, DECODE_FILES_END
 } from "../constants";
+import { addSingleFileInWorkspaceEnc, clearOriginalFileInWorkspaceEnc } from "./workspaceAction";
 
 interface IFile {
 	mtime: string;
@@ -14,9 +15,11 @@ interface IFile {
 	name: string;
 }
 
-export function encAssymmetric(files: IFile[], otherCert, footer, signature, deleteAfter) {
+export function encAssymmetric(files: IFile[], otherCert, footer, signature, deleteAfter, clearselectedFiles) {
 	return function action(dispatch) {
 		dispatch({ type: ENCODE_FILES });
+		clearselectedFiles();
+		let arrDeletedFilesInWorkspacwEnc = [];
 		if (!otherCert.arrEncCertificates.length) {
 			return dispatch({ type: ENCODE_FILES_END });
 		} else {
@@ -39,6 +42,44 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 							dispatch({ type: ENCODE_FILES_ERROR, payload: err });
 						} else {
 							// RNFS.copyFile(path + ".enc", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".enc");
+							const request = RNFS.stat(path + ".enc");
+							request.then(
+								response => {
+									let filearr;
+									const name = files[footer.arrButton[i]].name;
+									const extensionAll = files[footer.arrButton[i]].extensionAll + ".enc";
+									const extension = "enc";
+									const mtime: any = response.mtime;
+									const date = mtime.getDate();
+									let month = mtime.getMonth();
+									switch (month) {
+										case 0: month = "января"; break;
+										case 1: month = "февраля"; break;
+										case 2: month = "марта"; break;
+										case 3: month = "апреля"; break;
+										case 4: month = "мая"; break;
+										case 5: month = "июня"; break;
+										case 6: month = "июля"; break;
+										case 7: month = "августа"; break;
+										case 8: month = "сентября"; break;
+										case 9: month = "октября"; break;
+										case 10: month = "ноября"; break;
+										case 11: month = "декабря"; break;
+										default: break;
+									}
+									const year = mtime.getFullYear();
+									const time = mtime.toLocaleTimeString();
+									filearr = { name, extension, extensionAll, date, month, year, time };
+									dispatch(addSingleFileInWorkspaceEnc(filearr));
+									arrDeletedFilesInWorkspacwEnc.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
+									if (i === footer.arrButton.length - 1) {
+										for (let k = 0; k < arrDeletedFilesInWorkspacwEnc.length; k++) {
+											dispatch(clearOriginalFileInWorkspaceEnc(arrDeletedFilesInWorkspacwEnc[k].name, arrDeletedFilesInWorkspacwEnc[k].extensionAll));
+										}
+									}
+								},
+								err => console.log(err)
+							);
 							dispatch({ type: ENCODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
 							if (deleteAfter) { RNFS.unlink(path); showToast("Файл успешно зашифрован\nИсходный файл был удален"); } else {
 								showToast("Файл успешно зашифрован");
@@ -56,6 +97,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Function) {
 	return function action(dispatch) {
 		dispatch({ type: DECODE_FILES });
+		let arrDeletedFilesInWorkspacwEnc = [];
 		for (let i = 0; i < footer.arrButton.length; i++) {
 
 			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name;
@@ -84,6 +126,45 @@ export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Funct
 						} else {
 							// RNFS.copyFile(path + "." + extension, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + extension);
 							dispatch({ type: DECODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name });
+							const request = RNFS.stat(path + "." + extension);
+							request.then(
+								response => {
+									let filearr;
+									const name = files[footer.arrButton[i]].name;
+									const extensionAll = extension;
+									let point = extensionAll.lastIndexOf(".");
+									const extensionNewFiles = extensionAll.substring(point + 1);
+									const mtime: any = response.mtime;
+									const date = mtime.getDate();
+									let month = mtime.getMonth();
+									switch (month) {
+										case 0: month = "января"; break;
+										case 1: month = "февраля"; break;
+										case 2: month = "марта"; break;
+										case 3: month = "апреля"; break;
+										case 4: month = "мая"; break;
+										case 5: month = "июня"; break;
+										case 6: month = "июля"; break;
+										case 7: month = "августа"; break;
+										case 8: month = "сентября"; break;
+										case 9: month = "октября"; break;
+										case 10: month = "ноября"; break;
+										case 11: month = "декабря"; break;
+										default: break;
+									}
+									const year = mtime.getFullYear();
+									const time = mtime.toLocaleTimeString();
+									filearr = { name, extension: extensionNewFiles, extensionAll, date, month, year, time };
+									dispatch(addSingleFileInWorkspaceEnc(filearr));
+									arrDeletedFilesInWorkspacwEnc.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
+									if (i === footer.arrButton.length - 1) {
+										for (let k = 0; k < arrDeletedFilesInWorkspacwEnc.length; k++) {
+											dispatch(clearOriginalFileInWorkspaceEnc(arrDeletedFilesInWorkspacwEnc[k].name, arrDeletedFilesInWorkspacwEnc[k].extensionAll));
+										}
+									}
+								},
+								err => console.log(err)
+							);
 							showToast("Файл успешно расшифрован");
 						}
 					}

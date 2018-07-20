@@ -22,7 +22,7 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 
 	constructor(props) {
 		super(props);
-		this.state = this.props.active ? {active: true } : {active: false };
+		this.state = this.props.active ? { active: true } : { active: false };
 	}
 
 	onPress() {
@@ -41,17 +41,17 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 		}
 		return (
 			<ListItem
-			style={[styles.listItem, this.state.active ? { backgroundColor: "lightgrey" } : null]}
-			avatar
-			onPress={() => this.onPress()}>
+				style={[styles.listItem, this.state.active ? { backgroundColor: "lightgrey" } : null]}
+				avatar
+				onPressIn={() => this.onPress()}>
 				{this.props.img ? <Left>
 					{this.props.numChain !== undefined
 						? <>
-							{ this.props.numChain !== 0 ? <View style={styles.vertfirst}/> : null }
+							{this.props.numChain !== 0 ? <View style={styles.vertfirst} /> : null}
 							<View style={styles.numChain}>
 								<Text style={{ textAlign: "center", lineHeight: 30, color: "darkblue" }}>{this.props.numChain + 1}</Text>
 							</View>
-							{ this.props.numChain + 1 !== this.props.lengthChain ? <View style={styles.vert}/> : null }
+							{this.props.numChain + 1 !== this.props.lengthChain ? <View style={styles.vert} /> : null}
 						</>
 						: null}
 					<Thumbnail square style={styles.thumbnail} source={this.props.img} />

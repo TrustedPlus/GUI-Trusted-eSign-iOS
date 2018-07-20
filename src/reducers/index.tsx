@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { Footer } from "./SignReducers";
+// import { Footer } from "./SignReducers";
 import { personalCert } from "./PersonalCertReducers";
 import { otherCert } from "./OtherCertReducers";
 import { Files } from "./Files";
@@ -11,7 +11,7 @@ import { workspaceSign } from "./workspaceSign";
 import { workspaceEnc } from "./workspaceEnc";
 
 const rootReducer = combineReducers({
-	footer: Footer,
+	// footer: Footer,
 	personalCert: personalCert,
 	files: Files,
 	logger: Logger,

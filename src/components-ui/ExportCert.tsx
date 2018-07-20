@@ -158,7 +158,7 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 				</Content>
 				<Footer>
 					<FooterTab>
-						<Button vertical onPress={() => this.ExportCert()} >
+						<Button vertical onPressIn={() => this.ExportCert()} >
 							<Text style={{ color: "black" }}>Экспортировать</Text>
 						</Button>
 					</FooterTab>

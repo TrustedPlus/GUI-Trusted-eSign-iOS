@@ -1,5 +1,5 @@
 import {
-	FOOTER_ACTION, FOOTER_CLOSE, PERSONAL_CERT_ACTION, OTHER_CERT_ACTION, CLEAR_LOG,
+	/*FOOTER_ACTION, FOOTER_CLOSE, */PERSONAL_CERT_ACTION, OTHER_CERT_ACTION, CLEAR_LOG,
 	READ_FILES, READ_FILES_SUCCESS, READ_FILES_ERROR,
 	ADD_FILES, ADD_FILES_SUCCESS, ADD_FILES_ERROR, CLEAR_FILES,
 	ADD_CERT_OR_KEY, ADD_CERT_SUCCESS, ADD_CERT_ERROR, ADD_KEY_SUCCESS, ADD_KEY_ERROR,
@@ -10,7 +10,7 @@ import { showToast } from "../utils/toast";
 import { NativeModules } from "react-native";
 import { readCertKeys } from "./certKeysAction";
 import { getProviders } from "./getContainersAction";
-
+/*
 export function footerAction(idButton, extension) {
 	return {
 		type: FOOTER_ACTION,
@@ -22,7 +22,7 @@ export function footerClose() {
 	return {
 		type: FOOTER_CLOSE
 	};
-}
+} */
 
 export function addCertForSign(title, img, note, issuerName, serialNumber, provider, category, hasPrivateKey) {
 	return {

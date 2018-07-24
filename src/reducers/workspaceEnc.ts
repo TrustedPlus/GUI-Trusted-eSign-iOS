@@ -1,4 +1,7 @@
-import { ADD_FILES_IN_WORKSPACE_ENC, ADD_SINGLE_FILE_IN_WORKSPACE_ENC, CLEAR_ORIGINAL_FILE_IN_WORKSPACE_ENC } from "../constants";
+import {
+	ADD_FILES_IN_WORKSPACE_ENC, ADD_SINGLE_FILE_IN_WORKSPACE_ENC, CLEAR_ORIGINAL_FILE_IN_WORKSPACE_ENC,
+	CLEAR_ALL_FILES_IN_WORKSPACE_ENC, CLEAR_ALL_FILES_IN_ALL_WORKSPACE
+} from "../constants";
 
 const initialState = {
 	files: []
@@ -37,6 +40,12 @@ export function workspaceEnc(state = initialState, action) {
 			return {
 				...state,
 				files: oldFiles
+			};
+		case CLEAR_ALL_FILES_IN_ALL_WORKSPACE:
+		case CLEAR_ALL_FILES_IN_WORKSPACE_ENC:
+			return {
+				...state,
+				files: []
 			};
 		default:
 			return state;

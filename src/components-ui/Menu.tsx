@@ -29,6 +29,8 @@ import { readRequests } from "../actions/requestAction";
 
 function mapStateToProps(state) {
 	return {
+		workspaceEnc: state.workspaceEnc.files,
+		workspaceSign: state.workspaceSign.files,
 		certificates: state.certificates.certificates,
 		files: state.files.files,
 		lastlog: state.logger.lastlog,
@@ -51,6 +53,8 @@ interface MainProps {
 	certificates: any;
 	containers: any;
 	lastlog: string;
+	workspaceEnc: any;
+	workspaceSign: any;
 	readCertKeys(): any;
 	readFiles(): any;
 	getProviders(): any;
@@ -66,8 +70,10 @@ class Main extends React.Component<MainProps> {
 
 	render() {
 		const { navigate } = this.props.navigation;
-		const { files, certificates, lastlog, containers } = this.props;
-		let length = "выбрано файлов: " + files.length;
+		const { files, certificates, lastlog, containers, workspaceSign, workspaceEnc } = this.props;
+		let length = "всего файлов: " + files.length;
+		let lengthSign = "выбрано файлов: " + workspaceSign.length;
+		let lengthEnc = "выбрано файлов: " + workspaceEnc.length;
 		let persCert = "личных сертификатов: " + certificates.filter(cert => cert.category.toUpperCase() === "MY").length;
 		let lengthContainers = "количество контейнеров: " + containers.length;
 		let lastlognote = lastlog ? "последняя запись: " + lastlog : "действий не совершалось";
@@ -77,13 +83,13 @@ class Main extends React.Component<MainProps> {
 				<Content>
 					<List>
 						<ListMenu title="Подпись / Проверка подписи" img={require("../../imgs/general/sign_main_icon.png")}
-							note={length} nav={() => navigate("Signature", { name: "Signature" })} />
+							note={lengthSign} nav={() => navigate("Signature", { name: "Signature" })} />
 						<ListMenu title="Шифрование / Расшифрование" img={require("../../imgs/general/encode_main_icon.png")}
-							note={length} nav={() => navigate("Encryption", { name: "Encryption" })} />
+							note={lengthEnc} nav={() => navigate("Encryption", { name: "Encryption" })} />
 						<ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
 							note={persCert} nav={() => navigate("Certificate", { name: "Certificate" })} />
 						<ListMenu title="Документы" img={require("../../imgs/general/documents_main_icon.png")}
-							nav={() => navigate("Documents")} />
+							note={length} nav={() => navigate("Documents")} />
 						<ListMenu title="Управление контейнерами" img={require("../../imgs/general/stores_main_icon.png")}
 							note={lengthContainers} nav={() => navigate("Containers", { name: "Containers" })} />
 						<ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}

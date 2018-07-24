@@ -71,7 +71,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 			},
 			activeFiles: this.props.navigation.state.params.selectedFiles ? true : false
 		};
-		this.props.navigation.state.key = "Home";
+		this.props.navigation.state.key = "HomeSign";
 	}
 
 	changeSelectedRequests(oldSelectedFiles, key, extension) {

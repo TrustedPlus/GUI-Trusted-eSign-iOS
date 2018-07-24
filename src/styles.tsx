@@ -120,7 +120,7 @@ export const styles = StyleSheet.create({
 	// PropertiesCert
 	prop_cert_righttext: {
 		position: "absolute",
-		width: "60%",
+		width: "55%",
 		right: 5,
 		textAlign: "right",
 		color: "blue"

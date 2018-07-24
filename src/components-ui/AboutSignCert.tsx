@@ -30,16 +30,23 @@ export class AboutSignCert extends React.Component<AboutSignCertProps, AboutSign
 	}
 
 	chainList(cert) {
+		const goodIcon = require("../../imgs/general/cert_ok_icon.png");
+		const badIcon = require("../../imgs/general/cert_bad_icon.png");
+		let icon = goodIcon;
 		return (cert.map((cert, key) => {
 			return (
 				<View key={key}>
 					<Text style={[styles.sign_enc_title, { paddingTop: 30 }]}>Состав цепочки</Text>
+					{cert.chain.forEach(function (cert, i, arr) {
+						if (cert.errorCode !== 0) {
+							icon = badIcon;
+						}
+					})}
 					{cert.chain.map((cert, key, arr) =>
-						cert.errorCode ? null :
-							<List key={key} style={{ paddingTop: 10 }}>
-								<ListMenu numChain={key} lengthChain={arr.length} title={cert.subjectName.match(/2.5.4.3=[^\/]{1,}/)[0].replace("2.5.4.3=", "")} img={require("../../imgs/general/cert_ok_icon.png")}
-									note={cert.subjectName.match(/2.5.4.10=[^\/]{1,}/) ? cert.subjectName.match(/2.5.4.10=[^\/]{1,}/)[0].replace("2.5.4.10=", "") : null} nav={() => null} />
-							</List>
+						<List key={key} style={{ paddingTop: 10 }}>
+							<ListMenu numChain={key} lengthChain={arr.length} title={cert.subjectName.match(/2.5.4.3=[^\/]{1,}/)[0].replace("2.5.4.3=", "")} img={icon}
+								note={cert.subjectName.match(/2.5.4.10=[^\/]{1,}/) ? cert.subjectName.match(/2.5.4.10=[^\/]{1,}/)[0].replace("2.5.4.10=", "") : null} nav={() => null} />
+						</List>
 					)}
 				</View>
 			);
@@ -70,17 +77,17 @@ export class AboutSignCert extends React.Component<AboutSignCertProps, AboutSign
 				<Segment style={{ backgroundColor: "white" }}>
 					<Button
 						first
-						style={[{ width: "48%", borderColor: "grey" }, this.state.numPage === 1 ? { backgroundColor: "lightgrey" } : null]}
+						style={[{ width: "48.5%", borderColor: "grey" }, this.state.numPage === 1 ? { backgroundColor: "lightgrey" } : null]}
 						active={this.state.numPage === 1 ? true : false}
 						onPressIn={() => this.setState({ numPage: 1 })}>
-						<Text style={{ color: "black" }}>Сертификат</Text>
+						<Text style={{ color: "black", fontSize: 13 }}>Информация о подписи</Text>
 					</Button>
 					<Button
 						last
-						style={[{ width: "48%", borderColor: "grey" }, this.state.numPage === 2 ? { backgroundColor: "lightgrey" } : null]}
+						style={[{ width: "48.5%", borderColor: "grey" }, this.state.numPage === 2 ? { backgroundColor: "lightgrey" } : null]}
 						active={this.state.numPage === 2 ? true : false}
 						onPressIn={() => this.setState({ numPage: 2 })}>
-						<Text style={{ color: "black" }}>Цепочка доверия</Text>
+						<Text style={{ color: "black", }}>Цепочка доверия</Text>
 					</Button>
 				</Segment>
 				<Content>

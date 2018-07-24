@@ -146,11 +146,11 @@ export function addFiles(uri, fileName) {
 		const copyFile = RNFS.copyFile(decodeURIComponent(uri.replace("file:///", "/")), RNFS.DocumentDirectoryPath + "/Files/" + fileName);
 		return copyFile.then(
 			response => {
-				dispatch({ type: ADD_FILES_SUCCESS, payload: name });
+				dispatch({ type: ADD_FILES_SUCCESS, payload: fileName });
 				dispatch(readFiles());
 			},
 			err => {
-				dispatch({ type: ADD_FILES_ERROR, payload: name });
+				dispatch({ type: ADD_FILES_ERROR, payload: fileName, err });
 				showToast("Ошибка при добавлении файла");
 			}
 		);
@@ -174,9 +174,9 @@ export function addCert(uri, fileName?, password?, fn?) {
 					(err, imp) => {
 						if (err) {
 							fn(err);
-							dispatch({ type: ADD_CERT_ERROR, payload: err });
+							dispatch({ type: ADD_CERT_ERROR, payload: name + "." + extension, err });
 						} else {
-							dispatch({ type: ADD_CERT_SUCCESS, payload: name });
+							dispatch({ type: ADD_CERT_SUCCESS, payload: name + "." + extension });
 							setTimeout(() => {
 								showToast("Сертификат успешно добавлен");
 								dispatch(getProviders());
@@ -202,10 +202,10 @@ export function addCert(uri, fileName?, password?, fn?) {
 						"OTHERS",
 						(err, saveCert) => {
 							if (err) {
-								dispatch({ type: ADD_CERT_ERROR, payload: err });
+								dispatch({ type: ADD_CERT_ERROR, payload: name + "." + extension, err });
 								showToast("Ошибка при добавлении сертификата");
 							} else {
-								dispatch({ type: ADD_CERT_SUCCESS, payload: name });
+								dispatch({ type: ADD_CERT_SUCCESS, payload: name + "." + extension });
 								showToast("Сертификат успешно добавлен");
 								dispatch(readCertKeys());
 							}
@@ -221,10 +221,10 @@ export function addCert(uri, fileName?, password?, fn?) {
 					"",
 					(err, saveKey) => {
 						if (err) {
-							dispatch({ type: ADD_KEY_ERROR, payload: err });
+							dispatch({ type: ADD_KEY_ERROR, payload: name + "." + extension, err });
 							showToast("Ошибка при добавлении ключа");
 						} else {
-							dispatch({ type: ADD_KEY_SUCCESS, payload: name });
+							dispatch({ type: ADD_KEY_SUCCESS, payload: name + "." + extension });
 							dispatch(readCertKeys());
 						}
 					});

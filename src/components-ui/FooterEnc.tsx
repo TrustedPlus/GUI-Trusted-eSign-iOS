@@ -96,7 +96,7 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 						<FooterButton title="Расшифровать"
 							disabled={isDec === "dec" ? false : true}
 							icon="md-unlock"
-							nav={() => decAssymmetric(files, footer,  () => this.props.clearselectedFiles())} />
+							nav={() => decAssymmetric(files, footer, () => this.props.clearselectedFiles())} />
 						<FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, {arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
 						<FooterButton title="Очистить" icon="md-trash" nav={() => this.clearSelectedFilesInWorkspaceEnc()} />
 					</FooterTab>

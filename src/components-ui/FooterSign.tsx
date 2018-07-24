@@ -38,7 +38,7 @@ interface FooterSignProps {
 	personalCert?: any;
 	modalView?: Function;
 	navigate?: any;
-	clearselectedFiles?();
+	clearselectedFiles?(num);
 	clearOriginalFileInWorkspaceSign?(name, extensionAll);
 	refreshingFiles?();
 	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean, signature: string, clearselectedFiles: Function): void;
@@ -81,7 +81,7 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 		for (let i = 0; i < this.props.footer.arrButton.length; i++) {
 			this.props.clearOriginalFileInWorkspaceSign(this.props.files[this.props.footer.arrButton[i]].name, this.props.files[this.props.footer.arrButton[i]].extensionAll);
 		}
-		this.props.clearselectedFiles();
+		this.props.clearselectedFiles(-1);
 	}
 
 	render() {
@@ -108,7 +108,7 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							? <View style={[styles.modalMore, styles.modalMore4]}>
 								<Footer>
 									<FooterTab>
-										<FooterButton title="Снять" disabled={allIsSign === "sig" ? false : true} icon="md-crop" nav={() => UnSignFile(files, footer, () => this.props.clearselectedFiles())} />
+										<FooterButton title="Снять" disabled={allIsSign === "sig" ? false : true} icon="md-crop" nav={() => UnSignFile(files, footer, (num) => this.props.clearselectedFiles(num))} />
 										<FooterButton title="Отправить" disabled={!numSelectedFilesIsOne} icon="ios-share-alt-outline" nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
 									</FooterTab>
 								</Footer>
@@ -129,7 +129,7 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							icon="md-create"
 							nav={() => {
 								allIsSign === "sig"
-									? signFile(files, personalCert, footer, null, null, () => this.props.clearselectedFiles())
+									? signFile(files, personalCert, footer, null, null, (num) => this.props.clearselectedFiles(num))
 									: this.modals.basicModal.open();
 							}} />
 						<FooterButton title="Свойства" disabled={numSelectedFilesIsOne ? allIsSign === "sig" ? false : true : true} icon="ios-information" nav={() => getSignInfo(files, footer, (page, cert) => navigate(page, { cert: cert }))} />
@@ -147,7 +147,7 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							changeValue={(value) => this.setState({ signature: value })}
 							options={[{ value: "BASE-64" }, { value: "DER" }]} />
 						<ListWithSwitch text="Сохранить подпись отдельно" value={this.state.detached} changeValue={() => this.setState({ detached: !this.state.detached })} />
-						<Button transparent onPressIn={() => { this.modals.basicModal.close(); signFile(files, personalCert, footer, this.state.detached, this.state.signature, () => this.props.clearselectedFiles()); }} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
+						<Button transparent onPressIn={() => { this.modals.basicModal.close(); signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num)); }} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
 							<Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>ОК</Text>
 						</Button>
 						<Button

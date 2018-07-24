@@ -76,7 +76,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 			},
 			activeFiles: this.props.navigation.state.params.selectedFiles ? true : false
 		};
-		this.props.navigation.state.key = "Home";
+		this.props.navigation.state.key = "HomeEnc";
 	}
 
 	showListEncCertificates() {

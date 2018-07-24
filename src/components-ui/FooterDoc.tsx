@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { signFile, verifySign, UnSignFile, getSignInfo } from "../actions/signVerifyAction";
 import { uploadFile, deleteFile } from "../actions/uploadFileAction";
-import { addFilesInWorkspaceSign, addFilesInWorkspaceEnc } from "../actions/workspaceAction";
+import { addFilesInWorkspaceSign, addFilesInWorkspaceEnc, clearAllFilesinAllWorkspace } from "../actions/workspaceAction";
 import { decAssymmetric } from "../actions/encDecAction";
 import { readFiles } from "../actions/index";
 
@@ -23,6 +23,7 @@ function mapDispatchToProps(dispatch) {
 		addFilesInWorkspaceSign: bindActionCreators(addFilesInWorkspaceSign, dispatch),
 		decAssymmetric: bindActionCreators(decAssymmetric, dispatch),
 		addFilesInWorkspaceEnc: bindActionCreators(addFilesInWorkspaceEnc, dispatch),
+		clearAllFilesinAllWorkspace: bindActionCreators(clearAllFilesinAllWorkspace, dispatch),
 		readFiles: bindActionCreators(readFiles, dispatch),
 	};
 }
@@ -53,6 +54,7 @@ interface FooterDocProps {
 	addFilesInWorkspaceSign?(files: IFile[], selectedFiles: ISelectedFiles);
 	decAssymmetric?(files: IFile[], selectedFiles: Object, clearselectedFiles: Function): void;
 	addFilesInWorkspaceEnc?(files: IFile[], selectedFiles: ISelectedFiles);
+	clearAllFilesinAllWorkspace?();
 	readFiles?(): void;
 }
 
@@ -80,7 +82,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 			addFilesInWorkspaceSign, addFilesInWorkspaceEnc,
 			uploadFile, deleteFile, readFiles,
 			verifySign, UnSignFile, getSignInfo,
-			decAssymmetric } = this.props;
+			decAssymmetric, clearAllFilesinAllWorkspace } = this.props;
 		const selectedFilesObject = { arrButton: selectedFiles.arrNum, arrExtension: selectedFiles.arrExtension };
 		let mark: WhatSelected = 0;
 
@@ -115,7 +117,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 									<FooterButton title="Снять"
 										disabled={mark !== 1}
 										icon="md-crop"
-										nav={() => UnSignFile(files, selectedFilesObject, () => clearselectedFiles())} />
+										nav={() => { clearAllFilesinAllWorkspace(); UnSignFile(files, selectedFilesObject, () => clearselectedFiles()); }} />
 									<FooterButton title="Свойства"
 										disabled={mark !== 1 || this.props.selectedFiles.arrNum.length !== 1}
 										icon="ios-information"
@@ -128,12 +130,12 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 										disabled={mark !== 2}
 										icon="md-unlock"
 										style={{ borderTopWidth: 0 }}
-										nav={() => decAssymmetric(files, selectedFilesObject, () => clearselectedFiles())} />
+										nav={() => { clearAllFilesinAllWorkspace(); decAssymmetric(files, selectedFilesObject, () => clearselectedFiles()); }} />
 									<FooterButton title="Архивировать" disabled={true} icon="help" nav={() => null} style={{ borderTopWidth: 0 }} />
 									<FooterButton title="Удалить"
 										icon="ios-trash"
 										style={{ borderTopWidth: 0 }}
-										nav={() => deleteFile(files, selectedFiles, () => clearselectedFiles())} />
+										nav={() => { clearAllFilesinAllWorkspace(); deleteFile(files, selectedFiles, () => clearselectedFiles()); }} />
 								</FooterTab>
 							</Footer>
 						</View>

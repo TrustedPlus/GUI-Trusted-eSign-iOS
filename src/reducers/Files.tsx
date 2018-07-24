@@ -15,7 +15,7 @@ const initialState = {
 
 function verySignSuccess(oldFiles, action) {
 	for (let i = 0; i < oldFiles.length; i++) {
-		if ((oldFiles[i].name === action.payload) && (oldFiles[i].extension === "sig")) {
+		if ((oldFiles[i].name + "." + oldFiles[i].extensionAll === action.payload) && (oldFiles[i].extension === "sig")) {
 			oldFiles[i].verify = 1;
 			return oldFiles;
 		}
@@ -26,7 +26,7 @@ function verySignSuccess(oldFiles, action) {
 function verySignError(oldFiles, action) {
 	if (action.payload === 0) { return oldFiles; }
 	for (let i = 0; i < oldFiles.length; i++) {
-		if ((oldFiles[i].name === action.payload) && (oldFiles[i].extension === "sig")) {
+		if ((oldFiles[i].name + "." + oldFiles[i].extensionAll === action.payload) && (oldFiles[i].extension === "sig")) {
 			oldFiles[i].verify = -1;
 			return oldFiles;
 		}
@@ -61,6 +61,16 @@ export function Files(state = initialState, action) {
 				isFetching: false
 			};
 		case READ_FILES_SUCCESS:
+			function compareAge(file1, file2) {
+				if (file1.name === file2.name) {
+					if (file1.extension > file2.extension) { return 1; }
+					if (file1.extension < file2.extension) { return -1; }
+				}
+				if (file1.name > file2.name) { return 1; }
+				if (file1.name < file2.name) { return -1; }
+			}
+
+			action.payload.sort(compareAge);
 			return {
 				...state,
 				files: action.payload,

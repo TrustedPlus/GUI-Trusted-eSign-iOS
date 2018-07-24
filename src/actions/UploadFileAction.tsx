@@ -24,9 +24,9 @@ export function uploadFile(files: IFile[], selectedFiles: ISelectedFiles) {
 		Share.share({
 			url: RNFS.DocumentDirectoryPath + "/Files/" + files[selectedFiles.arrNum[0]].name + "." + files[selectedFiles.arrNum[0]].extensionAll
 		}).then(
-			result => dispatch({ type: UPLOAD_FILES_SUCCESS, payload: files[selectedFiles.arrNum[0]].name })
+			result => dispatch({ type: UPLOAD_FILES_SUCCESS, payload: files[selectedFiles.arrNum[0]].name + "." + files[selectedFiles.arrNum[0]].extensionAll })
 		).catch(
-			errorMsg => dispatch({ type: UPLOAD_FILES_ERROR, payload: errorMsg })
+			errorMsg => dispatch({ type: UPLOAD_FILES_ERROR, payload: files[selectedFiles.arrNum[0]].name + "." + files[selectedFiles.arrNum[0]].extensionAll, err: errorMsg })
 		);
 		dispatch({ type: UPLOAD_FILES_END });
 	};
@@ -44,10 +44,10 @@ export function deleteFile(files: IFile[], selectedFiles: ISelectedFiles, clears
 			}
 			RNFS.unlink(path)
 				.then(() => {
-					dispatch({ type: DELETE_FILES_SUCCESS, payload: files[selectedFiles.arrNum[i]].name });
+					dispatch({ type: DELETE_FILES_SUCCESS, payload: files[selectedFiles.arrNum[i]].name + "." + files[selectedFiles.arrNum[0]].extensionAll });
 				})
 				.catch((err) => {
-					dispatch({ type: DELETE_FILES_ERROR, payload: err });
+					dispatch({ type: DELETE_FILES_ERROR, payload:  + "." + files[selectedFiles.arrNum[0]].extensionAll, err });
 				});
 		}
 		setTimeout(() => {

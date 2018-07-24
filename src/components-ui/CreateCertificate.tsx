@@ -113,6 +113,8 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 			isselfsign: false,
 			exportKey: true
 		};
+
+		this.onPressCertRequest = this.onPressCertRequest.bind(this);
 	}
 
 	onValueChange(value: string) {
@@ -127,7 +129,6 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 				this.setState({ errorInputEmail: true });
 				showToast("Поле email не корректно");
 			} else {
-
 				genSelfSignedCertWithoutRequest(
 					this.state.algorithm,
 					this.state.keyAssignment,

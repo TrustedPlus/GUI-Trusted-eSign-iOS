@@ -14,7 +14,7 @@ export class ListForCert extends React.Component<ListForCertProps> {
 	render() {
 		return (
 			<ListItem first={this.props.first} itemHeader={this.props.itemHeader}>
-				<Text style={{ width: "50%" }}>{this.props.title}</Text>
+				<Text style={{ width: "45%" }}>{this.props.title}</Text>
 				{this.props.value ? <Text style={styles.prop_cert_righttext}>{this.props.value}</Text> : null}
 			</ListItem>
 		);

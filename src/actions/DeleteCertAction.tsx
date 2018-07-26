@@ -2,7 +2,7 @@ import { DELETE_CERTIFICATE_SUCCESS, DELETE_CERTIFICATE_ERROR } from "../constan
 import { NativeModules, Alert, AlertIOS } from "react-native";
 import { readCertKeys } from "./certKeysAction";
 import { getProviders } from "./getContainersAction";
-import { deleteCertInArrEncCertificates, deleteCertInSignCertificates } from "./index";
+import { deleteCertInArrEncCertificates, deleteCertInSignCertificates } from ".";
 import { showToast } from "../utils/toast";
 
 export function deleteCertAction(cert, withContainers, goBack) {

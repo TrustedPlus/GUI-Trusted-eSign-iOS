@@ -19,12 +19,13 @@ import { Containers } from "./Containers";
 import { Documents } from "./Documents";
 import { Requests } from "./Requests";
 import { AboutSignCert } from "./AboutSignCert";
+import { NotSelectedDocuments } from "./NotSelectedDocuments";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getProviders } from "../actions/getContainersAction";
 import { readCertKeys } from "../actions/certKeysAction";
-import { readFiles } from "../actions/index";
+import { readFiles } from "../actions";
 import { readRequests } from "../actions/requestAction";
 
 function mapStateToProps(state) {
@@ -123,7 +124,8 @@ export const App = StackNavigator({
 	Containers: { screen: Containers },
 	Documents: { screen: Documents },
 	Requests: { screen: Requests },
-	AboutSignCert: { screen: AboutSignCert }
+	AboutSignCert: { screen: AboutSignCert },
+	NotSelectedDocuments: { screen: NotSelectedDocuments }
 });
 
 /* NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {

@@ -11,7 +11,7 @@ import { AddCertButton } from "../components/AddCertButton";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { readFiles, addFiles } from "../actions/index";
+import { readFiles, addFiles } from "../actions";
 
 function mapStateToProps(state) {
 	return {
@@ -34,6 +34,7 @@ interface ISelectedFiles {
 
 interface IFile {
 	extension: string;
+	extensionAll: string;
 	name: string;
 	date: string;
 	month: string;
@@ -91,7 +92,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 		return (
 			this.props.files.map((file, key) => <ListMenu
 				key={key + file.time}
-				title={file.name}
+				title={file.name + "." + file.extensionAll}
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 				checkbox
 				verify={file.verify}

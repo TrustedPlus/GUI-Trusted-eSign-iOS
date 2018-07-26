@@ -7,7 +7,7 @@ import { AddCertButton } from "../components/AddCertButton";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addCert } from "../actions/index";
+import { addCert } from "../actions";
 
 function mapStateToProps(state) {
 	return {

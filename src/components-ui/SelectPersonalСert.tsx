@@ -3,12 +3,12 @@ import { Container, List, Content, Text } from "native-base";
 import { Headers } from "../components/Headers";
 import { ListCert } from "../components/ListCert";
 import { styles } from "../styles";
-import { addCert } from "../actions/index";
+import { addCert } from "../actions";
 import { AddCertButton } from "../components/AddCertButton";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addCertForSign, addCertForEnc, personalCertClear } from "../actions/index";
+import { addCertForSign, addCertForEnc, personalCertClear } from "../actions";
 
 function mapStateToProps(state) {
 	return {

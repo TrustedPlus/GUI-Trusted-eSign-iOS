@@ -40,6 +40,8 @@ export class AboutSignCert extends React.Component<AboutSignCertProps, AboutSign
 					{cert.chain.forEach(function (cert, i, arr) {
 						if (cert.errorCode !== 0) {
 							icon = badIcon;
+						} else {
+							icon = goodIcon;
 						}
 					})}
 					{cert.chain.map((cert, key, arr) =>

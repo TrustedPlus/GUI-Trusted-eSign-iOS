@@ -1,6 +1,6 @@
 import * as RNFS from "react-native-fs";
 import { Share } from "react-native";
-import { readFiles } from "../actions/index";
+import { readFiles } from ".";
 import {
 	UPLOAD_FILES, UPLOAD_FILES_SUCCESS, UPLOAD_FILES_ERROR, UPLOAD_FILES_END,
 	DELETE_FILES, DELETE_FILES_SUCCESS, DELETE_FILES_ERROR, DELETE_FILES_END

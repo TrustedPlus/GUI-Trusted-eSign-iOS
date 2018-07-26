@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { readCertKeys, createCert } from "../actions/certKeysAction";
 import { getProviders } from "../actions/getContainersAction";
-import { readFiles } from "../actions/index";
+import { readFiles } from "../actions";
 import { createRequest, readRequests } from "../actions/requestAction";
 
 function mapDispatchToProps(dispatch) {

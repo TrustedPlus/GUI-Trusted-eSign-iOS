@@ -192,5 +192,15 @@ export const styles = StyleSheet.create({
 	modalMore6: {
 		width: 300,
 		height: 110
+	},
+
+	buttonCollapsed: {
+		width: "100%",
+		backgroundColor: "white"
+	},
+	iconCollapsed: {
+		color: "grey",
+		position: "absolute",
+		right: "5%"
 	}
 });

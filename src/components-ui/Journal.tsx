@@ -7,7 +7,7 @@ import { styles } from "../styles";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { clearLog } from "../actions/index";
+import { clearLog } from "../actions";
 
 function mapStateToProps(state) {
 	return {

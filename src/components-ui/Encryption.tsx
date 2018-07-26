@@ -12,7 +12,7 @@ import { showToast } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { /*footerAction, footerClose,*/ readFiles, addFiles } from "../actions/index";
+import { /*footerAction, footerClose,*/ readFiles, addFiles } from "../actions";
 
 function mapStateToProps(state) {
 	return {
@@ -32,6 +32,7 @@ function mapDispatchToProps(dispatch) {
 
 interface IFile {
 	extension: string;
+	extensionAll: string;
 	name: string;
 	date: string;
 	month: string;
@@ -71,10 +72,10 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 		super(props);
 		this.state = {
 			selectedFiles: {
-				arrNum: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrNum : [],
-				arrExtension: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrExtension : [],
+				arrNum: this.props.navigation.state.params.cert ? this.props.navigation.state.params.cert.selectedFiles.arrNum : [],
+				arrExtension: this.props.navigation.state.params.cert ? this.props.navigation.state.params.cert.selectedFiles.arrExtension : [],
 			},
-			activeFiles: this.props.navigation.state.params.selectedFiles ? true : false
+			activeFiles: this.props.navigation.state.params.cert ? true : false
 		};
 		this.props.navigation.state.key = "HomeEnc";
 	}
@@ -108,7 +109,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 		return (
 			this.props.files.map((file, key) => <ListMenu
 				key={key + file.time}
-				title={file.name}
+				title={file.name + "." + file.extensionAll}
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 				img={img[key]}
 				checkbox
@@ -153,7 +154,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 			<View style={styles.sign_enc_view}>
 				<Text
 					style={styles.sign_enc_prompt}
-					onPress={() => this.props.navigation.navigate("Documents")}>[Добавьте файлы]</Text>
+					onPress={() => this.props.navigation.navigate("NotSelectedDocuments", { from: "enc" }) }>[Добавьте файлы]</Text>
 			</View>
 		);
 	}
@@ -205,7 +206,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{selectFilesView}
-					<Button transparent style={styles.sign_enc_button} onPressIn={() => navigate("Documents")}>
+					<Button transparent style={styles.sign_enc_button} onPressIn={() => this.props.navigation.navigate("NotSelectedDocuments", { from: "enc" }) }>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>

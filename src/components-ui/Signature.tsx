@@ -11,7 +11,7 @@ import { DocumentPicker } from "react-native-document-picker";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addFiles } from "../actions/index";
+import { addFiles } from "../actions";
 
 function mapStateToProps(state) {
 	return {
@@ -29,6 +29,7 @@ function mapDispatchToProps(dispatch) {
 
 interface IFile {
 	extension: string;
+	extensionAll: string;
 	name: string;
 	date: string;
 	month: string;
@@ -66,10 +67,10 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 		super(props);
 		this.state = {
 			selectedFiles: {
-				arrNum: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrNum : [],
-				arrExtension: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrExtension : [],
+				arrNum: this.props.navigation.state.params.cert ? this.props.navigation.state.params.cert.selectedFiles.arrNum : [],
+				arrExtension: this.props.navigation.state.params.cert ? this.props.navigation.state.params.cert.selectedFiles.arrExtension : [],
 			},
-			activeFiles: this.props.navigation.state.params.selectedFiles ? true : false
+			activeFiles: this.props.navigation.state.params.cert ? true : false
 		};
 		this.props.navigation.state.key = "HomeSign";
 	}
@@ -101,7 +102,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 		return (
 			this.props.files.map((file, key) => <ListMenu
 				key={key + file.time}
-				title={file.name}
+				title={file.name + "." + file.extensionAll}
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 				verify={file.verify}
 				img={img[key]}
@@ -134,7 +135,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 			<View style={styles.sign_enc_view}>
 				<Text
 					style={styles.sign_enc_prompt}
-					onPress={() => this.props.navigation.navigate("Documents")}>[Добавьте файлы]</Text>
+					onPress={() => this.props.navigation.navigate("NotSelectedDocuments", { from: "sign" }) }>[Добавьте файлы]</Text>
 			</View>
 		);
 	}
@@ -183,7 +184,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{selectFilesView}
-					<Button transparent style={styles.sign_enc_button} onPressIn={() => navigate("Documents")}>
+					<Button transparent style={styles.sign_enc_button} onPressIn={() => navigate("NotSelectedDocuments", { from: "sign" })}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
@@ -194,7 +195,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 						personalCert={personalCert}
 						footer={{ arrButton: this.state.selectedFiles.arrNum, arrExtension: this.state.selectedFiles.arrExtension }}
 						navigate={(page, cert) => navigate(page, { cert: cert })}
-						clearselectedFiles = {() => this.clearselectedFiles()}/>
+						clearselectedFiles={() => this.clearselectedFiles()} />
 					: null}
 			</Container>
 		);

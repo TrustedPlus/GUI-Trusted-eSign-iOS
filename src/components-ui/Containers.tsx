@@ -103,9 +103,10 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 						<FooterTab>
 							<FooterButton disabled={this.state.selectedContainers.length !== 1} title="Сертификат" icon="create" nav={
 								() => NativeModules.Wrap_Main.getCertInfoFromContainer(
-									this.props.containers[this.state.selectedContainers]["fqcnA"],
+									this.props.containers[this.state.selectedContainers]["unique"],
 									(err, cert) => {
 										if (err) {
+											console.log(err);
 											showToast("В контейнере нет сертификата");
 										} else {
 											this.props.navigation.navigate("PropertiesCert", { cert: cert[0], isCertInContainers: true, containers: this.props.containers[this.state.selectedContainers]["fqcnA"] });
@@ -126,7 +127,7 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 							this.modals.basicModal.close();
 							for (let i = 0; i < this.state.selectedContainers.length; i++) {
 								NativeModules.Wrap_Main.deleteContainer(
-									this.props.containers[i]["fqcnW"],
+									this.props.containers[this.state.selectedContainers[i]]["unique"],
 									this.props.providers[0]["type"],
 									this.props.providers[0]["name"],
 									this.state.deleteCert,

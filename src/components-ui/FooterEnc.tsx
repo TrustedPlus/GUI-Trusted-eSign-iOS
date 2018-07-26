@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Footer, FooterTab, View, Button, Text} from "native-base";
-import { FooterButton } from "../components//FooterButton";
+import { FooterButton } from "../components/FooterButton";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
 import { ListWithSwitch } from "../components/ListWithSwitch";
 

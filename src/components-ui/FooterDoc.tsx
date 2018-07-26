@@ -8,7 +8,7 @@ import { signFile, verifySign, UnSignFile, getSignInfo } from "../actions/signVe
 import { uploadFile, deleteFile } from "../actions/uploadFileAction";
 import { addFilesInWorkspaceSign, addFilesInWorkspaceEnc, clearAllFilesinAllWorkspace } from "../actions/workspaceAction";
 import { decAssymmetric } from "../actions/encDecAction";
-import { readFiles } from "../actions/index";
+import { readFiles } from "../actions";
 
 import { styles } from "../styles";
 
@@ -154,7 +154,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 									clearselectedFiles();
 									readFiles();
 								},
-								500
+								600
 							);
 						}} />
 					<FooterButton title="Зашифровать"
@@ -170,7 +170,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 									clearselectedFiles();
 									readFiles();
 								},
-								500
+								600
 							);
 						}} />
 					<FooterButton title="Отправить"

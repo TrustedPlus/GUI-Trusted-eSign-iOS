@@ -125,7 +125,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 		return (
 			<Container style={styles.container}>
 				<Headers title="Свойства сертфиката" goBack={() => goBack()} goHome={() => this.props.navigation.goBack("Home")} />
-				<Segment style={{ backgroundColor: "white" }}>
+				{isCertInContainers ? null : <Segment style={{ backgroundColor: "white" }}>
 					<Button first style={[{ width: "48%", borderColor: "grey" }, this.state.numPage === 1 ? { backgroundColor: "lightgrey" } : null]}
 						active={this.state.numPage === 1 ? true : false} onPressIn={() => this.setState({ numPage: 1 })}>
 						<Text style={{ color: "black" }}>Сертификат</Text>
@@ -134,7 +134,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 						active={this.state.numPage === 2 ? true : false} onPressIn={() => this.setState({ numPage: 2 })}>
 						<Text style={{ color: "black" }}>Цепочка доверия</Text>
 					</Button>
-				</Segment>
+				</Segment>}
 				{this.state.numPage === 1
 					? <><Content style={{ backgroundColor: "white" }}>
 						<View>

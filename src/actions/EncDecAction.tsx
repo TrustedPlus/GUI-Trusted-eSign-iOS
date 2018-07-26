@@ -1,6 +1,6 @@
 import * as RNFS from "react-native-fs";
 import { NativeModules } from "react-native";
-import { readFiles } from "../actions/index";
+import { readFiles } from ".";
 import { showToast, showToastDanger } from "../utils/toast";
 import {
 	ENCODE_FILES, ENCODE_FILES_SUCCESS, ENCODE_FILES_ERROR, ENCODE_FILES_END,

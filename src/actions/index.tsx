@@ -10,6 +10,7 @@ import { showToast } from "../utils/toast";
 import { NativeModules } from "react-native";
 import { readCertKeys } from "./certKeysAction";
 import { getProviders } from "./getContainersAction";
+import { addSingleFileInWorkspaceSign, addSingleFileInWorkspaceEnc } from "./workspaceAction";
 /*
 export function footerAction(idButton, extension) {
 	return {
@@ -137,7 +138,7 @@ export function clearLog() {
 	};
 }
 
-export function addFiles(uri, fileName) {
+export function addFiles(uri, fileName, workspace) {
 	return function action(dispatch) {
 		dispatch({ type: ADD_FILES });
 		let point, name;
@@ -147,6 +148,47 @@ export function addFiles(uri, fileName) {
 		return copyFile.then(
 			response => {
 				dispatch({ type: ADD_FILES_SUCCESS, payload: fileName });
+				if (workspace) {
+					const request = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + fileName);
+					request.then(
+						response => {
+							const verify = 0;
+							let filearr;
+							let point = fileName.indexOf(".");
+							const name = fileName.substring(0, point);
+							const extensionAll = fileName.substring(point + 1);
+							point = extensionAll.lastIndexOf(".");
+							const extension = extensionAll.substring(point + 1);
+							const mtime: any = response.mtime;
+							const date = mtime.getDate();
+							let month = mtime.getMonth();
+							switch (month) {
+								case 0: month = "января"; break;
+								case 1: month = "февраля"; break;
+								case 2: month = "марта"; break;
+								case 3: month = "апреля"; break;
+								case 4: month = "мая"; break;
+								case 5: month = "июня"; break;
+								case 6: month = "июля"; break;
+								case 7: month = "августа"; break;
+								case 8: month = "сентября"; break;
+								case 9: month = "октября"; break;
+								case 10: month = "ноября"; break;
+								case 11: month = "декабря"; break;
+								default: break;
+							}
+							const year = mtime.getFullYear();
+							const time = mtime.toLocaleTimeString();
+							filearr = { name, extension, extensionAll, date, month, year, time, verify };
+							if (workspace === "sign") {
+								dispatch(addSingleFileInWorkspaceSign(filearr));
+							} else {
+								dispatch(addSingleFileInWorkspaceEnc(filearr));
+							}
+						},
+						err => console.log(err)
+					);
+				}
 				dispatch(readFiles());
 			},
 			err => {

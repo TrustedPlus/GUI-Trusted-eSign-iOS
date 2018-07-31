@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, View, List, Button, Text, Content } from "native-base";
+import { Container, View, List, Button, Text, Content, Header, Body, Title, ListItem, Right, Icon, Left } from "native-base";
 import { Image, RefreshControl, ScrollView, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
@@ -9,10 +9,11 @@ import { iconSelection } from "../utils/forListFiles";
 import { readCertKeys } from "../actions/certKeysAction";
 import { DocumentPicker } from "react-native-document-picker";
 import { showToast } from "../utils/toast";
+import * as Modal from "react-native-modalbox";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { /*footerAction, footerClose,*/ readFiles, addFiles } from "../actions";
+import { readFiles, addFiles } from "../actions";
 
 function mapStateToProps(state) {
 	return {
@@ -23,8 +24,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		/*footerAction: bindActionCreators(footerAction, dispatch),
-		footerClose: bindActionCreators(footerClose, dispatch),*/
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
 		addFiles: bindActionCreators(addFiles, dispatch)
 	};
@@ -45,10 +44,8 @@ interface EncryptionProps {
 	navigation: any;
 	otherCert: any;
 	files: IFile[];
-	/*footerAction(key: number, extension: string): void;
-	footerClose(): void;*/
 	readCertKeys(): void;
-	addFiles(uri: string, fileName: string): void;
+	addFiles(uri: string, fileName: string, workspace: string): void;
 }
 
 interface ISelectedFiles {
@@ -61,11 +58,19 @@ interface EncryptionState {
 	activeFiles?: boolean;
 }
 
+interface IModals {
+	basicModal: Modal.default;
+}
+
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Encryption extends React.Component<EncryptionProps, EncryptionState> {
 
 	static navigationOptions = {
 		header: null
+	};
+
+	private modals: IModals = {
+		basicModal: null
 	};
 
 	constructor(props) {
@@ -141,6 +146,15 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 		});
 	}
 
+	documentPicker() {
+		DocumentPicker.show({
+			filetype: ["public.item"]
+		}, (error: any, res: any) => {
+			this.props.addFiles(res.uri, res.fileName, "enc");
+			this.modals.basicModal.close();
+		});
+	}
+
 	private getFilesView(files, img) {
 		if (files.length) {
 			return (
@@ -154,7 +168,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 			<View style={styles.sign_enc_view}>
 				<Text
 					style={styles.sign_enc_prompt}
-					onPress={() => this.props.navigation.navigate("NotSelectedDocuments", { from: "enc" }) }>[Добавьте файлы]</Text>
+					onPress={() => this.modals.basicModal.open()}>[Добавьте файлы]</Text>
 			</View>
 		);
 	}
@@ -206,11 +220,55 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{selectFilesView}
-					<Button transparent style={styles.sign_enc_button} onPressIn={() => this.props.navigation.navigate("NotSelectedDocuments", { from: "enc" }) }>
+					<Button transparent style={styles.sign_enc_button} onPressIn={() => this.modals.basicModal.open()}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
 				{filesView}
+				<Modal
+					ref={ref => this.modals.basicModal = ref}
+					style={[styles.modal, {
+						height: "auto",
+						width: 300,
+						backgroundColor: "white",
+					}]}
+					position={"center"}
+					swipeToClose={false}>
+					<View style={{ width: "100%" }}>
+						<Header
+							style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+							<Title>
+								<Text style={{
+									color: "white",
+									fontSize: 15
+								}}>Добавление файла</Text>
+							</Title>
+						</Header>
+						<View>
+							<List>
+								<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => { navigate("NotSelectedDocuments", { from: "enc" }); this.modals.basicModal.close(); }}>
+									<Left>
+										<Text style={{ fontSize: 14, color: "grey" }}>Из документов</Text>
+									</Left>
+									<Right>
+										<Icon name="ios-arrow-forward-outline"></Icon>
+									</Right>
+								</ListItem>
+								<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => this.documentPicker()} >
+									<Left>
+										<Text style={{ fontSize: 14, color: "grey" }}>Импортировать</Text>
+									</Left>
+									<Right>
+										<Icon name="ios-arrow-forward-outline"></Icon>
+									</Right>
+								</ListItem>
+								<ListItem onPress={() => this.modals.basicModal.close()}>
+									<Text style={{ fontSize: 15, width: "100%", height: "100%", textAlign: "center", color: "grey" }}>Отмена</Text>
+								</ListItem>
+							</List>
+						</View>
+					</View>
+				</Modal>
 				{this.state.selectedFiles.arrNum.length
 					? <FooterEnc
 						files={files}

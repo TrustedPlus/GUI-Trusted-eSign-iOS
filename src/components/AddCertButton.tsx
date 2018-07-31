@@ -1,7 +1,9 @@
 import * as React from "react";
-import { Button } from "native-base";
 import { AlertIOS, Image } from "react-native";
 import { DocumentPicker } from "react-native-document-picker";
+import * as Modal from "react-native-modalbox";
+import { Footer, FooterTab, Text, View, ListItem, Header, Title, Button, List, Left, Right, Icon } from "native-base";
+import { styles } from "../styles";
 
 interface AddCertButtonProps {
 	navigate: any;
@@ -12,6 +14,10 @@ interface AddCertButtonState {
 	numInvalidPassword: number;
 }
 
+interface IModals {
+	basicModal: Modal.default;
+}
+
 export class AddCertButton extends React.Component<AddCertButtonProps, AddCertButtonState> {
 
 	constructor(props) {
@@ -20,6 +26,10 @@ export class AddCertButton extends React.Component<AddCertButtonProps, AddCertBu
 			numInvalidPassword: 0
 		};
 	}
+
+	private modals: IModals = {
+		basicModal: null
+	};
 
 	Prompt(res) {
 		AlertIOS.prompt(
@@ -62,19 +72,55 @@ export class AddCertButton extends React.Component<AddCertButtonProps, AddCertBu
 	}
 
 	render() {
-		return (<Button transparent style={{ position: "absolute", bottom: 40, right: 30 }} onPress={() => {
-			AlertIOS.alert(
-				"Выберите действие",
-				null,
-				[
-					{ text: "Импортировать", onPress: () => { this.documentPicker(); this.setState({ numInvalidPassword: 0 }); } },
-					{ text: "Создание запроса на сертификат", onPress: () => this.props.navigate("CreateCertificate") },
-					{ text: "Отмена", onPress: () => null, style: "destructive" }
-				]
-			);
-		}}>
-			<Image style={{ width: 60, height: 60 }} source={require("../../imgs/general/add_icon.png")} />
-		</Button>
+		return (<>
+			<Button transparent style={{ position: "absolute", bottom: 40, right: 30 }} onPress={() => this.modals.basicModal.open()}>
+				<Image style={{ width: 60, height: 60 }} source={require("../../imgs/general/add_icon.png")} />
+			</Button>
+			<Modal
+				ref={ref => this.modals.basicModal = ref}
+				style={[styles.modal, {
+					height: "auto",
+					width: 300,
+					backgroundColor: "white",
+				}]}
+				position={"center"}
+				swipeToClose={false}>
+				<View style={{ width: "100%" }}>
+					<Header
+						style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+						<Title>
+							<Text style={{
+								color: "white",
+								fontSize: 15
+							}}>Добавление сертификата</Text>
+						</Title>
+					</Header>
+					<View>
+						<List>
+							<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => { this.documentPicker(); this.setState({ numInvalidPassword: 0 }); this.modals.basicModal.close(); }}>
+								<Left>
+									<Text style={{ fontSize: 13, color: "grey" }}>Импортировать сертификат</Text>
+								</Left>
+								<Right>
+									<Icon name="ios-arrow-forward-outline"></Icon>
+								</Right>
+							</ListItem>
+							<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => {this.props.navigate("CreateCertificate"); this.modals.basicModal.close(); }} >
+								<Left>
+									<Text style={{ fontSize: 13, color: "grey" }}>Создать запрос на сертификат</Text>
+								</Left>
+								<Right>
+									<Icon name="ios-arrow-forward-outline"></Icon>
+								</Right>
+							</ListItem>
+							<ListItem onPress={() => this.modals.basicModal.close()}>
+								<Text style={{ fontSize: 15, width: "100%", height: "100%", textAlign: "center", color: "grey" }}>Отмена</Text>
+							</ListItem>
+						</List>
+					</View>
+				</View>
+			</Modal>
+		</>
 		);
 	}
 }

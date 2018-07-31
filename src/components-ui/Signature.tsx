@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, View, List, Button, Text, Content } from "native-base";
+import { Container, View, List, Button, Text, Content, Header, Body, Title, ListItem, Right, Icon, Left } from "native-base";
 import { Image, RefreshControl, ScrollView } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
@@ -8,6 +8,7 @@ import { FooterSign } from "./FooterSign";
 import { iconSelection } from "../utils/forListFiles";
 import { readCertKeys } from "../actions/certKeysAction";
 import { DocumentPicker } from "react-native-document-picker";
+import * as Modal from "react-native-modalbox";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -43,7 +44,7 @@ interface SignatureProps {
 	personalCert: any;
 	files: IFile[];
 	readCertKeys(): void;
-	addFiles(uri: string, fileName: string): void;
+	addFiles(uri: string, fileName: string, workspace: string): void;
 }
 
 interface ISelectedFiles {
@@ -56,11 +57,19 @@ interface SignatureState {
 	activeFiles?: boolean;
 }
 
+interface IModals {
+	basicModal: Modal.default;
+}
+
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Signature extends React.Component<SignatureProps, SignatureState> {
 
 	static navigationOptions = {
 		header: null
+	};
+
+	private modals: IModals = {
+		basicModal: null
 	};
 
 	constructor(props) {
@@ -113,14 +122,15 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 					this.setState({ selectedFiles: { arrNum: newSelectedFiles.arrNum, arrExtension: newSelectedFiles.arrExtension } });
 				}} />));
 	}
-	/*
-		documentPicker() {
-			DocumentPicker.show({
-				filetype: ["public.item"]
-			}, (error: any, res: any) => {
-				this.props.addFiles(res.uri, res.fileName);
-			});
-		} */
+
+	documentPicker() {
+		DocumentPicker.show({
+			filetype: ["public.item"]
+		}, (error: any, res: any) => {
+			this.props.addFiles(res.uri, res.fileName, "sign");
+			this.modals.basicModal.close();
+		});
+	}
 
 	private getFilesView(files, img) {
 		if (files.length) {
@@ -135,7 +145,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 			<View style={styles.sign_enc_view}>
 				<Text
 					style={styles.sign_enc_prompt}
-					onPress={() => this.props.navigation.navigate("NotSelectedDocuments", { from: "sign" }) }>[Добавьте файлы]</Text>
+					onPress={() => this.props.navigation.navigate("NotSelectedDocuments", { from: "sign" })}>[Добавьте файлы]</Text>
 			</View>
 		);
 	}
@@ -184,11 +194,55 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{selectFilesView}
-					<Button transparent style={styles.sign_enc_button} onPressIn={() => navigate("NotSelectedDocuments", { from: "sign" })}>
+					<Button transparent style={styles.sign_enc_button} onPressIn={() => this.modals.basicModal.open()}>
 						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
 				{filesView}
+				<Modal
+					ref={ref => this.modals.basicModal = ref}
+					style={[styles.modal, {
+						height: "auto",
+						width: 300,
+						backgroundColor: "white",
+					}]}
+					position={"center"}
+					swipeToClose={false}>
+					<View style={{ width: "100%" }}>
+						<Header
+							style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+							<Title>
+								<Text style={{
+									color: "white",
+									fontSize: 15
+								}}>Добавление файла</Text>
+							</Title>
+						</Header>
+						<View>
+							<List>
+								<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => { navigate("NotSelectedDocuments", { from: "sign" }); this.modals.basicModal.close(); }}>
+									<Left>
+										<Text style={{ fontSize: 14, color: "grey" }}>Из документов</Text>
+									</Left>
+									<Right>
+										<Icon name="ios-arrow-forward-outline"></Icon>
+									</Right>
+								</ListItem>
+								<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => this.documentPicker()} >
+									<Left>
+										<Text style={{ fontSize: 14, color: "grey" }}>Импортировать</Text>
+									</Left>
+									<Right>
+										<Icon name="ios-arrow-forward-outline"></Icon>
+									</Right>
+								</ListItem>
+								<ListItem onPress={() => this.modals.basicModal.close()}>
+									<Text style={{ fontSize: 15, width: "100%", height: "100%", textAlign: "center", color: "grey" }}>Отмена</Text>
+								</ListItem>
+							</List>
+						</View>
+					</View>
+				</Modal>
 				{this.state.selectedFiles.arrNum.length
 					? <FooterSign
 						files={files}

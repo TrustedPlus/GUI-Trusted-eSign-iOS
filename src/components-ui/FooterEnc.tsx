@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Footer, FooterTab, View, Button, Text} from "native-base";
+import { Footer, FooterTab, View, Button, Text, Header, Title } from "native-base";
 import { FooterButton } from "../components/FooterButton";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
 import { ListWithSwitch } from "../components/ListWithSwitch";
@@ -97,25 +97,42 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 							disabled={isDec === "dec" ? false : true}
 							icon="md-unlock"
 							nav={() => decAssymmetric(files, footer, () => this.props.clearselectedFiles())} />
-						<FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, {arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
+						<FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
 						<FooterButton title="Очистить" icon="md-trash" nav={() => this.clearSelectedFilesInWorkspaceEnc()} />
 					</FooterTab>
 				</Footer>
 				<Modal
 					ref={ref => this.modals.basicModal = ref}
-					style={[styles.modal, styles.modal3]}
+					style={[styles.modal, {
+						height: "auto",
+						width: 300,
+						backgroundColor: "white",
+					}]}
 					position={"center"}
 					swipeToClose={false}>
-					<View style={{ width: "100%", height: "100%" }}>
+					<View style={{ width: "100%" }}>
+						<Header
+							style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+							<Title>
+								<Text style={{
+									color: "white",
+									fontSize: 15
+								}}>Настройка шифрования</Text>
+							</Title>
+						</Header>
 						<ListWithModalDropdown text="Кодировка"
 							defaultValue={this.state.signature}
 							changeValue={(value) => this.setState({ signature: value })}
 							options={[{ value: "BASE-64" }, { value: "DER" }]} />
 						<ListWithSwitch text="Удалить после шифрования" disabled={this.state.deleteAfter} value={this.state.deleteAfter} changeValue={() => this.setState({ deleteAfter: !this.state.deleteAfter })} />
-						<Button transparent onPressIn={() => { this.modals.basicModal.close(); encAssymmetric(files, otherCert, footer, this.state.signature, this.state.deleteAfter, () => this.props.clearselectedFiles()); }} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
-							<Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>ОК</Text>
-						</Button>
-						<Button transparent onPressIn={() => this.modals.basicModal.close()} style={{ borderTopWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0, right: 0 }}><Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>Отмена</Text></Button>
+						<View style={{display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%"}}>
+							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => this.modals.basicModal.close()}>
+								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
+							</Button>
+							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => { this.modals.basicModal.close(); encAssymmetric(files, otherCert, footer, this.state.signature, this.state.deleteAfter, () => this.props.clearselectedFiles()); }}>
+								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>
+							</Button>
+						</View>
 					</View>
 				</Modal>
 			</>

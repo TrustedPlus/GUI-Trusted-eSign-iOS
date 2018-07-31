@@ -9,6 +9,7 @@ import { containers } from "./GetContainersReducers";
 import { requests } from "./requestReducer";
 import { workspaceSign } from "./workspaceSign";
 import { workspaceEnc } from "./workspaceEnc";
+import { filter } from "./filterReducers";
 
 const rootReducer = combineReducers({
 	// footer: Footer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
 	containers: containers,
 	requests: requests,
 	workspaceSign: workspaceSign,
-	workspaceEnc: workspaceEnc
+	workspaceEnc: workspaceEnc,
+	filter: filter
 });
 
 export default rootReducer;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Footer, FooterTab, Text, View, Button } from "native-base";
+import { Footer, FooterTab, Text, View, ListItem, Header, Title, Button } from "native-base";
 import { FooterButton } from "../components/FooterButton";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
 import { ListWithSwitch } from "../components/ListWithSwitch";
@@ -138,26 +138,36 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 				</Footer>
 				<Modal
 					ref={ref => this.modals.basicModal = ref}
-					style={[styles.modal, styles.modal3]}
+					style={[styles.modal, {
+						height: "auto",
+						width: 300,
+						backgroundColor: "white",
+					}]}
 					position={"center"}
 					swipeToClose={false}>
-					<View style={{ width: "100%", height: "100%" }}>
+					<View style={{ width: "100%" }}>
+						<Header
+							style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+							<Title>
+								<Text style={{
+									color: "white",
+									fontSize: 15
+								}}>Настройка подписи</Text>
+							</Title>
+						</Header>
 						<ListWithModalDropdown text="Кодировка"
 							defaultValue={this.state.signature}
 							changeValue={(value) => this.setState({ signature: value })}
 							options={[{ value: "BASE-64" }, { value: "DER" }]} />
 						<ListWithSwitch text="Сохранить подпись отдельно" value={this.state.detached} changeValue={() => this.setState({ detached: !this.state.detached })} />
-						<Button transparent onPressIn={() => { this.modals.basicModal.close(); signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num)); }} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
-							<Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>ОК</Text>
-						</Button>
-						<Button
-							transparent
-							onPressIn={() => this.modals.basicModal.close()}
-							style={{ borderTopWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0, right: 0 }}>
-							<Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>
-								Отмена
-							</Text>
-						</Button>
+						<View style={{display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%"}}>
+							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => this.modals.basicModal.close()}>
+								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
+							</Button>
+							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => {this.modals.basicModal.close(); signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num)); }}>
+								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>
+							</Button>
+						</View>
 					</View>
 				</Modal>
 			</>

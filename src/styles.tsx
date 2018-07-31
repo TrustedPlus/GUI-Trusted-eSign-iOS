@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
 		backgroundColor: "#be3817"
 	},
 	headerImage: {
-		width: 35,
-		height: 35
+		width: 44,
+		height: 44
 	},
 	left: {
 		maxWidth: 25
@@ -107,7 +107,7 @@ export const styles = StyleSheet.create({
 	},
 	sign_enc_button: {
 		position: "absolute",
-		marginTop: 6,
+		marginTop: 8,
 		right: 10
 	},
 	selectFiles: {

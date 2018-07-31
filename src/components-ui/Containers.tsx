@@ -131,10 +131,18 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 									this.props.providers[0]["type"],
 									this.props.providers[0]["name"],
 									this.state.deleteCert,
-									(err, verify) => showToast(verify));
+									(err, verify) => {
+										if (verify) {
+											showToast("Контейнер удален");
+										} else {
+											showToast("Ошибка при удалении контейнера");
+										}
+									});
+								if (i === this.state.selectedContainers.length - 1) {
+									this.setState({ selectedContainers: [] });
+									this.props.getProviders();
+								}
 							}
-							this.setState({ selectedContainers: [] });
-							this.props.getProviders();
 						}} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
 							<Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>ОК</Text>
 						</Button>

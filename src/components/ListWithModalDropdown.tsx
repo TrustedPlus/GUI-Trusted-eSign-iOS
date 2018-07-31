@@ -15,13 +15,14 @@ export class ListWithModalDropdown extends React.Component<ListWithModalDropdown
 	render() {
 		return (
 			<List>
-				<View style={{paddingLeft: 15}}>
+				<View style={{paddingLeft: 15, height: 65}}>
 					<Dropdown
 						disabled={this.props.disabled}
 						onChangeText={this.props.changeValue}
 						value={this.props.defaultValue}
 						label={this.props.text}
-						data={this.props.options} />
+						data={this.props.options}
+						style={{fontSize: 14}} />
 				</View>
 			</List>
 		);

@@ -17,7 +17,7 @@ export class ListWithSwitch extends React.Component<ListWithSwitchProps> {
 			<List>
 				<ListItem icon last={this.props.last}>
 					<Body>
-						<Text style={this.props.disabled ? {color: "grey"} : {}}>{this.props.text}</Text>
+						<Text style={[{fontSize: 14}, this.props.disabled ? {color: "grey"} : {}]}>{this.props.text}</Text>
 					</Body>
 					<Right>
 						<Switch

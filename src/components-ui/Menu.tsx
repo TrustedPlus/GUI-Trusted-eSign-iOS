@@ -20,6 +20,7 @@ import { Documents } from "./Documents";
 import { Requests } from "./Requests";
 import { AboutSignCert } from "./AboutSignCert";
 import { NotSelectedDocuments } from "./NotSelectedDocuments";
+import { FilterJournal } from "./FilterJournal";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -53,7 +54,7 @@ interface MainProps {
 	files: any;
 	certificates: any;
 	containers: any;
-	lastlog: string;
+	lastlog: any;
 	workspaceEnc: any;
 	workspaceSign: any;
 	readCertKeys(): any;
@@ -61,6 +62,11 @@ interface MainProps {
 	getProviders(): any;
 	readRequests(): any;
 }
+
+const options = {
+	year: "numeric", month: "long", day: "numeric",
+	hour: "numeric", minute: "numeric", second: "numeric"
+};
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 class Main extends React.Component<MainProps> {
@@ -77,7 +83,7 @@ class Main extends React.Component<MainProps> {
 		let lengthEnc = "выбрано файлов: " + workspaceEnc.length;
 		let persCert = "личных сертификатов: " + certificates.filter(cert => cert.category.toUpperCase() === "MY").length;
 		let lengthContainers = "количество контейнеров: " + containers.length;
-		let lastlognote = lastlog ? "последняя запись: " + lastlog : "действий не совершалось";
+		let lastlognote = lastlog ? "последняя запись: " + new Date(lastlog).toLocaleString("ru", options) : "действий не совершалось";
 		return (
 			<Container style={styles.container}>
 				<Headers title="КриптоАРМ ГОСТ" />
@@ -125,7 +131,8 @@ export const App = StackNavigator({
 	Documents: { screen: Documents },
 	Requests: { screen: Requests },
 	AboutSignCert: { screen: AboutSignCert },
-	NotSelectedDocuments: { screen: NotSelectedDocuments }
+	NotSelectedDocuments: { screen: NotSelectedDocuments },
+	FilterJournal: { screen: FilterJournal}
 });
 
 /* NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {

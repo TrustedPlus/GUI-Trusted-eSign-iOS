@@ -192,10 +192,15 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
       std::vector<signInfoStruct> vec = [csp_Signer getSignInfo:inputFileName :inFileName :inFormat :isDetached];
       for (int i = 0; i < vec.size(); i++) {
         NSMutableDictionary *arrayInfoAboutSigner = [NSMutableDictionary dictionary];
-        if (vec[i].status)
-          arrayInfoAboutSigner[@"status"] = @("1");
+        if (vec[i].statusSign)
+          arrayInfoAboutSigner[@"statusSign"] = @("1");
         else
-          arrayInfoAboutSigner[@"status"] = @("0");
+          arrayInfoAboutSigner[@"statusSign"] = @("0");
+        
+        if (vec[i].statusCert)
+          arrayInfoAboutSigner[@"statusCert"] = @("1");
+        else
+          arrayInfoAboutSigner[@"statusCert"] = @("0");
         
         if (strcmp(vec[i].signingTime->c_str(), std::string("").c_str()) == 0)
           arrayInfoAboutSigner[@"signingTime"] = @("");
@@ -253,7 +258,7 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
           chainCert[@"issuerName"] = @(vec[i].certs[count].cert->getIssuerName()->c_str());
           [arrayChainCerts addObject: chainCert];
         }
-        [arrayInfoAboutSigner setObject:arrayChainCerts  forKey:@"chain"];
+        [arrayInfoAboutSigner setObject:arrayChainCerts forKey:@"chain"];
         
         [arrayInfoAboutSigners addObject: arrayInfoAboutSigner];
       }

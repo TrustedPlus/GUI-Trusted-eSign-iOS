@@ -123,7 +123,7 @@ export const styles = StyleSheet.create({
 		width: "55%",
 		right: 5,
 		textAlign: "right",
-		color: "blue"
+		color: "darkblue"
 	},
 	prop_cert_status: {
 		fontSize: 17,

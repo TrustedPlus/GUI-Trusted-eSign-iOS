@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, Content, List, Text, Footer, FooterTab, View, Button } from "native-base";
+import { Container, Content, List, Text, Footer, FooterTab, View, Button, Header, Title } from "native-base";
 import { Headers } from "../components/Headers";
 import { NativeModules } from "react-native";
 import { ListMenu } from "../components/ListMenu";
@@ -88,6 +88,28 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 		}
 	}
 
+	deleteContainers() {
+		this.modals.basicModal.close();
+		for (let i = 0; i < this.state.selectedContainers.length; i++) {
+			NativeModules.Wrap_Main.deleteContainer(
+				this.props.containers[this.state.selectedContainers[i]]["unique"],
+				this.props.providers[0]["type"],
+				this.props.providers[0]["name"],
+				this.state.deleteCert,
+				(err, verify) => {
+					if (verify) {
+						showToast("Контейнер удален");
+					} else {
+						showToast("Ошибка при удалении контейнера");
+					}
+				});
+			if (i === this.state.selectedContainers.length - 1) {
+				this.setState({ selectedContainers: [] });
+				this.props.getProviders();
+			}
+		}
+	}
+
 	render() {
 		const { goBack } = this.props.navigation;
 		return (
@@ -118,35 +140,34 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 					</Footer> : null}
 				<Modal
 					ref={ref => this.modals.basicModal = ref}
-					style={[styles.modal, styles.modal3]}
+					style={[styles.modal, {
+						height: "auto",
+						width: 300,
+						backgroundColor: "white",
+					}]}
 					position={"center"}
 					swipeToClose={false}>
-					<View style={{ width: "100%", height: "100%" }}>
-						<ListWithSwitch text="Удалить по возможности вместе с сертификатом" value={this.state.deleteCert} changeValue={() => this.setState({ deleteCert: !this.state.deleteCert })} />
-						<Button transparent onPressIn={() => {
-							this.modals.basicModal.close();
-							for (let i = 0; i < this.state.selectedContainers.length; i++) {
-								NativeModules.Wrap_Main.deleteContainer(
-									this.props.containers[this.state.selectedContainers[i]]["unique"],
-									this.props.providers[0]["type"],
-									this.props.providers[0]["name"],
-									this.state.deleteCert,
-									(err, verify) => {
-										if (verify) {
-											showToast("Контейнер удален");
-										} else {
-											showToast("Ошибка при удалении контейнера");
-										}
-									});
-								if (i === this.state.selectedContainers.length - 1) {
-									this.setState({ selectedContainers: [] });
-									this.props.getProviders();
-								}
-							}
-						}} style={{ borderTopWidth: 1, borderRightWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0 }}>
-							<Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>ОК</Text>
-						</Button>
-						<Button transparent onPressIn={() => this.modals.basicModal.close()} style={{ borderTopWidth: 1, borderRadius: 0, borderColor: "#BABABA", width: "50%", height: "20%", position: "absolute", bottom: 0, right: 0 }}><Text style={{ color: "#007AFF", fontWeight: "bold", textAlign: "center", width: "100%" }}>Отмена</Text></Button>
+					<View style={{ width: "100%" }}>
+						<Header
+							style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+							<Title>
+								<Text style={{
+									color: "white",
+									fontSize: 15
+								}}>Удаление контейнера</Text>
+							</Title>
+						</Header>
+						<ListWithSwitch styletext={{fontSize: 13}} text="Удалить по возможности вместе с сертификатом" value={this.state.deleteCert} changeValue={() => this.setState({ deleteCert: !this.state.deleteCert })} />
+						<View style={{display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%"}}>
+							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => this.modals.basicModal.close()}>
+								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
+							</Button>
+							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => {
+								this.deleteContainers();
+							}}>
+								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>
+							</Button>
+						</View>
 					</View>
 				</Modal>
 			</Container>

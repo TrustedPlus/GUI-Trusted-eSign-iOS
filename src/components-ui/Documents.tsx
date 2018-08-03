@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styles } from "../styles";
 import { Headers } from "../components/Headers";
-import { Container, List, Text, View, Button, Content } from "native-base";
+import { Container, List, Text, View, Button, Content, Spinner } from "native-base";
 import { Image, RefreshControl, ScrollView } from "react-native";
 import { ListMenu } from "../components/ListMenu";
 import { iconSelection } from "../utils/forListFiles";
@@ -54,6 +54,7 @@ interface DocumentsProps {
 
 interface DocumentsState {
 	selectedFiles?: ISelectedFiles;
+	loadingDocuments?: boolean;
 }
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
@@ -70,7 +71,8 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 			selectedFiles: {
 				arrNum: [],
 				arrExtension: []
-			}
+			},
+			loadingDocuments: false
 		};
 	}
 
@@ -167,6 +169,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 		return (
 			<Container style={styles.container}>
 				<Headers title="Документы" goBack={() => goBack()} />
+				{ this.state.loadingDocuments ? <>
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{viewNumSelectFiles}
@@ -187,8 +190,22 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 						clearselectedFiles={() => this.clearselectedFiles()}
 						navigate={(page, cert) => navigate(page, { cert: cert })} />
 					: null
-				}
+				}</> : <View style={{
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					height: "90%",
+					backgroundColor: "white"
+				}}>
+					<Spinner color={"#be3817"} />
+				</View>}
 			</Container>
+		);
+	}
+
+	componentDidMount() {
+		setTimeout(
+			() => this.setState({ loadingDocuments: true }), 1
 		);
 	}
 }

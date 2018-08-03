@@ -11,7 +11,8 @@
 
 @interface CSP_Signer : NSObject{    
     struct signInfoStruct {
-        bool status;
+        bool statusSign;
+        bool statusCert;
         TrustedHandle<std::string> signingTime;
         TrustedHandle<Certificate> cert;
         std::vector<chainCertStruct> certs;

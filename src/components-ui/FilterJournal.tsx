@@ -106,7 +106,7 @@ export class FilterJournal extends React.Component<FilterJournalProps, FilterJou
 			isDateTimePickerVisible1: false,
 			isDateTimePickerVisible2: false,
 			data1: this.props.filter.data1,
-			data2: this.props.filter.data2 ? this.props.filter.data2 : new Date()
+			data2: this.props.filter.data2 ? this.props.filter.data2 : new Date(new Date().setHours(23, 59, 59, 999))
 		};
 	}
 
@@ -119,7 +119,7 @@ export class FilterJournal extends React.Component<FilterJournalProps, FilterJou
 	_hideDateTimePicker1 = () => this.setState({ isDateTimePickerVisible1: false });
 
 	_handleDatePicked1 = (date) => {
-		this.setState({ data1: date });
+		this.setState({ data1: new Date(date.getFullYear(), date.getMonth(), date.getDate()) });
 		this._hideDateTimePicker1();
 	}
 
@@ -128,7 +128,7 @@ export class FilterJournal extends React.Component<FilterJournalProps, FilterJou
 	_hideDateTimePicker2 = () => this.setState({ isDateTimePickerVisible2: false });
 
 	_handleDatePicked2 = (date) => {
-		this.setState({ data2: date });
+		this.setState({ data2: new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59, 999) });
 		this._hideDateTimePicker2();
 	}
 
@@ -193,14 +193,16 @@ export class FilterJournal extends React.Component<FilterJournalProps, FilterJou
 					onCancel={this._hideDateTimePicker1}
 					cancelTextIOS="Отмена"
 					confirmTextIOS="Подтвердить"
-					date={new Date(2018, 1, 1)} />
+					date={new Date(2018, 1, 1)}
+					maximumDate={this.state.data2} />
 				<DateTimePicker
 					isVisible={this.state.isDateTimePickerVisible2}
 					onConfirm={this._handleDatePicked2}
 					onCancel={this._hideDateTimePicker2}
 					cancelTextIOS="Отмена"
 					confirmTextIOS="Подтвердить"
-					date={new Date()} />
+					date={new Date()}
+					minimumDate={this.state.data1} />
 				<Footer>
 					<FooterTab>
 						<FooterButton title="Сбросить" icon="md-trash" nav={() => {

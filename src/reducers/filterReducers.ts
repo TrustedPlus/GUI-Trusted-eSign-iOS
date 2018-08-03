@@ -38,34 +38,6 @@ export function filter(state = initialState, action: AnyAction) {
 				data2: action.payload.data2,
 				filename: action.payload.filename
 			};
-		case CREATE_REQUEST_SUCCESS:
-		case SET_PATH_TO_STOR_ERROR:
-		case UPLOAD_FILES_SUCCESS:
-		case UPLOAD_FILES_ERROR:
-		case DELETE_FILES_SUCCESS:
-		case DELETE_FILES_ERROR:
-		case PROVIDER_INIT_ERROR:
-		case READ_CERTIFICATES_ERROR:
-		case ADD_FILES_SUCCESS:
-		case ADD_FILES_ERROR:
-		case ADD_CERT_SUCCESS:
-		case ADD_CERT_ERROR:
-		case ADD_KEY_SUCCESS:
-		case ADD_KEY_ERROR:
-		case SIGN_FILE_ERROR:
-		case SIGN_FILE_SUCCESS:
-		case VERIFY_SIGN_SUCCESS:
-		case VERIFY_SIGN_ERROR:
-		case ENCODE_FILES_SUCCESS:
-		case ENCODE_FILES_ERROR:
-		case DECODE_FILES_SUCCESS:
-		case DECODE_FILES_ERROR:
-		case CREATE_CERTIFICATE_SUCCESS:
-		case DELETE_CERTIFICATE_SUCCESS:
-			return {
-				...state,
-				filterEnabled: false,
-			};
 		default:
 			return state;
 	}

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, ListItem, View, List, Content, Segment, Button, Text, Footer, FooterTab } from "native-base";
+import { Container, ListItem, View, List, Content, Segment, Button, Text, Footer, FooterTab, Header, Title, Left, Right, Icon } from "native-base";
 import { Image, AlertIOS, NativeModules, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
@@ -7,6 +7,7 @@ import { FooterButton } from "../components/FooterButton";
 import { ListForCert } from "../components/ListForCert";
 import { showToast } from "../utils/toast";
 import { ListMenu } from "../components/ListMenu";
+import * as Modal from "react-native-modalbox";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -32,11 +33,19 @@ interface PropertiesCertProps {
 	deleteCertAction(cert, withContainers, goBack): void;
 }
 
+interface IModals {
+	basicModal: Modal.default;
+}
+
 @(connect(null, mapDispatchToProps) as any)
 export class PropertiesCert extends React.Component<PropertiesCertProps, PropertiesCertState> {
 
 	static navigationOptions = {
 		header: null
+	};
+
+	private modals: IModals = {
+		basicModal: null
 	};
 
 	constructor(props) {
@@ -138,11 +147,11 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 				{this.state.numPage === 1
 					? <><Content style={{ backgroundColor: "white" }}>
 						<View>
-							<Image style={styles.prop_cert_img} source={cert.chainBuilding ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />
+							<Image style={styles.prop_cert_img} source={isCertInContainers ? require("../../imgs/general/cert_ok_icon.png") : cert.chainBuilding ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />
 							<Text style={styles.prop_cert_title}>{cert.subjectFriendlyName}</Text>
-							<Text style={styles.prop_cert_status}>Cтатус сертификата:{"\n"}
+							{isCertInContainers ? null : <Text style={styles.prop_cert_status}>Cтатус сертификата:{"\n"}
 								{cert.chainBuilding ? <Text style={{ color: "green" }}>действителен</Text> : <Text style={{ color: "red" }}>не действителен</Text>}
-							</Text>
+							</Text>}
 						</View>
 						<List>
 							{cert.selfSigned ? null : <>
@@ -170,6 +179,78 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 							<ListForCert title="Закрытый ключ:" value={cert.hasPrivateKey ? "присутствует" : "отсутствует"} />
 						</List>
 					</Content>
+						<Modal
+							ref={ref => this.modals.basicModal = ref}
+							style={[styles.modal, {
+								height: "auto",
+								width: 300,
+								backgroundColor: "white",
+							}]}
+							position={"center"}
+							swipeToClose={false}>
+							<View style={{ width: "100%" }}>
+								{cert.hasPrivateKey ? <>
+									<Header
+										style={{ backgroundColor: "#be3817", height: "auto", paddingTop: 13 }}>
+										<Title style={{paddingBottom: 13}}>
+											<Text style={{
+												color: "white",
+												fontSize: 15
+											}}>Удалить сертификат с контейнером?</Text>
+										</Title>
+									</Header>
+									<View>
+										<List>
+											<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => this.props.deleteCertAction(cert, false, goBack())}>
+												<Left>
+													<Text style={{ fontSize: 14, color: "grey" }}>Нет</Text>
+												</Left>
+												<Right>
+													<Icon name="ios-arrow-forward-outline"></Icon>
+												</Right>
+											</ListItem>
+											<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => this.props.deleteCertAction(cert, true, goBack())} >
+												<Left>
+													<Text style={{ fontSize: 14, color: "grey" }}>Да(не рекомендуется)</Text>
+												</Left>
+												<Right>
+													<Icon name="ios-arrow-forward-outline"></Icon>
+												</Right>
+											</ListItem>
+											<ListItem onPress={() => this.modals.basicModal.close()}>
+												<Text style={{ fontSize: 15, width: "100%", height: "100%", textAlign: "center", color: "grey" }}>Отмена</Text>
+											</ListItem>
+										</List>
+									</View>
+								</>
+									: <>
+										<Header
+											style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+											<Title>
+												<Text style={{
+													color: "white",
+													fontSize: 15
+												}}>Удалить сертификат?</Text>
+											</Title>
+										</Header>
+										<View>
+											<List>
+												<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => this.props.deleteCertAction(cert, false, goBack())} >
+													<Left>
+														<Text style={{ fontSize: 14, color: "grey" }}>Да</Text>
+													</Left>
+													<Right>
+														<Icon name="ios-arrow-forward-outline"></Icon>
+													</Right>
+												</ListItem>
+												<ListItem onPress={() => this.modals.basicModal.close()}>
+													<Text style={{ fontSize: 15, width: "100%", height: "100%", textAlign: "center", color: "grey" }}>Отмена</Text>
+												</ListItem>
+											</List>
+										</View>
+									</>}
+							</View>
+						</Modal>
 						<Footer>
 							{isCertInContainers === true ?
 								<FooterTab>
@@ -191,7 +272,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 									<FooterButton title="Экспортировать"
 										icon="ios-share-alt-outline"
 										nav={() => navigate("ExportCert", { cert: cert })} />
-									<FooterButton title="Удалить" icon="md-trash" nav={() => this.deleteCert()} />
+									<FooterButton title="Удалить" icon="md-trash" nav={() => this.modals.basicModal.open()} />
 								</FooterTab>
 							}
 						</Footer></>

@@ -21,6 +21,8 @@ import { Requests } from "./Requests";
 import { AboutSignCert } from "./AboutSignCert";
 import { NotSelectedDocuments } from "./NotSelectedDocuments";
 import { FilterJournal } from "./FilterJournal";
+import { AboutAllSignCert } from "./AboutAllSignCert";
+import { License } from "./License";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -101,6 +103,8 @@ class Main extends React.Component<MainProps> {
 							note={lengthContainers} nav={() => navigate("Containers", { name: "Containers" })} />
 						<ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
 							note={lastlognote} nav={() => navigate("Journal")} />
+							<ListMenu title="Лицензии" img={require("../../imgs/general/license_menu_icon.png")}
+							note={"не установлены"} nav={() => navigate("License")} />
 					</List>
 				</Content>
 			</Container>
@@ -132,7 +136,9 @@ export const App = StackNavigator({
 	Requests: { screen: Requests },
 	AboutSignCert: { screen: AboutSignCert },
 	NotSelectedDocuments: { screen: NotSelectedDocuments },
-	FilterJournal: { screen: FilterJournal}
+	FilterJournal: { screen: FilterJournal},
+	AboutAllSignCert: { screen: AboutAllSignCert },
+	License: { screen: License}
 });
 
 /* NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {

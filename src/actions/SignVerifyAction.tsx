@@ -165,6 +165,11 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 										}
 										clearselectedFiles();
 									}
+									if (err.indexOf("-2146893802") !== -1) {
+										showToastDanger("Не найден закрытый ключ для сертификата подписи");
+									} else {
+										showToastDanger(err);
+									}
 									dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll, err });
 								} else {
 									/*RNFS.copyFile(path + ".sig", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".sig").then(
@@ -419,20 +424,24 @@ export function getSignInfo(files: IFile[], footer, navigate) {
 			() => NativeModules.Wrap_Signer.isDetachedSignMessage(
 				path,
 				encoding,
-				(err, verify) => {
+				(err, isDetached) => {
 					if (err) {
 						showToastDanger(err);
 					} else {
 						NativeModules.Wrap_Signer.getSignInfo(
-							verify ? path.substring(0, path.length - 4) : "",
+							isDetached ? path.substring(0, path.length - 4) : "",
 							path,
 							encoding,
-							verify ? true : false,
+							isDetached ? true : false,
 							(err, verify) => {
 								if (err) {
 									showToastDanger(err);
 								} else {
-									navigate("AboutSignCert", verify);
+									if (verify.length === 1) {
+										navigate("AboutSignCert", { cert: verify[0] });
+									} else {
+										navigate("AboutAllSignCert", { cert: verify });
+									}
 								}
 							}
 						);

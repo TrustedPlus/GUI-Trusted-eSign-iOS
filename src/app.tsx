@@ -28,6 +28,8 @@ export class MainApp extends React.Component {
 		console.disableYellowBox = true;
 		NativeModules.Wrap_Main.init(
 			RNFS.DocumentDirectoryPath + "/store",
+			// ,RNFS.DocumentDirectoryPath + "/license_app.txt"
+			// ,RNFS.DocumentDirectoryPath + "/license_cryptoPro.txt"
 			(err) => console.log(err));
 	}
 	render() {

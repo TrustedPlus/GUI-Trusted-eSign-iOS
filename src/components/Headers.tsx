@@ -6,6 +6,7 @@ import { styles } from "../styles";
 interface HeadersProps {
 	title: string;
 	iconRight?: string;
+	textRight?: string;
 	filterEnabled?: boolean;
 	goHome?(): any;
 	goBack?(): void;
@@ -34,7 +35,7 @@ export class Headers extends React.Component<HeadersProps> {
 				{this.props.iconRight
 					? <Right>
 						<Button transparent onPress={() => this.props.goRight()}>
-							<Icon style={this.props.filterEnabled ? { color: "lightgreen", fontSize: 36 } : { color: "white", fontSize: 36 }} name={this.props.iconRight} />
+							<Icon style={this.props.filterEnabled ? { color: "lightgreen", fontSize: 32 } : { color: "white", fontSize: 32 }} name={this.props.iconRight} />
 						</Button>
 					</Right>
 					: <Right></Right>}

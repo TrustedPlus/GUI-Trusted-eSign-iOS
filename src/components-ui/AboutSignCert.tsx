@@ -102,7 +102,7 @@ export class AboutSignCert extends React.Component<AboutSignCertProps, AboutSign
 					</Text>
 				</View>
 				<List style={{ paddingTop: 10, paddingBottom: 30 }}>
-					<ListForCert title="Время подписи:" value={new Date(cert.signingTime).toLocaleString("ru", options)} />
+					<ListForCert title="Время подписи:" value={cert.signingTime === "" ? "отсутствует" : new Date(cert.signingTime).toLocaleString("ru", options)} />
 					{cert.selfSigned ? null : <>
 						<ListForCert itemHeader first title="Владелец" />
 						<ListForCert title="Имя:" value={subjectFriendlyName} />

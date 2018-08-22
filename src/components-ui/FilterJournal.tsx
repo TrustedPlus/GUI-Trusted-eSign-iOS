@@ -193,7 +193,7 @@ export class FilterJournal extends React.Component<FilterJournalProps, FilterJou
 					onCancel={this._hideDateTimePicker1}
 					cancelTextIOS="Отмена"
 					confirmTextIOS="Подтвердить"
-					date={new Date(2018, 1, 1)}
+					date={new Date(2018, 0, 1)}
 					maximumDate={this.state.data2} />
 				<DateTimePicker
 					isVisible={this.state.isDateTimePickerVisible2}
@@ -219,9 +219,9 @@ export class FilterJournal extends React.Component<FilterJournalProps, FilterJou
 									addFile: false,
 									deleteFile: false
 								},
-								data1: this.state.data1,
-								data2: this.state.data2,
-								filename: this.state.filename
+								data1: new Date(2018, 0, 1),
+								data2: new Date(),
+								filename: ""
 							}); goBack();
 						}} />
 						<FooterButton

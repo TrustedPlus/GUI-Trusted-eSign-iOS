@@ -45,8 +45,13 @@ export class AddCertButton extends React.Component<AddCertButtonProps, AddCertBu
 				onPress: (password) => this.props.addCertFunc(res.uri, res.fileName, password, (err) => {
 					let index = err.indexOf("Action canceled by user!");
 					if (index === -1) {
-						this.setState({ numInvalidPassword: this.state.numInvalidPassword + 1 });
-						this.state.numInvalidPassword < 3 ? this.Prompt(res) : AlertIOS.alert("Вы превысили максимальное число попыток");
+						index = err.indexOf("Can't open license");
+						if (index === -1) {
+							this.setState({ numInvalidPassword: this.state.numInvalidPassword + 1 });
+							this.state.numInvalidPassword < 3 ? this.Prompt(res) : AlertIOS.alert("Вы превысили максимальное число попыток");
+						} else {
+							setTimeout(() => AlertIOS.alert("Ваша приложение не активно. Введите корректную лицензию"), 400);
+						}
 					} else {
 						setTimeout(() => AlertIOS.alert("Добавление было отменено"), 400);
 					}

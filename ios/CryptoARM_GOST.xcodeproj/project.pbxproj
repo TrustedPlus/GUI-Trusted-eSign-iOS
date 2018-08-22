@@ -21,6 +21,9 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		8442F400212ABEB2005ED466 /* Wrap_License.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8442F3D7212ABEB2005ED466 /* Wrap_License.mm */; };
+		8442F4B3212D4F9F005ED466 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8442F4A8212D4EA3005ED466 /* Ionicons.ttf */; };
+		8442F4B4212D4FA1005ED466 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8442F47A212D4E9F005ED466 /* MaterialCommunityIcons.ttf */; };
 		9E422A3320AAD891002883CC /* Wrap_CertRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2320AAD891002883CC /* Wrap_CertRequest.mm */; };
 		9E422A3420AAD891002883CC /* helper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2420AAD891002883CC /* helper.mm */; };
 		9E422A3520AAD891002883CC /* Wrap_Pkcs12.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2620AAD891002883CC /* Wrap_Pkcs12.mm */; };
@@ -33,22 +36,8 @@
 		9E422A4020AAD8E8002883CC /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3F20AAD8E8002883CC /* CPROCSP.framework */; };
 		9E422B1020AAD9C8002883CC /* librdrpcsc_empty.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */; };
 		9E621D7820B2C0B200DD1DC2 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E621D7720B2C0B100DD1DC2 /* Icon-40.png */; };
-		9E73E7D120AAF9CF00CE8D30 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C420AAF9CF00CE8D30 /* Octicons.ttf */; };
-		9E73E7D220AAF9CF00CE8D30 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C520AAF9CF00CE8D30 /* Roboto_medium.ttf */; };
-		9E73E7D320AAF9CF00CE8D30 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C620AAF9CF00CE8D30 /* Entypo.ttf */; };
-		9E73E7D420AAF9CF00CE8D30 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C720AAF9CF00CE8D30 /* Foundation.ttf */; };
-		9E73E7D520AAF9CF00CE8D30 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C820AAF9CF00CE8D30 /* Ionicons.ttf */; };
-		9E73E7D620AAF9CF00CE8D30 /* rubicon-icon-font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7C920AAF9CF00CE8D30 /* rubicon-icon-font.ttf */; };
-		9E73E7D720AAF9CF00CE8D30 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CA20AAF9CF00CE8D30 /* FontAwesome.ttf */; };
-		9E73E7D820AAF9CF00CE8D30 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CB20AAF9CF00CE8D30 /* Zocial.ttf */; };
-		9E73E7D920AAF9CF00CE8D30 /* Roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CC20AAF9CF00CE8D30 /* Roboto.ttf */; };
-		9E73E7DA20AAF9CF00CE8D30 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CD20AAF9CF00CE8D30 /* EvilIcons.ttf */; };
-		9E73E7DB20AAF9CF00CE8D30 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CE20AAF9CF00CE8D30 /* OFL.txt */; };
-		9E73E7DC20AAF9CF00CE8D30 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7CF20AAF9CF00CE8D30 /* SimpleLineIcons.ttf */; };
-		9E73E7DD20AAF9CF00CE8D30 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E73E7D020AAF9CF00CE8D30 /* MaterialIcons.ttf */; };
 		9EC1384120AEEF3E004BA671 /* splash_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC1384020AEEF3D004BA671 /* splash_screen.png */; };
 		9EC1384320AEEF4A004BA671 /* splash_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC1384220AEEF4A004BA671 /* splash_icon.png */; };
-		9EE07A8820AB020F00741DC6 /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A8720AB020F00741DC6 /* en.lproj */; };
 		9EE07A9D20AB03E000741DC6 /* TemplateSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */; };
 		9EE07A9E20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */; };
 		9EE07AA120AB03E800741DC6 /* SelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9F20AB03E800741DC6 /* SelectionViewController.xib */; };
@@ -66,7 +55,6 @@
 		9EE07AB820AB040600741DC6 /* MSCARequestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB420AB040600741DC6 /* MSCARequestViewController.xib */; };
 		9EE07ABB20AB040F00741DC6 /* kis_1 in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB920AB040F00741DC6 /* kis_1 */; };
 		9EE07ABC20AB040F00741DC6 /* locale in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ABA20AB040F00741DC6 /* locale */; };
-		9EE07ABE20AB041800741DC6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ABD20AB041800741DC6 /* Images.xcassets */; };
 		9EE07AC420AB042000741DC6 /* CPCAViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ABF20AB042000741DC6 /* CPCAViewController.xib */; };
 		9EE07AC520AB042000741DC6 /* CPROCertviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AC020AB042000741DC6 /* CPROCertviewViewController.xib */; };
 		9EE07AC620AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AC120AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib */; };
@@ -385,6 +373,23 @@
 		6FAA421CFD0B4009A87CA3A5 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		8442F3D7212ABEB2005ED466 /* Wrap_License.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_License.mm; sourceTree = "<group>"; };
+		8442F3FF212ABEB2005ED466 /* Wrap_License.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_License.h; sourceTree = "<group>"; };
+		8442F47A212D4E9F005ED466 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		8442F4A2212D4EA0005ED466 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../../../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		8442F4A3212D4EA0005ED466 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../../../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		8442F4A4212D4EA1005ED466 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EvilIcons.ttf; path = "../../../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		8442F4A5212D4EA2005ED466 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
+		8442F4A6212D4EA2005ED466 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../../../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		8442F4A7212D4EA3005ED466 /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Foundation.ttf; path = "../../../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		8442F4A8212D4EA3005ED466 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../../../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		8442F4A9212D4EA3005ED466 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SimpleLineIcons.ttf; path = "../../../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
+		8442F4AA212D4EA4005ED466 /* OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		8442F4AB212D4EA5005ED466 /* Roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Roboto.ttf; path = "../../../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
+		8442F4AC212D4EA5005ED466 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Entypo.ttf; path = "../../../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		8442F4AD212D4EA5005ED466 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "rubicon-icon-font.ttf"; path = "../../../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
+		8442F4AE212D4EA6005ED466 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = "../../../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		8442F4AF212D4EA6005ED466 /* Roboto_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Roboto_medium.ttf; path = "../../../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
 		9E422A2320AAD891002883CC /* Wrap_CertRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_CertRequest.mm; sourceTree = "<group>"; };
 		9E422A2420AAD891002883CC /* helper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = helper.mm; sourceTree = "<group>"; };
 		9E422A2520AAD891002883CC /* helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
@@ -405,22 +410,8 @@
 		9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
 		9E422B5020AAE711002883CC /* CryptoARM_GOST.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CryptoARM_GOST.entitlements; path = CryptoARM_GOST/CryptoARM_GOST.entitlements; sourceTree = "<group>"; };
 		9E621D7720B2C0B100DD1DC2 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-40.png"; path = "CryptoARM_GOST/Images.xcassets/AppIcon.appiconset/Icon-40.png"; sourceTree = "<group>"; };
-		9E73E7C420AAF9CF00CE8D30 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
-		9E73E7C520AAF9CF00CE8D30 /* Roboto_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Roboto_medium.ttf; sourceTree = "<group>"; };
-		9E73E7C620AAF9CF00CE8D30 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
-		9E73E7C720AAF9CF00CE8D30 /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
-		9E73E7C820AAF9CF00CE8D30 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
-		9E73E7C920AAF9CF00CE8D30 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "rubicon-icon-font.ttf"; sourceTree = "<group>"; };
-		9E73E7CA20AAF9CF00CE8D30 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
-		9E73E7CB20AAF9CF00CE8D30 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
-		9E73E7CC20AAF9CF00CE8D30 /* Roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Roboto.ttf; sourceTree = "<group>"; };
-		9E73E7CD20AAF9CF00CE8D30 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
-		9E73E7CE20AAF9CF00CE8D30 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
-		9E73E7CF20AAF9CF00CE8D30 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
-		9E73E7D020AAF9CF00CE8D30 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
-		9EC1384020AEEF3D004BA671 /* splash_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash_screen.png; path = ../imgs/general/splash_screen.png; sourceTree = "<group>"; };
-		9EC1384220AEEF4A004BA671 /* splash_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = splash_icon.png; path = ../imgs/general/splash_icon.png; sourceTree = "<group>"; };
-		9EE07A8720AB020F00741DC6 /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en.lproj; path = CPROCSP.framework/Resources/en.lproj; sourceTree = SOURCE_ROOT; };
+		9EC1384020AEEF3D004BA671 /* splash_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_screen.png; sourceTree = "<group>"; };
+		9EC1384220AEEF4A004BA671 /* splash_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_icon.png; sourceTree = "<group>"; };
 		9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewController.xib; sourceTree = "<group>"; };
 		9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
 		9EE07A9F20AB03E800741DC6 /* SelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewController.xib; sourceTree = "<group>"; };
@@ -438,7 +429,6 @@
 		9EE07AB420AB040600741DC6 /* MSCARequestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSCARequestViewController.xib; sourceTree = "<group>"; };
 		9EE07AB920AB040F00741DC6 /* kis_1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kis_1; sourceTree = "<group>"; };
 		9EE07ABA20AB040F00741DC6 /* locale */ = {isa = PBXFileReference; lastKnownFileType = folder; path = locale; sourceTree = "<group>"; };
-		9EE07ABD20AB041800741DC6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		9EE07ABF20AB042000741DC6 /* CPCAViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPCAViewController.xib; sourceTree = "<group>"; };
 		9EE07AC020AB042000741DC6 /* CPROCertviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPROCertviewViewController.xib; sourceTree = "<group>"; };
 		9EE07AC120AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPROCertviewViewControllerIPhone.xib; sourceTree = "<group>"; };
@@ -567,8 +557,6 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				9EC1384020AEEF3D004BA671 /* splash_screen.png */,
-				9EC1384220AEEF4A004BA671 /* splash_icon.png */,
 			);
 			name = CryptoARM_GOST;
 			sourceTree = "<group>";
@@ -683,6 +671,8 @@
 		9E422A2220AAD891002883CC /* src */ = {
 			isa = PBXGroup;
 			children = (
+				8442F3FF212ABEB2005ED466 /* Wrap_License.h */,
+				8442F3D7212ABEB2005ED466 /* Wrap_License.mm */,
 				9E422A2320AAD891002883CC /* Wrap_CertRequest.mm */,
 				9E422A2420AAD891002883CC /* helper.mm */,
 				9E422A2520AAD891002883CC /* helper.h */,
@@ -704,6 +694,8 @@
 		9E422A4120AAD915002883CC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9EC1384020AEEF3D004BA671 /* splash_screen.png */,
+				9EC1384220AEEF4A004BA671 /* splash_icon.png */,
 				9EE07AD720AB043D00741DC6 /* license.enc */,
 				9EE07AD020AB043500741DC6 /* ru.lproj */,
 				9EE07AC920AB042F00741DC6 /* en.lproj */,
@@ -712,7 +704,6 @@
 				9EE07AC320AB042000741DC6 /* CPCAViewControllerIPhone.xib */,
 				9EE07AC020AB042000741DC6 /* CPROCertviewViewController.xib */,
 				9EE07AC120AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib */,
-				9EE07ABD20AB041800741DC6 /* Images.xcassets */,
 				9EE07AB920AB040F00741DC6 /* kis_1 */,
 				9EE07ABA20AB040F00741DC6 /* locale */,
 				9EE07AB420AB040600741DC6 /* MSCARequestViewController.xib */,
@@ -730,7 +721,21 @@
 				9EE07AA020AB03E800741DC6 /* SelectionViewControllerIPhone.xib */,
 				9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */,
 				9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */,
-				9E73E7C320AAF9CF00CE8D30 /* Fonts */,
+				8442F4AC212D4EA5005ED466 /* Entypo.ttf */,
+				8442F4A4212D4EA1005ED466 /* EvilIcons.ttf */,
+				8442F4A5212D4EA2005ED466 /* Feather.ttf */,
+				8442F4A3212D4EA0005ED466 /* FontAwesome.ttf */,
+				8442F4A7212D4EA3005ED466 /* Foundation.ttf */,
+				8442F4A8212D4EA3005ED466 /* Ionicons.ttf */,
+				8442F47A212D4E9F005ED466 /* MaterialCommunityIcons.ttf */,
+				8442F4A6212D4EA2005ED466 /* MaterialIcons.ttf */,
+				8442F4A2212D4EA0005ED466 /* Octicons.ttf */,
+				8442F4AA212D4EA4005ED466 /* OFL.txt */,
+				8442F4AF212D4EA6005ED466 /* Roboto_medium.ttf */,
+				8442F4AB212D4EA5005ED466 /* Roboto.ttf */,
+				8442F4AD212D4EA5005ED466 /* rubicon-icon-font.ttf */,
+				8442F4A9212D4EA3005ED466 /* SimpleLineIcons.ttf */,
+				8442F4AE212D4EA6005ED466 /* Zocial.ttf */,
 			);
 			name = Resources;
 			path = CPROCSP.framework/Resources;
@@ -764,28 +769,6 @@
 				9E422B4F20AAE5F3002883CC /* libRNFS.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		9E73E7C320AAF9CF00CE8D30 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				9EE07A8720AB020F00741DC6 /* en.lproj */,
-				9E73E7C420AAF9CF00CE8D30 /* Octicons.ttf */,
-				9E73E7C520AAF9CF00CE8D30 /* Roboto_medium.ttf */,
-				9E73E7C620AAF9CF00CE8D30 /* Entypo.ttf */,
-				9E73E7C720AAF9CF00CE8D30 /* Foundation.ttf */,
-				9E73E7C820AAF9CF00CE8D30 /* Ionicons.ttf */,
-				9E73E7C920AAF9CF00CE8D30 /* rubicon-icon-font.ttf */,
-				9E73E7CA20AAF9CF00CE8D30 /* FontAwesome.ttf */,
-				9E73E7CB20AAF9CF00CE8D30 /* Zocial.ttf */,
-				9E73E7CC20AAF9CF00CE8D30 /* Roboto.ttf */,
-				9E73E7CD20AAF9CF00CE8D30 /* EvilIcons.ttf */,
-				9E73E7CE20AAF9CF00CE8D30 /* OFL.txt */,
-				9E73E7CF20AAF9CF00CE8D30 /* SimpleLineIcons.ttf */,
-				9E73E7D020AAF9CF00CE8D30 /* MaterialIcons.ttf */,
-			);
-			name = Fonts;
-			path = "../../../node_modules/native-base/Fonts";
 			sourceTree = "<group>";
 		};
 		9EE07AC920AB042F00741DC6 /* en.lproj */ = {
@@ -1209,14 +1192,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8442F4B3212D4F9F005ED466 /* Ionicons.ttf in Resources */,
+				8442F4B4212D4FA1005ED466 /* MaterialCommunityIcons.ttf in Resources */,
 				9EE07AB620AB040600741DC6 /* NewUserViewControllerIPhone.xib in Resources */,
-				9E73E7D420AAF9CF00CE8D30 /* Foundation.ttf in Resources */,
 				9EE07AD820AB043D00741DC6 /* license.enc in Resources */,
-				9E73E7DC20AAF9CF00CE8D30 /* SimpleLineIcons.ttf in Resources */,
 				9EE07AAE20AB03FE00741DC6 /* PaneViewControllerIPhone.xib in Resources */,
 				9EE07ACF20AB042F00741DC6 /* CP_Localizable.strings in Resources */,
 				9EE07A9E20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib in Resources */,
-				9E73E7DD20AAF9CF00CE8D30 /* MaterialIcons.ttf in Resources */,
 				9EE07AC720AB042000741DC6 /* config.ini in Resources */,
 				9EE07AA120AB03E800741DC6 /* SelectionViewController.xib in Resources */,
 				9EE07AC420AB042000741DC6 /* CPCAViewController.xib in Resources */,
@@ -1225,31 +1207,19 @@
 				9EE07AB520AB040600741DC6 /* MSCARequestViewControllerIPhone.xib in Resources */,
 				9EE07AC620AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				9E73E7D920AAF9CF00CE8D30 /* Roboto.ttf in Resources */,
-				9EE07ABE20AB041800741DC6 /* Images.xcassets in Resources */,
-				9E73E7D320AAF9CF00CE8D30 /* Entypo.ttf in Resources */,
 				9EE07ABC20AB040F00741DC6 /* locale in Resources */,
 				9EE07AB720AB040600741DC6 /* NewUserViewController.xib in Resources */,
 				9E621D7820B2C0B200DD1DC2 /* Icon-40.png in Resources */,
 				9EE07AAC20AB03FE00741DC6 /* RequestSelectionViewController.xib in Resources */,
-				9E73E7D520AAF9CF00CE8D30 /* Ionicons.ttf in Resources */,
 				9EE07AAF20AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib in Resources */,
 				9EE07AC520AB042000741DC6 /* CPROCertviewViewController.xib in Resources */,
 				9EC1384320AEEF4A004BA671 /* splash_icon.png in Resources */,
 				9EE07AAD20AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib in Resources */,
 				9EE07AD620AB043500741DC6 /* CP_Localizable.strings in Resources */,
 				9EE07AB820AB040600741DC6 /* MSCARequestViewController.xib in Resources */,
-				9E73E7DA20AAF9CF00CE8D30 /* EvilIcons.ttf in Resources */,
-				9EE07A8820AB020F00741DC6 /* en.lproj in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				9EE07AAB20AB03FE00741DC6 /* PaneViewController.xib in Resources */,
-				9E73E7DB20AAF9CF00CE8D30 /* OFL.txt in Resources */,
-				9E73E7D820AAF9CF00CE8D30 /* Zocial.ttf in Resources */,
-				9E73E7D620AAF9CF00CE8D30 /* rubicon-icon-font.ttf in Resources */,
 				9EE07AD520AB043500741DC6 /* CP_Short.strings in Resources */,
-				9E73E7D120AAF9CF00CE8D30 /* Octicons.ttf in Resources */,
-				9E73E7D220AAF9CF00CE8D30 /* Roboto_medium.ttf in Resources */,
-				9E73E7D720AAF9CF00CE8D30 /* FontAwesome.ttf in Resources */,
 				9EE07ACE20AB042F00741DC6 /* CP_Short.strings in Resources */,
 				9EE07ABB20AB040F00741DC6 /* kis_1 in Resources */,
 				9EE07AA420AB03F100741DC6 /* root.sto in Resources */,
@@ -1288,6 +1258,7 @@
 				9E422A3720AAD891002883CC /* Wrap_Main.mm in Sources */,
 				9E422A3820AAD891002883CC /* Wrap_Cipher.mm in Sources */,
 				9E422A3620AAD891002883CC /* Wrap_Signer.mm in Sources */,
+				8442F400212ABEB2005ED466 /* Wrap_License.mm in Sources */,
 				9E422A3420AAD891002883CC /* helper.mm in Sources */,
 				9E422A3520AAD891002883CC /* Wrap_Pkcs12.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
@@ -1357,7 +1328,6 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
-					ProvOpenSSL,
 					"$(inherited)",
 					ProvCryptoPro,
 				);
@@ -1405,10 +1375,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					ProvOpenSSL,
-					ProvCryptoPro,
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = ProvCryptoPro;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/include/CSP\"",
 					"\"$(SRCROOT)/include/OSSL\"",

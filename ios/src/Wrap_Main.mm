@@ -134,7 +134,7 @@ RCT_EXPORT_METHOD(getContainers: (NSInteger)nsType: (NSString *)nsName: (RCTResp
  * удаление контейнера с удалением привязанного сертификата при необходимости
  * @param contName - имя контейнера
  * @param nsType - тип провайдера
- * @param nsProvName - имя провайдера
+ * @param nsName - имя провайдера
  * @param deleteCert - удалить ли привязанный сертификат
  * @return NSMutableArray * - при успешном завершении, иначе throw
  */
@@ -237,6 +237,56 @@ RCT_EXPORT_METHOD(installCertToCont: (NSString *)serialNumber: (NSString *)categ
   callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
 #endif
 }
+
+
+/**
+ * отображение версии КриптоПРО CSP
+ * @return версию КриптоПРО CSP в виде строки
+ */
+RCT_EXPORT_METHOD(getCSPVersion: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
+  try {
+    TrustedHandle<std::string> versionCSP = [csp_Store getCPCSPVersion];
+    TrustedHandle<std::string> versionPKZI = [csp_Store getCPCSPVersionPKZI];
+    char *cspVersionWithPoint = strcat((char *)versionCSP->c_str(), ".");
+    char *version = strcat(cspVersionWithPoint, (char *)versionPKZI->c_str());
+    callback(@[[NSNull null], [@(version) copy]]);
+  }
+  catch (TrustedHandle<Exception> e) {
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
+}
+
+/**
+ * отображение версии ядра СКЗИ
+ * @return версию ядра СКЗИ в виде строки
+ */
+RCT_EXPORT_METHOD(getCSPCoreVersion: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
+  try {
+    TrustedHandle<std::string> versionCSP = [csp_Store getCPCSPVersion];
+    TrustedHandle<std::string> versionSKZI = [csp_Store getCPCSPVersionSKZI];
+    TrustedHandle<std::string> securityLvl = [csp_Store getCPCSPSecurityLvl];
+    
+    char *cspVersionWithPoint = strcat((char *)versionCSP->c_str(), ".");
+    char *cspVersionWithVersionSKZI = strcat(cspVersionWithPoint, (char *)versionSKZI->c_str());
+    char *ch = strcat(cspVersionWithVersionSKZI, " ");
+    char *version = strcat(ch, (char *)securityLvl->c_str());
+    callback(@[[NSNull null], [@(version) copy]]);
+  }
+  catch (TrustedHandle<Exception> e) {
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
+}
+
 
 /**
  * загрузка в iCloud входного файла

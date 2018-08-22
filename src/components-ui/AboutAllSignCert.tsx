@@ -31,12 +31,13 @@ export class AboutAllSignCert extends React.Component<AboutAllSignCertProps> {
 	showListCert(arrCert) {
 		return (arrCert.map((cert, key, arr) =>
 			<ListMenu
+				notconect
 				numChain={key}
 				lengthChain={arr.length}
 				key={key}
 				img={(cert.statusCert === "1") && (cert.statusSign === "1") ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")}
 				title={cert.subjectFriendlyName}
-				note={"Дата подписи: " + new Date(cert.signingTime).toLocaleString("ru", options)}
+				note={cert.signingTime === "" ? "Дата подписи: отсутствует" : "Дата подписи: " + new Date(cert.signingTime).toLocaleString("ru", options)}
 				nav={() => this.props.navigation.navigate("AboutSignCert", { cert: { cert: { cert }}})} />
 		));
 	}

@@ -186,11 +186,11 @@ export class Journal extends React.Component<JournalProps, JournalState> {
 		return (
 			<Container>
 				<Headers
-				title="Журнал операций"
-				goBack={() => goBack()}
-				filterEnabled={this.props.filter.filterEnabled}
-				iconRight={"ios-cog"}
-				goRight={() => navigate("FilterJournal")} />
+					title="Журнал операций"
+					goBack={() => goBack()}
+					filterEnabled={this.props.filter.filterEnabled}
+					iconRight={"ios-cog"}
+					goRight={() => navigate("FilterJournal")} />
 				{this.state.loadingJournal
 					? log.length
 						? <Content>

@@ -3,6 +3,7 @@
 
 #include "Constants.h"
 #include "CSP_Helper.h"
+#import "CSP_License.h"
 
 #include "cert.h"
 #include "pkcs12.h"

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, Content, List, Text, Footer, FooterTab } from "native-base";
+import { Container, Content, List, Text, Footer, FooterTab, View } from "native-base";
 import * as RNFS from "react-native-fs";
 import { NativeModules } from "react-native";
 import { ListMenu } from "../components/ListMenu";
@@ -63,9 +63,9 @@ export class Requests extends React.Component<RequestsProps, RequestsState> {
 		return oldSelectedRequests; // добавление в массив
 	}
 
-	showList() {
+	showList(requests) {
 		return (
-			this.props.requests.map((file, key) => <ListMenu
+			requests.map((file, key) => <ListMenu
 				key={key + file.time}
 				title={file.name}
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
@@ -97,14 +97,29 @@ export class Requests extends React.Component<RequestsProps, RequestsState> {
 		);
 	}
 
+	private getRequestsView(requests) {
+		if (requests.length) {
+			return (
+				<Content>
+					<List>{this.showList(requests)}</List>
+				</Content>
+			);
+		}
+
+		return (
+			<View style={styles.sign_enc_view}>
+				<Text style={[styles.sign_enc_prompt, { paddingTop: "50%" }]}>Запросов нет. Запросы создаются при создании сертификата</Text>
+			</View>
+		);
+	}
+
 	render() {
 		const { goBack } = this.props.navigation;
+		const filesView = this.getRequestsView(this.props.requests);
 		return (
 			<Container style={styles.container}>
 				<Headers title="Запросы" goBack={() => goBack()} />
-				<Content>
-					<List>{this.showList()}</List>
-				</Content>
+				{filesView}
 				{this.state.selectedRequests.length ?
 					<Footer>
 						<FooterTab>

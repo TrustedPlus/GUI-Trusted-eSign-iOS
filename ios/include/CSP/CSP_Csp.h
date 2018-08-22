@@ -48,6 +48,18 @@ TrustedHandle<PkiItem> objectToPKIItem(TrustedHandle<Certificate> cert);
 //удаление контейнера
 -(bool) deleteContainer :(TrustedHandle<std::string>)contName :(int)provType :(TrustedHandle<std::string>)provName :(bool)deleteCert;
 
+//получение версию установленного CSP
+-(TrustedHandle<std::string>)getCPCSPVersion;
+
+//получение версию PKZI установленного CSP
+-(TrustedHandle<std::string>)getCPCSPVersionPKZI;
+
+//получение версию ядра установленного CSP
+-(TrustedHandle<std::string>)getCPCSPVersionSKZI;
+
+//получение версию SecurityLvl установленного CSP
+-(TrustedHandle<std::string>)getCPCSPSecurityLvl;
+
 @end
 
 #endif /* CSP_Csp_h */

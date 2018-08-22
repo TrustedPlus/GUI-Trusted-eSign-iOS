@@ -9,6 +9,8 @@
 #import <CPROCSP/CPROCSP.h>
 #import <CPROCSP/CPCrypt.h>
 
+#import "CSP_License.h"
+
 @interface CSP_Cipher : NSObject{
     struct certStructForEncrypt {
         char *serial;

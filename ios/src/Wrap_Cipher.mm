@@ -134,17 +134,17 @@ RCT_EXPORT_METHOD(decrypt: (NSString *)encFile: (NSString *)format: (NSString *)
   char *decfile = (char *) [decFile UTF8String];
   char *pFormat = (char *) [format UTF8String];
   try {
-    BOOL b = false;
+    BOOL b = false;/*
 #ifdef ProvOpenSSL
     try {
       b = [ossl_Cipher decrypt:encfile :pFormat :decfile];
     }
     catch (TrustedHandle<Exception> e) {
-#endif
+#endif */
 #ifdef ProvCryptoPro
       b = [csp_Cipher decrypt:encfile :pFormat :decfile];
 #endif
-    }
+   // }
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
   }

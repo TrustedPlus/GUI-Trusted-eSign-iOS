@@ -20,6 +20,7 @@ interface IFile {
 
 export function signFile(files: IFile[], personalCert, footer, detached, signature, clearselectedFiles) {
 	return function action(dispatch) {
+		dispatch({ type: SIGN_FILE });
 		let lengthError = 0;
 		let arrDeletedFilesInWorkspacwSign = [];
 		let arrAddFilesInWorkspacwSign = [];
@@ -48,6 +49,7 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 									for (let i = 0; i < arrAddFilesInWorkspacwSign.length; i++) {
 										dispatch(addSingleFileInWorkspaceSign(arrAddFilesInWorkspacwSign[i]));
 									}
+									dispatch({ type: SIGN_FILE_END });
 									clearselectedFiles();
 								}
 							} else {
@@ -72,7 +74,20 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 												for (let i = 0; i < arrAddFilesInWorkspacwSign.length; i++) {
 													dispatch(addSingleFileInWorkspaceSign(arrAddFilesInWorkspacwSign[i]));
 												}
+												if ((footer.arrButton.length === 1) && (lengthError === 1)) {
+													showToast("Ошибка при добавлении подписи");
+												}
+												if ((footer.arrButton.length === 1) && (lengthError === 0)) {
+													showToast("Подпись была добавлена");
+												}
+												if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
+													showToast("Ошибка при добавлении подписи");
+												}
+												if ((footer.arrButton.length > 1) && (lengthError > 0)) {
+													showToast("Для некоторых файлов подпись не смогла быть добавлена");
+												}
 												clearselectedFiles();
+												dispatch({ type: SIGN_FILE_END });
 											}
 											dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll, err });
 										} else {
@@ -114,6 +129,7 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 															dispatch(addSingleFileInWorkspaceSign(arrAddFilesInWorkspacwSign[i]));
 														}
 														clearselectedFiles();
+														dispatch({ type: SIGN_FILE_END });
 													}
 												},
 												err => console.log(err)
@@ -164,6 +180,7 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 											dispatch(addSingleFileInWorkspaceSign(arrAddFilesInWorkspacwSign[i]));
 										}
 										clearselectedFiles();
+										dispatch({ type: SIGN_FILE_END });
 									}
 									if (err.indexOf("-2146893802") !== -1) {
 										showToastDanger("Не найден закрытый ключ для сертификата подписи");
@@ -226,6 +243,7 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 													dispatch(addSingleFileInWorkspaceSign(arrAddFilesInWorkspacwSign[i]));
 												}
 												clearselectedFiles();
+												dispatch({ type: SIGN_FILE_END });
 											}
 										},
 										err => console.log(err)

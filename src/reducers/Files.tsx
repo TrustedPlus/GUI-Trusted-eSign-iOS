@@ -11,6 +11,8 @@ import {
 const initialState = {
 	files: [],
 	isFetching: false,
+	isFetchingSign: false,
+	isFetchingEnc: false,
 };
 
 function verySignSuccess(oldFiles, action) {
@@ -36,11 +38,20 @@ function verySignError(oldFiles, action) {
 
 export function Files(state = initialState, action) {
 	switch (action.type) {
+		case SIGN_FILE:
+			return {
+				...state,
+				isFetchingSign: true
+			};
+		case SIGN_FILE_END:
+			return {
+				...state,
+				isFetchingSign: false
+			};
 		case UPLOAD_FILES:
 		case DELETE_FILES:
 		case READ_FILES:
 		case ADD_FILES:
-		case SIGN_FILE:
 		case VERIFY_SIGN:
 		case ENCODE_FILES:
 		case DECODE_FILES:
@@ -53,7 +64,6 @@ export function Files(state = initialState, action) {
 		case READ_FILES_ERROR:
 		case ADD_FILES_SUCCESS:
 		case ADD_FILES_ERROR:
-		case SIGN_FILE_END:
 		case ENCODE_FILES_END:
 		case DECODE_FILES_END:
 			return {

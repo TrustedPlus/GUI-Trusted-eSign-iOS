@@ -1,8 +1,9 @@
 import * as React from "react";
+import * as RNFS from "react-native-fs";
 import { styles } from "../styles";
 import { Headers } from "../components/Headers";
 import { Container, List, Text, View, Button, Content, Spinner } from "native-base";
-import { Image, RefreshControl, ScrollView } from "react-native";
+import { Image, RefreshControl, ScrollView, NativeModules } from "react-native";
 import { ListMenu } from "../components/ListMenu";
 import { iconSelection } from "../utils/forListFiles";
 import { FooterDoc } from "./FooterDoc";
@@ -74,6 +75,63 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 			},
 			loadingDocuments: false
 		};
+	}
+
+	syncDocuments() {
+		NativeModules.Wrap_Main.loadToICloud(RNFS.DocumentDirectoryPath, (veify, err) => {
+			RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
+				fileForCloud => {
+					console.log(fileForCloud);
+					for (let i = 0; i < fileForCloud.length; i++) {
+						if (fileForCloud[i].name.indexOf(".icloud") !== -1) {
+							NativeModules.Wrap_Main.downloadingFileFromiCloud(fileForCloud[i].path, (veify, err) => {
+								RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
+									newFileForCloud => console.log(newFileForCloud)
+								);
+								let correctName = fileForCloud[i].name;
+								correctName = correctName.replace(".icloud", "");
+								correctName = correctName.slice(1);
+								RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + correctName, RNFS.DocumentDirectoryPath + "/Files/" + correctName).then(
+									() => this.props.readFiles()
+								);
+							});
+						} else if (fileForCloud[i].name[0] === ".") {
+							continue;
+						} else {
+							RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+								success => {
+									this.props.readFiles();
+								},
+								err => {
+									RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+										() => RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+											() => {
+												this.props.readFiles();
+											}
+										)
+									);
+								}
+							);
+						}
+					}
+					RNFS.readDir(RNFS.DocumentDirectoryPath + "/Files/").then(
+						fileForApps => {
+							console.log(fileForApps);
+							for (let i = 0; i < fileForApps.length; i++) {
+								if (fileForApps[i].name[0] === ".") {
+									continue;
+								}
+								console.log(fileForApps[i]);
+								RNFS.copyFile(fileForApps[i].path, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForApps[i].name).catch(
+									err => console.log(err.message)
+								);
+							}
+						}
+					);
+				},
+				err => console.log(err)
+			);
+		});
 	}
 
 	changeSelectedRequests(oldSelectedFiles, key, extension) {
@@ -168,37 +226,41 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 
 		return (
 			<Container style={styles.container}>
-				<Headers title="Документы" goBack={() => goBack()} />
-				{ this.state.loadingDocuments ? <>
-				<View style={styles.sign_enc_view}>
-					<Text style={styles.sign_enc_title}>Файлы</Text>
-					{viewNumSelectFiles}
-				</View>
-				{filesView}
-				<Button
-					transparent
-					style={{ position: "absolute", bottom: 80, right: 30 }}
-					onPressIn={() => this.documentPicker()}>
-					<Image
-						style={{ width: 60, height: 60 }}
-						source={require("../../imgs/general/add_icon.png")} />
-				</Button>
-				{selectedFiles.arrNum.length
-					? <FooterDoc
-						files={files}
-						selectedFiles={selectedFiles}
-						clearselectedFiles={() => this.clearselectedFiles()}
-						navigate={(page, cert) => navigate(page, { cert: cert })} />
-					: null
-				}</> : <View style={{
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					height: "90%",
-					backgroundColor: "white"
-				}}>
-					<Spinner color={"#be3817"} />
-				</View>}
+				<Headers title="Документы"
+					type="MaterialCommunityIcons"
+					iconRight={"cloud-sync"}
+					goRight={() => this.syncDocuments()}
+					goBack={() => goBack()} />
+				{this.state.loadingDocuments ? <>
+					<View style={styles.sign_enc_view}>
+						<Text style={styles.sign_enc_title}>Файлы</Text>
+						{viewNumSelectFiles}
+					</View>
+					{filesView}
+					<Button
+						transparent
+						style={{ position: "absolute", bottom: 80, right: 30 }}
+						onPressIn={() => this.documentPicker()}>
+						<Image
+							style={{ width: 60, height: 60 }}
+							source={require("../../imgs/general/add_icon.png")} />
+					</Button>
+					{selectedFiles.arrNum.length
+						? <FooterDoc
+							files={files}
+							selectedFiles={selectedFiles}
+							clearselectedFiles={() => this.clearselectedFiles()}
+							navigate={(page, cert) => navigate(page, { cert: cert })} />
+						: null
+					}</> : <View style={{
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						height: "90%",
+						backgroundColor: "white"
+					}}>
+						<Spinner color={"#be3817"} />
+					</View>}
 			</Container>
 		);
 	}

@@ -4,6 +4,8 @@
 #include "Constants.h"
 #include "CSP_Helper.h"
 
+#import "CSP_License.h"
+
 #include "cert.h"
 #import <Foundation/Foundation.h>
 #import <CPROCSP/CPROCSP.h>
@@ -14,6 +16,7 @@
         bool statusSign;
         bool statusCert;
         TrustedHandle<std::string> signingTime;
+        TrustedHandle<std::string> error;
         TrustedHandle<Certificate> cert;
         std::vector<chainCertStruct> certs;
     };

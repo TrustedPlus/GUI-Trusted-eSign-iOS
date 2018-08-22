@@ -84,4 +84,6 @@ PCCERT_CONTEXT bindCertToPrivateKey(PCCERT_CONTEXT pCertContext, LPCSTR contName
 //преобразование из char * в wchar *
 WCHAR *ConvertCharToWchar(const char *name, int &length);
 
+bool isGost2001CSPAvailable();
+
 #endif /* CSP_Helper_h */

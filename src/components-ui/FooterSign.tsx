@@ -108,31 +108,44 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							? <View style={[styles.modalMore, styles.modalMore4]}>
 								<Footer>
 									<FooterTab>
-										<FooterButton title="Снять" disabled={allIsSign === "sig" ? false : true} icon="md-crop" nav={() => UnSignFile(files, footer, (num) => this.props.clearselectedFiles(num))} />
-										<FooterButton title="Отправить" disabled={!numSelectedFilesIsOne} icon="ios-share-alt-outline" nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
+										<FooterButton title="Снять"
+											disabled={allIsSign === "sig" ? false : true}
+											img={require("../../imgs/ios/delete_sign.png")}
+											nav={() => UnSignFile(files, footer, (num) => this.props.clearselectedFiles(num))} />
+										<FooterButton title="Отправить"
+											disabled={!numSelectedFilesIsOne}
+											img={require("../../imgs/ios/posted.png")}
+											nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
 									</FooterTab>
 								</Footer>
 								<Footer>
 									<FooterTab>
-										<FooterButton title="Архивировать" disabled={true} icon="help" nav={() => null} style={{ borderTopWidth: 0 }} />
-										<FooterButton title="Очистить" icon="ios-trash" nav={() => this.clearSelectedFilesInWorkspaceSign()} style={{ borderTopWidth: 0 }} />
+										<FooterButton title="Архивировать"
+											disabled={true}
+											img={require("../../imgs/ios/arhiver.png")}
+											nav={() => null}
+											style={{ borderTopWidth: 0 }} />
+										<FooterButton title="Очистить"
+											img={require("../../imgs/ios/delete.png")}
+											nav={() => this.clearSelectedFilesInWorkspaceSign()}
+											style={{ borderTopWidth: 0 }} />
 									</FooterTab>
 								</Footer>
 							</View>
 							: null}
 						<FooterButton title="Проверить"
 							disabled={allIsSign === "sig" ? false : true}
-							icon="md-done-all"
+							img={require("../../imgs/ios/verify_sign.png")}
 							nav={() => { this.setState({ modalMore: false }); verifySign(files, footer); }} />
 						<FooterButton title="Подписать"
 							disabled={certIsNotNull === "noCert" ? true : false}
-							icon="md-create"
+							img={require("../../imgs/ios/sign.png")}
 							nav={() => {
 								allIsSign === "sig"
 									? signFile(files, personalCert, footer, null, null, (num) => this.props.clearselectedFiles(num))
 									: this.modals.basicModal.open();
 							}} />
-						<FooterButton title="Свойства" disabled={numSelectedFilesIsOne ? allIsSign === "sig" ? false : true : true} icon="ios-information" nav={() => getSignInfo(files, footer, (page, cert) => navigate(page, { cert: cert }))} />
+						<FooterButton title="Свойства" disabled={numSelectedFilesIsOne ? allIsSign === "sig" ? false : true : true} img={require("../../imgs/ios/view_sign.png")} nav={() => getSignInfo(files, footer, (page, cert) => navigate(page, { cert: cert }))} />
 						<FooterButton title="Больше" icon="ios-more" nav={() => this.setState({ modalMore: !this.state.modalMore })} />
 					</FooterTab>
 				</Footer>
@@ -160,11 +173,11 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							changeValue={(value) => this.setState({ signature: value })}
 							options={[{ value: "BASE-64" }, { value: "DER" }]} />
 						<ListWithSwitch text="Сохранить подпись отдельно" value={this.state.detached} changeValue={() => this.setState({ detached: !this.state.detached })} />
-						<View style={{display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%"}}>
-							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => this.modals.basicModal.close()}>
+						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
+							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => this.modals.basicModal.close()}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
 							</Button>
-							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => {this.modals.basicModal.close(); signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num)); }}>
+							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => { this.modals.basicModal.close(); signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num)); }}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>
 							</Button>
 						</View>

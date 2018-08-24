@@ -11,17 +11,19 @@ import { showToast, showToastDanger } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { deleteRequests } from "../actions/requestAction";
+import { deleteRequests, selectedRequest } from "../actions/requestAction";
 
 function mapStateToProps(state) {
 	return {
 		requests: state.requests.arrRequests,
+		lengthSelectedRequests: state.requests.lengthSelectedRequests
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		deleteRequests: bindActionCreators(deleteRequests, dispatch)
+		deleteRequests: bindActionCreators(deleteRequests, dispatch),
+		selectedRequest: bindActionCreators(selectedRequest, dispatch)
 	};
 }
 
@@ -30,38 +32,17 @@ interface RequestsProps {
 	navigation: any;
 	goBack: void;
 	requests: any;
-	deleteRequests(requests, selectedRequests): void;
-}
-
-interface RequestsState {
-	selectedRequests: any;
+	lengthSelectedRequests: number;
+	deleteRequests(requests): void;
+	selectedRequest(key): void;
 }
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
-export class Requests extends React.Component<RequestsProps, RequestsState> {
+export class Requests extends React.Component<RequestsProps> {
 
 	static navigationOptions = {
 		header: null
 	};
-
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			selectedRequests: []
-		};
-	}
-
-	changeSelectedRequests(oldSelectedRequests, key) {
-
-		let index = oldSelectedRequests.indexOf(key);
-		if (index !== -1) {
-			oldSelectedRequests.splice(index, 1); // удаление из массива
-			return oldSelectedRequests;
-		}
-		oldSelectedRequests.push(key);
-		return oldSelectedRequests; // добавление в массив
-	}
 
 	showList(requests) {
 		return (
@@ -70,21 +51,21 @@ export class Requests extends React.Component<RequestsProps, RequestsState> {
 				title={file.name}
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 				img={require("../../imgs/general/file_unknown.png")}
-				checkbox
-				nav={() => this.setState({ selectedRequests: this.changeSelectedRequests(this.state.selectedRequests, key) })} />));
+				selected={file.isSelected}
+				nav={() => this.props.selectedRequest(key)} />));
 	}
 
 	onPressGetRequestInfo() {
-		NativeModules.Wrap_CertRequest.getRequestInfo(
+		/*NativeModules.Wrap_CertRequest.getRequestInfo(
 			RNFS.DocumentDirectoryPath + "/Requests/" + this.props.requests[this.state.selectedRequests].name + ".csr",
 			"BASE64",
 			(err, verify) => {
 				this.props.navigation.navigate("CreateCertificate", { requestsProperties: verify, clearSelectesRequests: () => this.setState({ selectedRequests: [] }) });
-			});
+			});*/
 	}
 
-	uploadFile(requests, selectedRequests) {
-		Share.share({
+	uploadFile(requests) {
+		/*Share.share({
 			url: RNFS.DocumentDirectoryPath + "/Requests/" + requests[selectedRequests[0]].name + ".csr"
 		}).then((action: { action }) => {
 			if (action.action === Share.dismissedAction) {
@@ -94,7 +75,7 @@ export class Requests extends React.Component<RequestsProps, RequestsState> {
 			}
 		}).catch(
 			errorMsg => showToastDanger(errorMsg)
-		);
+		);*/
 	}
 
 	private getRequestsView(requests) {
@@ -120,12 +101,12 @@ export class Requests extends React.Component<RequestsProps, RequestsState> {
 			<Container style={styles.container}>
 				<Headers title="Запросы" goBack={() => goBack()} />
 				{filesView}
-				{this.state.selectedRequests.length ?
+				{this.props.lengthSelectedRequests ?
 					<Footer>
 						<FooterTab>
-							<FooterButton disabled={this.state.selectedRequests.length !== 1} title="Создать запрос по шаблону" icon="create" nav={() => this.onPressGetRequestInfo()} />
-							<FooterButton disabled={this.state.selectedRequests.length !== 1} title="Отправить" icon="ios-share-alt-outline" nav={() => this.uploadFile(this.props.requests, this.state.selectedRequests)} />
-							<FooterButton title="Удалить" icon="md-trash" nav={() => this.props.deleteRequests(this.props.requests, this.state.selectedRequests)} />
+							<FooterButton disabled={this.props.lengthSelectedRequests !== 1} title="Создать запрос по шаблону" icon="create" nav={() => this.onPressGetRequestInfo()} />
+							<FooterButton disabled={this.props.lengthSelectedRequests !== 1} title="Отправить" icon="ios-share-alt-outline" nav={() => this.uploadFile(this.props.requests)} />
+							<FooterButton title="Удалить" icon="md-trash" nav={() => this.props.deleteRequests(this.props.requests)} />
 						</FooterTab>
 					</Footer> : null}
 			</Container>

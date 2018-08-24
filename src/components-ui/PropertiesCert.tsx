@@ -192,7 +192,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 								{cert.hasPrivateKey ? <>
 									<Header
 										style={{ backgroundColor: "#be3817", height: "auto", paddingTop: 13 }}>
-										<Title style={{paddingBottom: 13}}>
+										<Title style={{ paddingBottom: 13 }}>
 											<Text style={{
 												color: "white",
 												fontSize: 15
@@ -270,9 +270,11 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 								</FooterTab> :
 								<FooterTab>
 									<FooterButton title="Экспортировать"
-										icon="ios-share-alt-outline"
+										img={require("../../imgs/ios/export.png")}
 										nav={() => navigate("ExportCert", { cert: cert })} />
-									<FooterButton title="Удалить" icon="md-trash" nav={() => this.modals.basicModal.open()} />
+									<FooterButton title="Удалить"
+										img={require("../../imgs/ios/delete.png")}
+										nav={() => this.modals.basicModal.open()} />
 								</FooterTab>
 							}
 						</Footer></>

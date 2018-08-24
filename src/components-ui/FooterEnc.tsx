@@ -91,14 +91,19 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 					<FooterTab>
 						<FooterButton title="Зашифровать"
 							disabled={certIsNotNull ? true : (isEnc === "enc" ? true : false)}
-							icon="md-lock"
+							img={require("../../imgs/ios/encrypt.png")}
 							nav={() => this.modals.basicModal.open()} />
 						<FooterButton title="Расшифровать"
 							disabled={isDec === "dec" ? false : true}
-							icon="md-unlock"
+							img={require("../../imgs/ios/decrypt.png")}
 							nav={() => decAssymmetric(files, footer, () => this.props.clearselectedFiles())} />
-						<FooterButton title="Отправить" disabled={footer.arrExtension.length === 1 ? false : true} icon="ios-share-alt-outline" nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
-						<FooterButton title="Очистить" icon="md-trash" nav={() => this.clearSelectedFilesInWorkspaceEnc()} />
+						<FooterButton title="Отправить"
+							disabled={footer.arrExtension.length === 1 ? false : true}
+							img={require("../../imgs/ios/posted.png")}
+							nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
+						<FooterButton title="Очистить"
+							img={require("../../imgs/ios/delete.png")}
+							nav={() => this.clearSelectedFilesInWorkspaceEnc()} />
 					</FooterTab>
 				</Footer>
 				<Modal
@@ -125,11 +130,11 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 							changeValue={(value) => this.setState({ signature: value })}
 							options={[{ value: "BASE-64" }, { value: "DER" }]} />
 						<ListWithSwitch text="Удалить после шифрования" disabled={this.state.deleteAfter} value={this.state.deleteAfter} changeValue={() => this.setState({ deleteAfter: !this.state.deleteAfter })} />
-						<View style={{display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%"}}>
-							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => this.modals.basicModal.close()}>
+						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
+							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => this.modals.basicModal.close()}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
 							</Button>
-							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => { this.modals.basicModal.close(); encAssymmetric(files, otherCert, footer, this.state.signature, this.state.deleteAfter, () => this.props.clearselectedFiles()); }}>
+							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => { this.modals.basicModal.close(); encAssymmetric(files, otherCert, footer, this.state.signature, this.state.deleteAfter, () => this.props.clearselectedFiles()); }}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>
 							</Button>
 						</View>

@@ -112,15 +112,15 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 								<FooterTab>
 									<FooterButton title="Проверить"
 										disabled={mark !== 1}
-										icon="md-done-all"
+										img={require("../../imgs/ios/verify_sign.png")}
 										nav={() => verifySign(files, selectedFilesObject)} />
 									<FooterButton title="Снять"
 										disabled={mark !== 1}
-										icon="md-crop"
+										img={require("../../imgs/ios/delete_sign.png")}
 										nav={() => { clearAllFilesinAllWorkspace(); UnSignFile(files, selectedFilesObject, () => clearselectedFiles()); }} />
 									<FooterButton title="Свойства"
 										disabled={mark !== 1 || this.props.selectedFiles.arrNum.length !== 1}
-										icon="ios-information"
+										img={require("../../imgs/ios/view_sign.png")}
 										nav={() => getSignInfo(files, selectedFilesObject, (page, cert) => navigate(page, { cert: cert }))} />
 								</FooterTab>
 							</Footer>
@@ -128,12 +128,16 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 								<FooterTab>
 									<FooterButton title="Раcшифровать"
 										disabled={mark !== 2}
-										icon="md-unlock"
+										img={require("../../imgs/ios/decrypt.png")}
 										style={{ borderTopWidth: 0 }}
 										nav={() => { clearAllFilesinAllWorkspace(); decAssymmetric(files, selectedFilesObject, () => clearselectedFiles()); }} />
-									<FooterButton title="Архивировать" disabled={true} icon="help" nav={() => null} style={{ borderTopWidth: 0 }} />
+									<FooterButton title="Архивировать"
+										disabled={true}
+										img={require("../../imgs/ios/arhiver.png")}
+										nav={() => null}
+										style={{ borderTopWidth: 0 }} />
 									<FooterButton title="Удалить"
-										icon="ios-trash"
+										img={require("../../imgs/ios/delete.png")}
 										style={{ borderTopWidth: 0 }}
 										nav={() => { clearAllFilesinAllWorkspace(); deleteFile(files, selectedFiles, () => clearselectedFiles()); }} />
 								</FooterTab>
@@ -141,7 +145,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 						</View>
 						: null}
 					<FooterButton title="Подписать"
-						icon="md-create"
+						img={require("../../imgs/ios/sign.png")}
 						disabled={(mark === 5) || (mark === 4) || (mark === 2)}
 						nav={() => {
 							let selectedFilesForSign = [];
@@ -158,7 +162,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 							);
 						}} />
 					<FooterButton title="Зашифровать"
-						icon="md-lock"
+						img={require("../../imgs/ios/encrypt.png")}
 						disabled={(mark === 5) || (mark === 3) || (mark === 1)}
 						nav={() => {
 							let selectedFilesForEnc = [];
@@ -175,7 +179,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 						}} />
 					<FooterButton title="Отправить"
 						disabled={selectedFiles.arrNum.length === 1 ? false : true}
-						icon="ios-share-alt-outline"
+						img={require("../../imgs/ios/posted.png")}
 						nav={() => uploadFile(files, selectedFiles)} />
 					<FooterButton title="Больше"
 						icon="ios-more"

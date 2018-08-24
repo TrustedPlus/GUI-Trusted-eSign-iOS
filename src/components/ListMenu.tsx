@@ -10,12 +10,12 @@ interface ListItemProps {
 	img?: any;
 	rightimg?: any;
 	righticon?: string;
-	verify?: number;
 	checkbox?: boolean;
 	numChain?: number;
 	lengthChain?: number;
 	active?: boolean;
 	notconect?: boolean;
+	selected?: boolean;
 	nav?(): void;
 }
 
@@ -27,7 +27,14 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 	}
 
 	onPress() {
-		if (this.props.checkbox) { this.state.active ? this.setState({ active: false }) : this.setState({ active: true }); }
+		if (this.props.selected !== undefined) {
+			if (this.props.selected) {
+				this.setState({ active: false });
+			} else {
+				this.setState({ active: true });
+			}
+		}
+		if (this.props.checkbox !== undefined) { this.state.active ? this.setState({ active: false }) : this.setState({ active: true }); }
 		this.props.nav ? this.props.nav() : null;
 	}
 
@@ -56,8 +63,6 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 						</>
 						: null}
 					<Thumbnail square style={styles.thumbnail} source={this.props.img} />
-					{this.props.verify === 1 ? <Image style={{ position: "absolute", width: 25, height: 25, left: 40 }} source={require("../../imgs/checkmark.png")} /> : null}
-					{this.props.verify === -1 ? <Image style={{ position: "absolute", width: 25, height: 25, left: 40 }} source={require("../../imgs/cross.png")} /> : null}
 				</Left> : null}
 				<Body>
 					<Text style={styles.listItemText}>{this.props.title}</Text>

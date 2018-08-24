@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as RNFS from "react-native-fs";
 import { styles } from "../styles";
 import { Headers } from "../components/Headers";
 import { Container, Footer, Text, View, FooterTab, Content, Form, Item, Label, Input } from "native-base";
@@ -82,7 +83,6 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 
 	render() {
 		const { navigate, goBack } = this.props.navigation;
-		console.log("validityTimeOfLicense: " + this.state.validityTimeOfLicense);
 		return (
 			<Container style={styles.container}>
 				<Headers title="Лицензии" goBack={() => goBack()} />
@@ -142,7 +142,7 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 				</Content>
 				<Footer>
 					<FooterTab>
-						<FooterButton title="Сохранить" icon="md-download" nav={() => this.saveLicense()} />
+						<FooterButton title="Сохранить" img={require("../../imgs/ios/save.png")} nav={() => this.saveLicense()} />
 					</FooterTab>
 				</Footer>
 			</Container>
@@ -158,7 +158,14 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 		NativeModules.Wrap_License.getCSPLicense(
 			(err, label) => {
 				if (err) {
-					null;
+					RNFS.readFile(RNFS.DocumentDirectoryPath + "/cprocsp/etc/license.ini")
+						.then((success) => {
+							let index = success.indexOf("ProductID = ");
+							this.setState({ keylicenseCryptoPro: success.substring(index + 13, success.length - 2)});
+						})
+						.catch((err) => {
+							console.log(err.message);
+						});
 				} else {
 					label = label.substr(0, 5) + "-" + label.substr(5, 5) + "-" + label.substr(10, 5) + "-" +
 						label.substr(15, 5) + "-" + label.substr(20, 5);

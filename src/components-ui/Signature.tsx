@@ -113,7 +113,6 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 				key={key + file.time}
 				title={file.name + "." + file.extensionAll}
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
-				verify={file.verify}
 				img={img[key]}
 				checkbox
 				active={this.state.activeFiles ? true : false}
@@ -187,7 +186,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Сертификат подписи</Text>
 					<Button transparent onPressIn={() => { readCertKeys(); navigate("SelectPersonalСert", { isCertInContainers: true }); }} style={styles.sign_enc_button}>
-						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
+						<Image style={styles.headerImage} source={ personalCert.hasPrivateKey ? require("../../imgs/general/change_cert.png") : require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
 				{certificate}

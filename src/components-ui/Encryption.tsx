@@ -211,7 +211,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Сертификаты получателей</Text>
 					<Button transparent style={styles.sign_enc_button} onPressIn={() => { readCertKeys(); navigate("SelectCert"); }}>
-						<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
+						<Image style={styles.headerImage} source={otherCert.arrEncCertificates.length ? require("../../imgs/general/change_cert.png") : require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
 				<View>

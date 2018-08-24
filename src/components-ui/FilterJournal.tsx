@@ -3,7 +3,7 @@ import {
 	Container, Content, Text, Footer, FooterTab, Form, Item, Label, Input, Icon, Left, Right,
 	ListItem, Button, Body, List
 } from "native-base";
-import { View, ScrollView } from "react-native";
+import { View, Image } from "react-native";
 import { Headers } from "../components/Headers";
 import { FooterButton } from "../components/FooterButton";
 import { styles } from "../styles";
@@ -146,11 +146,11 @@ export class FilterJournal extends React.Component<FilterJournalProps, FilterJou
 				<View style={{ paddingLeft: 15, paddingTop: 15, height: 80 }}>
 					<Text style={{ fontSize: 15, color: "grey" }}>Дата создания (изменения):</Text>
 					<View style={{ flex: 1, justifyContent: "space-between", flexDirection: "row", width: "75%", paddingTop: 15 }}>
-						<Icon name={"ios-clock-outline"} />
-						<Text style={{ fontSize: 13 }} onPress={this._showDateTimePicker1}>{this.state.data1.toLocaleString("ru", options)}</Text>
+						<Image style={{ width: 25, height: 25 }} source={require("../../imgs/ios/clock.png")} />
+						<Text style={{ fontSize: 13 }} onPress={this._showDateTimePicker1}> {this.state.data1.toLocaleString("ru", options)}</Text>
 						<Text style={{ fontSize: 13 }}>  -  </Text>
-						<Icon name={"ios-clock-outline"} />
-						<Text style={{ fontSize: 13 }} onPress={this._showDateTimePicker2}>{this.state.data2.toLocaleString("ru", options)}</Text>
+						<Image style={{ width: 25, height: 25 }} source={require("../../imgs/ios/clock.png")} />
+						<Text style={{ fontSize: 13 }} onPress={this._showDateTimePicker2}> {this.state.data2.toLocaleString("ru", options)}</Text>
 					</View>
 				</View>
 				<View style={{ paddingTop: 15 }}>
@@ -205,27 +205,31 @@ export class FilterJournal extends React.Component<FilterJournalProps, FilterJou
 					minimumDate={this.state.data1} />
 				<Footer>
 					<FooterTab>
-						<FooterButton title="Сбросить" icon="md-trash" nav={() => {
-							this.props.changeFilter({
-								filterEnabled: false,
-								SelectedFilters: {
-									sign: false,
-									addSign: false,
-									enc: false,
-									dec: false,
-									createRequest: false,
-									installCert: false,
-									deleteCert: false,
-									addFile: false,
-									deleteFile: false
-								},
-								data1: new Date(2018, 0, 1),
-								data2: new Date(),
-								filename: ""
-							}); goBack();
-						}} />
+						<FooterButton title="Сбросить"
+							img={require("../../imgs/ios/filter_clean.png")}
+							nav={() => {
+								this.props.changeFilter({
+									filterEnabled: false,
+									SelectedFilters: {
+										sign: false,
+										addSign: false,
+										enc: false,
+										dec: false,
+										createRequest: false,
+										installCert: false,
+										deleteCert: false,
+										addFile: false,
+										deleteFile: false
+									},
+									data1: new Date(2018, 0, 1),
+									data2: new Date(),
+									filename: ""
+								}); goBack();
+							}} />
 						<FooterButton
-							title="Применить" icon="md-checkmark" nav={() => {
+							title="Применить"
+							img={require("../../imgs/ios/filter_apply.png")}
+							nav={() => {
 								this.props.changeFilter({
 									filterEnabled: true,
 									SelectedFilters: this.state.SelectedFilters,

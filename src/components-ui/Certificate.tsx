@@ -53,15 +53,15 @@ export class Certificate extends React.Component<CertificateProps> {
 				<Headers title="Сертификаты" goBack={() => goBack()} />
 				<Content>
 					<List>
-						<ListMenu title="Личные сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
+						<ListMenu title="Личные сертификаты" img={require("../../imgs/general/my_cert.png")}
 							note={"количество сертификатов: " + lengthPersCert} nav={() => navigate("ListCertCategory", { title: "Личные сертификаты", category: ["MY", null] })} />
-						<ListMenu title="Сертификаты других пользователей" img={require("../../imgs/general/certificates_menu_icon.png")}
+						<ListMenu title="Сертификаты других пользователей" img={require("../../imgs/general/other_cert.png")}
 							note={"количество сертификатов: " + lengthOtherCert} nav={() => navigate("ListCertCategory", { title: "Сертификаты других пользователей", category: ["OTHERS", "ADDRESSBOOK"] })} />
-						<ListMenu title="Промежуточные сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
+						<ListMenu title="Промежуточные сертификаты" img={require("../../imgs/general/intermediate_cert.png")}
 							note={"количество сертификатов: " + lengthAdressBookCert} nav={() => navigate("ListCertCategory", { title: "Промежуточные сертификаты", category: ["CA", null] })} />
-						<ListMenu title="Доверенные корневые сертификаты" img={require("../../imgs/general/certificates_menu_icon.png")}
+						<ListMenu title="Доверенные корневые сертификаты" img={require("../../imgs/general/trust_cert.png")}
 							note={"количество сертификатов: " + lengthRootCert} nav={() => navigate("ListCertCategory", { title: "Доверенные корневые сертификаты", category: ["ROOT", "TRUST"] })} />
-						<ListMenu title="Запросы" img={require("../../imgs/general/certificates_menu_icon.png")}
+						<ListMenu title="Запросы" img={require("../../imgs/general/question_cert.png")}
 							note={"количество запросов: " + lengthRequests} nav={() => navigate("Requests", { title: "Доверенные корневые сертификаты", category: ["ROOT", "TRUST"] })} />
 					</List>
 				</Content>

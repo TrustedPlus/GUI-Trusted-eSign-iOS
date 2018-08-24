@@ -112,7 +112,6 @@ export class NotSelectedDocuments extends React.Component<NotSelectedDocumentsPr
 						title={file.name + "." + file.extensionAll}
 						note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 						checkbox
-						verify={file.verify}
 						img={img[key]}
 						nav={() => {
 							const newSelectedFiles = this.changeSelectedRequests(this.state.selectedFiles, key);

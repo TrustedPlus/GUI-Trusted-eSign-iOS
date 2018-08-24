@@ -267,7 +267,9 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 				</Content>
 				<Footer>
 					<FooterTab>
-						<FooterButton title="Создать" icon="ios-create" nav={this.onPressCertRequest} />
+						<FooterButton title="Создать"
+						img={require("../../imgs/ios/question_cert.png")}
+						nav={this.onPressCertRequest} />
 					</FooterTab>
 				</Footer>
 			</Container>

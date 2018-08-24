@@ -24,6 +24,7 @@
 		8442F400212ABEB2005ED466 /* Wrap_License.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8442F3D7212ABEB2005ED466 /* Wrap_License.mm */; };
 		8442F4B3212D4F9F005ED466 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8442F4A8212D4EA3005ED466 /* Ionicons.ttf */; };
 		8442F4B4212D4FA1005ED466 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8442F47A212D4E9F005ED466 /* MaterialCommunityIcons.ttf */; };
+		8442F4C2212E9BF3005ED466 /* license.enc in Resources */ = {isa = PBXBuildFile; fileRef = 8442F4C1212E9BF2005ED466 /* license.enc */; };
 		9E422A3320AAD891002883CC /* Wrap_CertRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2320AAD891002883CC /* Wrap_CertRequest.mm */; };
 		9E422A3420AAD891002883CC /* helper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2420AAD891002883CC /* helper.mm */; };
 		9E422A3520AAD891002883CC /* Wrap_Pkcs12.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2620AAD891002883CC /* Wrap_Pkcs12.mm */; };
@@ -35,7 +36,6 @@
 		9E422A3E20AAD8DF002883CC /* libOSSL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3C20AAD8DF002883CC /* libOSSL.a */; };
 		9E422A4020AAD8E8002883CC /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3F20AAD8E8002883CC /* CPROCSP.framework */; };
 		9E422B1020AAD9C8002883CC /* librdrpcsc_empty.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */; };
-		9E621D7820B2C0B200DD1DC2 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E621D7720B2C0B100DD1DC2 /* Icon-40.png */; };
 		9EC1384120AEEF3E004BA671 /* splash_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC1384020AEEF3D004BA671 /* splash_screen.png */; };
 		9EC1384320AEEF4A004BA671 /* splash_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC1384220AEEF4A004BA671 /* splash_icon.png */; };
 		9EE07A9D20AB03E000741DC6 /* TemplateSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */; };
@@ -64,7 +64,6 @@
 		9EE07ACF20AB042F00741DC6 /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ACC20AB042F00741DC6 /* CP_Localizable.strings */; };
 		9EE07AD520AB043500741DC6 /* CP_Short.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AD120AB043500741DC6 /* CP_Short.strings */; };
 		9EE07AD620AB043500741DC6 /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AD320AB043500741DC6 /* CP_Localizable.strings */; };
-		9EE07AD820AB043D00741DC6 /* license.enc in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AD720AB043D00741DC6 /* license.enc */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B917CA9F09004B4AB43EAC65 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C74AB87B344C53929C3574 /* libRNFS.a */; };
 		C0758707CB474FFE8A249D4E /* libRNDocumentPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5991726BC0E4214AAF32E3B /* libRNDocumentPicker.a */; };
@@ -390,6 +389,7 @@
 		8442F4AD212D4EA5005ED466 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "rubicon-icon-font.ttf"; path = "../../../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		8442F4AE212D4EA6005ED466 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = "../../../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		8442F4AF212D4EA6005ED466 /* Roboto_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Roboto_medium.ttf; path = "../../../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
+		8442F4C1212E9BF2005ED466 /* license.enc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = license.enc; path = ../../../../license.enc; sourceTree = "<group>"; };
 		9E422A2320AAD891002883CC /* Wrap_CertRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_CertRequest.mm; sourceTree = "<group>"; };
 		9E422A2420AAD891002883CC /* helper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = helper.mm; sourceTree = "<group>"; };
 		9E422A2520AAD891002883CC /* helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
@@ -409,7 +409,6 @@
 		9E422A3F20AAD8E8002883CC /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CPROCSP.framework; sourceTree = "<group>"; };
 		9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
 		9E422B5020AAE711002883CC /* CryptoARM_GOST.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CryptoARM_GOST.entitlements; path = CryptoARM_GOST/CryptoARM_GOST.entitlements; sourceTree = "<group>"; };
-		9E621D7720B2C0B100DD1DC2 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-40.png"; path = "CryptoARM_GOST/Images.xcassets/AppIcon.appiconset/Icon-40.png"; sourceTree = "<group>"; };
 		9EC1384020AEEF3D004BA671 /* splash_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_screen.png; sourceTree = "<group>"; };
 		9EC1384220AEEF4A004BA671 /* splash_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_icon.png; sourceTree = "<group>"; };
 		9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewController.xib; sourceTree = "<group>"; };
@@ -438,7 +437,6 @@
 		9EE07ACD20AB042F00741DC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = CP_Localizable.strings; sourceTree = "<group>"; };
 		9EE07AD220AB043500741DC6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = CP_Short.strings; sourceTree = "<group>"; };
 		9EE07AD420AB043500741DC6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = CP_Localizable.strings; sourceTree = "<group>"; };
-		9EE07AD720AB043D00741DC6 /* license.enc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = license.enc; path = CPROCSP.framework/license.enc; sourceTree = SOURCE_ROOT; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		CEA3B6A16FD643299BC426D0 /* libRNCloudFs.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCloudFs.a; sourceTree = "<group>"; };
 		E5991726BC0E4214AAF32E3B /* libRNDocumentPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDocumentPicker.a; sourceTree = "<group>"; };
@@ -548,7 +546,6 @@
 		13B07FAE1A68108700A75B9A /* CryptoARM_GOST */ = {
 			isa = PBXGroup;
 			children = (
-				9E621D7720B2C0B100DD1DC2 /* Icon-40.png */,
 				9E422B5020AAE711002883CC /* CryptoARM_GOST.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -694,9 +691,9 @@
 		9E422A4120AAD915002883CC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8442F4C1212E9BF2005ED466 /* license.enc */,
 				9EC1384020AEEF3D004BA671 /* splash_screen.png */,
 				9EC1384220AEEF4A004BA671 /* splash_icon.png */,
-				9EE07AD720AB043D00741DC6 /* license.enc */,
 				9EE07AD020AB043500741DC6 /* ru.lproj */,
 				9EE07AC920AB042F00741DC6 /* en.lproj */,
 				9EE07AC220AB042000741DC6 /* config.ini */,
@@ -1195,7 +1192,6 @@
 				8442F4B3212D4F9F005ED466 /* Ionicons.ttf in Resources */,
 				8442F4B4212D4FA1005ED466 /* MaterialCommunityIcons.ttf in Resources */,
 				9EE07AB620AB040600741DC6 /* NewUserViewControllerIPhone.xib in Resources */,
-				9EE07AD820AB043D00741DC6 /* license.enc in Resources */,
 				9EE07AAE20AB03FE00741DC6 /* PaneViewControllerIPhone.xib in Resources */,
 				9EE07ACF20AB042F00741DC6 /* CP_Localizable.strings in Resources */,
 				9EE07A9E20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib in Resources */,
@@ -1209,12 +1205,12 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				9EE07ABC20AB040F00741DC6 /* locale in Resources */,
 				9EE07AB720AB040600741DC6 /* NewUserViewController.xib in Resources */,
-				9E621D7820B2C0B200DD1DC2 /* Icon-40.png in Resources */,
 				9EE07AAC20AB03FE00741DC6 /* RequestSelectionViewController.xib in Resources */,
 				9EE07AAF20AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib in Resources */,
 				9EE07AC520AB042000741DC6 /* CPROCertviewViewController.xib in Resources */,
 				9EC1384320AEEF4A004BA671 /* splash_icon.png in Resources */,
 				9EE07AAD20AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib in Resources */,
+				8442F4C2212E9BF3005ED466 /* license.enc in Resources */,
 				9EE07AD620AB043500741DC6 /* CP_Localizable.strings in Resources */,
 				9EE07AB820AB040600741DC6 /* MSCARequestViewController.xib in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,

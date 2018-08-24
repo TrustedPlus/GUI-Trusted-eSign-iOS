@@ -1,4 +1,4 @@
-import { READ_REQUESTS, CREATE_REQUEST_SUCCESS } from "../constants";
+import { READ_REQUESTS, CREATE_REQUEST_SUCCESS, SELECTED_REQUEST } from "../constants";
 
 import * as RNFS from "react-native-fs";
 import { showToastDanger } from "../utils/toast";
@@ -11,7 +11,7 @@ export function readRequests() {
 				return request.then(
 					response => {
 						let requests = response;
-						let arrRequests = [], point, name, date, month, year, time;
+						let arrRequests = [], point, name, date, month, year, time, isSelected = false;
 						let length = requests.length;
 						for (let i = 0; i < length; i++) {
 							point = requests[i].name.indexOf(".");
@@ -35,7 +35,7 @@ export function readRequests() {
 							}
 							year = requests[i].mtime.getFullYear();
 							time = requests[i].mtime.toLocaleTimeString();
-							arrRequests[i] = { name, date, month, year, time };
+							arrRequests[i] = { name, date, month, year, time, isSelected };
 						}
 						dispatch({type: READ_REQUESTS, payload: arrRequests});
 					},
@@ -44,6 +44,12 @@ export function readRequests() {
 			},
 			err => showToastDanger(err)
 		);
+	};
+}
+
+export function selectedRequest(key) {
+	return function action(dispatch) {
+		dispatch({type: SELECTED_REQUEST, payload: key});
 	};
 }
 

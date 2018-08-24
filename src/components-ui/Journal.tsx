@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Container, Content, Text, Footer, FooterTab, List, ListItem, Left, Button, Icon, Body, Right, Spinner } from "native-base";
-import { ScrollView, View } from "react-native";
+import { Image, View } from "react-native";
 import { Headers } from "../components/Headers";
 import { FooterButton } from "../components/FooterButton";
 import { styles } from "../styles";
@@ -159,14 +159,16 @@ export class Journal extends React.Component<JournalProps, JournalState> {
 					}
 				}
 				return (
-					<View key={key} >
+					<View key={key}>
 						{showData ? <View style={{ paddingLeft: 20, paddingTop: 20 }}>
 							<Text style={{ fontWeight: "600" }}>{new Date(log.now).toLocaleString("ru", optionsData)}</Text>
 						</View> : null}
-						<ListItem icon>
+						<ListItem icon >
 							<Left>
 								<Button transparent primary>
-									{log.status ? <Icon active style={{ color: "green" }} name="md-checkmark" /> : <Icon style={{ color: "red" }} active name="md-close" />}
+									{log.status
+										? <Image style={{width: 25, height: 25}} source={require("../../imgs/ios/ok.png")}/>
+										: <Image style={{width: 25, height: 25}} source={require("../../imgs/ios/error.png")}/>}
 								</Button>
 							</Left>
 							<Body>

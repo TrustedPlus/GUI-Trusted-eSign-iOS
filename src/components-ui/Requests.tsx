@@ -37,6 +37,11 @@ interface RequestsProps {
 	selectedRequest(key): void;
 }
 
+const options = {
+	year: "numeric", month: "long", day: "numeric",
+	hour: "numeric", minute: "numeric", second: "numeric"
+};
+
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Requests extends React.Component<RequestsProps> {
 
@@ -45,40 +50,50 @@ export class Requests extends React.Component<RequestsProps> {
 	};
 
 	showList(requests) {
+		console.log(requests);
 		return (
 			requests.map((file, key) => <ListMenu
 				key={key + file.time}
 				title={file.name}
-				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
+				note={new Date(file.time).toLocaleString("ru", options)}
 				img={require("../../imgs/general/file_unknown.png")}
 				selected={file.isSelected}
 				nav={() => this.props.selectedRequest(key)} />));
 	}
 
-	onPressGetRequestInfo() {
-		/*NativeModules.Wrap_CertRequest.getRequestInfo(
-			RNFS.DocumentDirectoryPath + "/Requests/" + this.props.requests[this.state.selectedRequests].name + ".csr",
-			"BASE64",
-			(err, verify) => {
-				this.props.navigation.navigate("CreateCertificate", { requestsProperties: verify, clearSelectesRequests: () => this.setState({ selectedRequests: [] }) });
-			});*/
+	onPressGetRequestInfo(requests) {
+		requests.forEach((item, i, arr) => {
+			if (item.isSelected) {
+				NativeModules.Wrap_CertRequest.getRequestInfo(
+					RNFS.DocumentDirectoryPath + "/Requests/" + item.name + ".csr",
+					"BASE64",
+					(err, verify) => {
+						this.props.navigation.navigate("CreateCertificate", { requestsProperties: verify, clearSelectesRequests: () => this.setState({ selectedRequests: [] }) });
+					}
+				);
+			}
+		});
 	}
 
 	uploadFile(requests) {
-		/*Share.share({
-			url: RNFS.DocumentDirectoryPath + "/Requests/" + requests[selectedRequests[0]].name + ".csr"
-		}).then((action: { action }) => {
-			if (action.action === Share.dismissedAction) {
-				showToast("Отправка запроса была отклонена");
-			} else {
-				showToast("Запрос успешно отправлен");
+		requests.forEach((item, i, arr) => {
+			if (item.isSelected) {
+				Share.share({
+					url: RNFS.DocumentDirectoryPath + "/Requests/" + item.name + ".csr"
+				}).then((action: { action }) => {
+					if (action.action === Share.dismissedAction) {
+						showToast("Отправка запроса была отклонена");
+					} else {
+						showToast("Запрос успешно отправлен");
+					}
+				}).catch(
+					errorMsg => showToastDanger(errorMsg)
+				);
 			}
-		}).catch(
-			errorMsg => showToastDanger(errorMsg)
-		);*/
+		});
 	}
 
-	private getRequestsView(requests) {
+	getRequestsView(requests) {
 		if (requests.length) {
 			return (
 				<Content>
@@ -104,7 +119,7 @@ export class Requests extends React.Component<RequestsProps> {
 				{this.props.lengthSelectedRequests ?
 					<Footer>
 						<FooterTab>
-							<FooterButton disabled={this.props.lengthSelectedRequests !== 1} title="Создать запрос по шаблону" icon="create" nav={() => this.onPressGetRequestInfo()} />
+							<FooterButton disabled={this.props.lengthSelectedRequests !== 1} title="Создать запрос по шаблону" icon="create" nav={() => this.onPressGetRequestInfo(this.props.requests)} />
 							<FooterButton disabled={this.props.lengthSelectedRequests !== 1} title="Отправить" icon="ios-share-alt-outline" nav={() => this.uploadFile(this.props.requests)} />
 							<FooterButton title="Удалить" icon="md-trash" nav={() => this.props.deleteRequests(this.props.requests)} />
 						</FooterTab>

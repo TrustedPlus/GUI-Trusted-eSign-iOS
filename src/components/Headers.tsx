@@ -22,8 +22,7 @@ export class Headers extends React.Component<HeadersProps> {
 				{this.props.goBack
 					? <Left>
 						<Button transparent onPress={() => this.props.goBack()} style={{ width: 60, height: 50 }}>
-							<Image style={{ width: 35, height: 35 }}
-								source={require("../../imgs/general/back_icon.png")} />
+							<Icon style={{ color: "white" }} name="arrow-back" />
 						</Button>
 						{this.props.goHome ? <Button style={{ width: 50, height: 50, position: "absolute", left: 60, top: 0 }} transparent onPressIn={() => { this.props.goHome(); }} >
 							<Icon name="ios-home" style={{ color: "white" }} />

@@ -16,6 +16,8 @@ interface ListItemProps {
 	active?: boolean;
 	notconect?: boolean;
 	selected?: boolean;
+	styleImg?: object;
+	styleText?: object;
 	nav?(): void;
 }
 
@@ -62,10 +64,10 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 							{this.props.notconect ? null : this.props.numChain + 1 !== this.props.lengthChain ? <View style={styles.vert} /> : null}
 						</>
 						: null}
-					<Thumbnail square style={styles.thumbnail} source={this.props.img} />
+					<Thumbnail square style={[styles.thumbnail, this.props.styleImg]} source={this.props.img} />
 				</Left> : null}
 				<Body>
-					<Text style={styles.listItemText}>{this.props.title}</Text>
+					<Text style={[styles.listItemText, this.props.styleText]}>{this.props.title}</Text>
 					<Text note style={{ rightimg } ? { width: "80%" } : {}}>{this.props.note}</Text>
 					<Text note style={{ position: "absolute", right: 25, bottom: 10 }}>{this.props.rightnote}</Text>
 					{rightimg}

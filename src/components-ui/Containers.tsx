@@ -78,6 +78,8 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 	showList() {
 		if (this.props.containers[0]) {
 			return (this.props.containers.map((containers, key) => <ListMenu
+				styleImg={{width: 40, height: 40}}
+				styleText={{fontSize: 13}}
 				key={key}
 				note={"HDIMAGE"}
 				title={containers.container}

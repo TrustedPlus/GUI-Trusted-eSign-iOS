@@ -92,7 +92,11 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 								correctName = correctName.replace(".icloud", "");
 								correctName = correctName.slice(1);
 								RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + correctName, RNFS.DocumentDirectoryPath + "/Files/" + correctName).then(
-									() => this.props.readFiles()
+									() => {
+										if (i + 1 === fileForCloud.length) {
+											this.props.readFiles();
+										}
+									}
 								);
 							});
 						} else if (fileForCloud[i].name[0] === ".") {
@@ -100,13 +104,17 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 						} else {
 							RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
 								success => {
-									this.props.readFiles();
+									if (i + 1 === fileForCloud.length) {
+										this.props.readFiles();
+									}
 								},
 								err => {
 									RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
 										() => RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
 											() => {
-												this.props.readFiles();
+												if (i + 1 === fileForCloud.length) {
+													this.props.readFiles();
+												}
 											}
 										)
 									);

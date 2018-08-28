@@ -202,5 +202,31 @@ export const styles = StyleSheet.create({
 		color: "grey",
 		position: "absolute",
 		right: "5%"
+	},
+	// FooterSignModal
+	loader: {
+		position: "absolute",
+		display: "flex",
+		justifyContent: "center",
+		alignItems: "center",
+		height: "100%",
+		width: "100%",
+		backgroundColor: "rgba(0,0,0,0.1)"
+	},
+	loaderView: {
+		width: "60%",
+		height: "15%",
+		backgroundColor: "white",
+		shadowColor: "#000000",
+		shadowOffset: {
+			width: 0,
+			height: 0
+		},
+		shadowRadius: 1,
+		shadowOpacity: 1.0,
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-around"
 	}
 });

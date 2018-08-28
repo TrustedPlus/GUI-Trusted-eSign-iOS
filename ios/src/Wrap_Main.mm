@@ -299,13 +299,18 @@ RCT_EXPORT_METHOD(loadToICloud: (NSString *)nsUrl: (RCTResponseSenderBlock)callb
     NSFileManager *filemgr = [[NSFileManager alloc] init];
     NSError *error;
     NSURL *ubiq = [filemgr URLForUbiquityContainerIdentifier:@"iCloud.com.digt.CryptoARMGOST"];
-    NSURL *ubiquitousPackage = [ubiq URLByAppendingPathComponent:@"Documents" isDirectory:YES];
-    if ([filemgr fileExistsAtPath:[ubiquitousPackage path]] == NO)
-      [filemgr createDirectoryAtURL:ubiquitousPackage withIntermediateDirectories:YES attributes:nil error:nil];
-    NSURL *cloudURL = [ubiquitousPackage URLByAppendingPathComponent: [src lastPathComponent]];
-    
-    BOOL success = [filemgr setUbiquitous:YES itemAtURL:src destinationURL:cloudURL error:&error];
-    callback(@[[NSNull null], [NSNumber numberWithInt: success]]);
+    if (!ubiq){
+      callback(@[[@"iCloud container not available." copy], [NSNull null]]);
+    }
+    else {
+      NSURL *ubiquitousPackage = [ubiq URLByAppendingPathComponent:@"Documents" isDirectory:YES];
+      if ([filemgr fileExistsAtPath:[ubiquitousPackage path]] == NO)
+        [filemgr createDirectoryAtURL:ubiquitousPackage withIntermediateDirectories:YES attributes:nil error:nil];
+      NSURL *cloudURL = [ubiquitousPackage URLByAppendingPathComponent: [src lastPathComponent]];
+      
+      BOOL success = [filemgr setUbiquitous:YES itemAtURL:src destinationURL:cloudURL error:&error];
+      callback(@[[NSNull null], [NSNumber numberWithInt: success]]);
+    }
   }
   catch (TrustedHandle<Exception> e) {
     callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);

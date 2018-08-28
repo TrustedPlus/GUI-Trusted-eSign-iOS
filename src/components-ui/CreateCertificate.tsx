@@ -65,10 +65,6 @@ interface CreateCertificateProps {
 @(connect(null, mapDispatchToProps) as any)
 export class CreateCertificate extends React.Component<CreateCertificateProps, CreateCertificateState> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	constructor(props) {
 		super(props);
 		const { requestsProperties } = this.props.navigation.state.params === undefined ? false : this.props.navigation.state.params;
@@ -127,7 +123,7 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 		if (this.state.CN !== "") {
 			if (this.state.email && this.state.email.match(/^\w+@\w+\.\w{2,4}$/i) === null) {
 				this.setState({ errorInputEmail: true });
-				showToast("Поле email не корректно");
+				showToast("email должен иметь вид 'user@example.com'");
 			} else {
 				genSelfSignedCertWithoutRequest(
 					this.state.algorithm,

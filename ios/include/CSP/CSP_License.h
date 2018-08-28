@@ -8,7 +8,28 @@
 
 #import "ctlicense.h"
 
-@interface CSP_License : NSObject
+#ifndef __SET_LICENSE_H__
+#define __SET_LICENSE_H__
+#ifdef __cplusplus
+extern "C" {
+#endif
+    bool GetCurrentLicenseInfo(int * lic_type, int * expired);
+#ifdef __cplusplus
+}
+#endif
+#define LC_EXPIRED (-1)
+#define LC_INVALID_SN (-2)
+#define LC_NOT_SET (-4)
+#define LC_PERMANENT 0x10000000
+#define LC_BAD_PRODUCTID (-5)
+#endif
+
+@interface CSP_License : NSObject{
+    struct licenseValidityPeriod {
+        int code;
+        TrustedHandle<std::string> description;
+    };
+}
 
 //чтение лицензии для показа пользователю
 -(char *)getLicense;
@@ -29,6 +50,8 @@
 -(TrustedHandle<std::string>)getCPCSPLicense;
 
 -(BOOL)setCSPLicense :(char *)textLicense;
+
+-(licenseValidityPeriod)getCSPLicenseTime;
 
 @end
 

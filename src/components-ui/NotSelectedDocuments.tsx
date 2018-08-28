@@ -62,10 +62,6 @@ interface NotSelectedDocumentsState {
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class NotSelectedDocuments extends React.Component<NotSelectedDocumentsProps, NotSelectedDocumentsState> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	constructor(props) {
 		super(props);
 
@@ -180,14 +176,16 @@ export class NotSelectedDocuments extends React.Component<NotSelectedDocumentsPr
 					{viewNumSelectFiles}
 				</View>
 				{filesView}
-				<Button
-					transparent
-					style={{ position: "absolute", bottom: 60, right: 30 }}
-					onPressIn={() => this.addSelectedFilesInWorkspace()}>
-					<Image
-						style={{ width: 60, height: 60 }}
-						source={require("../../imgs/general/confirm.png")} />
-				</Button>
+				{this.state.selectedFiles.length
+					? <Button
+						transparent
+						style={{ position: "absolute", bottom: 60, right: 30 }}
+						onPressIn={() => this.addSelectedFilesInWorkspace()}>
+						<Image
+							style={{ width: 60, height: 60 }}
+							source={require("../../imgs/general/confirm.png")} />
+					</Button>
+					: null}
 			</Container>
 		);
 	}

@@ -5,7 +5,8 @@ import {
 	VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END,
 	ENCODE_FILES, ENCODE_FILES_END, DECODE_FILES, DECODE_FILES_END,
 	UPLOAD_FILES, UPLOAD_FILES_END, DELETE_FILES, DELETE_FILES_END,
-	CLEAR_FILES
+	CLEAR_FILES, FETCHING_SIGN_TRUE, FETCHING_SIGN_FALSE, FETCHING_ENC_TRUE, FETCHING_ENC_FALSE,
+	FETCHING_DOC_TRUE, FETCHING_DOC_FALSE
 } from "../constants";
 
 const initialState = {
@@ -38,6 +39,18 @@ function verySignError(oldFiles, action) {
 
 export function Files(state = initialState, action) {
 	switch (action.type) {
+		case VERIFY_SIGN:
+			return {
+				...state,
+				isFetchingSign: true,
+				isFetching: true
+			};
+		case VERIFY_SIGN:
+			return {
+				...state,
+				isFetchingSign: true,
+				isFetching: true
+			};
 		case SIGN_FILE:
 			return {
 				...state,
@@ -48,11 +61,40 @@ export function Files(state = initialState, action) {
 				...state,
 				isFetchingSign: false
 			};
+		case FETCHING_SIGN_TRUE:
+			return {
+				...state,
+				isFetchingSign: true
+			};
+		case FETCHING_SIGN_FALSE:
+			return {
+				...state,
+				isFetchingSign: false
+			};
+		case FETCHING_ENC_TRUE:
+			return {
+				...state,
+				isFetchingEnc: true
+			};
+		case FETCHING_ENC_FALSE:
+			return {
+				...state,
+				isFetchingEnc: false
+			};
+		case FETCHING_DOC_TRUE:
+			return {
+				...state,
+				isFetching: true
+			};
+		case FETCHING_DOC_FALSE:
+			return {
+				...state,
+				isFetching: false
+			};
 		case UPLOAD_FILES:
 		case DELETE_FILES:
 		case READ_FILES:
 		case ADD_FILES:
-		case VERIFY_SIGN:
 		case ENCODE_FILES:
 		case DECODE_FILES:
 			return {
@@ -100,7 +142,8 @@ export function Files(state = initialState, action) {
 			return {
 				...state,
 				files: state.files,
-				isFetching: false
+				isFetching: false,
+				isFetchingSign: false
 			};
 		case CLEAR_FILES:
 			return {

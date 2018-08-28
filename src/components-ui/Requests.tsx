@@ -45,10 +45,6 @@ const options = {
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Requests extends React.Component<RequestsProps> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	showList(requests) {
 		console.log(requests);
 		return (
@@ -56,7 +52,7 @@ export class Requests extends React.Component<RequestsProps> {
 				key={key + file.time}
 				title={file.name}
 				note={new Date(file.time).toLocaleString("ru", options)}
-				img={require("../../imgs/general/file_unknown.png")}
+				img={require("../../imgs/general/file_csr.png")}
 				selected={file.isSelected}
 				nav={() => this.props.selectedRequest(key)} />));
 	}
@@ -119,9 +115,17 @@ export class Requests extends React.Component<RequestsProps> {
 				{this.props.lengthSelectedRequests ?
 					<Footer>
 						<FooterTab>
-							<FooterButton disabled={this.props.lengthSelectedRequests !== 1} title="Создать запрос по шаблону" icon="create" nav={() => this.onPressGetRequestInfo(this.props.requests)} />
-							<FooterButton disabled={this.props.lengthSelectedRequests !== 1} title="Отправить" icon="ios-share-alt-outline" nav={() => this.uploadFile(this.props.requests)} />
-							<FooterButton title="Удалить" icon="md-trash" nav={() => this.props.deleteRequests(this.props.requests)} />
+							<FooterButton title="Создать запрос по шаблону"
+								disabled={this.props.lengthSelectedRequests !== 1}
+								img={require("../../imgs/ios/question_cert.png")}
+								nav={() => this.onPressGetRequestInfo(this.props.requests)} />
+							<FooterButton title="Отправить"
+								disabled={this.props.lengthSelectedRequests !== 1}
+								img={require("../../imgs/ios/posted.png")}
+								nav={() => this.uploadFile(this.props.requests)} />
+							<FooterButton title="Удалить"
+								img={require("../../imgs/ios/delete.png")}
+								nav={() => this.props.deleteRequests(this.props.requests)} />
 						</FooterTab>
 					</Footer> : null}
 			</Container>

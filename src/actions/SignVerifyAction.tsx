@@ -4,7 +4,8 @@ import { readFiles } from ".";
 import { showToast, showToastDanger } from "../utils/toast";
 import {
 	SIGN_FILE, SIGN_FILE_SUCCESS, SIGN_FILE_ERROR, SIGN_FILE_END,
-	VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END
+	VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END,
+	FETCHING_SIGN_TRUE, FETCHING_SIGN_FALSE, FETCHING_DOC_TRUE, FETCHING_DOC_FALSE
 } from "../constants";
 import { addSingleFileInWorkspaceSign, clearOriginalFileInWorkspaceSign, clearAllFilesinWorkspaceEnc } from "./workspaceAction";
 
@@ -322,19 +323,23 @@ export function verifySign(files: IFile[], footer) {
 										showToast("Подпись достоверна");
 										dispatch({ type: VERIFY_SIGN_SUCCESS, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll });
 									}
+									if (i === footer.arrButton.length - 1) {
+										dispatch({ type: VERIFY_SIGN_END });
+									}
 								}
 							);
 						}
 					}
 				)
 			);
-			setTimeout(() => dispatch({ type: VERIFY_SIGN_END }), 400);
 		}
 	};
 }
 
 export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 	return function action(dispatch) {
+		dispatch({ type: FETCHING_SIGN_TRUE });
+		dispatch({ type: FETCHING_DOC_TRUE });
 		dispatch(clearAllFilesinWorkspaceEnc());
 		let arrAddFilesInWorkspacwSign = [];
 		let arrDeletedFilesInWorkspacwSign = [];
@@ -371,6 +376,8 @@ export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 												dispatch(addSingleFileInWorkspaceSign(arrAddFilesInWorkspacwSign[i]));
 											}
 											clearselectedFiles();
+											dispatch({ type: FETCHING_SIGN_FALSE });
+											dispatch({ type: FETCHING_DOC_FALSE });
 										}
 									} else {
 										const request = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + "." + files[footer.arrButton[i]].extensionAll.substr(0, files[footer.arrButton[i]].extensionAll.length - 4));
@@ -413,6 +420,8 @@ export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 														dispatch(addSingleFileInWorkspaceSign(arrAddFilesInWorkspacwSign[i]));
 													}
 													clearselectedFiles();
+													dispatch({ type: FETCHING_DOC_FALSE });
+													dispatch({ type: FETCHING_SIGN_FALSE });
 												}
 											},
 											err => console.log(err)
@@ -431,6 +440,8 @@ export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 
 export function getSignInfo(files: IFile[], footer, navigate) {
 	return function action(dispatch) {
+		dispatch({ type: FETCHING_SIGN_TRUE });
+		dispatch({ type: FETCHING_DOC_TRUE });
 		let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[0]].name + "." + files[footer.arrButton[0]].extensionAll;
 		let encoding;
 		const read = RNFS.read(path, 2, 0, "utf8");
@@ -461,6 +472,8 @@ export function getSignInfo(files: IFile[], footer, navigate) {
 										navigate("AboutAllSignCert", { cert: verify });
 									}
 								}
+								dispatch({ type: FETCHING_DOC_FALSE });
+								dispatch({ type: FETCHING_SIGN_FALSE });
 							}
 						);
 					}

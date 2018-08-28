@@ -122,4 +122,27 @@ RCT_EXPORT_METHOD(setCSPLicense: (NSString *)textLicense: (RCTResponseSenderBloc
 #endif
 }
 
+/**
+ * отображение времени действия установленной лицензиии КриптоПРО
+ * @return время действия лицензии
+ */
+RCT_EXPORT_METHOD(getCSPLicenseTime: (RCTResponseSenderBlock)callback) {
+#ifdef ProvCryptoPro
+  try {
+    licenseValidityPeriod licenseTime = [csp_License getCSPLicenseTime];
+    NSMutableDictionary *mutableLicenseTime = [NSMutableDictionary dictionary];
+    mutableLicenseTime[@"code"] = @(licenseTime.code);
+    mutableLicenseTime[@"description"] = @(licenseTime.description->c_str());
+    callback(@[[NSNull null], [mutableLicenseTime copy]]);
+  }
+  catch (TrustedHandle<Exception> e) {
+    callback(@[[@((e->description()).c_str()) copy], [NSNull null]]);
+  }
+#endif
+#ifndef ProvCryptoPro
+  callback(@[[@"Provider CryptoPro not defined." copy], [NSNumber numberWithInt: 0]]);
+#endif
+}
+
+
 @end

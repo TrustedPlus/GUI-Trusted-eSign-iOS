@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as RNFS from "react-native-fs";
 import { styles } from "../styles";
+import { showToastDanger } from "../utils/toast";
 import { Headers } from "../components/Headers";
 import { Container, List, Text, View, Button, Content, Spinner } from "native-base";
 import { Image, RefreshControl, ScrollView, NativeModules } from "react-native";
@@ -61,10 +62,6 @@ interface DocumentsState {
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	constructor(props) {
 		super(props);
 
@@ -78,67 +75,78 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 	}
 
 	syncDocuments() {
+		this.setState({
+			selectedFiles: {
+				arrNum: [],
+				arrExtension: []
+			}
+		});
 		NativeModules.Wrap_Main.loadToICloud(RNFS.DocumentDirectoryPath, (veify, err) => {
-			RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
-				fileForCloud => {
-					console.log(fileForCloud);
-					for (let i = 0; i < fileForCloud.length; i++) {
-						if (fileForCloud[i].name.indexOf(".icloud") !== -1) {
-							NativeModules.Wrap_Main.downloadingFileFromiCloud(fileForCloud[i].path, (veify, err) => {
-								RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
-									newFileForCloud => console.log(newFileForCloud)
-								);
-								let correctName = fileForCloud[i].name;
-								correctName = correctName.replace(".icloud", "");
-								correctName = correctName.slice(1);
-								RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + correctName, RNFS.DocumentDirectoryPath + "/Files/" + correctName).then(
-									() => {
+			console.log(veify);
+			if (veify === "iCloud container not available.") {
+				showToastDanger("Ошибка доступа к iCloud");
+			} else {
+				RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
+					fileForCloud => {
+						console.log(fileForCloud);
+						for (let i = 0; i < fileForCloud.length; i++) {
+							if (fileForCloud[i].name.indexOf(".icloud") !== -1) {
+								NativeModules.Wrap_Main.downloadingFileFromiCloud(fileForCloud[i].path, (veify, err) => {
+									RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
+										newFileForCloud => console.log(newFileForCloud)
+									);
+									let correctName = fileForCloud[i].name;
+									correctName = correctName.replace(".icloud", "");
+									correctName = correctName.slice(1);
+									RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + correctName, RNFS.DocumentDirectoryPath + "/Files/" + correctName).then(
+										() => {
+											if (i + 1 === fileForCloud.length) {
+												this.props.readFiles();
+											}
+										}
+									);
+								});
+							} else if (fileForCloud[i].name[0] === ".") {
+								continue;
+							} else {
+								RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+									success => {
 										if (i + 1 === fileForCloud.length) {
 											this.props.readFiles();
 										}
-									}
-								);
-							});
-						} else if (fileForCloud[i].name[0] === ".") {
-							continue;
-						} else {
-							RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
-								success => {
-									if (i + 1 === fileForCloud.length) {
-										this.props.readFiles();
-									}
-								},
-								err => {
-									RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
-										() => RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
-											() => {
-												if (i + 1 === fileForCloud.length) {
-													this.props.readFiles();
+									},
+									err => {
+										RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+											() => RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+												() => {
+													if (i + 1 === fileForCloud.length) {
+														this.props.readFiles();
+													}
 												}
-											}
-										)
-									);
-								}
-							);
-						}
-					}
-					RNFS.readDir(RNFS.DocumentDirectoryPath + "/Files/").then(
-						fileForApps => {
-							console.log(fileForApps);
-							for (let i = 0; i < fileForApps.length; i++) {
-								if (fileForApps[i].name[0] === ".") {
-									continue;
-								}
-								console.log(fileForApps[i]);
-								RNFS.copyFile(fileForApps[i].path, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForApps[i].name).catch(
-									err => console.log(err.message)
+											)
+										);
+									}
 								);
 							}
 						}
-					);
-				},
-				err => console.log(err)
-			);
+						RNFS.readDir(RNFS.DocumentDirectoryPath + "/Files/").then(
+							fileForApps => {
+								console.log(fileForApps);
+								for (let i = 0; i < fileForApps.length; i++) {
+									if (fileForApps[i].name[0] === ".") {
+										continue;
+									}
+									console.log(fileForApps[i]);
+									RNFS.copyFile(fileForApps[i].path, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForApps[i].name).catch(
+										err => console.log(err.message)
+									);
+								}
+							}
+						);
+					},
+					err => console.log(err)
+				);
+			}
 		});
 	}
 
@@ -190,13 +198,13 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 	private getFilesView(files, isFetching, img, readFiles) {
 		if (files.length) {
 			return (
-				<ScrollView refreshControl={
+				<ScrollView /*refreshControl={
 					<RefreshControl
 						refreshing={isFetching}
 						onRefresh={() => {
 							readFiles();
 							this.clearselectedFiles();
-						}} />}>
+						}} />}*/>
 					<List>{this.showList(img)}</List>
 				</ScrollView>
 			);
@@ -217,6 +225,16 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 		const { navigate, goBack } = this.props.navigation;
 		const img = iconSelection(this.props.files, this.props.files.length);
 		const filesView = this.getFilesView(files, isFetching, img, readFiles);
+
+		let loader = null;
+		if (isFetching) {
+			loader = <View style={styles.loader}>
+				<View style={styles.loaderView}>
+					<Spinner color={"#be3817"} />
+					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
+				</View>
+			</View>;
+		}
 
 		let viewNumSelectFiles = null;
 		if (selectedFiles.arrNum.length) { // выбраны ли файлы
@@ -244,15 +262,18 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 						{viewNumSelectFiles}
 					</View>
 					{filesView}
-					<Button
-						transparent
-						style={{ position: "absolute", bottom: 80, right: 30 }}
-						onPressIn={() => this.documentPicker()}>
-						<Image
-							style={{ width: 60, height: 60 }}
-							source={require("../../imgs/general/add_icon.png")} />
-					</Button>
-					{selectedFiles.arrNum.length
+					{loader}
+					{isFetching
+						? null
+						: <Button
+							transparent
+							style={{ position: "absolute", bottom: 80, right: 30 }}
+							onPressIn={() => this.documentPicker()}>
+							<Image
+								style={{ width: 60, height: 60 }}
+								source={require("../../imgs/general/add_icon.png")} />
+						</Button>}
+					{selectedFiles.arrNum.length && !isFetching
 						? <FooterDoc
 							files={files}
 							selectedFiles={selectedFiles}

@@ -27,10 +27,6 @@ const options = {
 
 export class AboutSignCert extends React.Component<AboutSignCertProps, AboutSignCertState> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	constructor(props) {
 		super(props);
 

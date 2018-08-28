@@ -22,10 +22,6 @@ interface ListCertCategoryProps {
 @(connect(mapStateToProps) as any)
 export class ListCertCategory extends React.Component<ListCertCategoryProps> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	ShowList(img) {
 		const { category } = this.props.navigation.state.params;
 		return (

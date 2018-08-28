@@ -24,7 +24,6 @@
 		8442F400212ABEB2005ED466 /* Wrap_License.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8442F3D7212ABEB2005ED466 /* Wrap_License.mm */; };
 		8442F4B3212D4F9F005ED466 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8442F4A8212D4EA3005ED466 /* Ionicons.ttf */; };
 		8442F4B4212D4FA1005ED466 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8442F47A212D4E9F005ED466 /* MaterialCommunityIcons.ttf */; };
-		8442F4C2212E9BF3005ED466 /* license.enc in Resources */ = {isa = PBXBuildFile; fileRef = 8442F4C1212E9BF2005ED466 /* license.enc */; };
 		9E422A3320AAD891002883CC /* Wrap_CertRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2320AAD891002883CC /* Wrap_CertRequest.mm */; };
 		9E422A3420AAD891002883CC /* helper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2420AAD891002883CC /* helper.mm */; };
 		9E422A3520AAD891002883CC /* Wrap_Pkcs12.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2620AAD891002883CC /* Wrap_Pkcs12.mm */; };
@@ -389,7 +388,6 @@
 		8442F4AD212D4EA5005ED466 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "rubicon-icon-font.ttf"; path = "../../../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		8442F4AE212D4EA6005ED466 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = "../../../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		8442F4AF212D4EA6005ED466 /* Roboto_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Roboto_medium.ttf; path = "../../../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
-		8442F4C1212E9BF2005ED466 /* license.enc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = license.enc; path = ../../../../license.enc; sourceTree = "<group>"; };
 		9E422A2320AAD891002883CC /* Wrap_CertRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_CertRequest.mm; sourceTree = "<group>"; };
 		9E422A2420AAD891002883CC /* helper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = helper.mm; sourceTree = "<group>"; };
 		9E422A2520AAD891002883CC /* helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
@@ -691,7 +689,6 @@
 		9E422A4120AAD915002883CC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8442F4C1212E9BF2005ED466 /* license.enc */,
 				9EC1384020AEEF3D004BA671 /* splash_screen.png */,
 				9EC1384220AEEF4A004BA671 /* splash_icon.png */,
 				9EE07AD020AB043500741DC6 /* ru.lproj */,
@@ -1210,7 +1207,6 @@
 				9EE07AC520AB042000741DC6 /* CPROCertviewViewController.xib in Resources */,
 				9EC1384320AEEF4A004BA671 /* splash_icon.png in Resources */,
 				9EE07AAD20AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib in Resources */,
-				8442F4C2212E9BF3005ED466 /* license.enc in Resources */,
 				9EE07AD620AB043500741DC6 /* CP_Localizable.strings in Resources */,
 				9EE07AB820AB040600741DC6 /* MSCARequestViewController.xib in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,

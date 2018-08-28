@@ -98,6 +98,7 @@ const options = {
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class FilterJournal extends React.Component<FilterJournalProps, FilterJournalState> {
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -109,10 +110,6 @@ export class FilterJournal extends React.Component<FilterJournalProps, FilterJou
 			data2: this.props.filter.data2 ? this.props.filter.data2 : new Date(new Date().setHours(23, 59, 59, 999))
 		};
 	}
-
-	static navigationOptions = {
-		header: null
-	};
 
 	_showDateTimePicker1 = () => this.setState({ isDateTimePickerVisible1: true });
 

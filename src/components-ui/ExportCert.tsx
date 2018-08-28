@@ -22,10 +22,6 @@ interface ExportCertState {
 
 export class ExportCert extends React.Component<ExportCertProps, ExportCertState> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	constructor(props) {
 		super(props);
 		this.state = {

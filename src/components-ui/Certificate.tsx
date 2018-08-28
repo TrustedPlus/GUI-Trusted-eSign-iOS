@@ -32,10 +32,6 @@ interface CertificateProps {
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Certificate extends React.Component<CertificateProps> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	constructor(props) {
 		super(props);
 		this.props.navigation.state.key = "Home";

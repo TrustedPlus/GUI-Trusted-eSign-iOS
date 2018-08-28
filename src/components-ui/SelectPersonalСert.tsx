@@ -37,10 +37,6 @@ interface SelectPersonalСertProps {
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class SelectPersonalСert extends React.Component<SelectPersonalСertProps> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	ShowList(img) {
 		return (
 			this.props.certificates.map((cert, key) => ((cert.category.toUpperCase() === "MY") && cert.hasPrivateKey) ? <ListCert

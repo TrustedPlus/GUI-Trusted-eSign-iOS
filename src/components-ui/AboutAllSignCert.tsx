@@ -24,10 +24,6 @@ const options = {
 
 export class AboutAllSignCert extends React.Component<AboutAllSignCertProps> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	showListCert(arrCert) {
 		return (arrCert.map((cert, key, arr) =>
 			<ListMenu

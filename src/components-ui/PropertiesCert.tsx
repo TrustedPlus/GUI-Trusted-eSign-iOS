@@ -40,10 +40,6 @@ interface IModals {
 @(connect(null, mapDispatchToProps) as any)
 export class PropertiesCert extends React.Component<PropertiesCertProps, PropertiesCertState> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	private modals: IModals = {
 		basicModal: null
 	};

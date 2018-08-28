@@ -6,6 +6,7 @@ import { styles } from "../styles";
 interface HeadersProps {
 	title: string;
 	iconRight?: string;
+	imgRight?: any;
 	textRight?: string;
 	filterEnabled?: boolean;
 	type?: any;
@@ -21,12 +22,9 @@ export class Headers extends React.Component<HeadersProps> {
 			<Header style={styles.header} iosBarStyle={"light-content"}>
 				{this.props.goBack
 					? <Left>
-						<Button transparent onPress={() => this.props.goBack()} style={{ width: 60, height: 50 }}>
+						<Button transparent onPress={() => this.props.goBack()} style={{ width: 80, height: 50 }}>
 							<Icon style={{ color: "white" }} name="arrow-back" />
 						</Button>
-						{this.props.goHome ? <Button style={{ width: 50, height: 50, position: "absolute", left: 60, top: 0 }} transparent onPressIn={() => { this.props.goHome(); }} >
-							<Icon name="ios-home" style={{ color: "white" }} />
-						</Button> : null}
 					</Left>
 					: <Left></Left>}
 				<Body>
@@ -38,7 +36,13 @@ export class Headers extends React.Component<HeadersProps> {
 							<Icon type={this.props.type ? this.props.type : null} style={this.props.filterEnabled ? { color: "lightgreen", fontSize: 32 } : { color: "white", fontSize: 32 }} name={this.props.iconRight} />
 						</Button>
 					</Right>
-					: <Right></Right>}
+					: this.props.imgRight
+						? <Right>
+							<Button transparent onPress={() => this.props.goRight()}>
+								<Image style={{ width: 30, height: 30 }} source={this.props.imgRight} />
+							</Button>
+							</Right>
+						: <Right></Right>}
 			</Header>
 		);
 	}

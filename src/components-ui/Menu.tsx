@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Container, Content, List } from "native-base";
+import { NativeModules } from "react-native";
 import { StackNavigator } from "react-navigation";
 import { styles } from "../styles";
 
@@ -30,6 +31,7 @@ import { getProviders } from "../actions/getContainersAction";
 import { readCertKeys } from "../actions/certKeysAction";
 import { readFiles } from "../actions";
 import { readRequests } from "../actions/requestAction";
+import { refreshStatusLicense } from "../actions/refreshStatusAction";
 
 function mapStateToProps(state) {
 	return {
@@ -38,7 +40,8 @@ function mapStateToProps(state) {
 		certificates: state.certificates.certificates,
 		files: state.files.files,
 		lastlog: state.logger.lastlog,
-		containers: state.containers.containers
+		containers: state.containers.containers,
+		statusLicense: state.statusLicense.status
 	};
 }
 
@@ -47,7 +50,8 @@ function mapDispatchToProps(dispatch) {
 		readFiles: bindActionCreators(readFiles, dispatch),
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
 		getProviders: bindActionCreators(getProviders, dispatch),
-		readRequests: bindActionCreators(readRequests, dispatch)
+		readRequests: bindActionCreators(readRequests, dispatch),
+		refreshStatusLicense: bindActionCreators(refreshStatusLicense, dispatch)
 	};
 }
 
@@ -59,23 +63,20 @@ interface MainProps {
 	lastlog: any;
 	workspaceEnc: any;
 	workspaceSign: any;
+	statusLicense: any;
 	readCertKeys(): any;
 	readFiles(): any;
 	getProviders(): any;
 	readRequests(): any;
+	refreshStatusLicense(): any;
 }
 
 const options = {
-	year: "numeric", month: "long", day: "numeric",
-	hour: "numeric", minute: "numeric", second: "numeric"
+	year: "numeric", month: "numeric", day: "numeric",
 };
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 class Main extends React.Component<MainProps> {
-
-	static navigationOptions = {
-		header: null
-	};
 
 	render() {
 		const { navigate } = this.props.navigation;
@@ -86,6 +87,7 @@ class Main extends React.Component<MainProps> {
 		let persCert = "личных сертификатов: " + certificates.filter(cert => cert.category.toUpperCase() === "MY").length;
 		let lengthContainers = "количество контейнеров: " + containers.length;
 		let lastlognote = lastlog ? "последняя запись: " + new Date(lastlog).toLocaleString("ru", options) : "действий не совершалось";
+
 		return (
 			<Container style={styles.container}>
 				<Headers title="КриптоАРМ ГОСТ" />
@@ -103,8 +105,8 @@ class Main extends React.Component<MainProps> {
 							note={lengthContainers} nav={() => navigate("Containers", { name: "Containers" })} />
 						<ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
 							note={lastlognote} nav={() => navigate("Journal")} />
-							<ListMenu title="Лицензии" img={require("../../imgs/general/license_menu_icon.png")}
-							note={"не установлены"} nav={() => navigate("License")} />
+						<ListMenu title="Лицензии" img={require("../../imgs/general/license_menu_icon.png")}
+							note={this.props.statusLicense ? "действительные" : "ошибка при проверке"} nav={() => navigate("License")} />
 					</List>
 				</Content>
 			</Container>
@@ -116,6 +118,7 @@ class Main extends React.Component<MainProps> {
 		this.props.readCertKeys();
 		this.props.getProviders();
 		this.props.readRequests();
+		this.props.refreshStatusLicense();
 	}
 }
 
@@ -136,10 +139,15 @@ export const App = StackNavigator({
 	Requests: { screen: Requests },
 	AboutSignCert: { screen: AboutSignCert },
 	NotSelectedDocuments: { screen: NotSelectedDocuments },
-	FilterJournal: { screen: FilterJournal},
+	FilterJournal: { screen: FilterJournal },
 	AboutAllSignCert: { screen: AboutAllSignCert },
-	License: { screen: License}
-});
+	License: { screen: License },
+}, {
+		navigationOptions: {
+			gesturesEnabled: false,
+			header: null
+		}
+	});
 
 /* NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {
 			RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(

@@ -46,10 +46,6 @@ interface IModals {
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Containers extends React.Component<ContainersProps, ContainersState> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	private modals: IModals = {
 		basicModal: null
 	};
@@ -125,7 +121,7 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 				{this.state.selectedContainers.length ?
 					<Footer>
 						<FooterTab>
-							<FooterButton disabled={this.state.selectedContainers.length !== 1} title="Сертификат" icon="create" nav={
+							<FooterButton disabled={this.state.selectedContainers.length !== 1} title="Сертификат" img={require("../../imgs/ios/question_cert.png")} nav={
 								() => NativeModules.Wrap_Main.getCertInfoFromContainer(
 									this.props.containers[this.state.selectedContainers]["unique"],
 									(err, cert) => {
@@ -137,7 +133,7 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 										}
 									})} />
 							{/*<FooterButton disabled={this.state.selectedContainers.length !== 1} title="Экспорт" icon="ios-share-alt-outline" nav={() => /*this.uploadFile(this.props.containers, this.state.selectedContainers) null} />*/}
-							<FooterButton title="Удалить" icon="md-trash" nav={() => this.modals.basicModal.open()} />
+							<FooterButton title="Удалить" img={require("../../imgs/ios/delete.png")} nav={() => this.modals.basicModal.open()} />
 						</FooterTab>
 					</Footer> : null}
 				<Modal

@@ -40,10 +40,6 @@ interface SelectCertState {
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class SelectCert extends React.Component<SelectCertProps, SelectCertState> {
 
-	static navigationOptions = {
-		header: null
-	};
-
 	constructor(props) {
 		super(props);
 

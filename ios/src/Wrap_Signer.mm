@@ -94,13 +94,13 @@ RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString 
     char *outfile = (char *) [outfilename UTF8String];
     char *pFormat = (char *) [format UTF8String];
     BOOL b = false;
-    /*
+    
 #ifdef ProvOpenSSL
     try {
       b = [ossl_Signer unSign:infile :pFormat :outfile];
     }
     catch (TrustedHandle<Exception> e) {
-#endif */
+#endif
 #ifdef ProvCryptoPro
       b = [csp_Signer isDetachedSignMessage:infile :pFormat];
       if (!b) {
@@ -111,7 +111,7 @@ RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString 
         return;
       }
 #endif
-   // }
+ //   }
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
 
@@ -135,17 +135,17 @@ RCT_EXPORT_METHOD(verify: (NSString *)inputfilename: (NSString *)checkfilename: 
     char *inFileName = (char *) [checkfilename UTF8String];
     char *inFormat = (char *) [format UTF8String];
     BOOL b = false;
-    /*
+    
 #ifdef ProvOpenSSL
     try {
       b = [ossl_Signer verify:inputName :inFileName :inFormat ];
     }
     catch (TrustedHandle<Exception> e) {
-#endif */
+#endif
 #ifdef ProvCryptoPro
       b = [csp_Signer verifyCosignedMessage:inputName :inFileName :inFormat :isDetached];
 #endif
-   // }
+  //  }
     
     callback(@[[NSNull null], [NSNumber numberWithInt: b]]);
   }
@@ -168,7 +168,7 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
     char *inFileName = (char *) [checkfilename UTF8String];
     char *inFormat = (char *) [format UTF8String];
     NSMutableArray *arrayInfoAboutSigners = [NSMutableArray array];
-/*#ifdef ProvOpenSSL
+#ifdef ProvOpenSSL
     try {
       std::vector<infoStruct> vec = [ossl_Signer getSignInfo:inputFileName :inFileName :inFormat ];
       for (int i = 0; i < vec.size(); i++){
@@ -186,7 +186,7 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
       }
     }
     catch (TrustedHandle<Exception> e) {
-#endif*/
+#endif
 #ifdef ProvCryptoPro
       [arrayInfoAboutSigners removeAllObjects];
       std::vector<signInfoStruct> vec = [csp_Signer getSignInfo:inputFileName :inFileName :inFormat :isDetached];
@@ -263,7 +263,7 @@ RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilen
         [arrayInfoAboutSigners addObject: arrayInfoAboutSigner];
       }
 #endif
-   // }
+ //   }
     
     callback(@[[NSNull null], [arrayInfoAboutSigners copy]]);
   }

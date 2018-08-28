@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, View, List, Button, Text, Content, Header, Body, Title, ListItem, Right, Icon, Left } from "native-base";
+import { Container, View, List, Button, Text, Content, Header, Spinner, Title, ListItem, Right, Icon, Left } from "native-base";
 import { Image, RefreshControl, ScrollView } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
@@ -17,7 +17,8 @@ import { addFiles } from "../actions";
 function mapStateToProps(state) {
 	return {
 		personalCert: state.personalCert,
-		files: state.workspaceSign.files
+		files: state.workspaceSign.files,
+		isFetching: state.files.isFetchingSign
 	};
 }
 
@@ -43,6 +44,7 @@ interface SignatureProps {
 	navigation: any;
 	personalCert: any;
 	files: IFile[];
+	isFetching: boolean;
 	readCertKeys(): void;
 	addFiles(uri: string, fileName: string, workspace: string): void;
 }
@@ -63,10 +65,6 @@ interface IModals {
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Signature extends React.Component<SignatureProps, SignatureState> {
-
-	static navigationOptions = {
-		header: null
-	};
 
 	private modals: IModals = {
 		basicModal: null
@@ -150,12 +148,20 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 	}
 
 	render() {
-		const { files, readCertKeys, personalCert } = this.props;
+		const { files, readCertKeys, personalCert, isFetching } = this.props;
 		const { navigate, goBack } = this.props.navigation;
 
 		const img = iconSelection(files, files.length); // какое расширение у файлов
 		const filesView = this.getFilesView(files, img);
-
+		let loader = null;
+		if (isFetching) {
+			loader = <View style={styles.loader}>
+				<View style={styles.loaderView}>
+					<Spinner color={"#be3817"} />
+					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
+				</View>
+			</View>;
+		}
 		let certificate;
 		if (personalCert.title) { // выбран ли сертификат
 			certificate = <List>
@@ -186,7 +192,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Сертификат подписи</Text>
 					<Button transparent onPressIn={() => { readCertKeys(); navigate("SelectPersonalСert", { isCertInContainers: true }); }} style={styles.sign_enc_button}>
-						<Image style={styles.headerImage} source={ personalCert.hasPrivateKey ? require("../../imgs/general/change_cert.png") : require("../../imgs/general/add_icon.png")} />
+						<Image style={styles.headerImage} source={personalCert.hasPrivateKey ? require("../../imgs/general/change_cert.png") : require("../../imgs/general/add_icon.png")} />
 					</Button>
 				</View>
 				{certificate}
@@ -198,6 +204,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 					</Button>
 				</View>
 				{filesView}
+				{loader}
 				<Modal
 					ref={ref => this.modals.basicModal = ref}
 					style={[styles.modal, {
@@ -242,7 +249,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 						</View>
 					</View>
 				</Modal>
-				{this.state.selectedFiles.arrNum.length
+				{this.state.selectedFiles.arrNum.length && !isFetching
 					? <FooterSign
 						files={files}
 						personalCert={personalCert}

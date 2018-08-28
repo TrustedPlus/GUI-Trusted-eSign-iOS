@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Container, Content, Text, Footer, FooterTab, List, ListItem, Left, Button, Icon, Body, Right, Spinner } from "native-base";
+import { Container, Content, Text, Footer, FooterTab, List, ListItem, Left, Button, Icon, Body, Right, Spinner, Header, Title } from "native-base";
 import { Image, View } from "react-native";
 import { Headers } from "../components/Headers";
 import { FooterButton } from "../components/FooterButton";
 import { styles } from "../styles";
+import * as Modal from "react-native-modalbox";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -62,11 +63,15 @@ const optionsData = {
 	year: "numeric", month: "long", day: "numeric",
 };
 
+interface IModals {
+	basicModal: Modal.default;
+}
+
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Journal extends React.Component<JournalProps, JournalState> {
 
-	static navigationOptions = {
-		header: null
+	private modals: IModals = {
+		basicModal: null
 	};
 
 	constructor(props) {
@@ -167,8 +172,8 @@ export class Journal extends React.Component<JournalProps, JournalState> {
 							<Left>
 								<Button transparent primary>
 									{log.status
-										? <Image style={{width: 25, height: 25}} source={require("../../imgs/ios/ok.png")}/>
-										: <Image style={{width: 25, height: 25}} source={require("../../imgs/ios/error.png")}/>}
+										? <Image style={{ width: 25, height: 25 }} source={require("../../imgs/ios/ok.png")} />
+										: <Image style={{ width: 25, height: 25 }} source={require("../../imgs/ios/error.png")} />}
 								</Button>
 							</Left>
 							<Body>
@@ -191,7 +196,7 @@ export class Journal extends React.Component<JournalProps, JournalState> {
 					title="Журнал операций"
 					goBack={() => goBack()}
 					filterEnabled={this.props.filter.filterEnabled}
-					iconRight={"ios-cog"}
+					imgRight={this.props.filter.filterEnabled ? require("../../imgs/general/filter_on.png") : require("../../imgs/general/filter_off.png")}
 					goRight={() => navigate("FilterJournal")} />
 				{this.state.loadingJournal
 					? log.length
@@ -211,9 +216,46 @@ export class Journal extends React.Component<JournalProps, JournalState> {
 						<Spinner color={"#be3817"} />
 					</View>
 				}
+				<Modal
+					ref={ref => this.modals.basicModal = ref}
+					style={[styles.modal, {
+						height: "auto",
+						width: 300,
+						backgroundColor: "white",
+					}]}
+					position={"center"}
+					swipeToClose={false}>
+					<View style={{ width: "100%" }}>
+						<Header
+							style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+							<Title>
+								<Text style={{
+									color: "white",
+									fontSize: 15
+								}}>Очистка журнала</Text>
+							</Title>
+						</Header>
+						<View style={{
+								padding: 15, height: 70
+							}}>
+							<Text style={{
+								color: "grey",
+								fontSize: 15
+							}}>Выполнить удаление всех записей операций?</Text>
+						</View>
+						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
+							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => this.modals.basicModal.close()}>
+								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
+							</Button>
+							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => { this.modals.basicModal.close(); clearLog(); }}>
+								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Да</Text>
+							</Button>
+						</View>
+					</View>
+				</Modal>
 				<Footer>
 					<FooterTab>
-						<FooterButton title="Очистить" icon="md-trash" nav={() => clearLog()} />
+						<FooterButton title="Очистить" icon="md-trash" nav={() => this.modals.basicModal.open()} />
 					</FooterTab>
 				</Footer>
 			</Container>

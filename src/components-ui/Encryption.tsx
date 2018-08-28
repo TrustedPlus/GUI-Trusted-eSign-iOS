@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, View, List, Button, Text, Content, Header, Body, Title, ListItem, Right, Icon, Left } from "native-base";
+import { Container, View, List, Button, Text, Content, Header, Spinner, Title, ListItem, Right, Icon, Left } from "native-base";
 import { Image, RefreshControl, ScrollView, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
@@ -18,7 +18,8 @@ import { readFiles, addFiles } from "../actions";
 function mapStateToProps(state) {
 	return {
 		files: state.workspaceEnc.files,
-		otherCert: state.otherCert
+		otherCert: state.otherCert,
+		isFetching: state.files.isFetchingEnc
 	};
 }
 
@@ -44,6 +45,7 @@ interface EncryptionProps {
 	navigation: any;
 	otherCert: any;
 	files: IFile[];
+	isFetching: boolean;
 	readCertKeys(): void;
 	addFiles(uri: string, fileName: string, workspace: string): void;
 }
@@ -64,10 +66,6 @@ interface IModals {
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Encryption extends React.Component<EncryptionProps, EncryptionState> {
-
-	static navigationOptions = {
-		header: null
-	};
 
 	private modals: IModals = {
 		basicModal: null
@@ -174,8 +172,18 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 	}
 
 	render() {
-		const { files, readCertKeys, otherCert } = this.props;
+		const { files, readCertKeys, otherCert, isFetching } = this.props;
 		const { navigate, goBack } = this.props.navigation;
+
+		let loader = null;
+		if (isFetching) {
+			loader = <View style={styles.loader}>
+				<View style={styles.loaderView}>
+					<Spinner color={"#be3817"} />
+					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
+				</View>
+			</View>;
+		}
 
 		let certificate;
 		if (otherCert.arrEncCertificates.length) { // выбран ли сертификат
@@ -225,6 +233,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 					</Button>
 				</View>
 				{filesView}
+				{loader}
 				<Modal
 					ref={ref => this.modals.basicModal = ref}
 					style={[styles.modal, {
@@ -269,7 +278,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 						</View>
 					</View>
 				</Modal>
-				{this.state.selectedFiles.arrNum.length
+				{this.state.selectedFiles.arrNum.length && !isFetching
 					? <FooterEnc
 						files={files}
 						otherCert={otherCert}

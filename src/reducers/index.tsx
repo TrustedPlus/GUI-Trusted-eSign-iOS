@@ -10,6 +10,7 @@ import { requests } from "./requestReducer";
 import { workspaceSign } from "./workspaceSign";
 import { workspaceEnc } from "./workspaceEnc";
 import { filter } from "./filterReducers";
+import { statusLicense } from "./refreshStatusReducer";
 
 const rootReducer = combineReducers({
 	// footer: Footer,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
 	requests: requests,
 	workspaceSign: workspaceSign,
 	workspaceEnc: workspaceEnc,
-	filter: filter
+	filter: filter,
+	statusLicense: statusLicense
 });
 
 export default rootReducer;

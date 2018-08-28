@@ -4,7 +4,8 @@ import { readFiles } from ".";
 import { showToast, showToastDanger } from "../utils/toast";
 import {
 	ENCODE_FILES, ENCODE_FILES_SUCCESS, ENCODE_FILES_ERROR, ENCODE_FILES_END,
-	DECODE_FILES, DECODE_FILES_SUCCESS, DECODE_FILES_ERROR, DECODE_FILES_END
+	DECODE_FILES, DECODE_FILES_SUCCESS, DECODE_FILES_ERROR, DECODE_FILES_END,
+	FETCHING_ENC_TRUE, FETCHING_ENC_FALSE, FETCHING_DOC_TRUE, FETCHING_DOC_FALSE
 } from "../constants";
 import { addSingleFileInWorkspaceEnc, clearOriginalFileInWorkspaceEnc, clearAllFilesinWorkspaceSign } from "./workspaceAction";
 
@@ -20,6 +21,7 @@ interface IFile {
 
 export function encAssymmetric(files: IFile[], otherCert, footer, signature, deleteAfter, clearselectedFiles) {
 	return function action(dispatch) {
+		dispatch({ type: FETCHING_ENC_TRUE });
 		dispatch(clearAllFilesinWorkspaceSign());
 		let arrAddFilesInWorkspacwEnc = [];
 		let arrDeletedFilesInWorkspacwEnc = [];
@@ -57,6 +59,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 										for (let i = 0; i < arrAddFilesInWorkspacwEnc.length; i++) {
 											dispatch(addSingleFileInWorkspaceEnc(arrAddFilesInWorkspacwEnc[i]));
 										}
+										dispatch({ type: FETCHING_ENC_FALSE });
 										clearselectedFiles();
 									}
 									dispatch({ type: ENCODE_FILES_ERROR, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll, err });
@@ -99,6 +102,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 												for (let i = 0; i < arrAddFilesInWorkspacwEnc.length; i++) {
 													dispatch(addSingleFileInWorkspaceEnc(arrAddFilesInWorkspacwEnc[i]));
 												}
+												dispatch({ type: FETCHING_ENC_FALSE });
 												clearselectedFiles();
 											}
 										},
@@ -121,7 +125,8 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 
 export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Function) {
 	return function action(dispatch) {
-		dispatch({ type: DECODE_FILES });
+		dispatch({ type: FETCHING_DOC_TRUE });
+		dispatch({ type: FETCHING_ENC_TRUE });
 		dispatch(clearAllFilesinWorkspaceSign());
 		let arrAddFilesInWorkspacwEnc = [];
 		let arrDeletedFilesInWorkspacwEnc = [];
@@ -165,6 +170,8 @@ export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Funct
 											for (let i = 0; i < arrAddFilesInWorkspacwEnc.length; i++) {
 												dispatch(addSingleFileInWorkspaceEnc(arrAddFilesInWorkspacwEnc[i]));
 											}
+											dispatch({ type: FETCHING_ENC_FALSE });
+											dispatch({ type: FETCHING_DOC_FALSE });
 											clearselectedFiles();
 										}
 										dispatch({ type: DECODE_FILES_ERROR, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll, err });
@@ -209,6 +216,8 @@ export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Funct
 													for (let i = 0; i < arrAddFilesInWorkspacwEnc.length; i++) {
 														dispatch(addSingleFileInWorkspaceEnc(arrAddFilesInWorkspacwEnc[i]));
 													}
+													dispatch({ type: FETCHING_ENC_FALSE });
+													dispatch({ type: FETCHING_DOC_FALSE });
 													clearselectedFiles();
 												}
 											},
@@ -219,7 +228,6 @@ export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Funct
 									}
 								}
 							);
-							dispatch({ type: DECODE_FILES_END });
 						}
 					);
 				}

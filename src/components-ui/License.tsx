@@ -7,9 +7,20 @@ import { FooterButton } from "../components/FooterButton";
 import { Image, NativeModules, Alert, AlertIOS } from "react-native";
 import { showToast, showToastDanger } from "../utils/toast";
 
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { refreshStatusLicense } from "../actions/refreshStatusAction";
+
+function mapDispatchToProps(dispatch) {
+	return {
+		refreshStatusLicense: bindActionCreators(refreshStatusLicense, dispatch)
+	};
+}
+
 interface LicenseProps {
 	navigation: any;
 	goBack: void;
+	refreshStatusLicense(): any;
 }
 
 interface LicenseState {
@@ -19,6 +30,7 @@ interface LicenseState {
 	CSPCoreVersion: string;
 	validityTimeOfLicense: number;
 	validityCSPLicense: string;
+	CSPLicenseTime: { code: number, description: string };
 }
 
 const options = {
@@ -26,11 +38,8 @@ const options = {
 	hour: "numeric", minute: "numeric", second: "numeric"
 };
 
+@(connect(null, mapDispatchToProps) as any)
 export class License extends React.Component<LicenseProps, LicenseState> {
-
-	static navigationOptions = {
-		header: null
-	};
 
 	constructor(props) {
 		super(props);
@@ -41,7 +50,10 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 			CSPVersion: null,
 			CSPCoreVersion: null,
 			validityTimeOfLicense: null,
-			validityCSPLicense: ""
+			validityCSPLicense: "",
+			CSPLicenseTime: {
+				code: 0, description: ""
+			}
 		};
 	}
 
@@ -69,6 +81,7 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 								showToast("Лицензии успешно установлены");
 							}
 						}
+						this.props.refreshStatusLicense();
 						NativeModules.Wrap_License.getValidityTimeOfLicense(
 							(err, label) => {
 								this.setState({ validityTimeOfLicense: label });
@@ -77,67 +90,86 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 							(err, label) => {
 								this.setState({ validityCSPLicense: label });
 							});
+						NativeModules.Wrap_License.getCSPLicenseTime(
+							(err, label) => {
+								this.setState({ CSPLicenseTime: label });
+							});
 					});
 			});
 	}
 
 	render() {
 		const { navigate, goBack } = this.props.navigation;
+		console.log(this.state.CSPLicenseTime);
 		return (
 			<Container style={styles.container}>
 				<Headers title="Лицензии" goBack={() => goBack()} />
 				<Content style={{ backgroundColor: "white" }}>
-					<View>
-						<Image style={styles.prop_cert_img} source={require("../../imgs/general/splash_icon.png")} />
-						<Text style={styles.prop_cert_title}>КриптоАРМ ГОСТ</Text>
-						<Text style={styles.prop_cert_status}>версия: 1.0.0</Text>
+					<View style={{ padding: 15 }}>
+						<Image style={{ height: 70, width: 70, position: "absolute", right: 15, top: 15 }} source={require("../../imgs/general/splash_icon.png")} />
+						<Text style={{ fontSize: 20 }}>КриптоАРМ ГОСТ{"\n"}</Text>
+						<Text style={{ fontSize: 17, color: "grey" }}>ООО «Цифровые технологии»{"\n"}версия: 1.0.0</Text>
 					</View>
-					<Form>
-						<Item stackedLabel>
-							<Label>Лицензия</Label>
-							<Input
-								placeholder={"Введите ключ лицензии"}
-								placeholderTextColor={"lightgrey"}
-								value={this.state.keylicenseApp}
-								onChangeText={(keylicense) => this.setState({ keylicenseApp: keylicense })} />
-						</Item>
-					</Form>
+					<View style={{ paddingLeft: 15, paddingRight: 15 }}>
+						<Text style={{ color: "grey" }}>Лицензия</Text>
+						<Form>
+							<Item regular>
+								<Input
+									placeholder={"Введите ключ лицензии"}
+									placeholderTextColor={"lightgrey"}
+									value={this.state.keylicenseApp}
+									onChangeText={(keylicense) => this.setState({ keylicenseApp: keylicense })} />
+							</Item>
+						</Form>
+					</View>
 					<View style={{ padding: 15 }}>
 						<Text style={{ color: "grey" }}>Статус:
 							{this.state.validityTimeOfLicense
-								? <Text style={{ color: "green" }}> действителен</Text>
-								: <Text style={{ color: "red" }}> недействителен</Text>
+								? <Text style={{ color: "green" }}> действительная</Text>
+								: <Text style={{ color: "red" }}> недействительная</Text>
 							}</Text>
 						{this.state.validityTimeOfLicense
 							? <Text style={{ color: "grey" }}>Срок действия:
-							{this.state.validityTimeOfLicense === 1543017600
+								{this.state.validityTimeOfLicense === 1543017600
 									? <Text style={{ color: "green" }}> бессрочная</Text>
 									: <Text style={{ color: "red" }}> до: {new Date(this.state.validityTimeOfLicense).toLocaleString("ru", options)}</Text>
-								}</Text>
+								}
+							</Text>
 							: null
 						}
 					</View>
-					<View>
-						<Image style={[styles.prop_cert_img, { width: 160 }]} source={require("../../imgs/general/cryptopro.png")} />
-						<Text style={[styles.prop_cert_title, { left: 200 }]}>КриптоПро CSP</Text>
-						<Text style={[styles.prop_cert_status, { left: 200 }]}>версия: {this.state.CSPVersion}</Text>
+					<View style={{ height: 1, backgroundColor: "#be3817" }}></View>
+					<View style={{ padding: 15 }}>
+						<Image style={{ height: 70, width: 160, position: "absolute", right: 15, top: 15 }} source={require("../../imgs/general/cryptopro.png")} />
+						<Text style={{ fontSize: 20 }}>КриптоПро CSP{"\n"}</Text>
+						<Text style={{ fontSize: 17, color: "grey" }}>ООО «КРИПТО-ПРО»{"\n"}версия: {this.state.CSPVersion}</Text>
 					</View>
-					<Form>
-						<Item stackedLabel>
-							<Label>Лицензия</Label>
-							<Input
-								placeholder={"Введите ключ лицензии"}
-								placeholderTextColor={"lightgrey"}
-								value={this.state.keylicenseCryptoPro}
-								onChangeText={(keylicense) => this.setState({ keylicenseCryptoPro: keylicense })} />
-						</Item>
-					</Form>
+					<View style={{ paddingLeft: 15, paddingRight: 15 }}>
+						<Text style={{ color: "grey" }}>Лицензия</Text>
+						<Form>
+							<Item regular>
+								<Input
+									placeholder={"Введите ключ лицензии"}
+									placeholderTextColor={"lightgrey"}
+									value={this.state.keylicenseCryptoPro}
+									onChangeText={(keylicense) => this.setState({ keylicenseCryptoPro: keylicense })} />
+							</Item>
+						</Form>
+					</View>
 					<View style={{ padding: 15 }}>
 						<Text style={{ color: "grey" }}>Статус:
 							{this.state.validityCSPLicense ?
-								<Text style={{ color: "green" }}> действителен</Text>
-								: <Text style={{ color: "red" }}> недействителен</Text>}
+								<Text style={{ color: "green" }}> действительная</Text>
+								: <Text style={{ color: "red" }}> недействительная</Text>}
 						</Text>
+						{this.state.CSPLicenseTime.code > 0
+							? <Text style={{ color: "grey" }}>Срок действия:
+						{this.state.CSPLicenseTime.description === "Permanent license."
+									? <Text style={{ color: "green" }}> бессрочная</Text>
+									: <Text style={{ color: "red" }}> до: {new Date(this.state.CSPLicenseTime.code).toLocaleString("ru", options)}</Text>
+								}
+							</Text>
+							: null}
 					</View>
 				</Content>
 				<Footer>
@@ -161,7 +193,7 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 					RNFS.readFile(RNFS.DocumentDirectoryPath + "/cprocsp/etc/license.ini")
 						.then((success) => {
 							let index = success.indexOf("ProductID = ");
-							this.setState({ keylicenseCryptoPro: success.substring(index + 13, success.length - 2)});
+							this.setState({ keylicenseCryptoPro: success.substring(index + 13, success.length - 2) });
 						})
 						.catch((err) => {
 							console.log(err.message);
@@ -195,5 +227,11 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 					this.setState({ validityCSPLicense: label });
 				}
 			});
+		// возвращает время действия лицензии КриптоПро
+		NativeModules.Wrap_License.getCSPLicenseTime(
+			(err, label) => {
+				this.setState({ CSPLicenseTime: label });
+			});
+		this.props.refreshStatusLicense();
 	}
 }

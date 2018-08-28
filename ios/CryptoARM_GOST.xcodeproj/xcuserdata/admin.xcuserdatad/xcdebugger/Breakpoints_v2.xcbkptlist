@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/Wrap_Signer.mm"
-            timestampString = "557132846.221011"
+            timestampString = "557140255.351318"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "192"
             endingLineNumber = "192"
-            landmarkName = "RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilename: (NSString *)format: (BOOL)isDetached: (RCTResponseSenderBlock)callback)"
+            landmarkName = "RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString *)outfilename:(RCTResponseSenderBlock)callback)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/Wrap_Signer.mm"
-            timestampString = "557132846.2211111"
+            timestampString = "557140255.3515069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "20"
@@ -42,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/Wrap_Signer.mm"
-            timestampString = "557132846.221198"
+            timestampString = "557140255.351599"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "225"
             endingLineNumber = "225"
-            landmarkName = "RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilename: (NSString *)format: (BOOL)isDetached: (RCTResponseSenderBlock)callback)"
+            landmarkName = "RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString *)outfilename:(RCTResponseSenderBlock)callback)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -298,12 +298,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/Wrap_Signer.mm"
-            timestampString = "557132846.221833"
+            timestampString = "557140255.352277"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "174"
             endingLineNumber = "174"
-            landmarkName = "RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilename: (NSString *)format: (BOOL)isDetached: (RCTResponseSenderBlock)callback)"
+            landmarkName = "RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString *)outfilename:(RCTResponseSenderBlock)callback)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -314,12 +314,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/Wrap_Signer.mm"
-            timestampString = "557132846.2219141"
+            timestampString = "557140255.352402"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "173"
             endingLineNumber = "173"
-            landmarkName = "RCT_EXPORT_METHOD(getSignInfo: (NSString *)inputfilename: (NSString *)checkfilename: (NSString *)format: (BOOL)isDetached: (RCTResponseSenderBlock)callback)"
+            landmarkName = "RCT_EXPORT_METHOD(unSign: (NSString *)infilename: (NSString *)format: (NSString *)outfilename:(RCTResponseSenderBlock)callback)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -352,6 +352,54 @@
             startingLineNumber = "1110"
             endingLineNumber = "1110"
             landmarkName = "-getSignInfo::::"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Wrap_Signer.mm"
+            timestampString = "557140255.3526061"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "RCT_EXPORT_METHOD(coSign: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (NSString *)inputFile: (NSString *)signFile: (NSString *)format: (BOOL)isDetached: (RCTResponseSenderBlock)callback)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/Wrap_Signer.mm"
+            timestampString = "557140255.352798"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "RCT_EXPORT_METHOD(coSign: (NSString *)serialNumber: (NSString *)category: (NSString *)provider: (NSString *)inputFile: (NSString *)signFile: (NSString *)format: (BOOL)isDetached: (RCTResponseSenderBlock)callback)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../Downloads/Core_mobile_ios-master 5/CSP/src/CSP_Signer.mm"
+            timestampString = "557140255.352931"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "230"
+            endingLineNumber = "230"
+            landmarkName = "-cosignMessage::::::"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

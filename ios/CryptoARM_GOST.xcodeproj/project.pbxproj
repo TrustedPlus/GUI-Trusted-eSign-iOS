@@ -32,7 +32,6 @@
 		9E422A3820AAD891002883CC /* Wrap_Cipher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2F20AAD891002883CC /* Wrap_Cipher.mm */; };
 		9E422A3A20AAD891002883CC /* Wrap_Cert.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A3220AAD891002883CC /* Wrap_Cert.mm */; };
 		9E422A3D20AAD8DF002883CC /* libCSP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3B20AAD8DF002883CC /* libCSP.a */; };
-		9E422A3E20AAD8DF002883CC /* libOSSL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3C20AAD8DF002883CC /* libOSSL.a */; };
 		9E422A4020AAD8E8002883CC /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3F20AAD8E8002883CC /* CPROCSP.framework */; };
 		9E422B1020AAD9C8002883CC /* librdrpcsc_empty.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */; };
 		9EC1384120AEEF3E004BA671 /* splash_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC1384020AEEF3D004BA671 /* splash_screen.png */; };
@@ -403,7 +402,6 @@
 		9E422A3120AAD891002883CC /* Wrap_Main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_Main.h; sourceTree = "<group>"; };
 		9E422A3220AAD891002883CC /* Wrap_Cert.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_Cert.mm; sourceTree = "<group>"; };
 		9E422A3B20AAD8DF002883CC /* libCSP.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCSP.a; path = libs/libCSP.a; sourceTree = "<group>"; };
-		9E422A3C20AAD8DF002883CC /* libOSSL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOSSL.a; path = libs/libOSSL.a; sourceTree = "<group>"; };
 		9E422A3F20AAD8E8002883CC /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CPROCSP.framework; sourceTree = "<group>"; };
 		9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
 		9E422B5020AAE711002883CC /* CryptoARM_GOST.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CryptoARM_GOST.entitlements; path = CryptoARM_GOST/CryptoARM_GOST.entitlements; sourceTree = "<group>"; };
@@ -452,7 +450,6 @@
 				9E422B1020AAD9C8002883CC /* librdrpcsc_empty.o in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
-				9E422A3E20AAD8DF002883CC /* libOSSL.a in Frameworks */,
 				9E422A4020AAD8E8002883CC /* CPROCSP.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
@@ -585,7 +582,6 @@
 				9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */,
 				9E422A3F20AAD8E8002883CC /* CPROCSP.framework */,
 				9E422A3B20AAD8DF002883CC /* libCSP.a */,
-				9E422A3C20AAD8DF002883CC /* libOSSL.a */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 			);
 			name = Frameworks;

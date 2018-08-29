@@ -74,9 +74,9 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 	showList() {
 		if (this.props.containers[0]) {
 			return (this.props.containers.map((containers, key) => <ListMenu
-				styleImg={{width: 40, height: 40}}
-				styleText={{fontSize: 13}}
-				key={key}
+				styleImg={{ width: 40, height: 40 }}
+				styleText={{ fontSize: 13 }}
+				key={key + containers.container}
 				note={"HDIMAGE"}
 				title={containers.container}
 				img={require("../../imgs/general/key_icon.png")}
@@ -155,12 +155,12 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 								}}>Удаление контейнера</Text>
 							</Title>
 						</Header>
-						<ListWithSwitch styletext={{fontSize: 13}} text="Удалить по возможности вместе с сертификатом" value={this.state.deleteCert} changeValue={() => this.setState({ deleteCert: !this.state.deleteCert })} />
-						<View style={{display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%"}}>
-							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => this.modals.basicModal.close()}>
+						<ListWithSwitch styletext={{ fontSize: 13 }} text="Удалить по возможности вместе с сертификатом" value={this.state.deleteCert} changeValue={() => this.setState({ deleteCert: !this.state.deleteCert })} />
+						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
+							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => this.modals.basicModal.close()}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
 							</Button>
-							<Button transparent style={{display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0}} onPress={() => {
+							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => {
 								this.deleteContainers();
 							}}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>

@@ -131,8 +131,8 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 						{this.state.validityTimeOfLicense
 							? <Text style={{ color: "grey" }}>Срок действия:
 								{this.state.validityTimeOfLicense === 1543017600
-									? <Text style={{ color: "green" }}> бессрочная</Text>
-									: <Text style={{ color: "red" }}> до: {new Date(this.state.validityTimeOfLicense).toLocaleString("ru", options)}</Text>
+									? <Text> бессрочная</Text>
+									: <Text> до {new Date(this.state.validityTimeOfLicense).toLocaleString("ru", options)}</Text>
 								}
 							</Text>
 							: null
@@ -165,8 +165,8 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 						{this.state.CSPLicenseTime.code > 0
 							? <Text style={{ color: "grey" }}>Срок действия:
 						{this.state.CSPLicenseTime.description === "Permanent license."
-									? <Text style={{ color: "green" }}> бессрочная</Text>
-									: <Text style={{ color: "red" }}> до: {new Date(this.state.CSPLicenseTime.code).toLocaleString("ru", options)}</Text>
+									? <Text> бессрочная</Text>
+									: <Text> до {new Date(this.state.CSPLicenseTime.code * 86400000 + new Date().getTime()).toLocaleString("ru", options)}</Text>
 								}
 							</Text>
 							: null}

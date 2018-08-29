@@ -51,7 +51,7 @@ interface DocumentsProps {
 	files: IFile[];
 	isFetching: boolean;
 	readFiles(): void;
-	addFiles(uri: string, fileName: string): void;
+	addFiles(uri: string, fileName: string, workspace: string, refreshDoc: Function): void;
 }
 
 interface DocumentsState {
@@ -182,7 +182,15 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 		DocumentPicker.show({
 			filetype: ["public.item"]
 		}, (error: any, res: any) => {
-			this.props.addFiles(res.uri, res.fileName);
+			this.props.addFiles(res.uri, res.fileName, null, () => {
+				this.setState({
+					selectedFiles: {
+						arrNum: [],
+						arrExtension: []
+					}
+				});
+			});
+
 		});
 	}
 

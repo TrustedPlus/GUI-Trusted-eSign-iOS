@@ -138,7 +138,7 @@ export function clearLog() {
 	};
 }
 
-export function addFiles(uri, fileName, workspace) {
+export function addFiles(uri, fileName, workspace, refreshDoc) {
 	return function action(dispatch) {
 		dispatch({ type: ADD_FILES });
 		let point, name;
@@ -190,6 +190,7 @@ export function addFiles(uri, fileName, workspace) {
 					);
 				}
 				dispatch(readFiles());
+				refreshDoc();
 			},
 			err => {
 				dispatch({ type: ADD_FILES_ERROR, payload: fileName, err });

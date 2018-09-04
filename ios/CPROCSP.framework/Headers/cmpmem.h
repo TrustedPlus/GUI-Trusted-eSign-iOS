@@ -14,9 +14,9 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 148173 $
- * \date $Date:: 2016-11-07 00:01:43 +0400#$
- * \author $Author: raa $
+ * \version $Revision: 126987 $
+ * \date $Date:: 2015-09-08 17:51:58 +0400#$
+ * \author $Author: pav $
  *
  * \brief Краткое описание модуля.
  *

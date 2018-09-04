@@ -6,7 +6,6 @@
  */
 #include <vector>
 #include <string>
-#include<CPROCSP/WinCryptEx.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,6 +16,6 @@ unsigned int delete_gost2001_containers(void);
 }
 #endif
 
-DWORD EnumCerts(std::vector<std::string>& RDN, std::vector<std::string>& notBefore, 
+int EnumCerts(std::vector<std::string>& RDN, std::vector<std::string>& notBefore, 
       std::vector<std::string>& notAfter, std::vector<std::string>& thumbprint );
 

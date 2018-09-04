@@ -40,15 +40,15 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Ata-1B-hVu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="4NO-GG-hp0"/>
-                <constraint firstItem="Ata-1B-hVu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="9TS-Mw-9M0"/>
+                <constraint firstAttribute="bottom" secondItem="Ata-1B-hVu" secondAttribute="bottom" id="15F-p7-FFq"/>
                 <constraint firstItem="af0-Mi-yPv" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="A7C-m8-QhF"/>
-                <constraint firstAttribute="trailing" secondItem="Ata-1B-hVu" secondAttribute="trailing" id="P3X-92-yO4"/>
                 <constraint firstItem="tfF-uI-dj2" firstAttribute="top" secondItem="af0-Mi-yPv" secondAttribute="bottom" constant="20.5" id="S6S-QV-SZo"/>
-                <constraint firstAttribute="bottom" secondItem="Ata-1B-hVu" secondAttribute="bottom" id="Ze8-3I-qTN"/>
+                <constraint firstAttribute="trailing" secondItem="Ata-1B-hVu" secondAttribute="trailing" id="YAN-tD-kSr"/>
+                <constraint firstItem="Ata-1B-hVu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="drA-9X-ZwK"/>
                 <constraint firstItem="af0-Mi-yPv" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="gRS-UK-xmy"/>
                 <constraint firstItem="af0-Mi-yPv" firstAttribute="top" secondItem="OJt-Q4-bfB" secondAttribute="bottom" constant="49" id="inG-li-GVC"/>
                 <constraint firstItem="tfF-uI-dj2" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="qar-DG-hcp"/>
+                <constraint firstItem="Ata-1B-hVu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="sgU-My-3x9"/>
                 <constraint firstItem="OJt-Q4-bfB" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="xFO-oe-1hO"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>

@@ -23,7 +23,9 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8442F400212ABEB2005ED466 /* Wrap_License.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8442F3D7212ABEB2005ED466 /* Wrap_License.mm */; };
 		8442F4B3212D4F9F005ED466 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8442F4A8212D4EA3005ED466 /* Ionicons.ttf */; };
-		8442F4B4212D4FA1005ED466 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8442F47A212D4E9F005ED466 /* MaterialCommunityIcons.ttf */; };
+		84CE3AB42136DBA8005EB1A4 /* splash_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CE3AB12136DBA8005EB1A4 /* splash_icon.png */; };
+		84CE3AB52136DC09005EB1A4 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84CE3AAE2136DB7C005EB1A4 /* MaterialCommunityIcons.ttf */; };
+		84CE3AB82136DD55005EB1A4 /* splash_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CE3AB62136DD55005EB1A4 /* splash_screen.png */; };
 		9E422A3320AAD891002883CC /* Wrap_CertRequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2320AAD891002883CC /* Wrap_CertRequest.mm */; };
 		9E422A3420AAD891002883CC /* helper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2420AAD891002883CC /* helper.mm */; };
 		9E422A3520AAD891002883CC /* Wrap_Pkcs12.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A2620AAD891002883CC /* Wrap_Pkcs12.mm */; };
@@ -34,8 +36,6 @@
 		9E422A3D20AAD8DF002883CC /* libCSP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3B20AAD8DF002883CC /* libCSP.a */; };
 		9E422A4020AAD8E8002883CC /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3F20AAD8E8002883CC /* CPROCSP.framework */; };
 		9E422B1020AAD9C8002883CC /* librdrpcsc_empty.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */; };
-		9EC1384120AEEF3E004BA671 /* splash_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC1384020AEEF3D004BA671 /* splash_screen.png */; };
-		9EC1384320AEEF4A004BA671 /* splash_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC1384220AEEF4A004BA671 /* splash_icon.png */; };
 		9EE07A9D20AB03E000741DC6 /* TemplateSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */; };
 		9EE07A9E20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */; };
 		9EE07AA120AB03E800741DC6 /* SelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9F20AB03E800741DC6 /* SelectionViewController.xib */; };
@@ -372,21 +372,21 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8442F3D7212ABEB2005ED466 /* Wrap_License.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_License.mm; sourceTree = "<group>"; };
 		8442F3FF212ABEB2005ED466 /* Wrap_License.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_License.h; sourceTree = "<group>"; };
-		8442F47A212D4E9F005ED466 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
 		8442F4A2212D4EA0005ED466 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../../../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		8442F4A3212D4EA0005ED466 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../../../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		8442F4A4212D4EA1005ED466 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = EvilIcons.ttf; path = "../../../node_modules/native-base/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		8442F4A5212D4EA2005ED466 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
 		8442F4A6212D4EA2005ED466 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialIcons.ttf; path = "../../../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		8442F4A7212D4EA3005ED466 /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Foundation.ttf; path = "../../../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		8442F4A8212D4EA3005ED466 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../../../node_modules/native-base/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		8442F4A9212D4EA3005ED466 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SimpleLineIcons.ttf; path = "../../../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
-		8442F4AA212D4EA4005ED466 /* OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		8442F4AB212D4EA5005ED466 /* Roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Roboto.ttf; path = "../../../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
 		8442F4AC212D4EA5005ED466 /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Entypo.ttf; path = "../../../node_modules/native-base/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		8442F4AD212D4EA5005ED466 /* rubicon-icon-font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "rubicon-icon-font.ttf"; path = "../../../node_modules/native-base/Fonts/rubicon-icon-font.ttf"; sourceTree = "<group>"; };
 		8442F4AE212D4EA6005ED466 /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Zocial.ttf; path = "../../../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		8442F4AF212D4EA6005ED466 /* Roboto_medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Roboto_medium.ttf; path = "../../../node_modules/native-base/Fonts/Roboto_medium.ttf"; sourceTree = "<group>"; };
+		84CE3AAE2136DB7C005EB1A4 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = MaterialCommunityIcons.ttf; path = "../../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		84CE3AB22136DBA8005EB1A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = CryptoARM_GOST/Base.lproj/splash_icon.png; sourceTree = SOURCE_ROOT; };
+		84CE3AB72136DD55005EB1A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = CryptoARM_GOST/Base.lproj/splash_screen.png; sourceTree = SOURCE_ROOT; };
 		9E422A2320AAD891002883CC /* Wrap_CertRequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_CertRequest.mm; sourceTree = "<group>"; };
 		9E422A2420AAD891002883CC /* helper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = helper.mm; sourceTree = "<group>"; };
 		9E422A2520AAD891002883CC /* helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = helper.h; sourceTree = "<group>"; };
@@ -405,8 +405,6 @@
 		9E422A3F20AAD8E8002883CC /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CPROCSP.framework; sourceTree = "<group>"; };
 		9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
 		9E422B5020AAE711002883CC /* CryptoARM_GOST.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CryptoARM_GOST.entitlements; path = CryptoARM_GOST/CryptoARM_GOST.entitlements; sourceTree = "<group>"; };
-		9EC1384020AEEF3D004BA671 /* splash_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_screen.png; sourceTree = "<group>"; };
-		9EC1384220AEEF4A004BA671 /* splash_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_icon.png; sourceTree = "<group>"; };
 		9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewController.xib; sourceTree = "<group>"; };
 		9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
 		9EE07A9F20AB03E800741DC6 /* SelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewController.xib; sourceTree = "<group>"; };
@@ -685,8 +683,8 @@
 		9E422A4120AAD915002883CC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9EC1384020AEEF3D004BA671 /* splash_screen.png */,
-				9EC1384220AEEF4A004BA671 /* splash_icon.png */,
+				84CE3AB12136DBA8005EB1A4 /* splash_icon.png */,
+				84CE3AB62136DD55005EB1A4 /* splash_screen.png */,
 				9EE07AD020AB043500741DC6 /* ru.lproj */,
 				9EE07AC920AB042F00741DC6 /* en.lproj */,
 				9EE07AC220AB042000741DC6 /* config.ini */,
@@ -713,14 +711,12 @@
 				9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */,
 				8442F4AC212D4EA5005ED466 /* Entypo.ttf */,
 				8442F4A4212D4EA1005ED466 /* EvilIcons.ttf */,
-				8442F4A5212D4EA2005ED466 /* Feather.ttf */,
 				8442F4A3212D4EA0005ED466 /* FontAwesome.ttf */,
 				8442F4A7212D4EA3005ED466 /* Foundation.ttf */,
 				8442F4A8212D4EA3005ED466 /* Ionicons.ttf */,
-				8442F47A212D4E9F005ED466 /* MaterialCommunityIcons.ttf */,
+				84CE3AAE2136DB7C005EB1A4 /* MaterialCommunityIcons.ttf */,
 				8442F4A6212D4EA2005ED466 /* MaterialIcons.ttf */,
 				8442F4A2212D4EA0005ED466 /* Octicons.ttf */,
-				8442F4AA212D4EA4005ED466 /* OFL.txt */,
 				8442F4AF212D4EA6005ED466 /* Roboto_medium.ttf */,
 				8442F4AB212D4EA5005ED466 /* Roboto.ttf */,
 				8442F4AD212D4EA5005ED466 /* rubicon-icon-font.ttf */,
@@ -1183,7 +1179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8442F4B3212D4F9F005ED466 /* Ionicons.ttf in Resources */,
-				8442F4B4212D4FA1005ED466 /* MaterialCommunityIcons.ttf in Resources */,
+				84CE3AB52136DC09005EB1A4 /* MaterialCommunityIcons.ttf in Resources */,
 				9EE07AB620AB040600741DC6 /* NewUserViewControllerIPhone.xib in Resources */,
 				9EE07AAE20AB03FE00741DC6 /* PaneViewControllerIPhone.xib in Resources */,
 				9EE07ACF20AB042F00741DC6 /* CP_Localizable.strings in Resources */,
@@ -1191,17 +1187,17 @@
 				9EE07AC720AB042000741DC6 /* config.ini in Resources */,
 				9EE07AA120AB03E800741DC6 /* SelectionViewController.xib in Resources */,
 				9EE07AC420AB042000741DC6 /* CPCAViewController.xib in Resources */,
-				9EC1384120AEEF3E004BA671 /* splash_screen.png in Resources */,
 				9EE07AB020AB03FE00741DC6 /* RndmBioViewController.xib in Resources */,
 				9EE07AB520AB040600741DC6 /* MSCARequestViewControllerIPhone.xib in Resources */,
 				9EE07AC620AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				9EE07ABC20AB040F00741DC6 /* locale in Resources */,
+				84CE3AB82136DD55005EB1A4 /* splash_screen.png in Resources */,
 				9EE07AB720AB040600741DC6 /* NewUserViewController.xib in Resources */,
+				84CE3AB42136DBA8005EB1A4 /* splash_icon.png in Resources */,
 				9EE07AAC20AB03FE00741DC6 /* RequestSelectionViewController.xib in Resources */,
 				9EE07AAF20AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib in Resources */,
 				9EE07AC520AB042000741DC6 /* CPROCertviewViewController.xib in Resources */,
-				9EC1384320AEEF4A004BA671 /* splash_icon.png in Resources */,
 				9EE07AAD20AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib in Resources */,
 				9EE07AD620AB043500741DC6 /* CP_Localizable.strings in Resources */,
 				9EE07AB820AB040600741DC6 /* MSCARequestViewController.xib in Resources */,
@@ -1266,6 +1262,22 @@
 			path = CryptoARM_GOST;
 			sourceTree = "<group>";
 		};
+		84CE3AB12136DBA8005EB1A4 /* splash_icon.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84CE3AB22136DBA8005EB1A4 /* Base */,
+			);
+			name = splash_icon.png;
+			sourceTree = "<group>";
+		};
+		84CE3AB62136DD55005EB1A4 /* splash_screen.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84CE3AB72136DD55005EB1A4 /* Base */,
+			);
+			name = splash_screen.png;
+			sourceTree = "<group>";
+		};
 		9EE07ACA20AB042F00741DC6 /* CP_Short.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1305,7 +1317,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = CryptoARM_GOST/CryptoARM_GOST.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -1354,7 +1365,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = CryptoARM_GOST/CryptoARM_GOST.entitlements;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;

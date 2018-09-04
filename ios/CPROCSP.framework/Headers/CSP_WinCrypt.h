@@ -236,7 +236,6 @@ typedef ULONG_PTR HCRYPTHASH;
 #define CRYPT_DELETEKEYSET      0x00000010
 #define CRYPT_MACHINE_KEYSET    0x00000020
 #define CRYPT_SILENT            0x00000040
-#define CRYPT_DEFAULT_CONTAINER_OPTIONAL 0x00000080
 
 /* dwFlag definitions for CryptGenKey*/
 #define CRYPT_EXPORTABLE        0x00000001
@@ -946,13 +945,6 @@ CryptDecodeObject(
 #define PKCS_SORTED_CTL                     ((LPCSTR) 49)
 
 //+-------------------------------------------------------------------------
-//  ECC Signature
-//--------------------------------------------------------------------------
-// Uses the same encode/decode function as X509_DH_PARAMETERS. Its data
-// structure is identical except for the names of the fields.
-#define X509_ECC_SIGNATURE                  ((LPCSTR) 47)
-
-//+-------------------------------------------------------------------------
 //  X942 Diffie-Hellman
 //--------------------------------------------------------------------------
 #define X942_DH_PARAMETERS                  ((LPCSTR) 50)
@@ -1332,14 +1324,6 @@ typedef struct _CRYPT_ALGORITHM_IDENTIFIER {
 
 
 //+-------------------------------------------------------------------------
-//  PKCS #1 HashInfo (DigestInfo)
-//--------------------------------------------------------------------------
-typedef struct _CRYPT_HASH_INFO {
-    CRYPT_ALGORITHM_IDENTIFIER  HashAlgorithm;
-    CRYPT_HASH_BLOB             Hash;
-} CRYPT_HASH_INFO, *PCRYPT_HASH_INFO;
-
-//+-------------------------------------------------------------------------
 //  Type used for an extension to an encoded content
 //
 //  Where the Value's CRYPT_OBJID_BLOB is in its encoded representation.
@@ -1469,8 +1453,6 @@ typedef struct _CERT_RDN_ATTR {
 #define szOID_PKCS_12_LOCAL_KEY_ID           "1.2.840.113549.1.9.21"
 #define szOID_PKCS_12_KEY_PROVIDER_NAME_ATTR "1.3.6.1.4.1.311.17.1"
 #define szOID_LOCAL_MACHINE_KEYSET                       "1.3.6.1.4.1.311.17.2"
-
-#define szOID_PKIX_NO_SIGNATURE         "1.3.6.1.5.5.7.6.2"
 
 //+-------------------------------------------------------------------------
 //  Microsoft CERT_RDN attribute Object Identifiers
@@ -1654,24 +1636,6 @@ typedef struct _CERT_POLICIES_INFO {
     CERT_POLICY_INFO            *rgPolicyInfo;
 } CERT_POLICIES_INFO, *PCERT_POLICIES_INFO;
 
-//+-------------------------------------------------------------------------
-//  X509_PKIX_POLICY_QUALIFIER_USERNOTICE
-//  szOID_PKIX_POLICY_QUALIFIER_USERNOTICE
-//
-//  pvStructInfo points to following CERT_POLICY_QUALIFIER_USER_NOTICE.
-//
-//--------------------------------------------------------------------------
-typedef struct _CERT_POLICY_QUALIFIER_NOTICE_REFERENCE {
-    LPSTR   pszOrganization;
-    DWORD   cNoticeNumbers;
-    int     *rgNoticeNumbers;
-} CERT_POLICY_QUALIFIER_NOTICE_REFERENCE, *PCERT_POLICY_QUALIFIER_NOTICE_REFERENCE;
-
-typedef struct _CERT_POLICY_QUALIFIER_USER_NOTICE {
-    CERT_POLICY_QUALIFIER_NOTICE_REFERENCE  *pNoticeReference;  // optional
-    LPWSTR                                  pszDisplayText;     // optional
-} CERT_POLICY_QUALIFIER_USER_NOTICE, *PCERT_POLICY_QUALIFIER_USER_NOTICE;
-
 // See CERT_KEY_ATTRIBUTES_INFO for definition of the RestrictedKeyUsage bits
 
 //+-------------------------------------------------------------------------
@@ -1795,19 +1759,6 @@ typedef struct _CERT_AUTHORITY_KEY_ID2_INFO {
                                                 // to 0 to omit.
     CRYPT_INTEGER_BLOB  AuthorityCertSerialNumber;
 } CERT_AUTHORITY_KEY_ID2_INFO, *PCERT_AUTHORITY_KEY_ID2_INFO;
-
-//+-------------------------------------------------------------------------
-//  X509_ECC_SIGNATURE
-//
-//  pvStructInfo points to following CERT_ECC_SIGNATURE data structure.
-//
-//  Note, identical to the above except for the names of the fields. Same
-//  underlying encode/decode functions are used.
-//--------------------------------------------------------------------------
-typedef struct _CERT_ECC_SIGNATURE {
-    CRYPT_UINT_BLOB     r;
-    CRYPT_UINT_BLOB     s;
-} CERT_ECC_SIGNATURE, *PCERT_ECC_SIGNATURE;
 
 //+-------------------------------------------------------------------------
 //  X509_SEQUENCE_OF_ANY data structure
@@ -2117,12 +2068,8 @@ typedef struct _CRYPT_TIME_STAMP_REQUEST_INFO {
 
 #define CERT_RENEWAL_PROP_ID                64
 #define CERT_ARCHIVED_KEY_HASH_PROP_ID      65
-
-
-#define CERT_OCSP_RESPONSE_PROP_ID          70
+#define CERT_FIRST_RESERVED_PROP_ID         66
 #define CERT_CA_OCSP_AUTHORITY_INFO_ACCESS_PROP_ID 81
-
-#define CERT_FIRST_RESERVED_PROP_ID         82
 
 #define CERT_LAST_RESERVED_PROP_ID          0x00007FFF
 #define CERT_FIRST_USER_PROP_ID             0x00008000
@@ -11649,7 +11596,6 @@ HCRYPTPROV   CPCAPI_I_CryptGetDefaultCryptProvForEncrypt(
 #endif //UNICODE
 #define PROV_RSA_AES              24
 #define PROV_DSS                  3
-#define PROV_EC_ECDSA_FULL      16
 #define PROV_DSS_DH             13
 typedef struct _DSSSEED {
     DWORD   counter;

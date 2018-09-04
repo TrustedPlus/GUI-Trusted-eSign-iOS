@@ -1,7 +1,6 @@
 #ifndef _COMMON_H_INCLUDED_
 #define _COMMON_H_INCLUDED_
 
-
 /* Code types for USE_CODE #define */
 #define USE_CODE_C	    1
 #define USE_CODE_ASM	    2
@@ -22,14 +21,14 @@
 #   include <stdint.h> 
 #endif //DARWIN
 #include<CPROCSP/myconfig.h>
-#elif !defined DEVL && !defined CSP_LITE && !defined _WIN64 /* no config.h :Windows или примеры из doxygen*/
+#elif !defined DEVL && !defined CSP_LITE && !defined _WIN64 && !defined WINCE/* no config.h :Windows или примеры из doxygen*/
 #if !defined(UNIX)
 # define PATH_MAX MAX_PATH
 #endif
 # define HAVE_STDLIB_H 1
 # define HAVE_LIMITS_H 1
 #else
-#if defined _WIN64
+#if defined _WIN64 || defined WINCE
 # define PATH_MAX MAX_PATH
 # define HAVE_STDLIB_H 1
 # define HAVE_LIMITS_H 1 
@@ -90,7 +89,7 @@
        // D:\4_0\build\CSP\src\RuNetCSP\param.c
        // D:\4_0\build\CSP\src\RuNetCSP\G28147C.c
 #    define PROCESSOR_TYPE PROC_TYPE_SPARC
-#  elif defined(__arm64__)
+#  elif defined(__arm64__) || defined(__aarch64__)
 #    define PROCESSOR_TYPE PROC_TYPE_ARM64
 #  elif defined(__ARM_ARCH__) || defined(__arm__)
        // TODO:
@@ -126,7 +125,7 @@
     //TODO:XXXX Где-то HAVE_MMX_INSTRUCTIONS используется не по назначению
 #if !defined(HAVE_MMX_INSTRUCTIONS)
 #  if (PROCESSOR_TYPE == PROC_TYPE_X64) || \
-      (PROCESSOR_TYPE == PROC_TYPE_I386 && !defined(IOS))
+      (PROCESSOR_TYPE == PROC_TYPE_I386 && !defined(IOS) && !defined(WINCE)) 
 #    define HAVE_MMX_INSTRUCTIONS 1 // Для драйвера может потребоваться
       				    // захват FPU
 #  endif /* PROCESSOR_TYPE_* */
@@ -175,6 +174,7 @@
 # if !defined _REENTRANT
 #   define _REENTRANT 1 /* Must be defined for pthreads */
 # endif	/* !_REENTRANT */
+# define CSP_NO_GUI 1 /* We don't have GUI writen yet */
 # define SUPPORT_RESOURCE_STD 1 /* Should be default on UNIX */
 # define MAX_PATH PATH_MAX
 # define Sleep(a) usleep(a*1000)
@@ -193,6 +193,10 @@
 #endif
 #ifdef CSP_LITE
 # define EXCLUDE_READER 1
+#else
+# ifdef _WIN32
+#  include <crtdbg.h>
+# endif
 #endif
 
 #if defined HAVE_BUILTIN_OFFSETOF

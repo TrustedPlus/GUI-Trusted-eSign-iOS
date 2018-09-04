@@ -6,9 +6,8 @@
 #endif	/* _WIN32 */
 
 #include<CPROCSP/ocsp.h>
-#include<CPROCSP/cplib/Blob.h>
 
-#if !defined CRYPTCP && !defined OCSPCLI_STATIC
+#ifndef CRYPTCP
     #ifdef _CPOCSPCLIDLL
         #define OCSPCLI_CLASS __declspec(dllexport)
     #else
@@ -232,7 +231,6 @@ namespace Client {
 	void put_ResponseHandler(IResponseHandler *Value);
 
 	CResponse& Send(bool Verify = true);
-    CBlob get_Response() const;
 	unsigned long get_HTTPStatus() const;
 
 #if !defined UNIX

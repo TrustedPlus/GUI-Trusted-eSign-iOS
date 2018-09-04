@@ -286,10 +286,7 @@ extern "C" {
 #endif
 
 /* Define __STDC_SECURE_LIB__ */
-// incorrectly used in cppunit-1.12.1-16.f23 CPCSP-6369
-#if defined _WIN32
 #define __STDC_SECURE_LIB__ 200411L
-#endif	/* _WIN32 */
 
 /* Retain__GOT_SECURE_LIB__ for back-compat */
 #define __GOT_SECURE_LIB__ __STDC_SECURE_LIB__

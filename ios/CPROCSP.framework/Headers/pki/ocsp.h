@@ -14,8 +14,8 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 127051 $
- * \date $Date:: 2015-09-09 16:08:20 +0400#$
+ * \version $Revision: 126987 $
+ * \date $Date:: 2015-09-08 17:51:58 +0400#$
  * \author $Author: pav $
  *
  * \brief Классы для работы с OCSP (Online Certificate Status Protocol)
@@ -35,7 +35,7 @@
 #include <asn1/CMP.h>
 #include <asn1/algidex.h>
 
-#if defined _WIN32 && !defined CRYPTCP && !defined OCSP_STATIC
+#if defined _WIN32 && !defined CRYPTCP
 #   if defined OCSP_DLL
 #	define OCSP_CLASS __declspec(dllexport)
 #	define OCSP_API __declspec(dllexport)
@@ -47,12 +47,11 @@
 #	define OCSP_DATA __declspec(dllimport)
 #       define OCSP_EXTERN_TEMPLATE extern
 #   endif // !defined OCSP_DLL
-#else // defined _WIN32 && !defined CRYPTCP && !defined OCSP_STATIC
+#else // defined _WIN32
 #   define OCSP_CLASS
 #   define OCSP_API
 #   define OCSP_DATA
 #   define OCSP_EXTERN_TEMPLATE
-#   define NO_EXPIMP_CDLLLIST_ITERATORS
 #endif // !defined _WIN32
 
 namespace CryptoPro {

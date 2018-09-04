@@ -28,12 +28,17 @@ interface LicenseState {
 	keylicenseCryptoPro: string;
 	CSPVersion: string;
 	CSPCoreVersion: string;
-	validityTimeOfLicense: number;
+	validityLicense: number;
+	timeOfLicense: any;
 	validityCSPLicense: string;
 	CSPLicenseTime: { code: number, description: string };
 }
 
-const options = {
+const optionsCAG = {
+	year: "numeric", month: "long", day: "numeric"
+};
+
+const optionsCSP = {
 	year: "numeric", month: "long", day: "numeric",
 	hour: "numeric", minute: "numeric", second: "numeric"
 };
@@ -49,7 +54,8 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 			keylicenseCryptoPro: "", // 40400-T0000-02WUR-TMDMX-50L66
 			CSPVersion: null,
 			CSPCoreVersion: null,
-			validityTimeOfLicense: null,
+			validityLicense: null,
+			timeOfLicense: -1,
 			validityCSPLicense: "",
 			CSPLicenseTime: {
 				code: 0, description: ""
@@ -84,7 +90,18 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 						this.props.refreshStatusLicense();
 						NativeModules.Wrap_License.getValidityTimeOfLicense(
 							(err, label) => {
-								this.setState({ validityTimeOfLicense: label });
+								if (!err) {
+									if ((label !== 0) && ((label * 1000) < new Date().getTime())) {
+										this.setState({ validityLicense: -1 });
+										this.setState({ timeOfLicense: -1 });
+									} else {
+										this.setState({ validityLicense: 1 });
+										this.setState({ timeOfLicense: label });
+									}
+								} else {
+									this.setState({ validityLicense: 0 });
+									this.setState({ timeOfLicense: -1 });
+								}
 							});
 						NativeModules.Wrap_License.CSPLicenseCheck(
 							(err, label) => {
@@ -100,7 +117,6 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 
 	render() {
 		const { navigate, goBack } = this.props.navigation;
-		console.log(this.state.CSPLicenseTime);
 		return (
 			<Container style={styles.container}>
 				<Headers title="Лицензии" goBack={() => goBack()} />
@@ -124,17 +140,22 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 					</View>
 					<View style={{ padding: 15 }}>
 						<Text style={{ color: "grey" }}>Статус:
-							{this.state.validityTimeOfLicense
-								? <Text style={{ color: "green" }}> действительная</Text>
+							{this.state.validityLicense
+								? this.state.validityLicense === -1
+									? <Text style={{ color: "red" }}> лицензия истекла</Text>
+									: <Text style={{ color: "green" }}> действительная</Text>
 								: <Text style={{ color: "red" }}> недействительная</Text>
+
 							}</Text>
-						{this.state.validityTimeOfLicense
-							? <Text style={{ color: "grey" }}>Срок действия:
-								{this.state.validityTimeOfLicense === 1543017600
-									? <Text> бессрочная</Text>
-									: <Text> до {new Date(this.state.validityTimeOfLicense).toLocaleString("ru", options)}</Text>
-								}
-							</Text>
+						{this.state.validityLicense
+							? this.state.validityLicense !== -1
+								? <Text style={{ color: "grey" }}>Срок действия:
+							{this.state.timeOfLicense === 0
+										? <Text> бессрочная</Text>
+										: <Text> до {new Date(this.state.timeOfLicense * 1000).toLocaleString("ru", optionsCAG)}</Text>
+									}
+								</Text>
+								: null
 							: null
 						}
 					</View>
@@ -166,7 +187,7 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 							? <Text style={{ color: "grey" }}>Срок действия:
 						{this.state.CSPLicenseTime.description === "Permanent license."
 									? <Text> бессрочная</Text>
-									: <Text> до {new Date(this.state.CSPLicenseTime.code * 86400000 + new Date().getTime()).toLocaleString("ru", options)}</Text>
+									: <Text> до {new Date(this.state.CSPLicenseTime.code * 86400000 + new Date().getTime()).toLocaleString("ru", optionsCSP)}</Text>
 								}
 							</Text>
 							: null}
@@ -218,7 +239,16 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 		NativeModules.Wrap_License.getValidityTimeOfLicense(
 			(err, label) => {
 				if (!err) {
-					this.setState({ validityTimeOfLicense: label });
+					if ((label !== 0) && ((label * 1000) < new Date().getTime())) {
+						this.setState({ validityLicense: -1 });
+						this.setState({ timeOfLicense: -1 });
+					} else {
+						this.setState({ validityLicense: 1 });
+						this.setState({ timeOfLicense: label });
+					}
+				} else {
+					this.setState({ validityLicense: 0 });
+					this.setState({ timeOfLicense: -1 });
 				}
 			});
 		NativeModules.Wrap_License.CSPLicenseCheck(

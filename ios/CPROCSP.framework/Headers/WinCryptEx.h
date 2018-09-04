@@ -18,9 +18,9 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 163790 $
- * \date $Date:: 2017-09-26 15:52:24 +0400#$
- * \author $Author: nikolaev $
+ * \version $Revision: 169203 $
+ * \date $Date:: 2018-01-19 16:21:44 +0400#$
+ * \author $Author: sonina $
  *
  * \brief Интерфейс КриптоПро CSP, добавление к WinCrypt.h.
  */
@@ -80,6 +80,22 @@ extern "C" {
 #define CP_GR3410_2012_STRONG_PROV CAT_L(CP_GR3410_2012_STRONG_PROV_A)
 #else //!UNICODE
 #define CP_GR3410_2012_STRONG_PROV CP_GR3410_2012_STRONG_PROV_A
+#endif //!UNICODE
+
+#define CP_GR3410_2001_HSM_LOCAL_PROV_A "Crypto-Pro GOST R 34.10-2001 HSM Local CSP"
+#define CP_GR3410_2001_HSM_LOCAL_PROV_W L"Crypto-Pro GOST R 34.10-2001 HSM Local CSP"
+#ifdef UNICODE
+#define CP_GR3410_2001_HSM_LOCAL_PROV CP_GR3410_2001_HSM_LOCAL_PROV_W
+#else //!UNICODE
+#define CP_GR3410_2001_HSM_LOCAL_PROV CP_GR3410_2001_HSM_LOCAL_PROV_A
+#endif //!UNICODE
+
+#define CP_GR3410_2012_HSM_LOCAL_PROV_A "Crypto-Pro GOST R 34.10-2012 HSM Local CSP"
+#define CP_GR3410_2012_HSM_LOCAL_PROV_W L"Crypto-Pro GOST R 34.10-2012 HSM Local CSP"
+#ifdef UNICODE
+#define CP_GR3410_2012_HSM_LOCAL_PROV CP_GR3410_2012_HSM_LOCAL_PROV_W
+#else //!UNICODE
+#define CP_GR3410_2012_HSM_LOCAL_PROV CP_GR3410_2012_HSM_LOCAL_PROV_A
 #endif //!UNICODE
 
 #define CP_KC1_GR3410_94_PROV_A "Crypto-Pro GOST R 34.10-94 KC1 CSP"
@@ -227,10 +243,8 @@ extern "C" {
 #define PROV_GOST_2012_512 81
 
 /* Типы контейнера */
-#define KEY_CARRIER_VERSION_V1 1
-#define KEY_CARRIER_VERSION_V2 2
-#define KEY_CARRIER_VERSION_V3 3 /* FKC-1. unused in 5.0 */
-#define KEY_CARRIER_VERSION_V4 4 /* FKC-2. */
+#define CSP_v1 1
+#define CSP_v2 2
 
 /* Дополнительные типы кодирования.
  * В Platform SDK определены только CRYPT_ASN_ENCODING (1),
@@ -239,15 +253,14 @@ extern "C" {
 
 /* Дополнительные флаги AcquireContext. Глобальные установки криптопровайдера. */
 #define CRYPT_GENERAL				0x00004000
+#define CRYPT_TOKEN_SHARED			0x00008000
 #define CRYPT_NOSERIALIZE			0x00010000 // Начиная с 3.6.5327, до этого был 0x8000
 #define CRYPT_REBOOT				0x00020000
 #define CRYPT_PROMT_INSERT_MEDIA		0x00040000 // Поддерживает с 3.6.5360
 #define CRYPT_UECDATACONTEXT			0x00080000
 #define CRYPT_CMS_HIGHLOAD_NOSERIALIZE		0x00100000
-#define CRYPT_LOCAL_PASSWORD_CACHE              0x00200000
-#define CRYPT_NO_CONTAINER_CACHE                0x00400000
 
-#define ACQUIRE_CONTEXT_SUPPORTED_FLAGS		(CRYPT_GENERAL | CRYPT_NOSERIALIZE | CRYPT_REBOOT | CRYPT_PROMT_INSERT_MEDIA | CRYPT_UECDATACONTEXT | CRYPT_CMS_HIGHLOAD_NOSERIALIZE | CRYPT_NO_CONTAINER_CACHE | CRYPT_LOCAL_PASSWORD_CACHE)
+#define ACQUIRE_CONTEXT_SUPPORTED_FLAGS		(CRYPT_GENERAL | CRYPT_TOKEN_SHARED | CRYPT_NOSERIALIZE | CRYPT_REBOOT | CRYPT_PROMT_INSERT_MEDIA | CRYPT_UECDATACONTEXT | CRYPT_CMS_HIGHLOAD_NOSERIALIZE)
 
 // Дополнительные флаги PFXImportCertStore
 #ifndef PKCS12_IMPORT_SILENT
@@ -284,10 +297,6 @@ extern "C" {
  * #define CERT_SET_KEY_CONTEXT_PROP_ID		0x00000001
  */
 
-/*Флаги CryptSetProvParam*/
-/* флаг для запоминания пароля в реестре */
-#define CP_CRYPT_SAVE_PASSWORD 0x00001000
-
 /* Дополнительные флаги CryptMsgOpenToEncode и CryptMsgControl, определяющие
  * поведение при формировании подписи CAdES-BES. */
 #define CPCMSG_CADES_STRICT		    (0x00000100)
@@ -299,7 +308,6 @@ extern "C" {
  * на pin-pad/SafeTouch. */
 #define CPCMSG_DTBS_CONTENT                 (0x00000800)
 #define CPCMSG_DTBS_ATTRIBUTE               (0x00001000)
-#define CPCMSG_DTBS_CERTIFICATE             (0x00002000)
 
 /* Дополнительные флаги CryptSignMessage, определяющие
  * поведение при формировании подписи CAdES-BES. */
@@ -316,6 +324,9 @@ extern "C" {
 #define CRYPT_ECCNEGATIVE	0x00000400 
 #define CRYPT_PUBLICCOMPRESS	0x00000800 
 
+/* флаг CryptSetProvParam для запоминания пароля в реестре */
+#define CP_CRYPT_SAVE_PASSWORD 0x00001000
+
 /* флаг GenKey для разрешения/запрета ДХ для ключей подписи (переопределяем CRYPT_SGCKEY) */
 #define	CP_CRYPT_DH_ALLOWED        0x00002000
 
@@ -328,6 +339,10 @@ extern "C" {
 /* флаг ImportKey для ускорения повторного использования импортируемого открытого ключа */
 #define	CP_PUBKEY_REUSABLE        0x00002000
 
+/* Режимы шифрования ключом EKE */
+#define CRYPT_MODE_EKEXOR	11
+#define CRYPT_MODE_EKEECADD	12
+
 /* Дополнительные режимы дополнения блока открытого текста до кратности размера блока шифрования*/
 #define ISO10126_PADDING 4
 #define ANSI_X923_PADDING 5
@@ -337,8 +352,6 @@ extern "C" {
 #define USERKEY_SIGNATURE			AT_SIGNATURE
 
 #define CP_DISREGARD_STRENGTHENED_KEY_USAGE_CONTROL	(0x80000000)
-
-#define CP_ECC_PLAIN_SIGNATURE				(0x00000008)
 
 /* Algorithm types */
 #define ALG_TYPE_GR3410				(7 << 9)
@@ -361,6 +374,8 @@ extern "C" {
 #define ALG_SID_PRO_EXP				31
 #define ALG_SID_SIMPLE_EXP			32
 #define ALG_SID_PRO12_EXP			33
+#define ALG_SID_KEXP_2015_M			36
+#define ALG_SID_KEXP_2015_K			37
 /* GR3412 sub_ids*/
 #define ALG_SID_GR3412_2015_M			48
 #define ALG_SID_GR3412_2015_K			49
@@ -372,7 +387,6 @@ extern "C" {
 #define ALG_SID_TLS1_MASTER_HASH_2012_256	54
 
 /*SHA Hash ids*/
-#define	ALG_SID_SHA_224                 0x11d
 #define ALG_SID_SHA_256                 12
 #define ALG_SID_SHA_384                 13
 #define ALG_SID_SHA_512                 14
@@ -395,9 +409,6 @@ extern "C" {
 #define ALG_SID_GR3413_2015_M_IMIT		60
 #define ALG_SID_GR3413_2015_K_IMIT		61
 
-#define ALG_SID_CMAC				62
-#define ALG_SID_PBKDF2				63
-
 /* VKO GOST R 34.10-2012 512-bit outputs sub-id*/
 #define ALG_SID_SYMMETRIC_512			34
 
@@ -419,23 +430,18 @@ extern "C" {
 #define ALG_SID_GR3410_01_ESDH			40
 #define ALG_SID_GR3410_12_256_ESDH		72
 #define ALG_SID_GR3410_12_512_ESDH		63
+/* EKE sub ids*/
+#define ALG_SID_EKE_CIPHER			41
+#define ALG_SID_EKE_EXPORTPUBLIC		42
+#define ALG_SID_EKEVERIFY_HASH			43
 
 #define ALG_SID_UECDIVERS			44
 #define ALG_SID_UECSYMMETRIC			46
 #define ALG_SID_UECSYMMETRIC_EPHEM		47
 
-#define ALG_SID_GENERIC_SECRET			21
-
 #define ALG_CLASS_UECSYMMETRIC                (6 << 13)
 
-#define AT_UECSYMMETRICKEY		   0x80000004 //deprecated
-#define AT_SYMMETRIC			   0x80000005
-
-
-#ifndef CALG_SHA_224
-#define CALG_SHA_224 \
-    (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_SHA_224)
-#endif
+#define AT_UECSYMMETRICKEY		   0x80000004
 
 #ifndef CALG_SHA_256
 #define CALG_SHA_256 \
@@ -498,9 +504,6 @@ extern "C" {
 
 #define CALG_GR3413_2015_K_IMIT \
     (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_GR3413_2015_K_IMIT)
-
-#define CALG_CMAC \
-    (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_CMAC)
 
 #define CALG_G28147_CHV \
     (ALG_CLASS_DATA_ENCRYPT | ALG_TYPE_ANY | ALG_SID_G28147_MAC)
@@ -586,6 +589,12 @@ extern "C" {
 #define CALG_SIMPLE_EXPORT \
     (ALG_CLASS_DATA_ENCRYPT | ALG_TYPE_BLOCK | ALG_SID_SIMPLE_EXP)
 
+#define CALG_KEXP_2015_M \
+    (ALG_CLASS_DATA_ENCRYPT | ALG_TYPE_BLOCK | ALG_SID_KEXP_2015_M)
+
+#define CALG_KEXP_2015_K \
+    (ALG_CLASS_DATA_ENCRYPT | ALG_TYPE_BLOCK | ALG_SID_KEXP_2015_K)
+
 #define CALG_TLS1PRF_2012_256 \
     (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_TLS1PRF_2012_256)
 
@@ -610,16 +619,10 @@ extern "C" {
 #define CALG_PBKDF2_94_256 \
     (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_PBKDF2_94_256)
 
-#define CALG_PBKDF2 \
-    (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_PBKDF2)
-
 #define CALG_SHAREDKEY_HASH \
     (ALG_CLASS_HASH | ALG_TYPE_SHAREDKEY | ALG_SID_SHAREDKEY_HASH)
 #define CALG_FITTINGKEY_HASH \
     (ALG_CLASS_HASH | ALG_TYPE_SHAREDKEY | ALG_SID_FITTINGKEY_HASH)
-
-#define CALG_GENERIC_SECRET \
-    (ALG_CLASS_DATA_ENCRYPT | ALG_TYPE_BLOCK | ALG_SID_GENERIC_SECRET)
 
 #define CALG_PRO_DIVERS \
     (ALG_CLASS_DATA_ENCRYPT | ALG_TYPE_BLOCK | ALG_SID_PRODIVERS)
@@ -632,66 +635,10 @@ extern "C" {
 #define CALG_KDF_TREE_GOSTR3411_2012_256 \
     (ALG_CLASS_DATA_ENCRYPT | ALG_TYPE_BLOCK | ALG_SID_KDF_TREE_GOSTR3411_2012_256)
 
-#ifndef CALG_ECDSA
-    #ifndef ALG_SID_ECDSA
-    #define ALG_SID_ECDSA                   3
-    #endif
-    #define CALG_ECDSA              (ALG_CLASS_SIGNATURE | ALG_TYPE_DSS | ALG_SID_ECDSA)
-#endif
-
-#ifndef CALG_ECDH
-    #ifndef ALG_SID_ECDH
-    #define ALG_SID_ECDH                    5
-    #endif
-    #define CALG_ECDH               (ALG_CLASS_KEY_EXCHANGE | ALG_TYPE_DH | ALG_SID_ECDH)
-#endif
-
-#ifndef szOID_ECC_PUBLIC_KEY
-// iso(1) member-body(2) us(840) 10045 keyType(2) unrestricted(1)
-#define szOID_ECC_PUBLIC_KEY	    "1.2.840.10045.2.1"
-#endif
-
-#ifndef szOID_ECC_CURVE_P256
-// iso(1) member-body(2) us(840) 10045 curves(3) prime(1) 7
-#define szOID_ECC_CURVE_P256	    "1.2.840.10045.3.1.7"
-#endif
-
-#ifndef szOID_ECC_CURVE_P384
-// iso(1) identified-organization(3) certicom(132) curve(0) 34
-#define szOID_ECC_CURVE_P384	    "1.3.132.0.34"
-#endif
-
-#define szOID_EC_DH		    "1.3.132.1.12"
-#define szOID_ECC_CURVE_P192	    "1.2.840.10045.3.1.1"
-#define szOID_ECC_CURVE_P224	    "1.3.132.0.33"
-
-#ifndef szOID_ECDSA_SHA224
-// iso(1) member-body(2) us(840) 10045 signatures(4) specified(3) 1
-#define szOID_ECDSA_SHA224	    "1.2.840.10045.4.3.1"
-#endif
-
-#ifndef szOID_ECDSA_SHA256
-// iso(1) member-body(2) us(840) 10045 signatures(4) specified(3) 2
-#define szOID_ECDSA_SHA256	    "1.2.840.10045.4.3.2"
-#endif
-
-#ifndef szOID_ECDSA_SHA384
-// iso(1) member-body(2) us(840) 10045 signatures(4) specified(3) 3
-#define szOID_ECDSA_SHA384	    "1.2.840.10045.4.3.3"
-#endif
-
-#ifndef szOID_ECDSA_SHA512
-// iso(1) member-body(2) us(840) 10045 signatures(4) specified(3) 4
-#define szOID_ECDSA_SHA512	    "1.2.840.10045.4.3.4"
-#endif
-
-#ifndef szOID_NIST_sha224
-#define szOID_NIST_sha224	    "2.16.840.1.101.3.4.2.4"
-#endif
-
-#ifndef szOID_RSA_SHA224RSA
-#define szOID_RSA_SHA224RSA	    "1.2.840.113549.1.1.14"
-#endif
+#define CALG_EKE_CIPHER \
+    (ALG_CLASS_KEY_EXCHANGE | ALG_TYPE_BLOCK | ALG_SID_EKE_CIPHER)
+#define CALG_EKEVERIFY_HASH \
+    (ALG_CLASS_HASH | ALG_TYPE_ANY | ALG_SID_EKEVERIFY_HASH)
 
 // Algorithm is only implemented in CNG.
 #define CALG_OID_INFO_CNG_ONLY                   0xFFFFFFFF
@@ -722,9 +669,6 @@ extern "C" {
 #define CRYPT_RSA_PKCS		0x00000050 // по умолчанию
 #define CRYPT_RSA_X_509		0x00000051
 
-/* Максимальная длина ключа GENERIC_SECRET в битах */
-#define MAX_GENERIC_SECRET_KEY_BITLEN   4096
-
 #define CRYPT_ALG_PARAM_OID_GROUP_ID            20
 
 
@@ -741,9 +685,6 @@ extern "C" {
 
 /*Тип ключевого блоба для диверсификации дерева ключей*/
 #define KDF_TREE_DIVERSBLOB	0x72
-
-/*Тип ключевого блоба PKCS#1 */
-#define PKCS1KEYBLOB			    0x18
 
 /*Тип ключевого блоба PKCS#8 */
 #define PKCS8KEYBLOB			    0x19
@@ -804,7 +745,6 @@ extern "C" {
 #define PP_DELETE_SHORTCUT 144
 #define PP_SELFTEST	    145
 #define PP_CONTAINER_STATUS  146
-#define PP_PUBLIC_EXPONENT 147
 #define PP_UEC 147
 #define PP_UEC_PHRASE 148
 #define PP_UEC_PIN1 149
@@ -823,13 +763,13 @@ extern "C" {
 #define PP_CREATE_THREAD_CSP 162
 #define PP_HANDLE_COUNT 163
 #define PP_CONTAINER_VERSION 164
-#define PP_PASSWORD_CACHE 165
 #define PP_RNG_INITIALIZED 166
 #define PP_CPU_USAGE 167
 #define PP_MEMORY_USAGE 168
 
 #define PP_SIGNATURE_KEY_FP 211
 #define PP_EXCHANGE_KEY_FP 212
+
 #define PP_SUPPORTED_FLAGS 213
 
 /* Флаги, используемые в GetProvParam для получения текущего и максимального значий хэндлов.*/
@@ -847,33 +787,13 @@ extern "C" {
 #define PHYSICAL_MEMORY_USED_BY_CURRENT_PROC 5
 
 
-#define PP_WND_READER_INFO 214
-#define PP_WND_ENUM_READERS 215
-#define PP_WND_READER_ICON 216
-
-#define PP_CARRIER_TYPES 217
-
-#define PP_AUTH_INFO 218
-#define PP_SET_AUTH 219
-#define PP_CHANGE_AUTH 220
-#define PP_SAVE_PASSWORD_POLICY 221
-
-#define PP_CONTAINER_PARAM 222
-
-#define PP_CARRIER_FLAGS 223
-
-/* Флаг, позволяющий при перечислении выбирать только контейнеры с ключами, 
-    совпадающими с типом криптопровайдера.*/
-#define CRYPT_FILTER_PROVIDER_TYPE 0x100
 
 /* Флаг, используемый при перечислении считывателей, для получения имени носителя
    */
 #define CRYPT_MEDIA 0x20
-
 /* Флаг, используемый при перечислении контейнеров, для получения:
     Fully Qualified Container Name */
 #define CRYPT_FQCN 0x10
-
 /* Флаг, используемый при перечислении контейнеров, для приоритета
     получения уникальных имён контейнеров перед обычными именами.
     В случае достаточно выделенной памяти под уникальный номер,
@@ -916,6 +836,9 @@ extern "C" {
 #define HP_OPEN 0x000B
 #define HP_OPAQUEBLOB 0x000C
 
+#define HP_R2_SIGN	    0x000D
+#define HP_R_SIGN	    0x000E
+#define HP_S2_SIGN	    0x000F
 #define HP_KEYSPEC_SIGN	    0x0010
 #define HP_KEYMIXSTART	    0x0011
 #define HP_SHAREDKEYMODE    0x0012
@@ -928,7 +851,6 @@ extern "C" {
 #define HP_PBKDF2_COUNT	    0x0019
 #define HP_PRFKEYMAT_SEED   0x0020
 #define HP_HASHVAL_BLOB	    0x0021
-#define HP_PBKDF2_HASH_ALGID 0x0022
 
 /* Дополнительные параметры ключа */
 #define KP_START_DATE	43
@@ -946,12 +868,18 @@ extern "C" {
 #define KP_FP		107
 #define KP_IV_BLOB	108
 #define KP_NOTAFTER 109
-#define KP_SESSION_HASH 110
 #define KP_KC1EXPORT	0x800000f0
 #define KP_CHECK_VALUE	0x800000fa
-
-#define KP_STORE	0x800000ff
-
+/* Token Interface NEW */
+#define KP_MULX		0x800000f1
+#define KP_MULX_INVERS  0x800000f2
+#define KP_ADDX		0x800000f3
+#define KP_SUBX		0x800000f4
+#define KP_ECADD	0x800000f5
+#define KP_ECSUB	0x800000f6
+#define KP_SYNCRO	0x800000f7
+#define KP_DELTA	0x800000f8
+#define KP_DEMASKPUBLIC	0x800000f9
 #define KP_RESERVED1	0x800000fb
 #define KP_RESERVED2	0x800000fc
 #define KP_ACCLEN	0x800000fd
@@ -959,6 +887,10 @@ extern "C" {
 
 #define CONTAINER_INVALID_HEADER (1<<0)
 #define CONTAINER_INVALID_UNKNOWN (1<<30)
+
+/* FKC KP_...  to delete */
+#define KP_TOKENRECOVERY	0x800001fb
+/* End FKC KP_...  to delete */
 
 /* CRYPT_PRIVATE_KEYS_ALG_OID_GROUP_ID */
 #define szOID_CP_GOST_PRIVATE_KEYS_V1 "1.2.643.2.2.37.1"
@@ -1294,40 +1226,9 @@ extern "C" {
 #define SEANCE_VECTOR_LEN		8
 
 /*! \ingroup ProCSPData
-*  \brief Максимальная разрешённая длина имени ключевого контейнера (без терминального символа).
+*  \brief Максимальная разрешённая длина имени ключевого контейнера
 */
 #define MAX_CONTAINER_NAME_LEN		260
-
-/*! \ingroup ProCSPData
-*  \brief Максимальная разрешённая длина имени папки ключевого контейнера (без терминального символа).
-*/
-#define MAX_FOLDER_NAME_LEN		MAX_CONTAINER_NAME_LEN
-
-/*! \ingroup ProCSPData
-*  \brief Максимальная разрешённая длина уникального имени носителя (без терминального символа).
-*/
-#define MAX_UNIQUE_LEN			256
-
-/*! \ingroup ProCSPData
-*  \brief Максимальная разрешённая длина типа носителя (без терминального символа).
-*/
-#define MAX_MEDIA_TYPE_NAME_LEN		64
-
-/*! \ingroup ProCSPData
-*  \brief Максимальная разрешённая длина имени считывателя (без терминального символа).
-*/
-#define MAX_READER_NAME_LEN		64
-
-/*! \ingroup ProCSPData
-*  \brief Длина CRC.
-*/
-#define CONTAINER_CRC_LEN 4
-
-/*! \ingroup ProCSPData
-*  \brief Максимальная разрешённая длина входной строки, определяющей контейнер, в CryptAcquireContext (без терминального символа).
-*/
-#define MAX_INPUT_CONTAINER_STRING_LEN	(4 + MAX_READER_NAME_LEN + 1 + MAX_MEDIA_TYPE_NAME_LEN + 1 + MAX_UNIQUE_LEN + MAX_FOLDER_NAME_LEN + 1 + CONTAINER_CRC_LEN)
-
 
 /* Константы и структуры для схем цифровой подписи и*/
 /* открытого распределения ключей*/
@@ -1354,15 +1255,20 @@ extern "C" {
 #define DIVERS_MAGIC			0x31564944
 
 /*! \ingroup ProCSPData
+*  \brief Признак ключевого блоба алгоритма KExp15
+*/
+#define KEXP15_MAGIC			0x374a51ff
+
+/*! \ingroup ProCSPData
  *  \brief Текущее значение версии ключевого блоба
  */
 #define BLOB_VERSION			(BYTE)0x20
 
 /*! \ingroup ProCSPData
-*  \brief Признак ключевого блоба RSA
+*  \brief Текущее значение версии ключевого блоба KExp15
 */
-#define RSA1_MAGIC			0x31415352
-#define RSA2_MAGIC			0x32415352
+#define KEXP15_BLOB_VERSION		(BYTE)0x21
+
 
 /*! \ingroup ProCSPData
 *  \brief Флаг, устанавливающий признак получения открытого ключа из сертификата
@@ -2030,65 +1936,7 @@ typedef struct _CRYPT_KDF_TREE_DIVERSBLOB {
                 *  информацию о диверсификации: значения Seed и Label
                 */
 } CRYPT_KDF_TREE_DIVERSBLOB, *LPCRYPT_KDF_TREE_DIVERSBLOB;
-
-/*! \brief Максимальное число аплетов на носителе */
-#define CRYPTOAPI_SELECT_READER_MAX_APPLET_COUNT 10
-/*! \brief Максимальное число иконок у считывателя */
-#define CRYPTOAPI_SELECT_READER_ICONS_NUMBER 5
-
-/*! \brief Хендл считывателя/носителя */
-typedef ULONGLONG HSELREADER;
-/*! \brief Хендл иконки */
-typedef ULONGLONG HSELREADERICON;
-/*! \brief Хендл списка считывателей в оконном интерфейсе */
-typedef ULONGLONG HSELREADERLISTCONTEXT;
-/*! \brief Хендл контекст оконного интерфейса */
-typedef ULONGLONG HSELREADERINITDATA;
-
-/*! \brief Установка параметров оконного интерфейса: начало перечисления считывателей */
-#define CRYPT_READER_WND_LIST_FIRST 1
-/*! \brief Установка параметров оконного интерфейса: перечисление считывателей */
-#define CRYPT_READER_WND_LIST_NEXT  2
-/*! \brief Установка параметров оконного интерфейса: закрытие перечисления считывателей */
-#define CRYPT_READER_WND_LIST_FREE  3
-/*! \brief Установка параметров оконного интерфейса: установка ответа оконной функции */
-#define CRYPT_READER_WND_ANSWER	    4
-/*! \brief Установка параметров оконного интерфейса: установка считывателя по умолчанию */
-#define CRYPT_READER_WND_DEFAULT    5
-/*! \brief Установка параметров оконного интерфейса: удаление контекста считывателя */
-#define CRYPT_READER_WND_DELETE	    6
-/*! \brief Установка параметров оконного интерфейса: получение иконки */
-#define CRYPT_READER_WND_ICON	    7
-
-/*!
-* \ingroup ProCSPData
-*
-* \brief Структура для передачи параметров от оконного интерфейса 
-*
-* \req_wincryptex
-* \sa CPSetProvParam
-*/
-typedef struct {
-    DWORD param_type;			/*!< Тип параметра */
-    union {
-	HSELREADERINITDATA context;		/*!< Для CRYPT_READER_WND_LIST_FIRST - контекст оконного интерфейса */
-	HSELREADERLISTCONTEXT list_context;	/*!< Для CRYPT_READER_WND_LIST_NEXT, CRYPT_READER_WND_LIST_FREE - хендл списка */
-	struct {
-	    HSELREADERINITDATA	    context;	/*!< Контекст оконного интерфейса */
-	    HSELREADER		    reader;	/*!< Хендл считывателя */
-	    unsigned int	    current_applet; /*!< Номер аплета. Нужен только при CRYPT_READER_WND_ANSWER */
-	} reader; /*!< Для CRYPT_READER_WND_ANSWER, CRYPT_READER_WND_DEFAULT, CRYPT_READER_WND_DELETE - информация о считывателе */
-	struct {
-	    HSELREADERINITDATA	context;    /*!< Контекст оконного интерфейса */
-	    HSELREADERICON	hicon;	    /*!< Контекст иконки */
-	    DWORD	x_icon;		/*!< Число пикселов в иконке по горизонтали */
-	    DWORD	y_icon;         /*!< Число пикселов в иконке по вертикали */
-            DWORD       priority;	/*!< максимальный возможный приоритет запрашиваемой иконки */
-	} icon; /*!< Для CRYPT_READER_WND_ICON - информация об иконке */
-    } info; /*!< Передаваемая информация */
-} CRYPT_READER_WND_PARAM;
-
-/*! \brief Тип пароля: пароль или pin. Значение устарело */
+/*! \brief Тип пароля: пароль или pin */
 #define CRYPT_PIN_PASSWD 0
 /*! \brief Тип пароля: имя контейнера зашифрования
      Используется имя контейнера. */
@@ -2106,49 +1954,6 @@ typedef struct {
 #define CRYPT_PIN_HARDWARE_PROTECTION 6
 /*! \brief Тип пароля: пароль для FKC контейнера, для аутентификации по EKE */
 #define CRYPT_PIN_FKC_EKE 	7
-/*! \brief Тип аутентификации: функции для вызова из окна ввода пароля */
-#define CRYPT_PIN_WND		8
-
-/*!
-* \ingroup ProCSPData
-*
-* \brief Структура передачи информации из диалога ввода пароля для предъявления или смены пароля
-*
-* \req_wincryptex
-* \sa CPSetProvParam
-*/
-typedef struct
-{
-    DWORD auth_type;			/*!< идентификатор той аутентификации, которая устанавливается или меняется */
-    DATA_BLOB password;			/*!<  место хранения пароля */
-    struct
-    {
-	unsigned once : 1;		/*!<  1, если пароль не сохраняется в кеше, 0, иначе*/
-	unsigned save : 1;		/*!<  1, если требуется сохранить пароль контейнера */
-    } flags;
-    DATA_BLOB   reserved;		    /*!<  зарезервировано для будущего использования. unused */
-} CRYPT_PIN_WND_SOURCE_PARAM;
-
-#define CRYPT_PIN_WND_PARAM_CLEAR   0 /*!< Тип передаваемой информации.  Очистка установленнного ранее указателя на служебную информацию. */
-#define CRYPT_PIN_WND_PARAM_INFO    1 /*!< Тип передаваемой информации.  Передается указатель на служебную информацию, переданную диалогу ввода пароля, для установки в качестве параметров контекста криптопровайдера. */
-#define CRYPT_PIN_WND_PARAM_AUTH    2 /*!< Тип передаваемой информации.  Передается информация об аутентификации. */
-#define CRYPT_PIN_WND_PARAM_BOTH    (CRYPT_PIN_WND_PARAM_INFO | CRYPT_PIN_WND_PARAM_AUTH )/*!< Тип передаваемой информации.  Передается указатель на служебную информацию, переданную диалогу ввода пароля и информация об аутентификации. Установка переданного указателя 
-				       *   в качестве параметров контекста криптопровайдера не производится. */
-
-/*!
-* \ingroup ProCSPData
-*
-* \brief Структура передачи информации из диалога ввода пароля
-*
-* \req_wincryptex
-* \sa CPSetProvParam
-*/
-typedef struct
-{
-    BYTE info_type;  /*!< Тип передаваемой информации. Может быть равен CRYPT_PIN_WND_PARAM_CLEAR, CRYPT_PIN_WND_PARAM_INFO, CRYPT_PIN_WND_PARAM_AUTH, CRYPT_PIN_WND_PARAM_BOTH */
-    void * info;			    /*!<  Поле для передачи указателя на служебную информацию. */
-    CRYPT_PIN_WND_SOURCE_PARAM auth;	    /*!< Поле для описания аутентификации. */
-} CRYPT_PIN_WND_PARAM;
 
 /*!
  * \ingroup ProCSPData
@@ -2172,7 +1977,6 @@ typedef union _CRYPT_PIN_SOURCE {
     char *passwd; /*!< Пароль, PIN-код, имя контейнера. */
     DWORD prov; /*!< 32-битный внутренний идентификатор контейнера. */
     CRYPT_PIN_NK_PARAM nk_handles; /*!< Разбивка на NK по идентификаторам */
-    CRYPT_PIN_WND_PARAM wnd;	    /*!< Информация из диалогового окна*/
 } CRYPT_PIN_SOURCE;
 
 /*!
@@ -2193,8 +1997,7 @@ typedef struct _CRYPT_PIN_PARAM {
  *  CRYPT_PIN_ENCRYPTION - HANDLE контейнера зашифрования.
  *  CRYPT_PIN_QUERY - тип и значение выбираются в окне,
  *  CRYPT_PIN_CLEAR - очистить пароль.
- *  CRYPT_PIN_NK - разбить на части k из n.
- *  CRYPT_PIN_WND - информация из диалогового окна ввода пароля.
+ *  CRYPT_PIN_NK - разбить на части k из n
  */
      CRYPT_PIN_SOURCE dest; /*!< Данные соответствующего типа */
 } CRYPT_PIN_PARAM;
@@ -2258,6 +2061,7 @@ typedef struct _CRYPT_PIN_INFO {
  *  CRYPT_PIN_ENCRYPTION - HANDLE контейнера зашифрования.
  *  CRYPT_PIN_NK - разбить на части k из n
  *  CRYPT_PIN_HARDWARE_PROTECTION - тип защиты определяется аппаратным модулем
+ *  CRYPT_PIN_CLEAR - пароль для аутентентификации не требуется либо установлен по умолчанию
  */
      CRYPT_PIN_INFO_SOURCE dest; /*!< Данные соответствующего типа */
 } CRYPT_PIN_INFO;
@@ -2284,35 +2088,6 @@ typedef struct _CRYPT_FKC_EKE_AUTH_INFO_PARAM {
     char fname[1]; /*!< UTF8Z-строка дружественного имени. */
 } CRYPT_FKC_EKE_AUTH_INFO_PARAM;
 
-#define CPCAR_COUNTER_TRYES 0	/*!< индекс счетчика оставшихся попыток в массиве счетчиков*/
-#define CPCAR_COUNTER_CSP_REM 1 /*!< индекс счетчика оставшихся ошибочных операций CSP*/
-#define CPCAR_COUNTER_CAR_REM_ERR 2 /*!< индекс счетчика оставшихся ошибочных операций носителя*/
-#define CPCAR_COUNTER_CAR_REM_CERR 3 /*!< индекс счетчика оставшихся ошибочных операций носителя подряд*/
-#define CPCAR_COUNTER_CAR_REM_AUTH 4 /*!< индекс счетчика оставшихся аутентификаций на носителе*/
-
-#define CPCAR_COUNTER_ROOT_NUMBER 5 /*!<  максимальное число счетчиков для административной аутентификации */
-
-#define CPCAR_COUNTER_CAR_REM_DH 5 /*!<  индекс счетчика оставшихся операций ДХ в контейнере */
-#define CPCAR_COUNTER_CAR_REM_SIGN 6 /*!<  индекс счетчика оставшихся операций подписи в контейнере */
-#define CPCAR_COUNTER_CAR_SIGN 7 /*!<  индекс счетчика выполненных операций подписи в контейнере */
-
-#define CPCAR_COUNTER_CONTAINER_NUMBER 8 /* максимальное число счетчиков контейнера */
-
-/*!
-* \ingroup ProCSPData
-*
-* \brief структура для получения счетчиков аутентификаций.
-*
-* \req_wincryptex
-* \sa CPGetProvParam, CRYPT_FKC_PIN_INFO, CRYPT_FKC_PIN_INFO_SOURCE
-*/
-typedef struct
-{
-    DWORD a_counters[CPCAR_COUNTER_CONTAINER_NUMBER];  /*!< счетчики для основной аутентификации */
-    DWORD b_counters[CPCAR_COUNTER_ROOT_NUMBER];	/*!< счетчики для аутентификации изменения аутентификации */
-    DWORD error;					/*!< ошибка, требующая отображения в сообщении пользователя. Например "исчерпаны попытки ввода" */
-} CRYPT_WND_INFO_PARAM;
-
 /*!
 * \ingroup ProCSPData
 *
@@ -2321,11 +2096,9 @@ typedef struct
 * \req_wincryptex
 * \sa CPGetProvParam, CRYPT_PIN_INFO_SOURCE, CRYPT_FKC_EKE_AUTH_INFO_PARAM
 */
-typedef union _CRYPT_FKC_PIN_INFO_SOURCE 
-{
+typedef union _CRYPT_FKC_PIN_INFO_SOURCE {
     CRYPT_PIN_INFO_SOURCE passwd; /*!< обычный пароль. */
     CRYPT_FKC_EKE_AUTH_INFO_PARAM eke_passwd; /*!< пароль по EKE. */
-    CRYPT_WND_INFO_PARAM wnd_info; /*!< счетчика для окна. */
 } CRYPT_FKC_PIN_INFO_SOURCE;
 
 /*!
@@ -2344,98 +2117,6 @@ typedef struct _CRYPT_FKC_PIN_INFO {
      */
      CRYPT_FKC_PIN_INFO_SOURCE dest; /*!< Данные соответствующего типа */
 } CRYPT_FKC_PIN_INFO;
-
-
-/*! \brief Действие: предъявление пароля */
-#define CRYPT_AUTH_PASSWD 0xf0
-/*! \brief Действие: предъявление пароля с запросом через пользовательский интерфейс */
-#define CRYPT_AUTH_QUERY 0xf1
-/*! \brief Действие: удалить аутентификационную информацию данного типа из кэша аутентификаций */
-#define CRYPT_AUTH_CLEAR 0xf2
-/*! \brief Действие: Очистить число ошибок аутентификации для данной аутентификации */
-#define CRYPT_AUTH_RESET_TRIES 0xf3
-/*! \brief Действие: Установить паролю администратора значение по умолчанию */
-#define CRYPT_AUTH_RESET_ADMIN 0xf4
-
-/*! \brief Тип парольной аутентификации: PUK. Разрешает смену других аутентификаций носителя.*/
-#define CRYPT_AUTH_TYPE_PUK 1
-/*! \brief Тип парольной аутентификации: ADMIN. Разрешает запись в корень носителя, например, может разрешать создание контейнера. 
-           Может быть единственной аутентификацией на носителе, и разрешать доступ на изменение любого контейнера. */
-#define CRYPT_AUTH_TYPE_ADMIN 2
-/*! \brief Тип парольной аутентификации: CONT. Разрешает изменение контейнера. Действует только для одного контейнера. */
-#define CRYPT_AUTH_TYPE_CONT 3
-/*! \brief Тип парольной аутентификации: USER1. Дополнительная аутентификация, по принципу действия предполагается аналогичной ADMIN. Не используется. */
-#define CRYPT_AUTH_TYPE_USER_PIN1 4
-/*! \brief Тип парольной аутентификации: USER2. Дополнительная аутентификация, по принципу действия предполагается аналогичной ADMIN. Не используется. */
-#define CRYPT_AUTH_TYPE_USER_PIN2 5
-
-/*! \brief Алгоритм парольной аутентификации: NO. Означает, что физический носитель не требует аутентификации, и ее реализация лежит на криптопровайдере. */
-#define CRYPT_AUTH_ALG_NO 0
-/*! \brief Алгоритм парольной аутентификации: SELF. Означает, что аутентификация выполняется носителем по запросу криптопровайдера средствами носителя или считывателя (например, аутентификация по пину на пин-паде). */
-#define CRYPT_AUTH_ALG_SELF 1
-/*! \brief Алгоритм парольной аутентификации: SIMPLE. Прямое предъявление пин-кода носителю. */
-#define CRYPT_AUTH_ALG_SIMPLE 2
-/*! \brief Алгоритм парольной аутентификации: SESPAKE. Предъявление пароля по алгоритму SESPAKE и установка защищенного соединения с носителем. */
-#define CRYPT_AUTH_ALG_SESPAKE 3
-
-/*!
-* \ingroup ProCSPData
-*
-* \brief Структура для получения информации об аутентификации.
-*
-* \req_wincryptex
-* \sa CPGetProvParam, CRYPT_AUTH_INFO
-*/
-typedef struct {
-    BYTE auth_type; /*! \brief Тип аутентификации по месту предъявления (CRYPT_AUTH_TYPE_PUK, CRYPT_AUTH_TYPE_CONT, ...) */
-    BYTE auth_alg;  /*! \brief Алгоритм аутентификации (CRYPT_AUTH_ALG_SELF, CRYPT_AUTH_ALG_SIMPLE, ...) */
-    DWORD min_length; /*! \brief Минимальная длина пароля */
-    DWORD max_length; /*! \brief Максимальная длина пароля */
-} CRYPT_AUTH_INFO_AUTH;
-
-#define CRYPT_AUTH_INFO_DEF_ADMIN 1 /* \brief Флаг: В аутентификации администратора установлен пароль по умолчанию. 1 - есть, 0 - нет. */
-#define CRYPT_AUTH_INFO_ADMIN_IS_CONT 2 /* \brief Флаг: контейнеры на носителе защищены аутентификацией носителя (ADMIN). 2 - да, 0 - нет. */
-#define CRYPT_AUTH_INFO_ADMIN_IS_PUK 4 /* \brief Флаг: одна аутентификация и на изменение аутентификационных данных, и на создание или удаление контейнеров (ADMIN). 4 - да, 0 - нет. */
-#define CRYPT_AUTH_INFO_RESETS_COUNTERS 8 /* \brief Флаг: Предъявление аутентификации смены аут.данных автоматически сбрасывает счетчики ошибок в других аутентификациях. 8 - да, 0 - нет. */
-#define CRYPT_AUTH_INFO_CAN_RESET_COUNTERS 16 /* \brief Флаг: После предъявления аутентификации смены аут.данных можно сбросить счетчик ошибок в других аутентификациях. 16 - да, 0 - нет. */
-#define CRYPT_AUTH_INFO_CAN_CHANGE_AUTH 32 /* \brief Флаг: После предъявления аутентификации смены аут.данных можно изменить аут.данные произвольной аутентификации. 32 - да, 0 - нет. */
-#define CRYPT_AUTH_INFO_CAN_RESET_ADMIN 64 /* \brief Флаг: Аутентификации администратора может быть установлен пароль по умолчанию. 64 - да, 0 - нет. */
-#define CRYPT_AUTH_INFO_RESTORE_CONT_AFTER_FOLDER_OPEN 128 /* \brief Флаг: После открытия папки контейнера требуется повторное предъявление аутентификации. 128 - да, 0 - нет. */
-#define CRYPT_AUTH_INFO_HARDWARE_RESET_ROOT_DEF 256 /* \brief Флаг: Для сброса аутентификации администратора требуется выполнить аппаратное действие. 256 - да, 0 - нет. */
-
-/*!
-* \ingroup ProCSPData
-*
-* \brief Структура для получения информации об аутентификациях в контексте.
-*
-* \req_wincryptex
-* \sa CPGetProvParam, PP_AUTH_INFO
-*/
-typedef struct {
-    DWORD auth_count; /* \brief Число аутентификаций в контексте. */
-    DWORD flags;    /* \brief Флаги набора аутентификаций. Могут быть установлены CRYPT_AUTH_INFO_DEF_ADMIN_SET, CRYPT_AUTH_INFO_DEF_ADMIN_CAN, CRYPT_AUTH_INFO_ADMIN_IS_CONT, CRYPT_AUTH_INFO_ADMIN_IS_PUK */
-    CRYPT_AUTH_INFO_AUTH auth[1]; /* \brief Массив аутентификаций размера auth_count. */
-} CRYPT_AUTH_INFO;
-
-/*!
-* \ingroup ProCSPData
-*
-* \brief Структура для установки аутентификации.
-*
-* \req_wincryptex
-* \sa CPSetProvParam, PP_SET_AUTH, PP_CHANGE_AUTH
-*/
-typedef struct {
-    BYTE action;    /*! \brief Предполагаемое действие: CRYPT_AUTH_PASSWD, CRYPT_AUTH_QUERY, CRYPT_AUTH_CLEAR, CRYPT_AUTH_RESET_TRIES. */
-    BYTE auth_type; /*! \brief Тип аутентификации по месту предъявления (CRYPT_AUTH_TYPE_PUK, CRYPT_AUTH_TYPE_CONT, ...) */
-    CHAR pin[1]; /*! \brief Значение пин-кода, LPSTR */
-} CRYPT_SET_AUTH;
-
-typedef struct
-{
-    void * hCSP;	/* ссылка на CSP, в котором осуществляются вызовы */
-    void * info;	/* дополнительная информация об устанавливаемых параметрах */
-} PWDFKC_CONTEXT;
 
 /*!
  * \ingroup ProCSPData
@@ -2486,75 +2167,6 @@ typedef struct _CRYPT_CACHE_SIZE {
     DWORD max_cache_size; /*!< Максимальный размер кэша. */
     CSP_BOOL is_writable; /*!< см. CACHE_RO  */
 } CRYPT_CACHE_SIZE;
-
-/*!
-* \ingroup ProCSPData
-*
-* \brief Структура для получения и установки различных открытых параметров ключевого контейнера.
-* Параметры TContainerParamType_AuthServer, TContainerParamType_SignServer, TContainerParamType_OAuth2_AuthToken и TContainerParamType_OAuth2_IdToken 
-* передаются в виде нуль-терминированных ASCII-строк. TContainerParamType_CertificateID в виде DWORD.
-* \req_wincryptex
-* \sa CPGetProvParam
-* \sa CPSetProvParam
-*/
-typedef enum _TContainerParamType {
-    TContainerParamType_Header,
-    TContainerParamType_AuthServer,
-    TContainerParamType_SignServer, 
-    TContainerParamType_OAuth2_AuthToken, 
-    TContainerParamType_OAuth2_IdToken, 
-    TContainerParamType_Username,
-    TContainerParamType_Password,
-    TContainerParamType_Certificate,
-    TContainerParamType_CertificateID
-} TContainerParamType;
-
-typedef struct _CRYPT_CONTAINER_PARAM {
-    TContainerParamType param_type;
-    DWORD cbData;
-    BYTE pbData[1];
-} CRYPT_CONTAINER_PARAM;
-
-/*!
-* \ingroup ProCSPData
-*
-* \brief Структура для получения и установки настроек поддержки разных типов носителей.
-*
-* \req_wincryptex
-* \sa CPGetProvParam
-* \sa CPSetProvParam
-*/
-
-#define ENABLE_CARRIER_TYPE_CSP 0x01   // обычный криптоконтейнер (CSP 3.6 - CSP 4.0)
-#define ENABLE_CARRIER_TYPE_FKC_NO_SM 0x02  // ФКН без SM (Рутокен ЭЦП, еТокен ГОСТ и т.п.)
-#define ENABLE_CARRIER_TYPE_FKC_SM 0x04 // ФКН с SM (SESPAKE)
-#define ENABLE_ANY_CARRIER_TYPE (ENABLE_CARRIER_TYPE_CSP|ENABLE_CARRIER_TYPE_FKC_NO_SM|ENABLE_CARRIER_TYPE_FKC_SM)
-
-#define ENABLE_CARRIER_OPEN_ENUM 0x01   // на запрещенных видах носителей можно открывать и перечислять контейнеры
-#define ENABLE_CARRIER_CREATE 0x02  // на запрещенных видах носителей можно создавать контейнеры
-#define ENABLE_ANY_OPERATION (ENABLE_CARRIER_OPEN_ENUM|ENABLE_CARRIER_CREATE)
-
-typedef struct _CRYPT_CARRIER_TYPES {
-    DWORD enabled_types; /*!< Разрешенные виды носителей. */
-    DWORD enabled_operations; /*!< Разрешенные операции для запрещенных носителей. */
-} CRYPT_CARRIER_TYPES;
-
-/*!
-* \ingroup ProCSPData
-*
-* \brief Флаги, возвращаем через CryptGetProvParam(PP_ENUMREADERS, CRYPT_MEDIA) и CryptGetProvParam(PP_CARRIER_FLAGS)
-*
-* \req_wincryptex
-* \sa CPGetProvParam
-*/
-
-#define CARRIER_FLAG_REMOVABLE 1                  /* признак отчуждаемости носителя (установлен у смарт-карт и флеш-накопителей) */
-#define CARRIER_FLAG_UNIQUE 2                     /* признак наличия уникального номера (установлен у смарт-карт и флеш-накопителей) */
-#define CARRIER_FLAG_PROTECTED 4                  /* признак носителя, защищенного шифрованием на другом контейнере (установлен у HSM) */
-#define CARRIER_FLAG_FUNCTIONAL_CARRIER 8         /* признак ФКН-носителя (носителя с неизвлекаемыми ключами) */
-#define CARRIER_FLAG_SECURE_MESSAGING 16          /* признак ФКН-носителя с поддержкой защищенного обмена сообщениями и протокола SESPAKE */
-#define CARRIER_FLAG_ABLE_SET_KEY 32		  /* признак возможности установки закрытого ключа на ФКН-носитель */
-#define CARRIER_FLAG_ABLE_VISUALISE_SIGNATURE 64  /* признак возможности считывателя запрашивать подтверждение подписи (SafeTouch, Рутокен ПинПад) */
 
 /*!
 * \ingroup ProCSPData
@@ -2657,6 +2269,22 @@ typedef struct _CRYPT_KEY_PERIOD {
     LONG privateKeySeconds;		/*!< Период действия закрытого ключа, в секундах. */
     LONG publicKeySeconds;		/*!< Период действия открытого ключа, в секундах. */
 } CRYPT_KEY_PERIOD, *PCRYPT_KEY_PERIOD;
+
+/*!
+ * \ingroup ProCSPData
+ *
+ * \brief Структура передачи информации функции хэширования по алгоритму CALG_EKEVERIFY_HASH.
+ * 
+ *
+ * \sa CPGetKeyParam
+ * \sa CPSetKeyParam
+ */
+typedef struct _TOKEN_VERIFYDATA {
+    BYTE e_[3*SECRET_KEY_LEN];
+    BYTE xQ_ab[SECRET_KEY_LEN];
+    BYTE xQ_pw[SECRET_KEY_LEN];
+    DWORD Verify;
+} TOKEN_VERIFYDATA,*PTOKEN_VERIFYDATA;
 
 #define CSP_INFO_FREE_SPACE	(0)	/* свободное место на /var в bytes */
 #define CSP_INFO_NUMBER_UL	(1)	/* "\\local\\number_UL" --- количество выпущенных ключей УЛ */
@@ -4162,6 +3790,9 @@ typedef struct _CPCERT_ISSUER_SIGN_TOOL {
  */
 #define CP_CHP_TRAILER_MASK		(0xFF0000)
 
+/*!
+*  \brief Размер трейлера в байтах, размещённый в младшем байте для интерпретации как числа.
+*/
 #define CP_CHP_ENCRYPTED_TRAILER	(CP_CHP_TRAILER_MASK>>CP_CHP_TRAILER_SHIFT)
 
 /*!
@@ -4393,15 +4024,18 @@ typedef struct _CPCERT_ISSUER_SIGN_TOOL {
 /*! \ingroup ProCSPData
  * \defgroup CryptIOvec  Вектор ввода вывода
  *
- * Если при вызове функций шифрования CPEncrypt(),
- * CPCEncrypt(), CPDecrypt() или CPCDecrypt() в параметре dwFlags
- * установлены флаги CP_CRYPT_HASH_PACKET и  CP_CRYPT_DATA_IOVEC,
- * или при вызове функций хэширования CPHashData() и CPCHashData()
- * установлен флаг CP_HASH_DATA_IOVEC, то
- * обрабатываемые данные представлены в форме вектора ввода-вывода --
- * массивом структур #CSP_iovec.
- * Последовательность структур в массиве должна соответствовать
+ * Входные (и выходные) данные функций шифрования CPEncrypt(), 
+ * CPCEncrypt(), CPDecrypt(), CPCDecrypt(),
+ * если в параметре dwFlags устаны флаги CP_CRYPT_HASH_PACKET и 
+ * CP_CRYPT_DATA_IOVEC,
+ * а также входные данные функций хэширования CPHashData() и 
+ * CPCHashData(),
+ * если в параметре dwFlags устан флаг CP_HASH_DATA_IOVEC, могут быть 
+ * представлены в форме вектора ввода вывода. 
+ * В этом случае данные представляются массивом структур #CSP_iovec.
+ * Последовательность структур в массиве должна соответствовать 
  * последовательности фрагментов данных в пакете.
+ * 
  */
 
 #if !defined(UNIX)
@@ -4432,6 +4066,7 @@ typedef struct _CPCERT_ISSUER_SIGN_TOOL {
 	typedef CHAR *CSPiov_ptr_type;
 	typedef ULONG CSPiov_len_type;
 
+	#if !defined(CP_IOVEC_USE_SYSTEM) || defined(DOCUMENTATION_ONLY)
 		// TODO: Ещё раз проверить, быть может, можно всегда 
 		// использовать системные стуктуры
 	    /*! \ingroup CryptIOvec
@@ -4453,7 +4088,8 @@ typedef struct _CPCERT_ISSUER_SIGN_TOOL {
 		CSPiov_len_type CSPiov_len; /*!< Длина фрагмента данных в байтах. */
 		CSPiov_ptr_type CSPiov_ptr; /*!< Указатель на фрагмент данных. */
 	    } CSP_iovec;
-	#if !defined(CSP_LITE)
+	#endif
+	#if !defined(CSP_LITE) && !defined(CP_IOVEC_USE_SYSTEM)
 		// На уровне приложений используем структуру ОС
 		// Однако, представляется желательным, совпадение 
 		// представлений стуктур ядра и пользователя
@@ -4504,13 +4140,15 @@ typedef struct _CPCERT_ISSUER_SIGN_TOOL {
 	typedef size_t CSPiov_len_type;
     #endif
 
+    #if !defined(CP_IOVEC_USE_SYSTEM) || defined(DOCUMENTATION_ONLY)
 	    // TODO: Ещё раз проверить, быть может, можно всегда 
 	    // использовать системные стуктуры
 	typedef struct CSP_iovec_ {
 	    CSPiov_ptr_type CSPiov_ptr; /*!<Указатель на фрагмент данных.*/
 	    CSPiov_len_type CSPiov_len; /*!<Длина фрагмента данных в байтах.*/
 	} CSP_iovec;
-    #if !defined(CSP_LITE)
+    #endif
+    #if !defined(CSP_LITE) && !defined(CP_IOVEC_USE_SYSTEM)
 	    // На уровне приложений используем структуру ОС для 
 	    // упрощения взаимодействия с подсистемой В/В ОС.
 	    // Однако, представляется желательным, совпадение 

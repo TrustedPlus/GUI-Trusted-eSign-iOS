@@ -88,40 +88,17 @@ export class Journal extends React.Component<JournalProps, JournalState> {
 		let lastData = null;
 		return (
 			this.props.log.map((log, key) => {
-				if (lastData === null) {
-					showData = true;
-					lastData = new Date(log.now).toLocaleString("ru", optionsData);
-				} else {
-					if (lastData === new Date(log.now).toLocaleString("ru", optionsData)) {
-						showData = false;
-					} else {
-						lastData = new Date(log.now).toLocaleString("ru", optionsData);
-						showData = true;
-					}
-				}
 				if (filter.filterEnabled) {
 					if (filter.filename !== "") {
 						if (log.name.toUpperCase().indexOf(filter.filename.toUpperCase()) === -1) {
-							return <View key={key} >
-								{showData ? <View style={{ paddingLeft: 20, paddingTop: 20 }}>
-									<Text style={{ fontWeight: "600" }}>{new Date(log.now).toLocaleString("ru", optionsData)}</Text>
-								</View> : null}
-							</View>;
+							return null;
 						}
 					}
 					if (new Date(filter.data1).getTime() > new Date(log.now).getTime()) {
-						return <View key={key} >
-							{showData ? <View style={{ paddingLeft: 20, paddingTop: 20 }}>
-								<Text style={{ fontWeight: "600" }}>{new Date(log.now).toLocaleString("ru", optionsData)}</Text>
-							</View> : null}
-						</View>;
+						return null;
 					}
 					if (new Date(filter.data2).getTime() < new Date(log.now).getTime()) {
-						return <View key={key} >
-							{showData ? <View style={{ paddingLeft: 20, paddingTop: 20 }}>
-								<Text style={{ fontWeight: "600" }}>{new Date(log.now).toLocaleString("ru", optionsData)}</Text>
-							</View> : null}
-						</View>;
+						return null;
 					}
 					if (filter.SelectedFilters.sign || filter.SelectedFilters.addSign || filter.SelectedFilters.enc
 						|| filter.SelectedFilters.dec || filter.SelectedFilters.createRequest || filter.SelectedFilters.installCert
@@ -155,12 +132,19 @@ export class Journal extends React.Component<JournalProps, JournalState> {
 							if (log.record === "Удаление\nфайла") { showThisLog = true; }
 						}
 						if (!showThisLog) {
-							return <View key={key} >
-								{showData ? <View style={{ paddingLeft: 20, paddingTop: 20 }}>
-									<Text style={{ fontWeight: "600" }}>{new Date(log.now).toLocaleString("ru", optionsData)}</Text>
-								</View> : null}
-							</View>;
+							return null;
 						}
+					}
+				}
+				if (lastData === null) {
+					showData = true;
+					lastData = new Date(log.now).toLocaleString("ru", optionsData);
+				} else {
+					if (lastData === new Date(log.now).toLocaleString("ru", optionsData)) {
+						showData = false;
+					} else {
+						lastData = new Date(log.now).toLocaleString("ru", optionsData);
+						showData = true;
 					}
 				}
 				return (
@@ -195,7 +179,6 @@ export class Journal extends React.Component<JournalProps, JournalState> {
 				<Headers
 					title="Журнал операций"
 					goBack={() => goBack()}
-					filterEnabled={this.props.filter.filterEnabled}
 					imgRight={this.props.filter.filterEnabled ? require("../../imgs/general/filter_on.png") : require("../../imgs/general/filter_off.png")}
 					goRight={() => navigate("FilterJournal")} />
 				{this.state.loadingJournal
@@ -236,8 +219,8 @@ export class Journal extends React.Component<JournalProps, JournalState> {
 							</Title>
 						</Header>
 						<View style={{
-								padding: 15, height: 70
-							}}>
+							padding: 15, height: 70
+						}}>
 							<Text style={{
 								color: "grey",
 								fontSize: 15

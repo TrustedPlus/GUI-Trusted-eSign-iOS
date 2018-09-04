@@ -387,6 +387,16 @@ typedef struct _LUID {
     LONG HighPart;
 } LUID, *PLUID;
 
+#define LANG_NEUTRAL                     0x00
+#define LANG_ENGLISH                     0x09
+#define LANG_RUSSIAN                     0x19
+#define SUBLANG_NEUTRAL                  0x00    // language neutral
+#define SUBLANG_DEFAULT                  0x01    // user default
+
+#define MAKELANGID(p, s)       ((((WORD  )(s)) << 10) | (WORD  )(p))
+#define PRIMARYLANGID(lgid)    ((WORD  )(lgid) & 0x3ff)
+#define SUBLANGID(lgid)        ((WORD  )(lgid) >> 10)
+
 #define ZeroMemory(Destination,Length) memset((Destination),0,(Length))
 #define CopyMemory(Destination,Source,Length) memcpy((Destination),(Source),(Length))
 #define FillMemory(Destination,Length,Fill) memset((Destination),(Fill),(Length))
@@ -448,10 +458,12 @@ WINBASEAPI DWORD WINAPI CSP_GetLastError(void);
 
 WINBASEAPI void WINAPI CSP_SetLastError(DWORD dwErr);   //Sets error code
 
+#ifdef LEGACY_FORMAT_MESSAGE_IMPL
+
 WINBASEAPI
 DWORD
 WINAPI
-FormatMessage(
+CSP_FormatMessage(
     IN DWORD dwFlags,
     IN LPCVOID lpSource,
     IN DWORD dwMessageId,
@@ -461,7 +473,49 @@ FormatMessage(
     IN void *Arguments
     );
 
-#define FormatMessageA FormatMessage
+#define CSP_FormatMessageA CSP_FormatMessage
+
+#else
+
+#if defined (_MSC_VER) || defined (__GNUC__)
+#  if defined (__cplusplus)
+#    pragma message ("Your application will require at least CryptoPro CSP 4.0 R3. You can use LEGACY_FORMAT_MESSAGE_IMPL to support older versions.")
+#  endif
+#endif 
+
+WINBASEAPI
+DWORD
+WINAPI
+CSP_FormatMessageA(
+    IN DWORD dwFlags,
+    IN LPCVOID lpSource,
+    IN DWORD dwMessageId,
+    IN DWORD dwLanguageId,
+    OUT LPSTR lpBuffer,
+    IN DWORD nSize,
+    IN void *Arguments
+    );
+
+WINBASEAPI
+DWORD
+WINAPI
+CSP_FormatMessageW(
+    IN DWORD dwFlags,
+    IN LPCVOID lpSource,
+    IN DWORD dwMessageId,
+    IN DWORD dwLanguageId,
+    OUT LPWSTR lpBuffer,
+    IN DWORD nSize,
+    IN void *Arguments
+    );
+
+#ifdef UNICODE
+#    define CSP_FormatMessage CSP_FormatMessageW
+#else
+#    define CSP_FormatMessage CSP_FormatMessageA
+#endif // UNICODE
+
+#endif // LEGACY_FORMAT_MESSAGE_IMPL
 
 #define FORMAT_MESSAGE_ALLOCATE_BUFFER 0x00000100
 #define FORMAT_MESSAGE_IGNORE_INSERTS  0x00000200

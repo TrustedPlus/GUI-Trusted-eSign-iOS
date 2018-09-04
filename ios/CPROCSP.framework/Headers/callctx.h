@@ -2,7 +2,6 @@
 #define CALLCTX_H_INCLUDED 1
 
 #include<CPROCSP/BaseArithmDef_64.h>
-#include<CPROCSP/compiler_attributes.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -84,29 +83,29 @@ typedef struct RND_CONTEXT_ {
 } RND_CONTEXT, *LPRND_CONTEXT;
 
 /* Реентерабельные варианты CSP_SetLastError/CSP_GetLastError */
-void	rCSP_SetLastError	(pCP_CALL_CTX pCallCtx, DWORD err);
-DWORD	rCSP_GetLastError	(pCP_CALL_CTX pCallCtx) ATTR_USERES;
+extern	void	rCSP_SetLastError	(pCP_CALL_CTX pCallCtx, DWORD err);
+extern	DWORD	rCSP_GetLastError	(pCP_CALL_CTX pCallCtx);
 
 #ifdef USE_STATIC_ANALYZER
 #define rAllocMemory(pCallCtx,dwSize,dwMemPoolId) (pCallCtx, dwMemPoolId,calloc(dwSize, 1))
 #define rFreeMemory(pCallCtx,pMem,dwMemPoolId)  (pCallCtx, dwMemPoolId,free(pMem))
 #else
 /* Реентерабельные варианты AllocMemory/FreeMemory */
-LPVOID	rAllocMemory	(pCP_CALL_CTX pCallCtx, size_t dwSize, DWORD dwMemPoolId) ATTR_USERES;
-void	rFreeMemory	(pCP_CALL_CTX pCallCtx, VOID *pMem, DWORD dwMemPoolId);
+extern	LPVOID	rAllocMemory	(pCP_CALL_CTX pCallCtx, size_t dwSize, DWORD dwMemPoolId);
+extern	CSP_BOOL	rFreeMemory	(pCP_CALL_CTX pCallCtx, VOID *pMem, DWORD dwMemPoolId);
 #endif
 
 /*! Инициализация памяти */
-CSP_BOOL	rInitMemory	(pCP_CALL_CTX pCallCtx) ATTR_USERES;
+extern	CSP_BOOL	rInitMemory	(pCP_CALL_CTX pCallCtx);
 
 #if !defined UNIX
 /*! Уничтожение всех куч */
-void	rDoneMemory	(pCP_CALL_CTX pCallCtx);
+extern	void	rDoneMemory	(pCP_CALL_CTX pCallCtx);
 #endif /* !UNIX */
 /*! Проверка целостности куч */
-void	rValidateMemory	(pCP_CALL_CTX pCallCtx);
+extern	void	rValidateMemory	(pCP_CALL_CTX pCallCtx);
 
-void	rInitCallCtx	(pCP_CALL_CTX pCallCtx, LPCRYPT_CSP hCSP);
+extern	void	rInitCallCtx	(pCP_CALL_CTX pCallCtx, LPCRYPT_CSP hCSP);
 
 
 struct _CP_CALL_CTX_
@@ -116,6 +115,9 @@ struct _CP_CALL_CTX_
     LPRND_CONTEXT		ThreadPRSG; // Чтобы можно было подменять ДСЧ в макросе MakeRandom
     DWORD			dwError;
     DWORD			dwThreadId;
+    #if defined(PRO_MAP_ALLOC)
+	long long		CtxId;
+    #endif
     DWORD			dwCommonKArrayLength;
     BYTE                       *pbCommonKArray; 
     CSP_BOOL			bOwnFPU;

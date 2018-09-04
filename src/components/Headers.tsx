@@ -8,7 +8,6 @@ interface HeadersProps {
 	iconRight?: string;
 	imgRight?: any;
 	textRight?: string;
-	filterEnabled?: boolean;
 	type?: any;
 	goHome?(): any;
 	goBack?(): void;
@@ -33,7 +32,7 @@ export class Headers extends React.Component<HeadersProps> {
 				{this.props.iconRight
 					? <Right>
 						<Button transparent onPress={() => this.props.goRight()}>
-							<Icon type={this.props.type ? this.props.type : null} style={this.props.filterEnabled ? { color: "lightgreen", fontSize: 32 } : { color: "white", fontSize: 32 }} name={this.props.iconRight} />
+							<Icon type={this.props.type ? this.props.type : null} style={{ color: "white", fontSize: 32 }} name={this.props.iconRight} />
 						</Button>
 					</Right>
 					: this.props.imgRight

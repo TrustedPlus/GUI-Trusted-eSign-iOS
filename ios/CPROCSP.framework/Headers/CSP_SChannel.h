@@ -47,8 +47,6 @@
 #define SCHANNEL_NAME_A  "Schannel"
 #define SCHANNEL_NAME_W  L"Schannel"
 
-#define DEFAULT_TLS_SSP_NAME_A  "Default TLS SSP"
-#define DEFAULT_TLS_SSP_NAME_W  L"Default TLS SSP"
 
 #ifdef UNICODE
 
@@ -58,7 +56,6 @@
 #define SSL3SP_NAME  SSL3SP_NAME_W
 #define TLS1SP_NAME  TLS1SP_NAME_W
 #define SCHANNEL_NAME  SCHANNEL_NAME_W
-#define DEFAULT_TLS_SSP_NAME  DEFAULT_TLS_SSP_NAME_W
 
 #else
 
@@ -68,7 +65,6 @@
 #define SSL3SP_NAME  SSL3SP_NAME_A
 #define TLS1SP_NAME  TLS1SP_NAME_A
 #define SCHANNEL_NAME  SCHANNEL_NAME_A
-#define DEFAULT_TLS_SSP_NAME  DEFAULT_TLS_SSP_NAME_A
 
 #endif
 
@@ -322,9 +318,37 @@ typedef struct _SCHANNEL_CRED
     DWORD           dwMaximumCipherStrength;
     DWORD           dwSessionLifespan;
     DWORD           dwFlags;
-    DWORD           reserved;
+    DWORD           dwCredFormat;
 } SCHANNEL_CRED, *PSCHANNEL_CRED;
 
+// Values for SCHANNEL_CRED dwCredFormat field.
+#define SCH_CRED_FORMAT_CERT_CONTEXT    0x00000000
+#define SCH_CRED_FORMAT_CERT_HASH       0x00000001
+#define SCH_CRED_FORMAT_CERT_HASH_STORE 0x00000002
+
+#define SCH_CRED_MAX_STORE_NAME_SIZE    128
+#define SCH_CRED_MAX_SUPPORTED_ALGS     256
+#define SCH_CRED_MAX_SUPPORTED_CERTS    100
+
+typedef struct _SCHANNEL_CERT_HASH
+{
+    DWORD           dwLength;
+    DWORD           dwFlags;
+    HCRYPTPROV      hProv;
+    BYTE            ShaHash[20];
+} SCHANNEL_CERT_HASH, *PSCHANNEL_CERT_HASH;
+
+typedef struct _SCHANNEL_CERT_HASH_STORE
+{
+    DWORD           dwLength;
+    DWORD           dwFlags;
+    HCRYPTPROV      hProv;
+    BYTE            ShaHash[20];
+    WCHAR           pwszStoreName[SCH_CRED_MAX_STORE_NAME_SIZE];
+} SCHANNEL_CERT_HASH_STORE, *PSCHANNEL_CERT_HASH_STORE;
+
+// Values for SCHANNEL_CERT_HASH dwFlags field.
+#define SCH_MACHINE_CERT_HASH           0x00000001
 
 //+-------------------------------------------------------------------------
 // Flags for use with SCHANNEL_CRED

@@ -21419,51 +21419,6 @@
 /**/
 #define SCARD_E_COMM_DATA_LOST           _HRESULT_TYPEDEF_(0x8010002FL)
 
-//
-// MessageId: SCARD_E_NO_KEY_CONTAINER
-//
-// MessageText:
-//
-// The requested key container does not exist on the smart card.
-//
-#define SCARD_E_NO_KEY_CONTAINER         _HRESULT_TYPEDEF_(0x80100030L)
-
-//
-// MessageId: SCARD_E_SERVER_TOO_BUSY
-//
-// MessageText:
-//
-// The Smart Card Resource Manager is too busy to complete this operation.
-//
-#define SCARD_E_SERVER_TOO_BUSY          _HRESULT_TYPEDEF_(0x80100031L)
-
-//
-// MessageId: SCARD_E_PIN_CACHE_EXPIRED
-//
-// MessageText:
-//
-// The smart card PIN cache has expired.
-//
-#define SCARD_E_PIN_CACHE_EXPIRED        _HRESULT_TYPEDEF_(0x80100032L)
-
-//
-// MessageId: SCARD_E_NO_PIN_CACHE
-//
-// MessageText:
-//
-// The smart card PIN cannot be cached.
-//
-#define SCARD_E_NO_PIN_CACHE             _HRESULT_TYPEDEF_(0x80100033L)
-
-//
-// MessageId: SCARD_E_READ_ONLY_CARD
-//
-// MessageText:
-//
-// The smart card is read only and cannot be written to.
-//
-#define SCARD_E_READ_ONLY_CARD           _HRESULT_TYPEDEF_(0x80100034L)
-
 /**/
 /* These are warning codes.*/
 /**/
@@ -21556,15 +21511,6 @@
 /*  The action was cancelled by the user.*/
 /**/
 #define SCARD_W_CANCELLED_BY_USER        _HRESULT_TYPEDEF_(0x8010006EL)
-
-//
-// MessageId: SCARD_W_CARD_NOT_AUTHENTICATED
-//
-// MessageText:
-//
-// No PIN was presented to the smart card.
-//
-#define SCARD_W_CARD_NOT_AUTHENTICATED   _HRESULT_TYPEDEF_(0x8010006FL)
 
 /* ******************/
 /* FACILITY_COMPLUS*/
@@ -22119,7 +22065,6 @@
 /*  MSMQ, which is required for the requested operation, is not installed.*/
 /**/
 #define COMQC_E_QUEUING_SERVICE_NOT_AVAILABLE _HRESULT_TYPEDEF_(0x80110602L)
-
 
 // WINHTTP Error statuses
 

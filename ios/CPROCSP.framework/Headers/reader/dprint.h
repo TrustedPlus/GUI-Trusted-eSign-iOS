@@ -49,12 +49,14 @@
 #      define DB_CALL CONS
 #      define DB_LOG CONS
 #      define DB_WARN CONS
+#      define DB_UNUSUAL EXCL
 #    else // IOS
 #      define DB_ERROR ERRO
 #      define DB_TRACE NORM
 #      define DB_CALL NORM
 #      define DB_LOG NORM
 #      define DB_WARN NORM
+#      define DB_UNUSUAL EXCL
 #    endif // IOS
 # else // В Release пишем почти всё в Event Log
 #  if defined IOS
@@ -78,6 +80,7 @@
 #  endif
 #      define DB_TRACE EXCL
 #      define DB_CALL EXCL
+#      define DB_UNUSUAL EXCL
 # endif /* _DEBUG */
 #endif
 
@@ -113,7 +116,11 @@
 #   define SFUNC __FUNCTION__
 # endif
 #elif defined(__GNUC__)
+# if (__GNUC__ == 2)
+#   define SFUNC __FUNCTION__
+# else /*(__GNUC__ == 2)*/
 #   define SFUNC __func__
+# endif  /*(__GNUC__ == 2)*/
 #else /*defined( _MSC_VER ) */
 #   define SFUNC __func__
 #endif /*defined( _MSC_VER ) */
@@ -122,7 +129,7 @@
 #define __DTEXT(x) _TEXT(x)
 #define DTEXT(x) __DTEXT(x)
 #if defined _WIN32 && defined UNICODE
-#   define __DFILE__ _STR2WSTR(__FILE__)
+#   define __DFILE__ CONCAT_COUNT(L,__FILE__)
 #   define D2A "%S"
 #   define D2W "%s"
 #else
@@ -134,8 +141,10 @@
 //для печати TCHAR * в ASCII функции
 #ifdef _UNICODE
 #define _T2A "%S"
+#define _W2T "%s"
 #else
 #define _T2A "%s"
+#define _W2T "%S"
 #endif
 
 #if defined _WIN32
@@ -171,28 +180,56 @@ typedef enum DBType_ {
 	N_DB_TRACE = 2,
 	N_DB_CALL = 4,
 	N_DB_LOG = 8,
+	N_DB_UNUSUAL = 0x10,
 	N_DB_WARN = 0x20
 } DBType;
 
-#define SUPPORT_DB_QPRINT_ERRO(level,param) \
-    if( support_print_qis_##level param ) support_eprint_print_ param
-#define SUPPORT_DB_QPRINT_NORM(level,param) \
-    if( support_print_qis_##level param ) support_dprint_print_ param
-#define SUPPORT_DB_QPRINT_CONS(level,param) \
-    if( support_print_qis_##level param ) support_cprint_print_ param
-#define SUPPORT_DB_QPRINT_ELOG(level,param) \
-    if( support_print_qis_##level param ) support_elprint_print_ param
-#define SUPPORT_DB_QPRINT_EXCL(level,param)
-#define SUPPORT_DB_QPRINT_HEX_ERRO(context,level,file,line,func,msg,buffer,length)\
-    if( support_print_qis_##level(context, file) ) support_eprint_hex(context,file,line,func,msg,buffer,length)
-#define SUPPORT_DB_QPRINT_HEX_NORM(context,level,file,line,func,msg,buffer,length)\
-    if( support_print_qis_##level(context, file) ) support_dprint_hex(context,file,line,func,msg,buffer,length)
-#define SUPPORT_DB_QPRINT_HEX_CONS(context,level,file,line,func,msg,buffer,length)\
-    if( support_print_qis_##level(context, file) ) support_cprint_hex(context,file,line,func,msg,buffer,length)
-#define SUPPORT_DB_QPRINT_HEX_ELOG(context,level,file,line,func,msg,buffer,length)\
-    if( support_print_qis_##level(context, file) ) support_elprint_hex(context,file,line,func,msg,buffer,length)
-#define SUPPORT_DB_QPRINT_HEX_EXCL(context,level,file,line,func,msg,buffer,length)
+#if defined(__cplusplus) && !defined(__GNUC__)
+    #define SUPPORT_DB_QPRINT_ERRO(level,param) \
+        if( debug::support_print_qis_##level param ) support_eprint_print_ param
+    #define SUPPORT_DB_QPRINT_NORM(level,param) \
+        if( debug::support_print_qis_##level param ) support_dprint_print_ param
+    #define SUPPORT_DB_QPRINT_CONS(level,param) \
+        if( debug::support_print_qis_##level param ) support_cprint_print_ param
+    #define SUPPORT_DB_QPRINT_ELOG(level,param) \
+        if( debug::support_print_qis_##level param ) support_elprint_print_ param
+    #define SUPPORT_DB_QPRINT_EXCL(level,param)
+    #define SUPPORT_DB_QPRINT_HEX_ERRO(context,level,file,line,func,msg,buffer,length)\
+        if( debug::support_print_qis_##level(context) ) support_eprint_hex(context,file,line,func,msg,buffer,length)
+    #define SUPPORT_DB_QPRINT_HEX_NORM(context,level,file,line,func,msg,buffer,length)\
+        if( debug::support_print_qis_##level(context) ) support_dprint_hex(context,file,line,func,msg,buffer,length)
+    #define SUPPORT_DB_QPRINT_HEX_CONS(context,level,file,line,func,msg,buffer,length)\
+        if( debug::support_print_qis_##level(context) ) support_cprint_hex(context,file,line,func,msg,buffer,length)
+    #define SUPPORT_DB_QPRINT_HEX_ELOG(context,level,file,line,func,msg,buffer,length)\
+        if( debug::support_print_qis_##level(context) ) support_elprint_hex(context,file,line,func,msg,buffer,length)
+    #define SUPPORT_DB_QPRINT_HEX_EXCL(context,level,file,line,func,msg,buffer,length)
+#else
+    #define SUPPORT_DB_QPRINT_ERRO(level,param) \
+        if( support_print_qis_##level param ) support_eprint_print_ param
+    #define SUPPORT_DB_QPRINT_NORM(level,param) \
+        if( support_print_qis_##level param ) support_dprint_print_ param
+    #define SUPPORT_DB_QPRINT_CONS(level,param) \
+        if( support_print_qis_##level param ) support_cprint_print_ param
+    #define SUPPORT_DB_QPRINT_ELOG(level,param) \
+        if( support_print_qis_##level param ) support_elprint_print_ param
+    #define SUPPORT_DB_QPRINT_EXCL(level,param)
+    #define SUPPORT_DB_QPRINT_HEX_ERRO(context,level,file,line,func,msg,buffer,length)\
+        if( support_print_qis_##level(context) ) support_eprint_hex(context,file,line,func,msg,buffer,length)
+    #define SUPPORT_DB_QPRINT_HEX_NORM(context,level,file,line,func,msg,buffer,length)\
+        if( support_print_qis_##level(context) ) support_dprint_hex(context,file,line,func,msg,buffer,length)
+    #define SUPPORT_DB_QPRINT_HEX_CONS(context,level,file,line,func,msg,buffer,length)\
+        if( support_print_qis_##level(context) ) support_cprint_hex(context,file,line,func,msg,buffer,length)
+    #define SUPPORT_DB_QPRINT_HEX_ELOG(context,level,file,line,func,msg,buffer,length)\
+        if( support_print_qis_##level(context) ) support_elprint_hex(context,file,line,func,msg,buffer,length)
+    #define SUPPORT_DB_QPRINT_HEX_EXCL(context,level,file,line,func,msg,buffer,length)
+#endif //__cplusplus
 
+#if defined ( WINCE ) && !defined ( _DEBUG )
+// На CE для Release отключаем сообщения совсем, т.к. размер ужасно критичен!
+#define NO_DB_TRACE
+#endif // defined ( WINCE ) && !defined ( _DEBUG )
+
+#if defined _WIN32 || defined UNIX
 #ifdef NO_DB_TRACE
 #define DbTrace(level, param) 
 #define DbTraceHex(level, ctx, msg, buffer, length) 
@@ -200,14 +237,11 @@ typedef enum DBType_ {
 #define DbTraceDone(ctx) 
 #else // !NO_DB_TRACE
 #define DbTrace(level, param) CONCAT(SUPPORT_DB_QPRINT_,level)(N_##level,param)  
-#if defined _DEBUG
 #define DbTraceHex(level, ctx, msg, buffer, length) CONCAT(SUPPORT_DB_QPRINT_HEX_,level)(ctx,N_##level,__DFILE__,__LINE__,SFUNC,msg,buffer,length)
-#else
-#define DbTraceHex(level, ctx, msg, buffer, length) CONCAT(SUPPORT_DB_QPRINT_HEX_,level)(ctx,N_##level,DTEXT(""),__LINE__,SFUNC,msg,buffer,length)
-#endif
 #define DbTraceInit(ctx,info,module,level,format) { ctx = support_print_init(info,module,level,format ); }
 #define DbTraceDone(ctx) { support_print_done( ctx ); ctx = NULL; }
 #endif // !NO_DB_TRACE
+#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -241,7 +275,7 @@ typedef void support_print_str_ex_callback(void *callback_arg, const DCHAR *str,
 typedef unsigned long _SUPPORT_CALLBACK_CONV support_get_thread_id_callback(void);
 
 /* DebugInfo dprint*/
-DWORD _SUPPORT_CALLBACK_CONV
+_SUPPORT_DECL TSupErr _SUPPORT_CALLBACK_CONV
 support_print_init_ex(TSupportDbContext* buf, size_t * sz, void *info,
 		      const DCHAR *module, unsigned level, unsigned format,
 		      support_print_str_callback *dprint_str, 
@@ -254,75 +288,89 @@ support_print_init_ex(TSupportDbContext* buf, size_t * sz, void *info,
 		      support_print_str_ex_callback *elprint_str_ex,
 		      support_get_thread_id_callback *get_thread_id,
 		      void *callback_arg);
-TSupportDbContext* _SUPPORT_CALLBACK_CONV
+_SUPPORT_DECL TSupportDbContext* _SUPPORT_CALLBACK_CONV
 support_print_init(void *info, const DCHAR *module, unsigned level,
 		   unsigned format);
-DWORD _SUPPORT_CALLBACK_CONV
+_SUPPORT_DECL TSupErr _SUPPORT_CALLBACK_CONV
 support_print_done_ex(TSupportDbContext* ctx);
-DWORD _SUPPORT_CALLBACK_CONV
+_SUPPORT_DECL TSupErr _SUPPORT_CALLBACK_CONV
 support_print_done(TSupportDbContext* ctx);
-void* _SUPPORT_CALLBACK_CONV
-support_print_callback_arg( TSupportDbContext* ctx );
-
-int _SUPPORT_CALLBACK_CONV
+_SUPPORT_DECL int _SUPPORT_CALLBACK_CONV
 support_print_is(TSupportDbContext* ctx, unsigned when);
 
 
-#if defined _DEBUG || !defined ( _WIN32 )//на *nix отложенная инициализация лога - зачем это сделано - выяснить не удалось
-#define support_print_qis_N_DB_ERROR(ctx, ...) (ctx && support_print_is(ctx, N_DB_ERROR))
-#define support_print_qis_N_DB_TRACE(ctx, ...) (ctx && support_print_is(ctx, N_DB_TRACE))
-#define support_print_qis_N_DB_CALL(ctx, ...) (ctx && support_print_is(ctx, N_DB_CALL))
-#define support_print_qis_N_DB_LOG(ctx, ...) (ctx && support_print_is(ctx, N_DB_LOG))
-#define support_print_qis_N_DB_WARN(ctx, ...) (ctx && support_print_is(ctx, N_DB_WARN))
-#else /*defined _DEBUG*/
-#define support_print_qis_N_DB_ERROR(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_ERROR))
-#define support_print_qis_N_DB_TRACE(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_TRACE))
-#define support_print_qis_N_DB_CALL(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_CALL))
-#define support_print_qis_N_DB_LOG(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_LOG))
-#define support_print_qis_N_DB_WARN(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_WARN))
-#endif /*defined _DEBUG*/
+#if __GNUC__ /* doesn't like varargs in inline funcs */
+#define support_print_qis_N_DB_ERROR(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_ERROR) && support_print_is(ctx, N_DB_ERROR))
+#define support_print_qis_N_DB_TRACE(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_TRACE) && support_print_is(ctx, N_DB_TRACE))
+#define support_print_qis_N_DB_CALL(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_CALL) && support_print_is(ctx, N_DB_CALL))
+#define support_print_qis_N_DB_LOG(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_LOG) && support_print_is(ctx, N_DB_LOG))
+#define support_print_qis_N_DB_WARN(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_WARN) && support_print_is(ctx, N_DB_WARN))
+#define support_print_qis_N_DB_UNUSUAL(ctx, ...) (ctx && (*(unsigned*)(ctx)&N_DB_UNUSUAL) && support_print_is(ctx, N_DB_UNUSUAL))
+#else /* __GNUC__ */
 
-DWORD
+#ifdef __cplusplus
+    #if _DEBUG
+    #define MAKE_QIS_FUNC(level) namespace debug{ static SUP_INLINE int support_print_qis_##level(TSupportDbContext *ctx, ...) {return ctx && support_print_is(ctx, level) && (*(unsigned*)(ctx)&level);}}
+    #else
+    #define MAKE_QIS_FUNC(level) namespace debug { static SUP_INLINE int support_print_qis_##level(TSupportDbContext *ctx, ...) {return ctx && (*(unsigned*)(ctx)&level) && support_print_is(ctx, level);}}
+    #endif //_DEBUG
+#else 
+    #if _DEBUG
+    #define MAKE_QIS_FUNC(level) static SUP_INLINE int support_print_qis_##level(TSupportDbContext *ctx, ...) {return ctx && support_print_is(ctx, level) && (*(unsigned*)(ctx)&level);}
+    #else
+    #define MAKE_QIS_FUNC(level) static SUP_INLINE int support_print_qis_##level(TSupportDbContext *ctx, ...) {return ctx && (*(unsigned*)(ctx)&level) && support_print_is(ctx, level);}
+    #endif //_DEBUG
+#endif //__cplusplus
+
+MAKE_QIS_FUNC(N_DB_ERROR)
+MAKE_QIS_FUNC(N_DB_TRACE)
+MAKE_QIS_FUNC(N_DB_CALL)
+MAKE_QIS_FUNC(N_DB_LOG)
+MAKE_QIS_FUNC(N_DB_WARN)
+MAKE_QIS_FUNC(N_DB_UNUSUAL)
+#endif /* __GNUC__ */
+
+_SUPPORT_DECL TSupErr
 support_cprint_print(TSupportDbContext* ctx, const DCHAR *str,
 		     const DCHAR *file, int line, const DCHAR *func,
 		     va_list args);
-DWORD
+_SUPPORT_DECL TSupErr
 support_dprint_print(TSupportDbContext* ctx, const DCHAR *str,
 		     const DCHAR *file, int line, const DCHAR *func,
 		     va_list args);
-DWORD
+_SUPPORT_DECL TSupErr
 support_eprint_print(TSupportDbContext* ctx, const DCHAR *str,
 		     const DCHAR *file, int line, const DCHAR *func,
 		     va_list args);
-DWORD
+_SUPPORT_DECL TSupErr
 support_elprint_print(TSupportDbContext* ctx, const DCHAR *str,
 		      const DCHAR *file, int line, const DCHAR *func,
 		      va_list args);
-void
+_SUPPORT_DECL void
 support_cprint_print_(TSupportDbContext* ctx, const DCHAR *str,
 		      const DCHAR *file, int line, const DCHAR *func, ...);
-void
+_SUPPORT_DECL void
 support_dprint_print_(TSupportDbContext* ctx, const DCHAR *str, 
 		      const DCHAR *file, int line, const DCHAR *func, ...);
-void
+_SUPPORT_DECL void
 support_eprint_print_(TSupportDbContext* ctx, const DCHAR *str,
 		      const DCHAR *file, int line, const DCHAR *func, ...);
-void
+_SUPPORT_DECL void
 support_elprint_print_(TSupportDbContext* ctx, const DCHAR *str,
 		       const DCHAR *file, int line, const DCHAR *func, ...);
-DWORD
+_SUPPORT_DECL TSupErr
 _SUPPORT_CALLBACK_CONV
 support_dprint_hex(TSupportDbContext *ctx, const DCHAR *file, int line,
 		   const DCHAR *func, const DCHAR *msg, void *info, size_t size);
-DWORD
+_SUPPORT_DECL TSupErr
 _SUPPORT_CALLBACK_CONV
 support_cprint_hex(TSupportDbContext *ctx, const DCHAR *file, int line,
 		   const DCHAR *func, const DCHAR *msg, void *info, size_t size);
-DWORD
+_SUPPORT_DECL TSupErr
 _SUPPORT_CALLBACK_CONV
 support_eprint_hex(TSupportDbContext *ctx, const DCHAR *file, int line,
 		   const DCHAR *func, const DCHAR *msg, void *info, size_t size);
-DWORD
+_SUPPORT_DECL TSupErr
 _SUPPORT_CALLBACK_CONV
 support_elprint_hex(TSupportDbContext *ctx, const DCHAR *file, int line,
 		    const DCHAR *func, const DCHAR *msg, void *info, size_t size);

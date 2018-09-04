@@ -36,14 +36,12 @@
 
 #ifndef __URL_REQUEST_IMPL_H__
 #define __URL_REQUEST_IMPL_H__
-
-#include<CPROCSP/UnixRequest.h>
-#include<CPROCSP/WinCryptEx.h>
-
 #ifdef _WIN32
 #   define snprintf(buf,count,...) _snprintf_s(buf,count,_TRUNCATE,__VA_ARGS__)
 #endif
 
+#include<CPROCSP/UnixRequest.h>
+#include<CPROCSP/WinCryptEx.h>
 
 class UnixRequestImpl: public UnixRequest
 {

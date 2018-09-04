@@ -14,8 +14,8 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 127051 $
- * \date $Date:: 2015-09-09 16:08:20 +0400#$
+ * \version $Revision: 126987 $
+ * \date $Date:: 2015-09-08 17:51:58 +0400#$
  * \author $Author: pav $
  *
  * \brief Описание общей организации тестов маршалинга
@@ -24,7 +24,26 @@
 #ifndef ISO_IEC_TR_24731_1_H_
 #define ISO_IEC_TR_24731_1_H_
 
-#include<CPROCSP/reader/strnlen_def.h>
+	// TODO: ??Убрать или нет??
+//#define __EXTENSIONS__	1
+//#define _GNU_SOURCE	1
+//#define _POSIX_C_SOURCE	200809L
+//#define _ISOC99_SOURCE	1
+//#define __USE_GNU
+//#define _GNU_SOURCE
+
+#include <errno.h>
+#include <stdio.h>
+#include <string.h>
+#include <wchar.h>
+
+#ifdef UNIX
+#include<CPROCSP/reader/tchar.h>
+#else
+    #include <tchar.h>
+#endif
+
+#include<CPROCSP/reader/dprint.h>
 #ifdef UNIX
     #define _wcsdup wcsdup
 #endif
@@ -33,6 +52,7 @@
     #define _len_of(a)    (sizeof(a)/sizeof(*(a)))
 #endif
 
+/* XXX dim: на фазе "Code Review" необходимо проверить реализации */
 #ifdef UNIX
     // MS VS form of ISO/IEC TR 24731-1
     // <http://www.open-std.org/JTC1/SC22/WG14/www/projects#24731-1>
@@ -94,17 +114,40 @@
 	#define asctime_s(s, maxsize, timerptr) ( \
 			strcpy_s((s), (maxsize), asctime(timerptr)) \
 		    )
-#if 0
+
 	#define strerror_s(buf, num, errnum) ( \
 			strerror_r((errnum), (buf), (num)) \
 		    )
-#endif //0
 	#define localtime_s(presult, cptimer) ( \
 			localtime_r((cptimer), (presult)) \
 			    ? 0 \
 			    : errno \
 		    )
 
+    #if !defined _WIN32 && !defined HAVE_STRNLEN
+	static SUP_INLINE size_t 
+	strnlen(const char *s, size_t maxlen)
+	{
+	    size_t i;
+	    
+	    for(i = 0; i < maxlen && s[i]; i++)
+		;
+	    return i;
+	}
+    #endif /* !_WIN32 && !HAVE_STRNLEN */
+    #if !defined _WIN32 && !defined HAVE_WCSNLEN
+	static SUP_INLINE size_t 
+	wcsnlen(const wchar_t *ws, size_t maxlen)
+	{
+	    size_t i;
+	    
+	    for(i = 0; i < maxlen && ws[i]; i++)
+		;
+	    return i;
+	}
+    #endif /* !_WIN32 && !HAVE_WCSNLEN */
 #endif
 
 #endif /*ISO_IEC_TR_24731_1_H_*/
+
+/* $Id: ISO-IEC_TR_24731-1.h 126987 2015-09-08 13:51:58Z pav $ */

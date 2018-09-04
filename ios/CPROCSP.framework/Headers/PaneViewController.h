@@ -11,8 +11,6 @@
 #include<CPROCSP/CSP_WinCrypt.h>
 
 #define URL_RETRIEVER_TIMEOUT 60000
-#define NEED_EXIT_BUTTON_ITEMS_NUMBER 8
-#define ITEMS_NUMBER 7
 
 @protocol ModalViewControllerDelegate<NSObject>
 

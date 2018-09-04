@@ -28,6 +28,10 @@
 	#error ATL requires C++ compilation (use a .cpp suffix)
 #endif
 
+#ifdef UNDER_CE
+	#error This version of ATL is not currently supported for CE. Look for the CE specific version.
+#endif
+
 // If you are mixing compilation units that are built as
 // native code with those that are built /clr, you must define
 // the symbol '_ATL_MIXED'. _ATL_MIXED must be defined for all 

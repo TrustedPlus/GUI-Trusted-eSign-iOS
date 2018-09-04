@@ -1,7 +1,7 @@
 #ifndef __CPCRYPT_H__
 #define __CPCRYPT_H__
 
-#if defined( __cplusplus )
+#ifdef __cplusplus
 extern "C" {
 #endif
 
@@ -58,7 +58,7 @@ CPCryptGetSignatureOIDInfo( LPCSTR szPubKeyOID, LPCSTR szHashOID );
 PCCRYPT_OID_INFO
 CPCryptGetPublicKeyOIDInfo( LPCSTR szPubKeyOID, DWORD dwKeySpec );
 
-#if defined( __cplusplus )
+#ifdef __cplusplus
 }       // Balance extern "C" above
 #endif
 

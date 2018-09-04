@@ -188,7 +188,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 		}
 		return (
 			<Container style={styles.container}>
-				<Headers title="Подпись / Проверка" goBack={() => goBack()} />
+				<Headers title="Подпись" goBack={() => goBack()} />
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Сертификат подписи</Text>
 					<Button transparent onPressIn={() => { readCertKeys(); navigate("SelectPersonalСert", { isCertInContainers: true }); }} style={styles.sign_enc_button}>

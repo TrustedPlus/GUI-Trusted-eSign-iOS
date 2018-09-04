@@ -26,8 +26,8 @@
  */
 
 /*!
- * \version $Revision: 127051 $
- * \date $Date:: 2015-09-09 16:08:20 +0400#$
+ * \version $Revision: 126987 $
+ * \date $Date:: 2015-09-08 17:51:58 +0400#$
  * \author $Author: pav $
  *
  * \brief Интерфейс запросов на сертификат

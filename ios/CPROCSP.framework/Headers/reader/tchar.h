@@ -25,6 +25,10 @@
 
 #if defined( _WIN32 ) && !defined ( CSP_LITE )
 #   pragma warning( push )
+#   if defined ( WINCE )
+#	pragma warning( disable: 4201 )
+#	define _TEXT(x)    __TEXT(x)
+#   endif
 #   include <tchar.h>
 #   pragma warning( pop )
     // TODO: переходить на
@@ -180,8 +184,6 @@
        	#define _chmod chmod
        	#define _strlwr strlwr
        	#define _fdopen fdopen
-       	#define _tpopen popen
-       	#define _pclose pclose
        	#define _rmdir rmdir
        	#define _tmkdir(p, mode) mkdir(p, mode)
        	#define _tstat stat

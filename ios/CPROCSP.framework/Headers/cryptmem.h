@@ -14,9 +14,9 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 148173 $
- * \date $Date:: 2016-11-07 00:01:43 +0400#$
- * \author $Author: raa $
+ * \version $Revision: 126987 $
+ * \date $Date:: 2015-09-08 17:51:58 +0400#$
+ * \author $Author: pav $
  *
  * \brief Интерфейс модуля выделения памяти.
  */
@@ -58,4 +58,4 @@ void CPSUPDoneMemory (void);
 #endif
 
 #endif /* _CRYPTMEM_H_INCLUDED */
-/* end of file: $Id: cryptmem.h 148173 2016-11-06 20:01:43Z raa $ */
+/* end of file: $Id: cryptmem.h 126987 2015-09-08 13:51:58Z pav $ */

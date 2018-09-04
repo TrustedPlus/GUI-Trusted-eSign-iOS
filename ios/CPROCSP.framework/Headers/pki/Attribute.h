@@ -14,9 +14,9 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 132852 $
- * \date $Date:: 2016-01-12 16:12:28 +0400#$
- * \author $Author: denisenko $
+ * \version $Revision: 126987 $
+ * \date $Date:: 2015-09-08 17:51:58 +0400#$
+ * \author $Author: pav $
  *
  * \brief Классы аттрибутов.
  */
@@ -30,7 +30,7 @@
 
 #if !defined CPASN1_DLL_DEFINES
 #   define CPASN1_DLL_DEFINES
-#   if defined _WIN32 && !defined CRYPTCP && !defined CPASN1_STATIC
+#   if defined _WIN32 && !defined CRYPTCP
 #	ifdef CPASN1_DLL
 #	    define CPASN1_CLASS __declspec(dllexport)
 #	    define CPASN1_API __declspec(dllexport)
@@ -42,13 +42,12 @@
 #	    define CPASN1_DATA __declspec(dllimport)
 #	    define CPASN1_EXTERN_TEMPLATE extern
 #	endif // !defined CPASN1_DLL
-#   else // defined _WIN32 && !defined CRYPTCP && !defined CPASN1_STATIC
+#   else // defined _WIN32 && !defined CRYPTCP
 #	define CPASN1_CLASS
 #	define CPASN1_API
 #	define CPASN1_DATA
 #	define CPASN1_EXTERN_TEMPLATE
-#       define NO_EXPIMP_CDLLLIST_ITERATORS
-#   endif // !defined _WIN32 || defined CRYPTCP || defined CPASN1_STATIC
+#   endif // !defined _WIN32 || defined CRYPTCP
 #endif // !defined CPASN1_DLL_DEFINES
 
 #pragma warning(push)
@@ -136,7 +135,7 @@ public:
 protected:
     CBlob& value();
 private:
-    CStringProxy oid_;
+    std::string oid_;
     CBlob value_;
 };
 
@@ -904,7 +903,7 @@ public:
      */
     void decode( const CBlob& encoded);
 private:
-    CStringProxy type_;
+    std::string type_;
     CBlob value_;
 };
 

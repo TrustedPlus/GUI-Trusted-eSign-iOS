@@ -215,7 +215,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 		}
 		return (
 			<Container style={styles.container}>
-				<Headers title="Шифрование / Расшифрование" goBack={() => goBack()} />
+				<Headers title="Шифрование" goBack={() => goBack()} />
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Сертификаты получателей</Text>
 					<Button transparent style={styles.sign_enc_button} onPressIn={() => { readCertKeys(); navigate("SelectCert"); }}>

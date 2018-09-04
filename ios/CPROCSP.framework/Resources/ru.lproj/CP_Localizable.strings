@@ -17,7 +17,7 @@
 "Install" = "Установить";
 "Register" = "Зарегистрировать";
 "Interact with CA" = "Взаимодействие с УЦ";
-"Delete keys and certificates" = "Удалить ключи и сертификаты";
+"Delete all keys and certificates" = "Удалить все ключи и сертификаты";
 "Check integrity" = "Проверить целостность";
 "Manage license" = "Управление лицензией";
 "Exit" = "Выход";
@@ -182,7 +182,7 @@ ID маркера: %s
 "Installing certificate" = "Установка сертификата";
 "Getting request" = "Получение запроса";
 "Select provider type:" = "Выберите тип провайдера";
-"Install certificates" = "Установить сертификаты";
+"Install certificates from containers" = "Установить сертификаты из контейнеров";
 "Error installing certificates" = "Ошибка при установке сертификатов";
 "Successful installing certificates" = "Установка сертификатов завершилась успешно";
 "Containers were not found" = "Контейнеры не найдены";
@@ -193,7 +193,7 @@ ID маркера: %s
 "Error retrieving URL" = "Ошибка при обращении к странице"; 
 "%d certificate(s) and %d CRL(s) were installed successfully" = "%d сертификат(ов) и %d CRL были установлены успешно";
 "Installing certificate/CRL finished with error code: %d." = "Ошибка при установке сертификатов/CRL, код: %d.";
-"Download and install CRL or certificate" = "Скачать и установить сертификат или CRL";
+"Download and install CRL or root certificate" = "Скачать и установить корневой сертификат или CRL";
 "Deleting passwords" = "Удаление паролей";
 "Do you really want to delete passwords?" = "Вы действительно хотите удалить пароли?";
 "Successful deleting passwords" = "Удаление паролей завершилось успехом";

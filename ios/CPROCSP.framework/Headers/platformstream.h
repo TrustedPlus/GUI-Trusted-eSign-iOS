@@ -14,8 +14,8 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 156509 $
- * \date $Date:: 2017-05-04 08:39:57 +0400#$
+ * \version $Revision: 157847 $
+ * \date $Date:: 2017-05-30 16:36:35 +0400#$
  * \author $Author: dmax $
  *
  * \brief Модуль функций, обеспечивающих контейнер и др. основные структуры.
@@ -484,15 +484,16 @@ static __inline
 CSP_BOOL
 qwtodw_buf(uint64_t *pcq, const uint32_t *pdwBuff, uint32_t dwLen)
 {
-    if (dwLen % 2)
+    if ( dwLen%2 )
 	return FALSE;
-
-    for (; dwLen; dwLen -= 2)
-    {
-	uint32_t d[2];
-	d[1] = *pdwBuff++;
-	d[0] = *pdwBuff++;
-	memcpy(pcq++, d, sizeof(uint64_t));
+    for ( ; dwLen; dwLen -= 2 ) {
+	union {
+	    uint64_t q;
+	    uint32_t d[2];
+	} t;
+	t.d[1] = *pdwBuff++;
+	t.d[0] = *pdwBuff++;
+	*pcq++ = t.q;
     }
     return TRUE;
 }
@@ -501,11 +502,14 @@ static __inline
 void
 dwtoqw_buf(uint32_t* pcd, const uint64_t *pqwBuff, uint32_t qwLen)
 {
-    for (; qwLen; qwLen--) {
-	uint32_t d[2];
-	memcpy(d, pqwBuff++, sizeof(uint64_t));
-	*pcd++ = d[1];
-	*pcd++ = d[0];
+    for ( ; qwLen; qwLen-- ) {
+	union {
+	    uint64_t q;
+	    uint32_t d[2];
+	} t;
+	t.q = *pqwBuff++;
+	*pcd++ = t.d[1];
+	*pcd++ = t.d[0];
     }
 }
 

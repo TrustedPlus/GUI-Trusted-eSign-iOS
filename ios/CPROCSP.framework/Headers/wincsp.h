@@ -14,9 +14,9 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 132389 $
- * \date $Date:: 2015-12-25 13:44:02 +0400#$
- * \author $Author: borodin $
+ * \version $Revision: 126987 $
+ * \date $Date:: 2015-09-08 17:51:58 +0400#$
+ * \author $Author: pav $
  *
  * \brief Интерфейс Microsoft Cryptography Service Provider.
  *
@@ -208,6 +208,192 @@ CSP_EXPORT CSP_BOOL WINAPI CPVerifySignature (
     /* [in] */ HCRYPTKEY hPubKey,
     /* [string][full][in] */ LPCWSTR sDescription,
     /* [in] */ DWORD dwFlags);
+
+/* Callbacks: */
+
+typedef struct _CRYPTOAPI_CARRIER_INFO
+    {
+    DWORD login_type;
+    short max_length;
+    short min_length;
+    /* [string][full] */ TCHAR *reader_name;
+    /* [string][full] */ TCHAR *nickname;
+    /* [string][full] */ TCHAR *passwd_term;
+    unsigned char flags;
+    } 	CRYPTOAPI_CARRIER_INFO;
+
+typedef struct _CRYPTOAPI_CARRIER_LIST
+    {
+    short n;
+    /* [size_is] */ CRYPTOAPI_CARRIER_INFO *parts;
+    } 	CRYPTOAPI_CARRIER_LIST;
+
+typedef struct _CRYPTOAPI_RDR_PIN_FLAGS
+    {
+    unsigned char use_double;
+    unsigned char same_double;
+    unsigned char save_passwd;
+    unsigned char disable_save_passwd;
+    } 	CRYPTOAPI_RDR_PIN_FLAGS;
+
+
+/*!
+ * \brief Информация для функции запроса пароля с подтверждением.
+ *
+ * Структура передачи информации в функцию получения пароля.
+ * Во всех текстах сообщений можно использовать строку "%s" для указания
+ * термина пароль.
+ */
+typedef struct _CRYPTOAPI_PIN_WND_CONFIG
+    {
+    DWORD size_of;
+    CRYPTOAPI_CARRIER_INFO context;
+    /* [full][string] */ TCHAR *header;
+    /* [full][string] */ TCHAR *text;
+    /* [full][string] */ TCHAR *input;
+    /* [full][string] */ TCHAR *input2;
+    /* [full][string] */ TCHAR *default_passwd;
+    /* [full][string] */ TCHAR *not_same;
+    /* [full][string] */ TCHAR *save_text;
+    /* [full][string] */ TCHAR *container_name;
+    CRYPTOAPI_RDR_PIN_FLAGS flags;
+    int try_number;
+    DWORD idd;
+    DWORD container_flags;
+    DWORD action;
+#ifndef NO_NK
+    short n;
+    short k;
+    short max_n;
+    short max_k;
+#endif // NO_NK
+    } 	CRYPTOAPI_PIN_WND_CONFIG;
+
+typedef struct _CRYPTOAPI_PIN_WND_OUT
+    {
+    TCHAR passwd [256];
+    TCHAR passwd2 [256];
+#ifndef NO_NK
+    TCHAR container [256];
+    short n;
+    short k;
+    char create_container;
+#endif // NO_NK
+    char save_passwd;
+    } 	CRYPTOAPI_PIN_WND_OUT;
+
+#define PINWND_IDD_PASSWORD                    301
+#define PINWND_IDD_PASSWORD2                   302
+#define PINWND_IDD_PASSWORD_FKC			    381
+#define FNAME_IDD_FRIENDLY_NAME			    383
+#ifndef NO_NK
+#define PINWND_IDD_PASSWORD_CHOICE_NK2         2109
+#endif // NO_NK
+
+/*! \internal
+ * \ingroup grp_carrier_wind_real
+ * \brief Элемент - описание контейнера
+ */
+typedef struct CPUISelectItem_ {
+    TCHAR name[256]; /*!< дружественное имя */
+    TCHAR unique[256]; /*!< уникальное имя */
+    TCHAR reader_name[256]; /*!< имя считывателя */
+    TCHAR nickname[256]; /*!< прозвище считывателя */
+    TCHAR connect[256];
+    TCHAR friendly_name[256];
+} CPUISelectItem;
+
+
+typedef HRESULT WINAPI cpui_enum_containers_open (
+    void *arg, void **ctx, DWORD flags );
+
+typedef HRESULT WINAPI cpui_enum_containers_next (
+    void *arg, void *ctx, CPUISelectItem* item );
+
+typedef HRESULT WINAPI cpui_enum_containers_close (
+    void *arg, void *ctx );
+
+/*! \internal
+ * \ingroup grp_carrier_wind_real
+ * \brief Настройки окна выбора контейнера
+ */
+typedef struct CRYPTOAPI_SELECT_WND_CONFIG_ {
+    DWORD size_of;
+    DWORD flags; /*!< [in] Флаги перечисления контейнеров. */
+    void * enum_containers_arg;
+    cpui_enum_containers_open * enum_containers_open;
+    cpui_enum_containers_next * enum_containers_next;
+    cpui_enum_containers_close * enum_containers_close;
+} CRYPTOAPI_SELECT_WND_CONFIG;
+
+/*! \internal
+ * \ingroup grp_carrier_wind_real
+ * \brief Результаты окна выбора контейнера
+ */
+typedef struct CRYPTOAPI_SELECT_WND_OUT_ {
+    TCHAR container_name[512+1]; /*!< [out] Результирующая строка, в которую 
+        будет записано имя выбранного контейнера. */
+} CRYPTOAPI_SELECT_WND_OUT;
+
+
+#define CRYPTOAPI_MESSAGE_BTN_OK	1
+#define CRYPTOAPI_MESSAGE_BTN_CANCEL	2
+#define CRYPTOAPI_MESSAGE_DEF_CANCEL	4
+#define CRYPTOAPI_MESSAGE_BTN_LIC	8
+#define CRYPTOAPI_MESSAGE_BTN_PRESS_BUY	256
+
+/*! \internal
+ * \ingroup grp_carrier_wind_real
+ * \brief Настройки окна сообщения
+ */
+typedef struct CRYPTOAPI_MESSAGE_WND_CONFIG_ {
+    DWORD size_of;
+    DWORD num; /*!< Номер строки в ресурсе. */
+    DWORD buttons; /*!< Флаги наличия кнопок. */
+    TCHAR containername [256]; /*!< Имя контейнера "с проблемой" */
+    TCHAR* message; // message 
+    DWORD message_len; //message len
+} CRYPTOAPI_MESSAGE_WND_CONFIG;
+
+/*! \internal
+ * \ingroup grp_carrier_wind_real
+ * \brief Результаты окна сообщения
+ */
+typedef struct CRYPTOAPI_MESSAGE_WND_OUT_ {
+    DWORD ok;
+} CRYPTOAPI_MESSAGE_WND_OUT;
+
+typedef HRESULT( WINAPI * cpui_select_container_ptr_t )(
+    /* in */ HWND parent,
+    /* in */ CRYPTOAPI_SELECT_WND_CONFIG * info,
+    /* out */ CRYPTOAPI_SELECT_WND_OUT * out );
+
+typedef HRESULT( WINAPI * cpui_query_pin_ptr_t )(
+    /* [in] */ HWND parent,
+    /* [in] */ CRYPTOAPI_PIN_WND_CONFIG * info,
+    /* [in] */ CRYPTOAPI_SELECT_WND_CONFIG * select_info,
+    /* [out] */ CRYPTOAPI_PIN_WND_OUT * out );
+
+typedef HRESULT( WINAPI*cpui_display_message_ptr_t )(
+    /* [in] */ HWND parent,
+    /* [in] */ CRYPTOAPI_MESSAGE_WND_CONFIG * info,
+    /* [out] */ CRYPTOAPI_MESSAGE_WND_OUT * out );
+
+HRESULT WINAPI CPSelectContainer ( 
+    /* in */ HWND parent,
+    /* in */ CRYPTOAPI_SELECT_WND_CONFIG * info,
+    /* out */ CRYPTOAPI_SELECT_WND_OUT * out );
+
+HRESULT WINAPI CPQueryPin (
+    /* [in] */ HWND parent, 
+    /* [in] */ CRYPTOAPI_PIN_WND_CONFIG *info, 
+    /* [in] */ CRYPTOAPI_SELECT_WND_CONFIG * select_info,
+    /* [out] */ CRYPTOAPI_PIN_WND_OUT * out);
+
+HRESULT WINAPI CPDisplayMessage (
+    /* [in] */ HWND parent, 
+    /* [in] */ CRYPTOAPI_MESSAGE_WND_CONFIG *info, 
+    /* [out] */ CRYPTOAPI_MESSAGE_WND_OUT * out);
 
 
 /*======================================================*/

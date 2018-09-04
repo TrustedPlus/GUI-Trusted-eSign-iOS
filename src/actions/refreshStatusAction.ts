@@ -8,7 +8,11 @@ export function refreshStatusLicense() {
 		NativeModules.Wrap_License.getValidityTimeOfLicense(
 			(err, label) => {
 				if (!err) {
-					errAppLicense = 1;
+					if ((label !== 0) && ((label * 1000) < new Date().getTime())) {
+						errAppLicense = 0;
+					} else {
+						errAppLicense = 1;
+					}
 				} else {
 					errAppLicense = 0;
 				}

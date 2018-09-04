@@ -14,9 +14,9 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 152701 $
- * \date $Date:: 2017-02-12 19:28:00 +0400#$
- * \author $Author: maxdm $
+ * \version $Revision: 126987 $
+ * \date $Date:: 2015-09-08 17:51:58 +0400#$
+ * \author $Author: pav $
  *
  * \brief XXX
  *
@@ -467,7 +467,7 @@ struct CPC_CONFIG2_ {//::CPC_CONFIG_ для совместимости со старыми клиентами
     const TCHAR *license;   
     CSP_BOOL disableIntegrity;  // Эти поля добавились с CSP 3.6 R3
     HCRYPTMODULE hGOSTCSP;  // для RSA-провайдера на HSM
-    CSP_BOOL disableShortcutsUnused; // отключение использования информации о съемных носителях - после CSP 4.0 не используется.
+    CSP_BOOL disableShortcuts;  // отключение использования информации о съемных носителях
 };
 
 

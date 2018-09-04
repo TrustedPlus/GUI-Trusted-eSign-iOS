@@ -12,6 +12,11 @@
 	    #define WIN32_NO_STATUS
        	#endif // _CPKERB_STATUS_
 
+       	#if defined (UNDER_CE)
+	    #define NTE_INVALID_PARAMETER _HRESULT_TYPEDEF_(0x80090027L)
+	    #pragma warning(disable:4214 4115)
+       	#endif // defined (UNDER_CE)
+
        	// Уберем совсем предупреждение C4201
        	// (nonstandard extension used : nameless struct/union)
        	// т.к. оно активно используется в системных заголовках,
@@ -20,9 +25,11 @@
        	#if !defined(UNIX)
 	    #pragma warning(disable:4201)
        	#endif
-	#include <winsock2.h>
+       	#if !defined (UNDER_CE)
+	    #include <winsock2.h>
+       	#endif
        	#include <windows.h>
-	#include <VersionHelpers.h>
+		#include <VersionHelpers.h>
        	#ifdef _CPKERB_STATUS_
 	    #undef WIN32_NO_STATUS
 	    #include <ntstatus.h>
@@ -32,7 +39,13 @@
 	    #include <ntsecapi.h>
        	#endif /* _CPKERB_STATUS */
 
-	#include <crtdbg.h>
+       	#if !defined (UNDER_CE)
+	    #include <crtdbg.h>
+       	#else // !defined (UNDER_CE)
+	    #include <altcecrt.h> //ради _ASSERTE
+	    #include <wincrypt.h>
+	    #include <WinSock2.h>
+       	#endif // !defined (UNDER_CE)
 
 	#ifndef sleep_cryptopro_ru
 	#define sleep_cryptopro_ru

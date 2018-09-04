@@ -93,14 +93,14 @@ class Main extends React.Component<MainProps> {
 				<Headers title="КриптоАРМ ГОСТ" />
 				<Content>
 					<List>
-						<ListMenu title="Подпись / Проверка подписи" img={require("../../imgs/general/sign_main_icon.png")}
+						<ListMenu title="Документы" img={require("../../imgs/general/documents_main_icon.png")}
+							note={length} nav={() => navigate("Documents")} />
+						<ListMenu title="Подпись" img={require("../../imgs/general/sign_main_icon.png")}
 							note={lengthSign} nav={() => navigate("Signature", { name: "Signature" })} />
-						<ListMenu title="Шифрование / Расшифрование" img={require("../../imgs/general/encode_main_icon.png")}
+						<ListMenu title="Шифрование" img={require("../../imgs/general/encode_main_icon.png")}
 							note={lengthEnc} nav={() => navigate("Encryption", { name: "Encryption" })} />
 						<ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
 							note={persCert} nav={() => navigate("Certificate", { name: "Certificate" })} />
-						<ListMenu title="Документы" img={require("../../imgs/general/documents_main_icon.png")}
-							note={length} nav={() => navigate("Documents")} />
 						<ListMenu title="Управление контейнерами" img={require("../../imgs/general/stores_main_icon.png")}
 							note={lengthContainers} nav={() => navigate("Containers", { name: "Containers" })} />
 						<ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}

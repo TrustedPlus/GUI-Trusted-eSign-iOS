@@ -14,9 +14,9 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 133783 $
- * \date $Date:: 2016-02-03 13:37:40 +0400#$
- * \author $Author: denisenko $
+ * \version $Revision: 130001 $
+ * \date $Date:: 2015-11-09 18:36:27 +0400#$
+ * \author $Author: cross $
  *
  * \brief API для работы с CAdES (CMS Advanced Electronic Signatures)
  */
@@ -27,7 +27,7 @@
 #if defined(_MSC_VER) && (_MSC_VER >= 1400) && !defined(CADES_NOFORCE_MANIFEST)
 
 #define CADES_ASSEMBLY_NAME "CryptoPro.PKI.CAdES"
-#define CADES_ASSEMBLY_VERSION "2.0.0.0"
+#define CADES_ASSEMBLY_VERSION "1.0.0.0"
 
 #ifndef CP_ASSEMBLY_PUBLICKEYTOKEN
 #define CP_ASSEMBLY_PUBLICKEYTOKEN "a6d31b994cfcddc4"
@@ -56,7 +56,7 @@
 
 #if !defined CADES_DLL_DEFINES
 #   define CADES_DLL_DEFINES
-#   if defined _WIN32 && !defined CADES_STATIC
+#   if defined _WIN32
 #	ifdef CADES_DLL
 #	    define CADES_CLASS __declspec(dllexport)
 #	    define CADES_API __declspec(dllexport)
@@ -68,13 +68,12 @@
 #	    define CADES_DATA __declspec(dllimport)
 #	    define CADES_EXTERN_TEMPLATE extern
 #	endif // !defined CADES_DLL
-#   else // defined _WIN32 && !defined CADES_STATIC
+#   else // defined _WIN32
 #	define CADES_CLASS
 #	define CADES_API
 #	define CADES_DATA
 #	define CADES_EXTERN_TEMPLATE
-#       define NO_EXPIMP_CDLLLIST_ITERATORS
-#   endif // !defined _WIN32 ||  defined CADES_STATIC
+#   endif // !defined _WIN32
 #endif // !defined CADES_DLL_DEFINES
 
 #if defined _WIN32
@@ -136,7 +135,6 @@
 #define CADES_VERIFY_ECONTENTTYPE_NO_MATCH	    0x0D
 
 #define CADES_TIMESTAMP_NO_CERT_REQ 0x00000001
-#define CADES_CHECK_CERT_REQ 0x00000002
 
 #ifndef DEFINE_CADES_STRUCT_MEMBERS
 #define DEFINE_CADES_STRUCT_MEMBERS(className)

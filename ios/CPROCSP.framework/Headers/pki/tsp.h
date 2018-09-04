@@ -14,8 +14,8 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 127051 $
- * \date $Date:: 2015-09-09 16:08:20 +0400#$
+ * \version $Revision: 126987 $
+ * \date $Date:: 2015-09-08 17:51:58 +0400#$
  * \author $Author: pav $
  *
  * \brief Классы для работы с TSP (Time-Stamp Protocol)
@@ -32,7 +32,7 @@
 
 #if !defined TSP_DLL_DEFINES
 #   define TSP_DLL_DEFINES
-#   if defined _WIN32 && !defined CRYPTCP && !defined TSP_STATIC
+#   if defined _WIN32 && !defined CRYPTCP
 #	if defined TSP_DLL
 #	    define TSP_CLASS __declspec(dllexport)
 #	    define TSP_API __declspec(dllexport)
@@ -47,10 +47,9 @@
 #   else
 #	define TSP_CLASS
 #	define TSP_API
-#	define TSP_DATA
-#	define TSP_EXTERN_TEMPLATE
-#       define NO_EXPIMP_CDLLLIST_ITERATORS
-#   endif // !defined _WIN32 || defined CRYPTCP || defined TSP_STATIC
+#	define CPLIB_DATA
+#	define CPLIB_EXTERN_TEMPLATE
+#   endif // !defined _WIN32 || defined CRYPTCP
 #endif // !defined TSP_DLL_DEFINES
 
 namespace CryptoPro {

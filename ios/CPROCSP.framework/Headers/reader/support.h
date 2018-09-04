@@ -1,3 +1,7 @@
+/* vim:set sw=4 ts=8 fileencoding=cp1251::Кодировка:WINDOWS-1251[АБЁЪЯабёъя] */
+#ifdef _WIN32
+    #pragma setlocale("rus")
+#endif
 /*
  * Copyright(C) 2000-2014 Проект ИОК
  *
@@ -19,21 +23,15 @@
 #include<CPROCSP/reader/tchar.h>
 
 /* --------------- INCLUDE --------------- */
-#if defined(CSP_LITE)       	
-#include<CPROCSP/CSP_WinDef.h>
-#include<CPROCSP/CSP_WinError.h>
+#if defined(CSP_LITE)
 #elif defined _WIN32
 #   include <stdlib.h>
-#   include <malloc.h>
 #   pragma warning( push )
 #   pragma warning( disable: 4100 4115 4201 4214 )
 #   include <windows.h>
 #   include <time.h>
 #   pragma warning( pop )
 #elif defined UNIX
-#   include <wchar.h>
-#include<CPROCSP/CSP_WinDef.h>
-#include<CPROCSP/CSP_WinError.h>
 #   include <stdlib.h>
 #   include <stdarg.h>
 # ifdef HAVE_STDINT_H
@@ -54,6 +52,15 @@
 
 #include<CPROCSP/reader/std_decl.h>
 
+#if !defined( _SUPPORT_DECL )
+#   if defined( SUPPORT_IMPORTS )
+#        define _SUPPORT_DECL _STDIMPL_DECL
+#   else /* defined( SUPPORT_IMPORTS ) */
+#        define _SUPPORT_DECL
+#   endif /* !defined( SUPPORT_IMPORTS ) */
+#endif /* !defined( _SUPPORT_DECL ) */
+
+
 #if !defined( _SUPPORT_CALLBACK_CONV )
 #   if defined( UNIX )
 #	if defined( __GNUC__ ) && !defined(IOS) && defined (PROCESSOR_TYPE) && (PROCESSOR_TYPE != PROC_TYPE_ARM && PROCESSOR_TYPE != PROC_TYPE_ARM64 && PROCESSOR_TYPE != PROC_TYPE_PPC64 && PROCESSOR_TYPE != PROC_TYPE_PPC32 && PROCESSOR_TYPE != PROC_TYPE_MIPS32)
@@ -66,13 +73,13 @@
 #   endif // defined( UNIX )
 #endif // !defined( _SUPPORT_CALLBACK_CONV )
 
-// Аналогичное определение есть в файлах reader/source/support/sup_def.h
-// их надо держать в соответствии!
-#if defined UNIX
+// Аналогичное определение есть в файлах reader/source/support/sup_def.h,
+// и reader/source/rndm/rndm_def.h, их надо держать в соответствии!
+#if defined( UNIX ) || defined( _WIN32 ) && defined( __STDC__ )
     #define NO_SUP_NOTIFICATOR
     #define NO_SUP_WIZARD
     #define NO_SUP_PROPERTIES
-#endif // UNIX
+#endif // defined( UNIX ) || defined( _WIN32 ) && defined( __STDC__ )
 
 #if !defined( LANGUAGE ) 
     /*+ Выбор строки языка WIN1251. +*/
@@ -141,15 +148,32 @@
 #   define _uni2cpy( dest, src ) safe_wcsrtombs(dest, src, wcslen(src)+1)
 #endif /* UNICODE */
 
+#define _2wcencpy( dest, src, len ) _2asciincpy(dest, src, len)
+#define _2wcecpy( dest, src ) _2asciicpy(dest, src)
+#define _wce2ncpy( dest, src, len ) _ascii2ncpy(dest, src, len)
+#define _wce2cpy( dest, src ) _ascii2cpy(dest, src)
+#define _u2wcen(dest, src, len) safe_wcsrtombs(dest, src, len) //длина входного и выходного буфера в символах
+#define _u2wce(dest, src) safe_wcsrtombs(dest, src, wcslen(src)+1)
+#define _wce2un(dest, src, len) safe_mbsrtowcs(dest, src, len) //длина входного и выходного буфера в символах
+#define _wce2u(dest, src) safe_mbsrtowcs(dest, src, strlen(src)+1)	
+#define _a2wcen(dest, src, len) strncpy(dest, src, len) //длина входного и выходного буфера в символах
+#define _a2wce(dest, src) strcpy(dest, src)
+#define _wce2an(dest, src, len) strncpy(dest, src, len) //длина входного и выходного буфера в символах
+#define _wce2a(dest, src) strcpy(dest, src)	
+
+#define SUPPORT_MUTEX_RECURSIVE 1
+#define SUPPORT_MUTEX_PRIVATE 2
+
 #if !defined CSP_LITE
 #if !defined UNIX
 /* Mutex - блокирующий межнитевой и межпроцессный объект.
    Блокировка или отсутствие блокировки внутри одной нити зависит от
    реализации */
 #   define support_mutex_init( mutex ) *mutex = INVALID_HANDLE_VALUE;
-#   define support_mutex_open( mutex, name, f) support_mutex_open_fun(mutex, name)
+#   define support_mutex_open( mutex, name, flags ) support_mutex_open_fun( mutex, name, flags )
 #   define support_mutex_lock( mutex ) WaitForSingleObject( (mutex), INFINITE )
 #   define support_mutex_unlock( mutex ) { if(mutex != INVALID_HANDLE_VALUE) ReleaseMutex( mutex ); }
+#   define support_mutex_trylock( mutex ) (WaitForSingleObject( (mutex), 0 ) == WAIT_TIMEOUT ? SUP_ERR_CANCEL : SUP_ERR_NO )
 #   define support_mutex_close( mutex ) { if( *mutex != INVALID_HANDLE_VALUE ) { CloseHandle( *mutex ); *mutex = INVALID_HANDLE_VALUE; } }
 # ifndef _M_ARM
 #   define support_try __try {
@@ -159,6 +183,7 @@
 #   define support_finally } {
 # endif
 #   define support_finally_end }
+#   define support_finally_return
 
 /* Critical Section блокирующий межнитевой объект. Блокировки между процессами
     нет. Блокировка внутри одной нити зависит от реализации. */
@@ -168,18 +193,64 @@
 #   define support_section_enter( section ) (EnterCriticalSection(&section),0)
 #   define support_section_leave( section ) (LeaveCriticalSection(&section),0)
 
+/* Event блокирующий межпроцессный, межнитевой и внутринитевой объект. */
+#   define support_event_init( event ) *event = INVALID_HANDLE_VALUE;
+#   define support_event_open( event, name ) support_event_open_fun( event, name )
+#   define support_event_lock( event ) WaitForSingleObject( (event), INFINITE )
+#   define support_event_unlock( event ) { if(event != INVALID_HANDLE_VALUE) SetEvent( event ); }
+#   define support_event_trylock( event ) (WaitForSingleObject( (event), 0 ) == WAIT_TIMEOUT ? SUP_ERR_CANCEL : SUP_ERR_NO )
+#   define support_event_close( event ) { if( *event != INVALID_HANDLE_VALUE ) { CloseHandle( *event ); *event = INVALID_HANDLE_VALUE; } }
+
+/* RWLock блокирующий межнитевой объект. Разрешен доступ нескольких reader или
+    одного writer. Блокировки между процессами нет.
+    Блокировка внутри одной нити зависит от реализации. */
+
 #else /* UNIX */
-#define support_mutex_init(m)
-#define support_mutex_open(pm, name, f) ubi_mutex_open(pm, name, f)
-#define support_mutex_lock(m)        ubi_mutex_lock(m)
-#define support_mutex_unlock(m)      ubi_mutex_unlock(m)
-#define support_mutex_close(pm)      ubi_mutex_close(*pm)
+#define support_mutex_init( m ) \
+            ((m)->inited = 0)
+#define support_mutex_open( m, name, flags ) \
+            ( ubi_mutex_open(&((m)->ubi_mutex),name,flags) \
+                ? SUP_ERR_VERIFY \
+                : ((((m)->inited = 1)), 0) \
+            )
+#define support_mutex_lock( m ) \
+            (ubi_mutex_lock(&((m).ubi_mutex)))
+#define support_mutex_trylock( m ) \
+            ( ((m).inited) \
+                ? (ubi_mutex_trylock( &((m).ubi_mutex) ) \
+                    ? SUP_ERR_CANCEL \
+                    : SUP_ERR_NO ) \
+                : SUP_ERR_PARAM \
+            )
+#define support_mutex_unlock( m ) \
+            { if((m).inited) { \
+                ubi_mutex_unlock(&((m).ubi_mutex)); \
+              } \
+            }
+#define support_mutex_close( m ) \
+            { if((m)->inited) { \
+                ubi_mutex_close(&((m)->ubi_mutex)); \
+              } \
+              (m)->inited = 0; \
+            }
+#define support_mutex_copy( m1, m2 ) \
+            { if(0 != ((m1)->inited = (m2).inited)) { \
+                ubi_mutex_copy(&(m1)->ubi_mutex, &(m2).ubi_mutex); \
+              } \
+            }
 
 # define support_section_init( section, arg ) pthread_mutex_init( section,NULL )
 # define support_section_init_recursive(section) support_mutex_init_recursive(section)
 # define support_section_done( section ) pthread_mutex_destroy( section )
 # define support_section_enter( section ) pthread_mutex_lock( &section )
 # define support_section_leave( section ) pthread_mutex_unlock( &section )
+
+# define support_event_init( event ) support_mutex_init( event )
+# define support_event_open( event, name ) support_mutex_open( event, name, 0 )
+# define support_event_lock( event ) support_mutex_lock( event )
+# define support_event_unlock( event ) support_mutex_unlock( event )
+# define support_event_trylock( event ) support_mutex_trylock( event )
+# define support_event_close( event ) support_mutex_close( event )
 
 # define support_try {
 # define support_finally }
@@ -193,6 +264,7 @@
 #   define support_try __try {
 #   define support_finally } __finally {
 #   define support_finally_end }
+#   define support_finally_return
 # else
 #   define support_try {
 #   define support_finally }
@@ -209,14 +281,42 @@
 
 #define support_mutex_try_lock( mutex ) \
     support_mutex_lock( mutex ); support_try
+#define support_mutex_finally_unlock( mutex ) \
+    support_finally support_mutex_unlock( mutex ); support_finally_end
 #define support_section_try_enter( section ) \
     support_section_enter( section ); support_try
 #define support_section_finally_leave( section ) \
     support_finally support_section_leave( section ); support_finally_end
+#define support_event_try_lock( event ) \
+    support_event_lock( event ); support_try
+#define support_event_finally_unlock( event ) \
+    support_finally support_event_unlock( event ); support_finally_end
 #define RWLOCK_CLAIM(lock,mode) \
     CRWLock_Claim (lock, mode); support_try
 #define RWLOCK_RELEASE(lock,mode) \
     support_finally CRWLock_Release (lock, mode); support_finally_end
+
+#if !defined support_finally_return
+#   define support_mutex_finally_return( mutex ) support_mutex_unlock( mutex );
+#   define support_section_return_leave( section ) support_section_leave( section );
+#   define support_event_finally_return( event ) support_event_unlock( event );
+#else
+#   define support_mutex_finally_return( mutex )
+#   define support_section_return_leave( section )
+#   define support_event_finally_return( event )
+#endif
+
+#if defined _WIN64
+#   define support_registry_get_time_t(p,t) \
+    support_registry_get_long_long(p,(long long*)t )
+#   define support_registry_put_time_t(p,t) \
+    support_registry_put_long_long(p,(long long)t )
+#else
+#   define support_registry_get_time_t(p,t) \
+    support_registry_get_long(p,(long*)t )
+#   define support_registry_put_time_t(p,t) \
+    support_registry_put_long(p,(long)t )
+#endif
 
 #if defined (_WIN32)
     #ifdef CSP_LITE
@@ -270,7 +370,7 @@
 # define CPRO_ALIGNOF(type) CPRO_OFFSETOF(struct { char x; type test; }, test)
 #endif // __cplusplus
 
-#define IS_ALIGNED_PTR(x,type) ( x && !( ((size_t)x) % (CPRO_ALIGNOF(type)) ) )
+#define IS_ALIGNED_PTR(x,type) ( (x) && !( ((size_t)(x)) % (CPRO_ALIGNOF(type)) ) )
 
 typedef void(*SUP_PROC_PTR)(void);
 
@@ -279,8 +379,13 @@ typedef void(*SUP_PROC_PTR)(void);
 #   define IS_WRITE_PTRS(x,size) ( !IsBadWritePtr(x,size) )
 #   define IS_READ_PTR(x) ( !IsBadReadPtr(x,1) )
 #   define IS_WRITE_PTR(x) ( !IsBadWritePtr(x,1) )
-#   define IS_STRING_PTRS(x,size) ( !IsBadStringPtr(x,size) )
-#   define IS_STRING_PTR(x) ( !IsBadStringPtr(x,(size_t)-1) )
+#   ifdef UNDER_CE
+#	define IS_STRING_PTRS(x,size)	IS_READ_PTR(x)
+#	define IS_STRING_PTR(x)		IS_READ_PTR(x)
+#   else /*UNDER_CE*/
+#	define IS_STRING_PTRS(x,size) ( !IsBadStringPtr(x,size) )
+#	define IS_STRING_PTR(x) ( !IsBadStringPtr(x,(size_t)-1) )
+#   endif /*UNDER_CE*/
 #   define IS_FUN_PTR(x) (!IsBadCodePtr((FARPROC)x) )
 #   define IS_ALIGNED_RPTR(x,type) (IS_ALIGNED_PTR(x,type) && IS_READ_PTRS(x,sizeof(type)))
 #   define IS_ALIGNED_WPTR(x,type) (IS_ALIGNED_PTR(x,type) && IS_WRITE_PTRS(x,sizeof(type)))
@@ -329,23 +434,23 @@ SUP_INLINE static int IsGoodCodePtr(SUP_PROC_PTR p) { return (p != NULL); }
     static struct nn##Entry_ {
 
 #define SUPDLL_LOAD(nn,name) \
-    DWORD nn##_load_library( void ) { \
+    TSupErr nn##_load_library( void ) { \
         if( nn##_load_count ) { nn##_load_count++; return 0; } \
         nn##_module = support_load_library_registry( name, \
             SUP_LOAD_LIBRARY_DEFAULT ); \
-        if( nn##_module == NULL ) return (DWORD)NTE_PROVIDER_DLL_FAIL; \
+        if( nn##_module == NULL ) return SUP_ERR_VERIFY; \
         nn##_load_count++; \
         return 0; \
     }
 
 #define SUPDLL_LOAD_SYSTEM(nn,name) \
-    DWORD nn##_load_library( void ) { \
-    if( nn##_load_count ) { nn##_load_count++; return 0; } \
-    nn##_module = support_load_library_registry( name, \
-    SUP_LOAD_LIBRARY_DEFAULT | SUP_LOAD_LIBRARY_SYSTEM ); \
-    if( nn##_module == NULL ) return (DWORD)NTE_PROVIDER_DLL_FAIL; \
-    nn##_load_count++; \
-    return 0; \
+    TSupErr nn##_load_library( void ) { \
+        if( nn##_load_count ) { nn##_load_count++; return 0; } \
+        nn##_module = support_load_library_registry( name, \
+            SUP_LOAD_LIBRARY_DEFAULT | SUP_LOAD_LIBRARY_SYSTEM ); \
+        if( nn##_module == NULL ) return SUP_ERR_VERIFY; \
+        nn##_load_count++; \
+        return 0; \
     }
 
 #define SUPDLL_UNLOAD(nn) \
@@ -394,7 +499,7 @@ SUP_INLINE static int IsGoodCodePtr(SUP_PROC_PTR p) { return (p != NULL); }
 #define SUPLIB_ITEMV(nn,name,arg_list,call_list) \
     void name arg_list { return; }
 #define SUPLIB_ITEM(nn,name,arg_list,call_list) \
-    SUPLIB_ITEMR2(nn,name,arg_list,call_list,DWORD,SUPDLL_NULL,(DWORD)ERROR_NOT_SUPPORTED)
+    SUPLIB_ITEMR2(nn,name,arg_list,call_list,TSupErr,SUPDLL_NULL,SUP_ERR_UNSUPPORTED)
 #define SUPLIB_ITEMVL(nn,name,arg_list,call_list) \
     void name arg_list { return; }
 
@@ -406,63 +511,74 @@ SUP_INLINE static int IsGoodCodePtr(SUP_PROC_PTR p) { return (p != NULL); }
 /* Общие ошибки, которые рекомендуется повторять в верхнем интерфейсе. */
 
 /* Общий код ошибки: отсутствие ошибок или функция завершилась успешно. +*/
-//#define (DWORD)ERROR_SUCCESS -> ERROR_SUCCESS
+#define SUP_ERR_NO 0
+
+/* Общий код ошибки: отсутствие ошибок или функция завершилась успешно. +*/
+#define SUP_ERR_CORRECT 0
+
+/* Общий код ошибки: отсутствие ошибок или функция завершилась успешно. +*/
+#define SUP_CORRECT 0
 
 /*+ Общий код ошибки: нехватка памяти. +*/
-//#define (DWORD)NTE_NO_MEMORY -> NTE_NO_MEMORY
+#define SUP_ERR_MEMORY 0x1001
 
 /*+ Общий код ошибки: ПО неправильно установлено или искажено. +*/
-//#define (DWORD)NTE_PROVIDER_DLL_FAIL -> NTE_PROVIDER_DLL_FAIL
+#define SUP_ERR_VERIFY 0x1002
 
-/*+ Общий код ошибки: неправильно пареданы параметры. +*/
-//#define (DWORD)ERROR_INVALID_PARAMETER -> ERROR_INVALID_PARAMETER
+/*+ Общий код ошибки: неправильно переданы параметры. +*/
+#define SUP_ERR_PARAM 0x1003
 
 /*+ Общий код ошибки: Функция не поддерживается. +*/
-//#define SUP_ERR_UNSUPPORTED -> ERROR_NOT_SUPPORTED
-
-/*+ Тип ситуаций, не являющихся ошибками. +*/
-#define CPR_ERR_RETCODE ((0<<31)|(1<<29)|(0x052D0000))
-
-/*+ Тип ситуаций, являющихся ошибками. +*/
-#define CPR_ERR_FAIL (((DWORD)1<<31)|((DWORD)1<<29)|(0x052D0000))
-
-/*+ Код возврата: возможно несколько корретных ответов для данной функции. +*/
-#define CPR_ERR_UNCERTAINTY (CPR_ERR_RETCODE|0x0001)
-/*+ Код возврата: требуется продолжение выполнения операции. +*/
-#define CPR_ERR_BLOCK (CPR_ERR_RETCODE|0x0002)
-
-/*+ Ошибка: выполняются команды из разных транзакций. +*/
-#define CPR_ERR_TRANSACTION (CPR_ERR_FAIL|0x0001)
-
-/*+ Ошибка: Достиг нуля один из счетчиков. +*/
-#define CPR_ERR_OPLIMIT (CPR_ERR_FAIL|0x0002)
+#define SUP_ERR_UNSUPPORTED 0x1004
 
 /*+ Общий код ошибки: Неизвестная ошибка. +*/
-//#define SUP_ERR_UNKNOWN -> CPR_ERR_UNCERTAINTY, ERROR_INVALID_PARAMETER
+#define SUP_ERR_UNKNOWN 0x1005
 
 /*+ Общий код ошибки: Отказ от выполнения операции. +*/
-//#define SUP_ERR_CANCEL -> (DWORD)SCARD_W_CANCELLED_BY_USER
+#define SUP_ERR_CANCEL 0x1006
 
 /*+ Общий код ошибки: Недостаточно прав. +*/
-//#define SUP_ERR_RIGHTS -> NTE_PERM
+#define SUP_ERR_RIGHTS 0x1007
 
-//#define SUP_ERR_CONNECT -> (DWORD)SCARD_E_READER_UNAVAILABLE
+#define SUP_ERR_CONNECT 0x1008
+
+/*+ Общий код ошибки: Версия старше 1.0 не поддерживается. +*/
+#define SUP_ERR_STD_VERSION_1 0x1009
 
 /*+ Общий код ошибки: функция отключена. +*/
-//#define SUP_ERR_FEATURE_DISABLED -> NTE_PERM
+#define SUP_ERR_FEATURE_DISABLED 0x100A
+
+#define SUP_ERR_STD_MAX 0x1FFF
+
+/*+ Определение принадлежности ошибки к ошибкам функций поддержки.
+    Аргумент вычисляется дважды. +*/
+#define SUP_ERR_IS_STD( err ) \
+    ( ( (err) >= SUP_ERR_MEMORY ) && ( (err) <= SUP_ERR_STD_MAX ) )
 
 /*+ Код ошибки функции поддержки: Секция, ключ или параметр не найден. +*/
-//#define SUP_ERR_KEY_NOT_FOUND -> ERROR_FILE_NOT_FOUND
+#define SUP_ERR_KEY_NOT_FOUND 0x2000
 
 /*+ Код ошибки функции поддержки: Секция, ключ или параметр искажены. +*/
-//#define SUP_ERR_KEY_INVALID -> ERROR_FILE_INVALID
+#define SUP_ERR_KEY_INVALID 0x2001
 
 /*+ Код ошибки функции поддержки: Неправильный язык или ресурс. +*/
-//#define SUP_ERR_RESOURCE -> ERROR_RESOURCE_NOT_PRESENT
+#define SUP_ERR_RESOURCE 0x2002
 
-/*+ Код ошибки, примерно означавший "не подключилась сторонняя библиотека, необходимая для работы модуля поддержки". 
-    Обрабатывалась странно. +*/
-//#define SUP_ERR_INSTALL_ADD1 -> ERROR_INVALID_DLL
+#define SUP_ERR_INSTALL_ADD 0x2003
+
+/* Код ошибки: Параметр содержит значение неправильного типа. */
+#define SUP_ERR_KEY_TYPE 0x2004
+
+/*+ Код ошибки функции поддержки: Версия старше 1.0 не поддерживается. +*/
+#define SUP_ERR_VERSION_1 0x2005
+
+/*+ Код ошибки функции поддержки: Последний код ошибки. +*/
+#define SUP_ERR_MAX 0x2FFF
+
+/*+ Определение принадлежности ошибки к ошибкам функций поддержки.
+    Аргумент вычисляется дважды. +*/
+#define SUP_ERR_IS( err /*+ (i) Код ошибки. +*/ ) \
+    ( ( (err) >= SUP_ERR_KEY_NOT_FOUND ) && ( (err) <= SUP_ERR_MAX ) )
 
 #define SUP_TYPE_UNKNOWN 0
 
@@ -505,8 +621,6 @@ SUP_INLINE static int IsGoodCodePtr(SUP_PROC_PTR p) { return (p != NULL); }
 #define SUP_ACCESS_ENUM_SUBKEY 0x40
 /* Доступ на уведомление об изменениях. */
 #define SUP_ACCESS_NOTIFY 0x80
-/*Доступ к 64-битному ключу*/
-#define SUP_64KEY_DIRECT_ACCESS 0x100
 /* Доступ к SACL. */
 #define SUP_ACCESS_SYSTEM_SECURITY           (0x01000000L)
 
@@ -521,21 +635,18 @@ SUP_INLINE static int IsGoodCodePtr(SUP_PROC_PTR p) { return (p != NULL); }
 #define SUP_LOAD_LIBRARY_STD 0
 
 #define SUP_LOAD_LIBRARY_DEFAULT    1
+#define SUP_LOAD_LIBRARY_SEPARATE   2
 #define SUP_LOAD_LIBRARY_LAZY	    4
 #define SUP_LOAD_LIBRARY_SYSTEM	    8 /* do not use this module path during dll search */ 
 #define SUP_LOAD_LIBRARY_REDIRECTION 16 /*try to get redirected path or use default behaviour*/
 
 /* --------------- TYPES --------------- */
 
+/*+ Тип кода ошибки. +*/
+typedef unsigned int TSupErr;
+
 #if defined _WIN32
     typedef unsigned ( __stdcall *TSupFun )( void* );
-
-    typedef struct
-    {
-	int * idc_hide;
-	int idc_hide_len;
-	int max_resume_time;
-    } TSupResumeTimeStruct;
 #endif
 
 typedef enum CRWLockMode_ {
@@ -550,19 +661,49 @@ typedef enum CRWLockMode_ {
 #if defined UNIX && defined CSP_LITE
     typedef void * TSupportCriticalSection;
     typedef void * TSupportMutex;
+    typedef TSupportMutex TSupportEvent;
 #elif defined UNIX && !defined CSP_LITE
-    typedef ubi_named_mutex_t *TSupportMutex;
+    struct CRWLock_t
+    {
+	pthread_mutex_t CriticalSection;
+	enum {
+	    CRWLockInited   = 0x74696e49,
+	    CRWLockReleased = 0x656c6552
+	}       Status;
+	int     Recusion;
+	const char *LastFile;
+	int     LastLine;
+	#if defined(__sparcv9)
+	    int            dwReserved;
+	#endif /* defined(__sparcv9)*/
+	void    *Arg;
+    };
+
+    typedef struct TSupportMutex_
+    {
+	ubi_mutex_t ubi_mutex;
+	int inited;
+    } TSupportMutex;
     typedef pthread_mutex_t TSupportCriticalSection;
-#elif defined _WIN32 && defined CSP_LITE
+    typedef TSupportMutex TSupportEvent;
+#elif !defined UNIX && defined CSP_LITE
     typedef struct _FAST_MUTEX *PFAST_MUTEX;
+    #ifndef CSP_LITE
+	typedef PVOID PSECURITY_DESCRIPTOR;     // winnt
+    #endif
     typedef PFAST_MUTEX TSupportCriticalSection;
 #elif defined _WIN32
     typedef HANDLE TSupportMutex;
     typedef CRITICAL_SECTION TSupportCriticalSection;
+    typedef HANDLE TSupportEvent;
     struct CRWLock_t
     {
 	LONGLONG dummy[2*16];
     };
+#elif defined( _WIN32 ) && defined( __STDC__ )
+    typedef volatile int TSupportMutex;
+    typedef volatile int TSupportCriticalSection;
+    typedef TSupportMutex TSupportEvent;
 #endif
 
 typedef struct CRWLock_t CRWLock;
@@ -702,7 +843,6 @@ typedef enum TSupFileType_ {
 	{
 	    TSupportOnce once_control;
 	    const TSupOnceFunc once_func;
-            pthread_mutex_t lock;
 	    nl_catd nl_id;
 	} TSupInstanceCatalog;
     #endif
@@ -727,39 +867,20 @@ typedef enum TSupFileType_ {
     /*!
      * \brief instance ресурса определяется как DLL instance.
      */
-	typedef HINSTANCE TSupResourceInstance;
+    typedef HINSTANCE TSupResourceInstance;
 #endif /* !defined( SUPPORT_RESOURCE_STD ) */
 
 #if defined _WIN32 && !defined CSP_LITE
     typedef HINSTANCE TSupModuleInstance;
-    typedef HICON TSupIconHandle;
+    typedef HICON TSupIcon;
     typedef HBITMAP TSupBitMap;
     typedef FARPROC TSupProc;
 #else
     typedef void* TSupModuleInstance;
-    typedef void *TSupIconHandle;
+    typedef void *TSupIcon;
     typedef void *TSupBitMap;
     typedef void *TSupProc;
 #endif /* _WIN32 && !CSP_LITE */
-
-typedef struct 
-{
-    DWORD width;	/* ширина */
-    DWORD height;       /* высота */
-    DWORD priority;	/* приоритет, если есть несколько иконок с одинаковыми размерами */
-    TSupIconHandle icon; /* хендл */
-} TSupIconItem;
-
-#define TSUP_ICON_TYPE_SHARED	0 /*хендл предоставляет наиболее подходящую иконку*/
-#define TSUP_ICON_TYPE_MANY	1 /*в хендле хранится массив разнообразных иконок*/
-
-typedef struct
-{
-    DWORD count;	    /* число иконок */
-    TSupIconItem * icons;   /* указатель на массив иконок */
-    DWORD icon_type;	    /* тип иконки, TSUP_ICON_TYPE_SHARED или TSUP_ICON_TYPE_MANY */
-} StTSupIcon, *TSupIcon;
-
 
 #if defined(UNIX) && !defined CSP_LITE
 #   include <sys/time.h>
@@ -773,342 +894,346 @@ extern "C" {
 #endif /* defined( __cplusplus ) */
 
 #include<CPROCSP/reader/altreg.h>
-DWORD usenewreg(void); /* переключение на новый имитатор. 0 -- удавчно, не-0 -- ошибка */
-DWORD rlsnewreg(void); /* завершаем работу с новым, переключаемся на старый. Всегда успешно */
-DWORD isnewreg(void);   /* 0 -- старый, не-0 -- новый */
-DWORD support_registry_get_oid(struct AREG_CRYPT_OID_INFO*); /* описания известных OID. -1 -- ошибка */
-DWORD support_registry_get_oidlen(void); /* количество известных OID. -1 -- ошибка */
-DWORD release_files(void);
-DWORD write_random_seed(void);
+TSupErr usenewreg(void); /* переключение на новый имитатор. 0 -- удавчно, не-0 -- ошибка */
+TSupErr rlsnewreg(void); /* завершаем работу с новым, переключаемся на старый. Всегда успешно */
+TSupErr isnewreg(void);   /* 0 -- старый, не-0 -- новый */
+TSupErr support_registry_get_oid(struct AREG_CRYPT_OID_INFO*); /* описания известных OID. -1 -- ошибка */
+TSupErr support_registry_get_oidlen(void); /* количество известных OID. -1 -- ошибка */
+TSupErr release_files(void);
+TSupErr write_random_seed(void);
 
 unsigned long       support_get_last_error (void);
 void                support_set_last_error (unsigned long);
 
-DWORD support_set_impersonate (int delayed, int hsmmode, int kb2mode);
+TSupErr support_set_impersonate (int delayed, int hsmmode, int kb2mode);
 
 /* Thread Local Storage. Склад для данных, уникальных для каждой нити. */
-DWORD support_set_thread_specific (unsigned int key, const void * ptr, void **old_ptr);
+TSupErr support_set_thread_specific (unsigned int key, const void * ptr, void **old_ptr);
 void * support_get_thread_specific (unsigned int key);
-DWORD support_tskey_create (unsigned int* key);
-DWORD support_tskey_delete (unsigned int key);
+TSupErr support_tskey_create (unsigned int* key);
+TSupErr support_tskey_delete (unsigned int key);
 
-DWORD support_thread_actualize_uids ( void );
-DWORD support_thread_deactualize_uids ( void );
+TSupErr support_thread_actualize_uids ( void );
+TSupErr support_thread_deactualize_uids ( void );
 
 #if defined _WIN32 && !defined CSP_LITE
-DWORD support_mutex_open_fun(TSupportMutex *mutex, const TCHAR *name);
+_SUPPORT_DECL TSupErr support_mutex_open_fun(
+    TSupportMutex *mutex, const TCHAR *name, unsigned flags );
+
+_SUPPORT_DECL TSupErr support_event_open_fun(
+    TSupportEvent *event, const TCHAR *name );
 #endif
 
 #if defined( _WIN32 )
-DWORD support_shared_memory_create( 
+_SUPPORT_DECL TSupErr support_shared_memory_create( 
     TSupportSharedMemory **shared, const TCHAR *file_name, const TCHAR *lock_name,
     size_t sizeof_shared );
-DWORD support_shared_memory_remove( 
+_SUPPORT_DECL TSupErr support_shared_memory_remove( 
     TSupportSharedMemory *shared );
-void* support_shared_memory_lock( 
+_SUPPORT_DECL void* support_shared_memory_lock( 
     TSupportSharedMemory *shared );
-DWORD support_shared_memory_unlock( 
+_SUPPORT_DECL TSupErr support_shared_memory_unlock( 
     TSupportSharedMemory *shared );
 #endif /* _WIN32 */
 
 /* Функция получения строкового параметра. */
-DWORD support_registry_get_string(
+_SUPPORT_DECL TSupErr support_registry_get_string(
     const TCHAR *path, size_t *length, TCHAR *dest );
 
-DWORD support_registry_get_multi_string(
+_SUPPORT_DECL TSupErr support_registry_get_multi_string(
     const TCHAR *path, size_t *length, TCHAR *dest );
 
 /* Функция получения long параметра. */
-DWORD support_registry_get_long(
+_SUPPORT_DECL TSupErr support_registry_get_long(
     const TCHAR *path, long *dest );
 
 /* Функция получения long параметра. */
-DWORD support_registry_get_long_long(
+_SUPPORT_DECL TSupErr support_registry_get_long_long(
     const TCHAR *path, long long *dest );
 
 /* Функция получения Boolean параметра. */
-DWORD support_registry_get_bool(
+_SUPPORT_DECL TSupErr support_registry_get_bool(
     const TCHAR *path, int *dest );
 
 /* Функция получения нетипизированного параметра. */
-DWORD support_registry_get_hex(
+_SUPPORT_DECL TSupErr support_registry_get_hex(
     const TCHAR *path, size_t *size, void *dest );
 
 /* Функция записи строкового параметра. */
-DWORD support_registry_put_string(
+_SUPPORT_DECL TSupErr support_registry_put_string(
     const TCHAR *path, const TCHAR *src );
 
 /* Функция записи строкового параметра. */
-DWORD support_registry_put_multi_string(
+_SUPPORT_DECL TSupErr support_registry_put_multi_string(
     const TCHAR *path, const TCHAR *src );
 
 /* Функция записи long параметра. */
-DWORD support_registry_put_long(
+_SUPPORT_DECL TSupErr support_registry_put_long(
     const TCHAR *path, long src );
 
 /* Функция записи long long параметра. */
-DWORD support_registry_put_long_long(
+_SUPPORT_DECL TSupErr support_registry_put_long_long(
     const TCHAR *path, long long src );
 
 /* Функция записи Boolean параметра. */
-DWORD support_registry_put_bool(
+_SUPPORT_DECL TSupErr support_registry_put_bool(
     const TCHAR *path, int src );
 
 /* Функция записи нетипизированного параметра. */
-DWORD support_registry_put_hex(
+_SUPPORT_DECL TSupErr support_registry_put_hex(
     const TCHAR *path, size_t size, const void *src );
 
 #if defined _WIN32
 /* Функция записи access control list на параметр или секцию. */
-DWORD support_registry_put_acl(
+_SUPPORT_DECL TSupErr support_registry_put_acl(
     const TCHAR *path, const void *src );
 
 /* Функция записи system access control list на параметр или секцию. */
-DWORD support_registry_put_sacl(
+_SUPPORT_DECL TSupErr support_registry_put_sacl(
 	const TCHAR *path, const void *src );
 
-#if !defined EXCLUDE_READER
+#if !defined UNDER_CE && !defined ( EXCLUDE_READER )
 
-DWORD support_registry_get_sdecr ( 
+_SUPPORT_DECL TSupErr support_registry_get_sdecr ( 
 				    const TCHAR *path, 
 				    const DWORD secInfo, 
-				    void * pSec, DWORD * pSecLen, 
+				    void * pSec, long * pSecLen, 
 				    long * pError );
 
-DWORD support_registry_put_sdecr ( const TCHAR *path, 
+_SUPPORT_DECL TSupErr support_registry_put_sdecr ( const TCHAR *path, 
 				     const DWORD secInfo, 
 				     void * pSec, 
 				     long * pError );
 
-#   endif  /* !EXCLUDE_READER */
+#   endif/*UNDER_CE*/
 
 #endif /* _WIN32 */
 
 #if defined (_WIN32) && !defined (CSP_LITE)
 /* Функция получения параметра PP_KEYSET_SEC_DESCR ветки реестра где лежит ключ. */
-DWORD support_get_PP_KEYSET_SEC_DESCR( BYTE *pbData, DWORD *pdwDataLen);
+_SUPPORT_DECL TSupErr support_get_PP_KEYSET_SEC_DESCR( BYTE *pbData, DWORD *pdwDataLen);
 #endif
 
 /* Функция записи секции. */
-DWORD support_registry_put_section(const TCHAR *path);
+_SUPPORT_DECL TSupErr support_registry_put_section(
+    const TCHAR *path, const TCHAR *src );
 
 /* Функция проверки существования секции. */
-DWORD support_registry_test_section( 
+_SUPPORT_DECL TSupErr support_registry_test_section( 
     const TCHAR *path );
 
 /* Функция удаления параметра из реестра. */
-DWORD support_registry_delete_param(
+_SUPPORT_DECL TSupErr support_registry_delete_param(
     const TCHAR *path, const TCHAR *src );
 
 /* Функция удаления секции из реестра. */
-DWORD support_registry_delete_section(
+_SUPPORT_DECL TSupErr support_registry_delete_section(
     const TCHAR *path, const TCHAR *src );
 
 /* Функция открытия контекста. */
-DWORD support_registry_search_open(
+_SUPPORT_DECL TSupErr support_registry_search_open(
     const TCHAR *path, TSupportRegistrySearchContext **context,
     size_t *max_name, int subkey );
 
-/* Функция сравнения контекста поиска. */
-int support_registry_search_cmp(
+/* Функция дублирования контекста поиска. */
+_SUPPORT_DECL TSupErr support_registry_search_cpy(
+    TSupportRegistrySearchContext **dest,
+    TSupportRegistrySearchContext *src );
+
+/* Функция дублирования контекста поиска. */
+_SUPPORT_DECL int support_registry_search_cmp(
     TSupportRegistrySearchContext *left,
     TSupportRegistrySearchContext *right );
 
 /* Функция закрытия контекста. */
-DWORD support_registry_search_close(
+_SUPPORT_DECL TSupErr support_registry_search_close(
     TSupportRegistrySearchContext *context );
 
 /* Функция сдвига указателя контекста поиска. */
-DWORD support_registry_search_next(
+_SUPPORT_DECL TSupErr support_registry_search_next(
     TSupportRegistrySearchContext *context,
     TSupportRegistrySearchValue **right );
 
 /* Функция поиска значения. */
-DWORD support_registry_find(
+_SUPPORT_DECL TSupErr support_registry_find(
     const TCHAR *path, TSupportRegistrySearchValue **value );
 
-int support_registry_value_cmp(
+_SUPPORT_DECL int support_registry_value_cmp(
     const TSupportRegistrySearchValue *left,
     const TSupportRegistrySearchValue *right );
 
-DWORD support_registry_value_cpy(
+_SUPPORT_DECL TSupErr support_registry_value_cpy(
     TSupportRegistrySearchValue **left,
     const TSupportRegistrySearchValue *right );
 
 /* Функция освобождения значения. */
-DWORD support_registry_value_free(
+_SUPPORT_DECL TSupErr support_registry_value_free(
     TSupportRegistrySearchValue *src );
 
-DWORD support_registry_value_string(
+_SUPPORT_DECL TSupErr support_registry_value_string(
     const TSupportRegistrySearchValue *src, size_t *length, TCHAR *dest );
 
-DWORD support_registry_value_multi_string(
+_SUPPORT_DECL TSupErr support_registry_value_multi_string(
     const TSupportRegistrySearchValue *src, size_t *length, TCHAR *dest );
 
 /* Функция получения long параметра. */
-DWORD support_registry_value_long(
+_SUPPORT_DECL TSupErr support_registry_value_long(
     const TSupportRegistrySearchValue *src, long *dest );
 
-DWORD support_registry_value_long_long(
+_SUPPORT_DECL TSupErr support_registry_value_long_long(
     const TSupportRegistrySearchValue *src, long long *dest );
 
-DWORD support_registry_value_bool(
+_SUPPORT_DECL TSupErr support_registry_value_bool(
     const TSupportRegistrySearchValue *src, int *dest );
 
-DWORD support_registry_value_hex(
+_SUPPORT_DECL TSupErr support_registry_value_hex(
     const TSupportRegistrySearchValue *src, size_t *size, void *dest );
 
-DWORD support_registry_value_type(
+_SUPPORT_DECL TSupErr support_registry_value_type(
     const TSupportRegistrySearchValue *src, TSupType *type, size_t *size );
 
-DWORD support_registry_value_name(
+_SUPPORT_DECL TSupErr support_registry_value_name(
     const TSupportRegistrySearchValue *src, size_t *length, TCHAR *dest );
 
 /* Функция получения имени параметра. */
-DWORD support_registry_get_param(
+_SUPPORT_DECL TSupErr support_registry_get_param(
     TSupportRegistrySearchContext *context, size_t length, TCHAR *dest );
 
 /* Функция получения типа пути. */
-DWORD support_registry_type(
+_SUPPORT_DECL TSupErr support_registry_type(
     const TCHAR *path, TSupType *type, size_t *size );
 
 /* Функция получения типа пути. */
-DWORD support_registry_check_access(
+_SUPPORT_DECL TSupErr support_registry_check_access(
     const TCHAR *path, TSupAccess *acc );
 
 #ifdef NO_SUP_NOTIFICATOR
 #ifdef _MSC_VER
 #pragma warning (disable:4127)
 #endif
-#define support_registry_notify_set(a,b,n) 0
-#define support_registry_notify_is(n) (DWORD)SCARD_W_CANCELLED_BY_USER
+#define support_registry_notify_set(a,b,n) SUP_ERR_NO
+#define support_registry_notify_is(n) SUP_ERR_CANCEL
 #define support_registry_notify_done(n)
 #else /* !NO_SUP_NOTIFICATOR */
-DWORD support_registry_notify_set(
+_SUPPORT_DECL TSupErr support_registry_notify_set(
     const TCHAR *path, unsigned flags, TSupRegNotificator **notificator );
 
-DWORD support_registry_notify_is(
+_SUPPORT_DECL TSupErr support_registry_notify_is(
     TSupRegNotificator *notificator );
 
-DWORD support_registry_notify_done(
+_SUPPORT_DECL TSupErr support_registry_notify_done(
     TSupRegNotificator *notificator );
 #endif /* !NO_SUP_NOTIFICATOR */
 
+/* Функция получения строки по коду ошибки. */
+_SUPPORT_DECL TSupErr support_error_text(
+    TSupErr err, size_t *length, TCHAR *dest );
+
 /* Функция получения строки из псевдо-ресурса. */
-DWORD support_resource_string(
+_SUPPORT_DECL TSupErr support_resource_string(
     TSupResourceInstance instance, size_t ids, TCHAR *dest, size_t *length );
 
 /* Функция получения произвольной именованой строки из ресурса VersionInfo */
-DWORD support_resource_version_string(
+_SUPPORT_DECL TSupErr support_resource_version_string(
     TCHAR *target,
     TSupResourceInstance instance, TCHAR *dest, size_t *length );
 
-DWORD support_icon_free(TSupIcon bitmap);
+/* Функция получения copyright из псевдо-ресурса. */
+_SUPPORT_DECL TSupErr support_resource_copyright(
+    TSupResourceInstance instance, TCHAR *dest, size_t *length );
 
-#define SUP_ICON_PRIORITY_FLAG_COLOR 0xf00
-#define SUP_ICON_PRIORITY_1	     1
-#define SUP_ICON_PRIORITY_2	     2
-#define SUP_ICON_PRIORITY_4	     4
-#define SUP_ICON_PRIORITY_8	     8
-#define SUP_ICON_PRIORITY_16	     16
-#define SUP_ICON_PRIORITY_24	     24
-#define SUP_ICON_PRIORITY_32	     32
+/* Функция получения компании производителя из псевдо-ресурса. */
+_SUPPORT_DECL TSupErr support_resource_company(
+    TSupResourceInstance instance, TCHAR *dest, size_t *length );
 
-static SUP_INLINE TSupIconHandle support_get_best_icon_handle(TSupIcon icon, DWORD width, DWORD height, DWORD priority)
-{
-    DWORD i;
-    TSupIconItem * pret = NULL;
-    if (icon == NULL) return NULL;
-    for (i = 0; i < icon->count - 1; i++) {
-	if (icon->icons[i].width == width && icon->icons[i].height == height) {
-	    if (priority >= icon->icons[i].priority && (pret == NULL || pret->priority < icon->icons[i].priority))
-		pret = &icon->icons[i];
-	}
-    }
-    if (pret == NULL)
-	return NULL;
-    return pret->icon;
-}
-DWORD support_get_icon_handle(TSupIcon icon, TSupIconHandle* dest);
-
-DWORD support_net_2_icon(
-    void* hwnd, LPBYTE pb_data, DWORD dw_size, TSupIconHandle* result);
-
-DWORD support_icon_2_net(
-    void* hwnd, TSupIconHandle icon, LPBYTE pb_data, DWORD * dw_size);
+/* Функция получения номера версии из псевдо-ресурса. */
+_SUPPORT_DECL TSupErr support_resource_version(
+    TSupResourceInstance instance, unsigned int dest[4] );
 
 /* Функция получения иконки из псевдо-ресурса. */
-DWORD support_resource_bitmap(
+_SUPPORT_DECL TSupErr support_resource_icon(
+    TSupResourceInstance instance, size_t idi, TSupIcon *dest );
+
+_SUPPORT_DECL TSupErr support_icon_free(
+    TSupIcon bitmap );
+
+/* Функция получения иконки из псевдо-ресурса. */
+_SUPPORT_DECL TSupErr support_resource_bitmap(
     TSupResourceInstance instance, size_t idi, TSupBitMap *dest );
 
-DWORD support_bitmap_free(
+_SUPPORT_DECL TSupErr support_bitmap_free(
     TSupBitMap bitmap );
 
-WORD support_wnd_language_get(void);
-DWORD support_wnd_language_update(void);
-DWORD support_wnd_language_done(void);
-
-DWORD support_path2dir(
+_SUPPORT_DECL TSupErr support_path2dir(
     const TCHAR *src, size_t *length, TCHAR *dest );
 
-DWORD support_opendir(
-    const TCHAR *path, size_t *max_path, TSupFileEnum **ctx );
+_SUPPORT_DECL TSupErr support_opendir(
+    const TCHAR *path, const TCHAR* wildcard, size_t *max_path,
+    TSupFileEnum **ctx );
 
-DWORD support_nextent(
+_SUPPORT_DECL TSupErr support_nextent(
     TSupFileEnum *ctx, TCHAR *name, TSupFileType *type );
 
-DWORD support_closedir(
+_SUPPORT_DECL TSupErr support_closedir(
     TSupFileEnum *ctx );
 
+#if 0
+/* Thread-safe заменители функции strtok(). */
+_SUPPORT_DECL TSupErr support_strtok(
+    char *strToken, const char *strDelimit, char **strResult, char **strNext );
+
+_SUPPORT_DECL TSupErr support_tcstok(
+    TCHAR *strToken, const TCHAR *strDelimit, TCHAR **strResult, TCHAR **strNext );
+#endif	/* 0 */
 /* Функция получения идентификатора текущего пользователя. */
-DWORD support_user_id(
+_SUPPORT_DECL TSupErr support_user_id(
     size_t *length, TCHAR *dest );
 
 #if defined UNIX && !defined CSP_LITE
 #include <unistd.h>
 /* Функция получения идентификатора текущего пользователя. */
-DWORD support_user_dir(
+_SUPPORT_DECL TSupErr support_user_dir(
     size_t *length, TCHAR *dest );
 /* Функция получения идентификаторов текущего пользователя. */
-DWORD support_user_id_ex(
+_SUPPORT_DECL TSupErr support_user_id_ex(
     size_t *length, TCHAR *dest,
     uid_t *euid,  uid_t *egid );
 
 /* Функция временной смены текущего пользователя. */
-DWORD support_impersonate_user_by_uids (
+_SUPPORT_DECL TSupErr support_impersonate_user_by_uids (
     uid_t euid,  uid_t egid );
 #endif	/* UNIX && !CSP_LITE */
 
 /* Функция получения имени текущего пользователя. */
-DWORD support_user_name(
+_SUPPORT_DECL TSupErr support_user_name(
     TCHAR *dest, size_t *length );
 
 /* Функция временной смены текущего пользователя. */
-DWORD support_impersonate_user (
+_SUPPORT_DECL TSupErr support_impersonate_user (
     const TCHAR *id );
 
 /* Функция возвращения исходного пользователя. */
-DWORD support_revert_to_self (void);
+_SUPPORT_DECL TSupErr support_revert_to_self (void);
 
 /* Функция получения точного текущего времени. */
-//DWORD
+//_SUPPORT_DECL TSupErr
 //support_compound_time(long long *lpCompoundCount);
 
 /* Функция получения текущего времени. */
-DWORD support_gettimeofday (
+_SUPPORT_DECL TSupErr support_gettimeofday (
     support_timeval * stv);
 
 /* Функция установки заданного в секундах времени. */
-DWORD support_time_set (
+_SUPPORT_DECL TSupErr support_time_set (
     support_timeval * tv_res, long secs);
 
 /* Функция сравнения и вычитания времени. tv_res = tv1 - tv2 */
-DWORD support_time_sub (
+_SUPPORT_DECL TSupErr support_time_sub (
     const support_timeval * tv1, const support_timeval * tv2,
     support_timeval * tv_res, int* cmp);
 
 /* Функция сложения времени. tv_res = tv1 + tv2 */
-DWORD support_time_add (
+_SUPPORT_DECL TSupErr support_time_add (
     const support_timeval * tv1, const support_timeval * tv2,
     support_timeval * tv_res);
 
@@ -1117,27 +1242,33 @@ DWORD support_time_add (
     (unsigned long long)(cpc_timeval.tv_sec*10000000ULL + cpc_timeval.tv_usec*10ULL + 116444736000000000ULL)
 
 #ifndef CSP_LITE
-    DWORD support_time2tm(
+    _SUPPORT_DECL TSupErr support_time2tm(
 	support_timeval * tv_src, struct tm * tm_dest);
 
-    DWORD support_tm2time(
+    _SUPPORT_DECL TSupErr support_tm2time(
 	struct tm * tm_src, support_timeval * tv_dest );
 #endif /* CSP_LITE */
 
 #if defined _WIN32 && !defined CSP_LITE
-    DWORD create_thread_same_rights(
+    _SUPPORT_DECL TSupErr create_thread_same_rights(
 	TSupFun fun, void* info, HANDLE *thread );
+
+    _SUPPORT_DECL TSupErr descriptor_get_null(
+	PSECURITY_DESCRIPTOR *ppSD );
+
+    _SUPPORT_DECL TSupErr descriptor_free(
+	PSECURITY_DESCRIPTOR pSD );
 #endif /* _WIN32 && !CSP_LITE */
 
-int CRWLock_Initialize (CRWLock * lock, void *arg);
-DWORD CRWLock_Cleanup (CRWLock * lock);
-DWORD CRWLock_Claim (CRWLock * lock, CRWLockMode mode);
-DWORD CRWLock_Release (CRWLock * lock, CRWLockMode mode);
+_SUPPORT_DECL int CRWLock_Initialize (CRWLock * lock, void *arg);
+_SUPPORT_DECL TSupErr CRWLock_Cleanup (CRWLock * lock);
+_SUPPORT_DECL TSupErr CRWLock_Claim (CRWLock * lock, CRWLockMode mode);
+_SUPPORT_DECL TSupErr CRWLock_Release (CRWLock * lock, CRWLockMode mode);
 
 #if !defined _WIN32
-    size_t safe_mbsrtowcs( wchar_t *dest,
+    _SUPPORT_DECL size_t safe_mbsrtowcs( wchar_t *dest,
 	const char *src, size_t len);
-    size_t safe_wcsrtombs( char *dest,
+    _SUPPORT_DECL size_t safe_wcsrtombs( char *dest,
 	const wchar_t *src, size_t len);
 #endif
 
@@ -1150,24 +1281,38 @@ TSupProc support_load_library_getaddr(TSupModuleInstance handle,
 TSupModuleInstance support_load_dll(TCHAR *path, int mode);
 void support_unload_dll( TSupModuleInstance handle );
 
-DWORD support_registry_get_app_path(
+TSupErr support_registry_get_app_path(
     const TCHAR *path, size_t *length, TCHAR *dest );
 
-DWORD support_registry_get_app_path_ex(
+TSupErr support_registry_get_app_path_ex(
     const TCHAR *path, size_t *length, TCHAR *dest, int do_not_use_this_file_path);
 
 /* Прогрузка библиотеки. */
-DWORD support_load_library( void );
+_SUPPORT_DECL TSupErr support_load_library( void );
 
 /* Выгрузка библиотеки. */
-void support_unload_library( void );
+_SUPPORT_DECL void support_unload_library( void );
 
 /* нужно при сборке CAdES на Linux */
-#if defined UNIX
+#if defined UNDER_CE || defined UNIX
 # ifndef TLS_OUT_OF_INDEXES
 #   define TLS_OUT_OF_INDEXES ((DWORD)0xFFFFFFFF)
 # endif
-#endif /* UNIX */
+#endif /* UNDER_CE || UNIX */
+
+//поддержка Windows CE
+#ifdef UNDER_CE
+
+# ifndef GetUserName
+#   define GetUserName(x,y) GetUserNameEx(NameWindowsCeLocal,x,y)
+# endif
+
+# define GetConsoleOutputCP GetACP
+
+# define LongToPtr( l )   ((VOID *)(LONG_PTR)((long)l))
+# define ULongToHandle( ul ) ((HANDLE)(ULONG_PTR) (ul) )
+# define UlongToHandle(ul) ULongToHandle(ul)
+#endif /*UNDER_CE*/
 
 #if !defined(SUPPORT_ALIGN)
 #   define SUPPORT_ALIGN	16
@@ -1227,6 +1372,51 @@ void support_unload_library( void );
 #   error "Can't support restrict"
 #endif
 
+    /* Функции управления памятью */
+enum support_mlockall_ {
+    SUPPORT_MCL_CURRENT = 1,
+    SUPPORT_MCL_FUTURE = 2
+};
+typedef int support_mlockall_t;	// TODO: подумать Оказывается нужна опреация `|'
+
+typedef enum support_mprotect_ {
+    SUPPORT_PROT_EXEC,
+    SUPPORT_PROT_NONE,
+    SUPPORT_PROT_READ,
+    SUPPORT_PROT_WRITE
+} support_mprotect_t;
+
+typedef enum support_mmap_ {
+    SUPPORT_MAP_FIXED,
+    SUPPORT_MAP_PRIVATE,
+    SUPPORT_MAP_SHARED
+} support_mmap_t;
+
+#if defined CSP_LITE
+    typedef long support_off_t;  // TODO: нужен ptrdiff_t или intptr_t (INT_PTR не подходит тоже)
+#else
+    #include <sys/types.h>
+
+    typedef off_t support_off_t;
+#endif
+
+#define SUPPORT_MAP_FAILED  (NULL)
+
+_SUPPORT_DECL int 
+support_mlockall(support_mlockall_t flags);
+_SUPPORT_DECL int 
+support_munlockall(void); 
+_SUPPORT_DECL support_mlockall_t 
+support_get_mlockall(void); 
+_SUPPORT_DECL void *
+support_mmap(void *addr, size_t len, 
+	     support_mprotect_t prot, support_mmap_t flags,
+	     int fildes, support_off_t off);
+_SUPPORT_DECL int 
+support_munmap(void *addr, size_t len);
+_SUPPORT_DECL int 
+support_mprotect(void *addr, size_t len, support_mprotect_t prot);
+
 #if !defined(CSP_LITE) && !defined(BUG_IN_KERNEL_SPACE_C)
 # if defined(UNIX) 
     typedef uint16_t WIN_WCHAR_T;
@@ -1260,14 +1450,11 @@ void support_unload_library( void );
        выходным буфером нужно так же, как описано в пункте а).
        в) В параметрах этих функций данные в UTF-16LE измеряются в символах, а
        данные в других кодировках -- в байтах.
-       г) Если функция сообщает, что записала N символов/байт, то это значит:
-       -- при возврате SUP_ERR_NO: она записала N символов/байт + терминирующий
-          ноль (всего N+1 символ/байт);
-       -- при возврате SUP_ERR_MEMORY: она записала N символов/байт, возможно
-          без терминирующего нуля.
-       д) Вариант использования функций для работы с нетерминированными
-       строками плохо протестирован. */
-    DWORD 
+       г) Если функция сообщает, что записала N символов/байт, то это значит,
+       что она записала N символов/байт + терминирующий ноль (всего N+1
+       символ/байт).
+       д) Длина входного буфера (slen) считается естественным образом. */
+    _SUPPORT_DECL TSupErr 
     support_to_utf16le(
 	const char * encoding, /* encoding or NULL (current locale) */
 	WIN_WCHAR_T * dst, /* buffer to hold utf16 string or NULL to calculate*/
@@ -1276,7 +1463,7 @@ void support_unload_library( void );
 	size_t slen /* max size of message in chars w/o terminating zero */
 	);
 
-    DWORD 
+    _SUPPORT_DECL TSupErr 
     support_from_utf16le(
 	 const char * encoding, /* enconding or NULL (current locale) */
 	 TCHAR * dst, /* Buffer to hold the string or NULL to calculate */ 
@@ -1291,7 +1478,7 @@ void support_unload_library( void );
 #   define support_utf16le_nlen(src,maxlen) wcsnlen((src),(maxlen))
 
 #   ifdef UNICODE
-	DWORD SUP_INLINE 
+	TSupErr SUP_INLINE 
 	support_to_utf16le(const char * encoding, 
 			   WIN_WCHAR_T * dst, 
 			   size_t * pdlen, 
@@ -1301,27 +1488,27 @@ void support_unload_library( void );
 	    size_t len;
 	    (void)(encoding); // TODO:XXX UNUSED(encoding);
 	    if (pdlen == NULL || src == NULL)
-		return (DWORD)ERROR_INVALID_PARAMETER;
+		return SUP_ERR_PARAM;
 	    // TODO: wcsncpy_s(dst, 1+*pdlen, src, slen+1);
 	    len = wcsnlen(src, slen);
 	    if (dst == NULL)
 	    {
 		*pdlen=len;
-		return (DWORD)NTE_NO_MEMORY;
+		return SUP_ERR_MEMORY;
 	    }
 	    if (*pdlen >= len)
 	    {
 		wcsncpy_s(dst, 1+*pdlen, src, len+1);
-		return ERROR_SUCCESS;
+		return SUP_ERR_NO;
 	    }
 	    else
 	    {
 		wcscpy_s(dst, 1+*pdlen, src);
-		return (DWORD)NTE_NO_MEMORY;
+		return SUP_ERR_MEMORY;
 	    }
 	}
 
-	DWORD SUP_INLINE 
+	TSupErr SUP_INLINE 
 	support_from_utf16le(const char * encoding, 
 			     TCHAR * dst, 
 			     size_t * pdlen, 
@@ -1331,27 +1518,27 @@ void support_unload_library( void );
 	    size_t len;
 	    (void)(encoding); // TODO:XXX UNUSED(encoding);
 	    if (pdlen == NULL || src == NULL)
-		return (DWORD)ERROR_INVALID_PARAMETER;
+		return SUP_ERR_PARAM;
 	    // TODO: wcsncpy_s(dst, 1+*pdlen, src, slen+1);
 	    len=wcsnlen(src,slen);
 	    if (dst == NULL)
 	    {
 		*pdlen=len;
-		return (DWORD)NTE_NO_MEMORY;
+		return SUP_ERR_MEMORY;
 	    }
 	    if (*pdlen >= len) 
 	    {
 		wcsncpy_s(dst, 1+*pdlen, src, len+1);
-		return ERROR_SUCCESS;
+		return SUP_ERR_NO;
 	    }
 	    else
 	    {
 		wcscpy_s(dst, 1+*pdlen, src);
-		return (DWORD)NTE_NO_MEMORY;
+		return SUP_ERR_MEMORY;
 	    }
 	}
 #   else
-	DWORD SUP_INLINE 
+	TSupErr SUP_INLINE 
 	untested_support_to_utf16le(const char * encoding, 
 				    WIN_WCHAR_T * dst, 
 				    size_t * pdlen, 
@@ -1363,18 +1550,18 @@ void support_unload_library( void );
 	    (void)(slen); // TODO:XXX UNUSED(encoding);
 
 	    if (pdlen == NULL || src == NULL)
-		return (DWORD)ERROR_INVALID_PARAMETER;
+		return SUP_ERR_PARAM;
 	    if (dst) {
 		alloclen = 1 + *pdlen;
 	    }
 	    if(mbstowcs_s(pdlen, dst, alloclen, src, alloclen-1) ||
 		NULL == dst) {
-		    return (DWORD)NTE_NO_MEMORY;
+		    return SUP_ERR_MEMORY;
 	    }
-	    return ERROR_SUCCESS;
+	    return SUP_ERR_NO;
 	}
 
-	DWORD SUP_INLINE 
+	TSupErr SUP_INLINE 
 	untested_support_from_utf16le(const char * encoding, 
 				      TCHAR * dst, 
 				      size_t * pdlen, 
@@ -1386,15 +1573,15 @@ void support_unload_library( void );
 	    (void)(slen); // TODO:XXX UNUSED(encoding);
 
 	    if (pdlen == NULL || src == NULL)
-		return (DWORD)ERROR_INVALID_PARAMETER;
+		return SUP_ERR_PARAM;
 	    if (dst) {
 		alloclen = 1 + *pdlen;
 	    }
 	    if(wcstombs_s(pdlen, dst, alloclen, src, alloclen-1) ||
 		NULL == dst) {
-		return (DWORD)NTE_NO_MEMORY;
+		return SUP_ERR_MEMORY;
 	    }
-	    return ERROR_SUCCESS;
+	    return SUP_ERR_NO;
 	}
 #   endif
 # endif /* defined(UNIX) */
@@ -1404,35 +1591,35 @@ void support_unload_library( void );
 #define SUPPORT_CSUM_MNAME_LEN SUPPORT_CSUM_BNAME_LEN
 #define SUPPORT_CSUM_HASH_LEN 32
 
-DWORD support_register_checksum_block(
+_SUPPORT_DECL TSupErr support_register_checksum_block(
     const char * module_name,
     const char * block_name,
     const void * block_ptr,
     size_t block_length,
     const void * checksum);
 
-DWORD support_unregister_checksum_block(
+_SUPPORT_DECL TSupErr support_unregister_checksum_block(
     const char * module_name,
     const void * block_ptr,
     size_t block_length);
 
-DWORD support_is_checksum_block_registered(
+_SUPPORT_DECL TSupErr support_is_checksum_block_registered(
     const char * module_name,
     const void * block_ptr,
     size_t block_length);
 
-DWORD support_free_all_checksum_blocks(void);
+_SUPPORT_DECL TSupErr support_free_all_checksum_blocks(void);
 
-DWORD support_register_csm_module(
+_SUPPORT_DECL TSupErr support_register_csm_module(
     const char *module_name);
 
-DWORD support_is_csm_module_registered(
+_SUPPORT_DECL TSupErr support_is_csm_module_registered(
     const char *module_name);
 
-DWORD support_unregister_csm_module(
+_SUPPORT_DECL TSupErr support_unregister_csm_module(
     const char *module_name);
 
-typedef DWORD _SUPPORT_CALLBACK_CONV support_checksum_callback_t (
+typedef TSupErr _SUPPORT_CALLBACK_CONV support_checksum_callback_t (
     const char * module_name,
     const char * block_name,
     const void * block_ptr,
@@ -1440,9 +1627,11 @@ typedef DWORD _SUPPORT_CALLBACK_CONV support_checksum_callback_t (
     const void * checksum,
     void * arg);
 
-DWORD support_verify_blocks(
-    support_checksum_callback_t *callback, void * arg);
+_SUPPORT_DECL TSupErr support_verify_blocks(
+    support_checksum_callback_t *callback, void * arg);  
 
+
+#define support_len_of(a)    (sizeof(a)/sizeof((a)[0]))
 
 //
 // Поддержка кэша чтения/записи из/в реестр.
@@ -1453,6 +1642,7 @@ DWORD support_verify_blocks(
 //
 // Для использования SUPPORT_REGISTRY_CACHE_DECL(CP, 0)
 // Требуется:
+// #include "reader/ISO-IEC_TR_24731-1.h"
 // #include "../../CSP/src/RuNetCSP/reality/stdlocks.h"
 // #include "reader/support.h"
 //
@@ -1481,7 +1671,7 @@ DWORD support_verify_blocks(
 #define SRC_CP_INTERLOCKED_INCREMENT(pCC,plvD) \
 				support_interlocked_increment(plvD)
 #define SRC_CP_timeval			support_timeval
-#define SRC_CP_GET_TIME(pCC,pTV)	(ERROR_SUCCESS == support_gettimeofday(pTV))
+#define SRC_CP_GET_TIME(pCC,pTV)	(SUP_ERR_NO == support_gettimeofday(pTV))
 
 #if !defined(CSP_LITE)	// CPCSP-4228 - аномалии в драйвере
 	    // Начало блока кэша реестра.
@@ -1497,9 +1687,9 @@ DWORD support_verify_blocks(
 	    static SRC_##t##_timeval src_prev_ = { 0 };
 		// Определения кэшируемых данных
 
-	    // Начало раздела стирания кэш, по времени или по условию (cond).
-	    // cond == FALSE - инвалидировать кэш только по времени.
-    #define SUPPORT_REGISTRY_CACHE_INVALIDATE(t, cond)  \
+	    // Начало раздела стирания кэш, блокировка текущего состояние на чтение
+	    // после нее можно проверить закэшированные данные
+    #define SUPPORT_REGISTRY_CACHE_INVALIDATE_1(t)  \
 	    SRC_##t##_timeval src_cur_ = { SRC_TIMEOUT, SRC_TIMEOUT }; \
 	    CSP_BOOL src_##t##_use_ = FALSE; \
 	    CSP_BOOL src_cache_ = FALSE; \
@@ -1524,7 +1714,11 @@ DWORD support_verify_blocks(
 			} \
 		    } \
 		    if(SRC_##t##_GET_TIME(pCC_, &src_cur_)) { \
-			SRC_##t##_RWLOCK_RDLOCK(pCC_, &src_lock_); \
+			SRC_##t##_RWLOCK_RDLOCK(pCC_, &src_lock_);
+
+	    // проверка времени или условия (cond).
+	    // cond == FALSE - инвалидировать кэш только по времени.
+    #define SUPPORT_REGISTRY_CACHE_INVALIDATE_2(t, cond)  \
 			    src_cache_ = src_cached_ok_ && \
 			       src_cur_.tv_sec < src_prev_.tv_sec + SRC_TIMEOUT && \
 			       src_cur_.tv_sec > src_prev_.tv_sec - SRC_TIMEOUT; \
@@ -1542,6 +1736,12 @@ DWORD support_verify_blocks(
 				// Инвалидирование кэш. Недопустимы: return,
 				// исключения и др.
 				/*...*/
+
+	    // Начало раздела стирания кэш, по времени или по условию (cond).
+	    // cond == FALSE - инвалидировать кэш только по времени.
+    #define SUPPORT_REGISTRY_CACHE_INVALIDATE(t, cond)  \
+	    SUPPORT_REGISTRY_CACHE_INVALIDATE_1(t) \
+	    SUPPORT_REGISTRY_CACHE_INVALIDATE_2(t, cond) \
 
 	    // Начало раздела реального кода (реального обращения в реестр)
 	    // в случае, если данные кэширования были инвалидированны.
@@ -1644,19 +1844,24 @@ typedef void(*slr_pfDestruct_t)(void *);
 
 		// Регистрируем захват блокировки.
     void  support_lckrec_push_slr_impl(void *pvLock, slr_pfDestruct_t pfUnlock);
+		// Регистрируем захват рекурсивной блокировки.
+    void  support_lckrec_push_recursion_slr_impl(void *pvLock, 
+    					slr_pfDestruct_t pfUnlock);
 		// Регистрируем освобождение блокировки.
     void  support_lckrec_pop_slr_impl(void *pvLock);
 		// Проверяем, что в стеке зарегистрированых блокировок
 		// не больше uBottom записей.
-    DWORD support_lckrec_check_slr_impl(unsigned uDntAbr, unsigned uBottom);
+    TSupErr support_lckrec_check_slr_impl(unsigned uDntAbr, unsigned uBottom);
 		// Освобождаем записанные блокировки до уровня uBottom записей.
-    DWORD support_lckrec_flush_slr_impl(unsigned uDntAbr, unsigned uBottom);
+    TSupErr support_lckrec_flush_slr_impl(unsigned uDntAbr, unsigned uBottom);
 		// Возвращает количество записанных блокировок в стеке.
     unsigned support_lckrec_top_slr_impl(void);
 
 #if defined (ENABLE_SLR_STACK)
     #define support_lckrec_push(pvLock, pfUnlock) \
 	support_lckrec_push_slr_impl((pvLock), (pfUnlock))
+    #define support_lckrec_push_recursion(pvLock, pfUnlock) \
+	support_lckrec_push_recursion_slr_impl((pvLock), (pfUnlock))
     #define support_lckrec_pop(pvLock) \
 	support_lckrec_pop_slr_impl((pvLock))
     #define support_lckrec_check(uDntAbr, uBottom) \
@@ -1670,21 +1875,26 @@ typedef void(*slr_pfDestruct_t)(void *);
         UNUSED(pvLock); 
         UNUSED(pfUnlock);
     }
-
+    
+    static SUP_INLINE void support_lckrec_push_recursion(void *pvLock, slr_pfDestruct_t pfUnlock) {
+        UNUSED(pvLock); 
+        UNUSED(pfUnlock);
+    }
+    
     static SUP_INLINE void support_lckrec_pop(void *pvLock) {
         UNUSED(pvLock);
     }
     
-    static SUP_INLINE DWORD support_lckrec_check(unsigned uDntAbr, unsigned uBottom) {
+    static SUP_INLINE TSupErr support_lckrec_check(unsigned uDntAbr, unsigned uBottom) {
         UNUSED(uDntAbr); 
         UNUSED(uBottom); 
-        return (DWORD)ERROR_SUCCESS;
+        return SUP_ERR_NO;
     }
     
-    static SUP_INLINE DWORD support_lckrec_flush(unsigned uDntAbr, unsigned uBottom) {
+    static SUP_INLINE TSupErr support_lckrec_flush(unsigned uDntAbr, unsigned uBottom) {
         UNUSED(uDntAbr); 
         UNUSED(uBottom); 
-        return (DWORD)ERROR_SUCCESS;
+        return SUP_ERR_NO;
     }
     
     static SUP_INLINE unsigned  support_lckrec_top(void) {
@@ -1692,8 +1902,7 @@ typedef void(*slr_pfDestruct_t)(void *);
     }
 #endif // ENABLE_SLR_STACK
 
-
-// Функции отладочного динамического контроля блокировок
+	// Функции отладочного динамического контроля блокировок
 #if defined(DEBUG) || defined(_DEBUG)
     #define SLR_DEBUG_CHECK_TOP(uT) unsigned (uT) = support_lckrec_top()
     #define SLR_DEBUG_CHECK(uT)     (support_lckrec_check(SLR_NORMAL, (uT)))
@@ -1701,66 +1910,6 @@ typedef void(*slr_pfDestruct_t)(void *);
     #define SLR_DEBUG_CHECK_TOP(uT) unsigned (uT)
     #define SLR_DEBUG_CHECK(uT)     ((void)(uT))
 #endif
-
-// Функции зануления памяти
-#   define support_zero_memory_raw(dest,size) {volatile unsigned char *volatile_dest = (volatile unsigned char *)dest;\
-					   size_t int_size = (size_t)size;\
-					   while (int_size--) *volatile_dest++ = 0x00;}
-#ifdef _WIN32 
-#   define support_zero_memory(dest,size) RtlSecureZeroMemory(dest,size)
-#else
-#   define support_zero_memory(dest,size) support_zero_memory_raw(dest,size)
-#endif	/* _WIN32 */
-
-// Блок, требующий переработки (функции из support_fkc.h) TODO
-//
-// Макросы вызова функций преобразования типа от родителя к сыну и обратно
-//
-
-/*!
-* \ingroup rdr_ext_fkc_macro
-* \def P2CH(ChildType,Parent)
-* \brief Приведение указателя на структуру-родителя к типу-наследнику. Используется при
-*  определении типов параметров, переданных в функции аутентификации и считывания параметров папок.
-*  Макрос вызывает соответствующую функцию, что гарантирует возникновение предупреждений при компиляции,
-*  если данное приведение невозможно.
-* \param ChildType [in] Тип-наследник, к которому будет приводится типизированный указатель.
-* \param Parent [in] Типизированный указатель на структуру-родителя.
-* \ret Указатель на структуру типа-наследника.
-* \sa CONSTP2CH, CH2P.
-* \req_suprdr
-*/
-#define P2CH(ChildType,Parent)	    (Child##ChildType(Parent))
-
-/*!
-* \ingroup rdr_ext_fkc_macro
-* \def CONSTP2CH(ChildType,Parent)
-* \brief Приведение указателя-константы на структуру-родителя к типу-наследнику. Используется при
-*  определении типов параметров, переданных в функции аутентификации и считывания параметров папок.
-*  Макрос вызывает соответствующую функцию, что гарантирует возникновение предупреждений при компиляции,
-*  если данное приведение невозможно.
-* \param ChildType [in] Тип-наследник, к которому будет приводится типизированный указатель.
-* \param Parent [in] Типизированный указатель-константа на структуру-родителя.
-* \ret Указатель на структуру типа-наследника.
-* \sa P2CH, CH2P.
-* \req_suprdr
-*/
-#define CONSTP2CH(ChildType,Parent) (CChild##ChildType(Parent))
-
-/*!
-* \ingroup rdr_ext_fkc_macro
-* \def CH2P(ChildType,Child)
-* \brief Приведение указателя на структуру-наследника к типу-родителю. Используется при
-*  возврате параметров от функций аутентификации и считывания параметров папок.
-*  Макрос вызывает соответствующую функцию приведения, что гарантирует возникновение предупреждений
-*  при компиляции, если данное приведение невозможно.
-* \param ChildType [in] Тип-наследник передаваемого указателя, который следует привести к типу-родителю.
-* \param Parent [in] Типизированный указатель на структуру-наследника.
-* \ret Указатель на структуру типа-родителя.
-* \sa P2CH, CONSTP2CH.
-* \req_suprdr
-*/
-#define CH2P(ChildType,Child)	    (Parent##ChildType(Child))
 
 /* _countof helper */
 /* взято из protobuf/src/google/protobuf/stubs/common.h */
@@ -1775,10 +1924,9 @@ typedef void(*slr_pfDestruct_t)(void *);
 #endif
 #endif	/* !_countof */
 
-#define support_len_of(a)    (sizeof(a)/sizeof((a)[0]))
-
 #if defined( __cplusplus )
 }
-#endif
+#endif /* defined( __cplusplus ) */
 
-#endif /* !_READER_SUPPORT_SUPPORT_H */
+#endif /* !defined( _READER_SUPPORT_SUPPORT_H ) */
+/*+ end of file:$Id: support.h 170050 2018-02-07 15:00:46Z sonina $ +*/

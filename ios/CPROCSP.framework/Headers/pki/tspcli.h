@@ -6,11 +6,10 @@
 #endif	/* _WIN32 */
 #include <list>
 #include <cplib/DateTime.h>
-#include <cplib/Blob.h>
 
 #if !defined CPTSPCLI_DEFINES
 #   define CPTSPCLI_DEFINES
-#   if defined _WIN32 && !defined CRYPTCP && !defined TSPCLI_STATIC
+#   if defined _WIN32 && !defined CRYPTCP
 #	ifdef _CPTSPCLIDLL
 #	    define TSPCLI_CLASS __declspec(dllexport)
 #	else
@@ -152,7 +151,6 @@ public:
     const wchar_t* get_ProxyPassword() const;
 
     CStamp& Send(bool Verify = true);
-    CBlob get_Response() const;
     unsigned long get_HTTPStatus() const;
 
     friend void CStamp::Import(const unsigned char *, unsigned long,

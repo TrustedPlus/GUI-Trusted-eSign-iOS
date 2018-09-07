@@ -298,7 +298,7 @@ RCT_EXPORT_METHOD(loadToICloud: (NSString *)nsUrl: (RCTResponseSenderBlock)callb
     NSURL *src = [NSURL fileURLWithPath:nsUrl];
     NSFileManager *filemgr = [[NSFileManager alloc] init];
     NSError *error;
-    NSURL *ubiq = [filemgr URLForUbiquityContainerIdentifier:@"iCloud.com.digt.CryptoARMGOST"];
+    NSURL *ubiq = [filemgr URLForUbiquityContainerIdentifier:@"iCloud.com.digt.CryptoARMGOCTDocuments"];
     if (!ubiq){
       callback(@[[@"iCloud container not available." copy], [NSNull null]]);
     }
@@ -310,6 +310,32 @@ RCT_EXPORT_METHOD(loadToICloud: (NSString *)nsUrl: (RCTResponseSenderBlock)callb
       
       BOOL success = [filemgr setUbiquitous:YES itemAtURL:src destinationURL:cloudURL error:&error];
       callback(@[[NSNull null], [NSNumber numberWithInt: success]]);
+    }
+  }
+  catch (TrustedHandle<Exception> e) {
+    callback(@[[@((e->description()).c_str()) copy], [NSNumber numberWithInt: 0]]);
+  }
+}
+
+RCT_EXPORT_METHOD(copyFile: (NSString *)inputUrl: (NSString *)outputUrl: (RCTResponseSenderBlock)callback) {
+  try {
+    
+    NSFileManager *filemgr = [[NSFileManager alloc] init];
+    NSURL *actualFileURL = [NSURL fileURLWithPath:inputUrl];
+    NSURL *copyFileURL = [NSURL fileURLWithPath:outputUrl];
+    NSError *error;
+    if ([filemgr copyItemAtURL:actualFileURL toURL:copyFileURL error:&error]){
+      
+      NSMutableDictionary *arrayInfoAboutSigner = [NSMutableDictionary dictionary];
+      arrayInfoAboutSigner[@"subjectName"] = error.description;
+      callback(@[[NSNull null], [arrayInfoAboutSigner copy]]);
+    }
+    else{
+      
+      NSMutableDictionary *arrayInfoAboutSigner = [NSMutableDictionary dictionary];
+      arrayInfoAboutSigner[@"subjectName"] = error.description;
+      callback(@[[NSNull null], [arrayInfoAboutSigner copy]]);
+      //callback(@[[NSNull null],  [@"Неуспех" copy]]);
     }
   }
   catch (TrustedHandle<Exception> e) {

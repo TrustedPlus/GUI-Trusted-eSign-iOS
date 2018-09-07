@@ -86,7 +86,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 				showToastDanger("Ошибка доступа к iCloud");
 			} else {
 				debugger;
-				RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
+				RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/").then(
 					fileForCloud => {
 						debugger;
 						console.log(fileForCloud);
@@ -94,13 +94,13 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 							if (fileForCloud[i].name.indexOf(".icloud") !== -1) {
 								debugger;
 								NativeModules.Wrap_Main.downloadingFileFromiCloud(fileForCloud[i].path, (veify, err) => {
-									RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(
+									RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/").then(
 										newFileForCloud => console.log(newFileForCloud)
 									);
 									let correctName = fileForCloud[i].name;
 									correctName = correctName.replace(".icloud", "");
 									correctName = correctName.slice(1);
-									RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + correctName, RNFS.DocumentDirectoryPath + "/Files/" + correctName).then(
+									RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/" + correctName, RNFS.DocumentDirectoryPath + "/Files/" + correctName).then(
 										() => {
 											if (i + 1 === fileForCloud.length) {
 												this.props.readFiles();
@@ -112,7 +112,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 								debugger;
 								continue;
 							} else {
-								RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+								RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
 									success => {
 										debugger;
 										if (i + 1 === fileForCloud.length) {
@@ -122,7 +122,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 									err => {
 										debugger;
 										RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
-											() => RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
+											() => RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
 												() => {
 													if (i + 1 === fileForCloud.length) {
 														this.props.readFiles();
@@ -136,17 +136,23 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 						}
 						RNFS.readDir(RNFS.DocumentDirectoryPath + "/Files/").then(
 							fileForApps => {
-								console.log(fileForApps);
-								debugger;
 								for (let i = 0; i < fileForApps.length; i++) {
 									if (fileForApps[i].name[0] === ".") {
 										continue;
 									}
 									console.log(fileForApps[i]);
-									RNFS.copyFile(RNFS.DocumentDirectoryPath + "/Files/" + fileForApps[i].name, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + fileForApps[i].name).catch(
+									RNFS.copyFile(fileForApps[i].path, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/" + fileForApps[i].name).then(
+										success => {
+											console.log(success);
+										},
 										err => {
-											debugger;
-											console.log(err);
+											RNFS.unlink("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/" + fileForApps[i].name)
+												.then(() => {
+													RNFS.copyFile(fileForApps[i].path, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/" + fileForApps[i].name);
+												})
+												.catch((err) => {
+													console.log(err.message);
+												});
 										}
 									);
 								}
@@ -155,7 +161,6 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 					},
 					err => {
 						console.log(err);
-						debugger;
 					}
 				);
 			}

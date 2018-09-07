@@ -2,9 +2,9 @@ import * as React from "react";
 import * as RNFS from "react-native-fs";
 import { styles } from "../styles";
 import { Headers } from "../components/Headers";
-import { Container, Footer, Text, View, FooterTab, Content, Form, Item, Label, Input } from "native-base";
+import { Container, Footer, Text, View, FooterTab, Content, Form, Item, Button, Input } from "native-base";
 import { FooterButton } from "../components/FooterButton";
-import { Image, NativeModules, Alert, AlertIOS } from "react-native";
+import { Image, NativeModules, Linking } from "react-native";
 import { showToast, showToastDanger } from "../utils/toast";
 
 import { connect } from "react-redux";
@@ -123,8 +123,8 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 				<Content style={{ backgroundColor: "white" }}>
 					<View style={{ padding: 15 }}>
 						<Image style={{ height: 70, width: 70, position: "absolute", right: 15, top: 15 }} source={require("../../imgs/general/splash_icon.png")} />
-						<Text style={{ fontSize: 20 }}>КриптоАРМ ГОСТ{"\n"}</Text>
-						<Text style={{ fontSize: 17, color: "grey" }}>ООО «Цифровые технологии»{"\n"}версия: 1.0.0</Text>
+						<Text style={{ fontSize: 20 }}>КриптоАРМ ГОСТ</Text>
+						<Text style={{ fontSize: 17, color: "grey" }}>версия: 1.0.1{"\n"}ООО «Цифровые технологии»</Text>
 					</View>
 					<View style={{ paddingLeft: 15, paddingRight: 15 }}>
 						<Text style={{ color: "grey" }}>Лицензия</Text>
@@ -158,12 +158,13 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 								: null
 							: null
 						}
+						<Button style={{ backgroundColor: "#be3817", marginTop: 15, marginBottom: 5 }} onPress={() => Linking.openURL("https://cryptoarm.ru/shop/cryptoarm-gost")}><Text>Купить</Text></Button>
 					</View>
 					<View style={{ height: 1, backgroundColor: "#be3817" }}></View>
 					<View style={{ padding: 15 }}>
 						<Image style={{ height: 70, width: 160, position: "absolute", right: 15, top: 15 }} source={require("../../imgs/general/cryptopro.png")} />
-						<Text style={{ fontSize: 20 }}>КриптоПро CSP{"\n"}</Text>
-						<Text style={{ fontSize: 17, color: "grey" }}>ООО «КРИПТО-ПРО»{"\n"}версия: {this.state.CSPVersion}</Text>
+						<Text style={{ fontSize: 20 }}>КриптоПро CSP</Text>
+						<Text style={{ fontSize: 17, color: "grey" }}>версия: {this.state.CSPVersion}{"\n"}ООО «КРИПТО-ПРО»</Text>
 					</View>
 					<View style={{ paddingLeft: 15, paddingRight: 15 }}>
 						<Text style={{ color: "grey" }}>Лицензия</Text>
@@ -191,6 +192,7 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 								}
 							</Text>
 							: null}
+						<Button style={{ backgroundColor: "#be3817", marginTop: 15 }} onPress={() => Linking.openURL("https://cryptoarm.ru/shop/skzi-cryptopro-csp-4-0")}><Text>Купить</Text></Button>
 					</View>
 				</Content>
 				<Footer>

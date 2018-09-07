@@ -1,6 +1,7 @@
 import * as React from "react";
+import * as RNFS from "react-native-fs";
 import { Container, Content, List } from "native-base";
-import { NativeModules } from "react-native";
+import { Linking, AlertIOS, NativeModules } from "react-native";
 import { StackNavigator } from "react-navigation";
 import { styles } from "../styles";
 
@@ -119,6 +120,12 @@ class Main extends React.Component<MainProps> {
 		this.props.getProviders();
 		this.props.readRequests();
 		this.props.refreshStatusLicense();
+
+		Linking.getInitialURL().then((url) => {
+			if (url) {
+				console.log(decodeURIComponent(url));
+			}
+		}).catch(err => console.error("An error occurred", err));
 	}
 }
 

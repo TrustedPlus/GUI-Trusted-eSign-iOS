@@ -37,7 +37,7 @@ interface FooterEncProps {
 	clearOriginalFileInWorkspaceEnc?(name, extensionAll): void;
 	encAssymmetric?(files: IFile[], otherCert: string[], footer: string[], signature: string, deleteAfter: boolean, clearselectedFiles: Function): void;
 	decAssymmetric?(files: IFile[], footer: string[], clearselectedFiles: Function): void;
-	uploadFile?(files: IFile[], footer: Object): void;
+	uploadFile?(files: IFile[], footer: Object, refreshingFiles: Function, page: string): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
 }
 
@@ -98,9 +98,9 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 							img={require("../../imgs/ios/decrypt.png")}
 							nav={() => decAssymmetric(files, footer, () => this.props.clearselectedFiles())} />
 						<FooterButton title="Отправить"
-							disabled={footer.arrExtension.length === 1 ? false : true}
 							img={require("../../imgs/ios/posted.png")}
-							nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
+							nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension },
+								() => this.props.clearselectedFiles(), "enc")} />
 						<FooterButton title="Очистить"
 							img={require("../../imgs/ios/delete.png")}
 							nav={() => this.clearSelectedFilesInWorkspaceEnc()} />

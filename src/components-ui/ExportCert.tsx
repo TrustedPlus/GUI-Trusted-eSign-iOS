@@ -127,11 +127,11 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 					{!this.state.format ? <View style={styles.sign_enc_view}>
 						<Text style={{ color: "grey", paddingLeft: 15, paddingRight: 5 }}>Укажите пароль для защиты закрытого ключа:</Text>
 						<Form>
-							<Item floatingLabel>
+							<Item stackedLabel>
 								<Label>Пароль</Label>
 								<Input secureTextEntry onChangeText={(password) => this.setState({ password })} />
 							</Item>
-							<Item floatingLabel>
+							<Item stackedLabel>
 								<Label>Подтверждение пароля</Label>
 								<Input secureTextEntry onChangeText={(passConfirm) => this.setState({ passConfirm })} />
 							</Item>

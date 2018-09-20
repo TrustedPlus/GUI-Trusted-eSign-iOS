@@ -51,8 +51,8 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 		}
 		return (
 			<ListItem
-				style={[styles.listItem, this.state.active ? { backgroundColor: "lightgrey" } : null]}
-				avatar
+				style={[styles.listItem, (this.props.selected !== undefined ? this.props.selected : this.state.active) ? { backgroundColor: "lightgrey" } : null]}
+				thumbnail
 				onPressIn={() => this.onPress()}>
 				{this.props.img ? <Left>
 					{this.props.numChain !== undefined

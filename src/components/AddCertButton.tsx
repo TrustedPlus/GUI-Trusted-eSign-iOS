@@ -1,6 +1,6 @@
 import * as React from "react";
 import { AlertIOS, Image } from "react-native";
-import { DocumentPicker } from "react-native-document-picker";
+import DocumentPicker from "react-native-document-picker";
 import * as Modal from "react-native-modalbox";
 import { Footer, FooterTab, Text, View, ListItem, Header, Title, Button, List, Left, Right, Icon } from "native-base";
 import { styles } from "../styles";
@@ -42,7 +42,7 @@ export class AddCertButton extends React.Component<AddCertButtonProps, AddCertBu
 			},
 			{
 				text: "Ввести",
-				onPress: (password) => this.props.addCertFunc(res.uri, res.fileName, password, (err) => {
+				onPress: (password) => this.props.addCertFunc(res.uri, res.name, password, (err) => {
 					let index = err.indexOf("Action canceled by user!");
 					if (index === -1) {
 						index = err.indexOf("Can't open license");
@@ -62,16 +62,16 @@ export class AddCertButton extends React.Component<AddCertButtonProps, AddCertBu
 	}
 
 	documentPicker() {
-		DocumentPicker.show({
-			filetype: ["public.item"]
-		}, (error: any, res: any) => {
+		DocumentPicker.pick({
+			type: ["public.item"]
+		}).then((res) => {
 			let point, extension;
-			point = res.fileName.indexOf(".");
-			extension = res.fileName.substring(point + 1);
+			point = res.name.indexOf(".");
+			extension = res.name.substring(point + 1);
 			if (extension === "pfx") {
 				this.Prompt(res);
 			} else {
-				this.props.addCertFunc(res.uri, res.fileName, null);
+				this.props.addCertFunc(res.uri, res.name, null);
 			}
 		});
 	}

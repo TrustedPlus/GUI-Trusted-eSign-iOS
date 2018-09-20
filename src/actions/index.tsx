@@ -96,10 +96,16 @@ export function readFilesSuccess(file) {
 		let length = file.length;
 		for (let i = 0; i < length; i++) {
 			point = file[i].name.indexOf(".");
-			name = file[i].name.substring(0, point);
-			extensionAll = file[i].name.substring(point + 1);
-			point = extensionAll.lastIndexOf(".");
-			extension = extensionAll.substring(point + 1);
+			if (point === -1) {
+				extensionAll = "";
+				extension = "";
+				name = file[i].name;
+			} else {
+				name = file[i].name.substring(0, point);
+				extensionAll = file[i].name.substring(point + 1);
+				point = extensionAll.lastIndexOf(".");
+				extension = extensionAll.substring(point + 1);
+			}
 			date = file[i].mtime.getDate();
 			month = file[i].mtime.getMonth();
 			switch (month) {
@@ -153,12 +159,18 @@ export function addFiles(uri, fileName, workspace, refreshDoc) {
 					request.then(
 						response => {
 							const verify = 0;
-							let filearr;
+							let filearr, name, extensionAll, extension;
 							let point = fileName.indexOf(".");
-							const name = fileName.substring(0, point);
-							const extensionAll = fileName.substring(point + 1);
-							point = extensionAll.lastIndexOf(".");
-							const extension = extensionAll.substring(point + 1);
+							if (point === -1) {
+								name = fileName;
+								extensionAll = "";
+								extension = "";
+							} else {
+								name = fileName.substring(0, point);
+								extensionAll = fileName.substring(point + 1);
+								point = extensionAll.lastIndexOf(".");
+								extension = extensionAll.substring(point + 1);
+							}
 							const mtime: any = response.mtime;
 							const date = mtime.getDate();
 							let month = mtime.getMonth();

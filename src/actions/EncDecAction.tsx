@@ -29,7 +29,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 			return dispatch({ type: ENCODE_FILES_END });
 		} else {
 			for (let i = 0; i < footer.arrButton.length; i++) {
-				let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+				let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll);
 				let selectedCertificates = [];
 				otherCert.arrEncCertificates.map((cert) => {
 					selectedCertificates.push(cert.serialNumber);
@@ -45,7 +45,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 							selectedCertificates,
 							otherCert.arrEncCertificates[0].provider,
 							path,
-							RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + "." + files[footer.arrButton[i]].extensionAll + ".enc",
+							RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + (files[footer.arrButton[i]].extensionAll === "" ? ".enc" : "." + files[footer.arrButton[i]].extensionAll + ".enc"),
 							signature === "BASE-64" ? "BASE64" : "DER",
 							(err) => {
 								if (err) {
@@ -62,15 +62,15 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 										dispatch({ type: FETCHING_ENC_FALSE });
 										clearselectedFiles();
 									}
-									dispatch({ type: ENCODE_FILES_ERROR, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll, err });
+									dispatch({ type: ENCODE_FILES_ERROR, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll), err });
 								} else {
 									// RNFS.copyFile(path + ".enc", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".enc");
-									const request = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + "." + files[footer.arrButton[i]].extensionAll + ".enc");
+									const request = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one  + (files[footer.arrButton[i]].extensionAll === "" ? ".enc" : "." + files[footer.arrButton[i]].extensionAll + ".enc"));
 									request.then(
 										response => {
 											let filearr;
 											const name = files[footer.arrButton[i]].name + one;
-											const extensionAll = files[footer.arrButton[i]].extensionAll + ".enc";
+											const extensionAll = files[footer.arrButton[i]].extensionAll === "" ? "enc" : files[footer.arrButton[i]].extensionAll + ".enc";
 											const extension = "enc";
 											const mtime: any = response.mtime;
 											const date = mtime.getDate();
@@ -109,7 +109,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 										err => console.log(err)
 									);
 									dispatch(readFiles());
-									dispatch({ type: ENCODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll });
+									dispatch({ type: ENCODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll) });
 									if (deleteAfter) { RNFS.unlink(path); showToast("Файл успешно зашифрован\nИсходный файл был удален"); } else {
 										showToast("Файл успешно зашифрован");
 									}
@@ -152,7 +152,7 @@ export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Funct
 							NativeModules.Wrap_Cipher.decrypt(
 								path + "." + files[footer.arrButton[i]].extensionAll,
 								encoding,
-								path + one + "." + extension,
+								path + one + (extension === "" ? "" : "." + extension),
 								(err) => {
 									if (err) {
 										let index = err.indexOf("2146885620");
@@ -174,18 +174,23 @@ export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Funct
 											dispatch({ type: FETCHING_DOC_FALSE });
 											clearselectedFiles();
 										}
-										dispatch({ type: DECODE_FILES_ERROR, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll, err });
+										dispatch({ type: DECODE_FILES_ERROR, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll), err });
 									} else {
 										// RNFS.copyFile(path + "." + extension, "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + extension);
-										dispatch({ type: DECODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll });
-										const request = RNFS.stat(path + one + "." + extension);
+										dispatch({ type: DECODE_FILES_SUCCESS, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll)});
+										const request = RNFS.stat(path + one + (extension === "" ? "" : "." + extension));
 										request.then(
 											response => {
-												let filearr;
+												let filearr, extensionAll, extensionNewFiles;
 												const name = files[footer.arrButton[i]].name + one;
-												const extensionAll = extension;
-												let point = extensionAll.lastIndexOf(".");
-												const extensionNewFiles = extensionAll.substring(point + 1);
+												if (extension === "") {
+												extensionAll = "";
+												extensionNewFiles = "";
+												} else {
+													extensionAll = extension;
+													let point = extensionAll.lastIndexOf(".");
+													extensionNewFiles = extensionAll.substring(point + 1);
+												}
 												const mtime: any = response.mtime;
 												const date = mtime.getDate();
 												let month = mtime.getMonth();

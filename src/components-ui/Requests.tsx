@@ -6,12 +6,12 @@ import { ListMenu } from "../components/ListMenu";
 import { Headers } from "../components/Headers";
 import { FooterButton } from "../components/FooterButton";
 import { styles } from "../styles";
-import { Share } from "react-native";
+import * as Share from "react-native-share";
 import { showToast, showToastDanger } from "../utils/toast";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { deleteRequests, selectedRequest } from "../actions/requestAction";
+import { deleteRequests, selectedRequest, readRequests } from "../actions/requestAction";
 
 function mapStateToProps(state) {
 	return {
@@ -23,7 +23,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		deleteRequests: bindActionCreators(deleteRequests, dispatch),
-		selectedRequest: bindActionCreators(selectedRequest, dispatch)
+		selectedRequest: bindActionCreators(selectedRequest, dispatch),
+		readRequests: bindActionCreators(selectedRequest, dispatch)
 	};
 }
 
@@ -45,10 +46,9 @@ const options = {
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Requests extends React.Component<RequestsProps> {
 
-	showList(requests) {
-		console.log(requests);
+	showList() {
 		return (
-			requests.map((file, key) => <ListMenu
+			this.props.requests.map((file, key) => <ListMenu
 				key={key + file.time}
 				title={file.name}
 				note={new Date(file.time).toLocaleString("ru", options)}
@@ -72,28 +72,33 @@ export class Requests extends React.Component<RequestsProps> {
 	}
 
 	uploadFile(requests) {
+		let arrUrls = [];
 		requests.forEach((item, i, arr) => {
 			if (item.isSelected) {
-				Share.share({
-					url: RNFS.DocumentDirectoryPath + "/Requests/" + item.name + ".csr"
-				}).then((action: { action }) => {
-					if (action.action === Share.dismissedAction) {
-						showToast("Отправка запроса была отклонена");
-					} else {
-						showToast("Запрос успешно отправлен");
-					}
-				}).catch(
-					errorMsg => showToastDanger(errorMsg)
-				);
+				arrUrls.push(RNFS.DocumentDirectoryPath + "/Requests/" + item.name + ".csr");
+				this.props.selectedRequest(i);
+				this.getRequestsView(requests);
 			}
 		});
+		const shareOptions = {
+			urls: arrUrls,
+		};
+		Share.open(shareOptions)
+			.then((res) => {
+				showToast("Запросы успешно экспортированы");
+			})
+			.catch((err) => {
+				if (!(err.error.message === "Операция отменена." || err.error === "User did not share")) {
+					showToastDanger("При экспорте произошла ошибка");
+				}
+			});
 	}
 
 	getRequestsView(requests) {
 		if (requests.length) {
 			return (
 				<Content>
-					<List>{this.showList(requests)}</List>
+					<List>{this.showList()}</List>
 				</Content>
 			);
 		}
@@ -107,7 +112,7 @@ export class Requests extends React.Component<RequestsProps> {
 
 	render() {
 		const { goBack } = this.props.navigation;
-		const filesView = this.getRequestsView(this.props.requests);
+		let filesView = this.getRequestsView(this.props.requests);
 		return (
 			<Container style={styles.container}>
 				<Headers title="Запросы" goBack={() => goBack()} />
@@ -120,7 +125,6 @@ export class Requests extends React.Component<RequestsProps> {
 								img={require("../../imgs/ios/question_cert.png")}
 								nav={() => this.onPressGetRequestInfo(this.props.requests)} />
 							<FooterButton title="Отправить"
-								disabled={this.props.lengthSelectedRequests !== 1}
 								img={require("../../imgs/ios/posted.png")}
 								nav={() => this.uploadFile(this.props.requests)} />
 							<FooterButton title="Удалить"

@@ -27,7 +27,7 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 		let arrAddFilesInWorkspacwSign = [];
 		dispatch(clearAllFilesinWorkspaceEnc());
 		for (let i = 0; i < footer.arrButton.length; i++) {
-			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll;
+			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll);
 			if (files[footer.arrButton[i]].extension === "sig") {
 				const read = RNFS.read(path, 2, 0, "utf8");
 				let encoding;
@@ -90,7 +90,7 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 												clearselectedFiles();
 												dispatch({ type: SIGN_FILE_END });
 											}
-											dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll, err });
+											dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll), err });
 										} else {
 											const request = RNFS.stat(path);
 											request.then(
@@ -165,7 +165,7 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 							personalCert.category,
 							personalCert.provider,
 							path,
-							RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + "." + files[footer.arrButton[i]].extensionAll + ".sig",
+							RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll) + ".sig",
 							signature === "BASE-64" ? "BASE64" : "DER",
 							detached,
 							(err) => {
@@ -188,7 +188,8 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 									} else {
 										showToastDanger(err);
 									}
-									dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll, err });
+									debugger;
+									dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll), err });
 								} else {
 									/*RNFS.copyFile(path + ".sig", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".sig").then(
 										success => {
@@ -205,13 +206,13 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 											});
 										}
 									); */
-									const request = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + "." + files[footer.arrButton[i]].extensionAll + ".sig");
+									const request = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll) + ".sig");
 									request.then(
 										response => {
 											const verify = 0;
 											let filearr;
 											const name = files[footer.arrButton[i]].name + one;
-											const extensionAll = files[footer.arrButton[i]].extensionAll + ".sig";
+											const extensionAll = files[footer.arrButton[i]].extensionAll === "" ? "sig" : files[footer.arrButton[i]].extensionAll + ".sig";
 											const extension = "sig";
 											const mtime: any = response.mtime;
 											const date = mtime.getDate();
@@ -362,7 +363,7 @@ export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 							NativeModules.Wrap_Signer.unSign(
 								path,
 								encoding,
-								RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + "." + files[footer.arrButton[i]].extensionAll.substr(0, files[footer.arrButton[i]].extensionAll.length - 4),
+								RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + (files[footer.arrButton[i]].extensionAll.substr(0, files[footer.arrButton[i]].extensionAll.length - 4) === "" ? "" : "." + files[footer.arrButton[i]].extensionAll.substr(0, files[footer.arrButton[i]].extensionAll.length - 4)),
 								(err) => {
 									if (err) {
 										showToastDanger("Открепленная подпись. При снятии подписи произошла ошибка.");
@@ -380,7 +381,7 @@ export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 											dispatch({ type: FETCHING_DOC_FALSE });
 										}
 									} else {
-										const request = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + "." + files[footer.arrButton[i]].extensionAll.substr(0, files[footer.arrButton[i]].extensionAll.length - 4));
+										const request = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + (files[footer.arrButton[i]].extensionAll.substr(0, files[footer.arrButton[i]].extensionAll.length - 4) === "" ? "" : "." + files[footer.arrButton[i]].extensionAll.substr(0, files[footer.arrButton[i]].extensionAll.length - 4)));
 										request.then(
 											response => {
 												const verify = 0;

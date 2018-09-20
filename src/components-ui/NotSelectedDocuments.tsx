@@ -5,9 +5,6 @@ import { Container, List, Text, View, Button, Content } from "native-base";
 import { Image, RefreshControl, ScrollView, AlertIOS } from "react-native";
 import { ListMenu } from "../components/ListMenu";
 import { iconSelection } from "../utils/forListFiles";
-import { FooterDoc } from "./FooterDoc";
-import { DocumentPicker } from "react-native-document-picker";
-import { AddCertButton } from "../components/AddCertButton";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -105,7 +102,7 @@ export class NotSelectedDocuments extends React.Component<NotSelectedDocumentsPr
 				return (
 					<ListMenu
 						key={key + file.time}
-						title={file.name + "." + file.extensionAll}
+						title={file.name + (file.extensionAll === "" ? "" : "." + file.extensionAll)}
 						note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 						checkbox
 						img={img[key]}

@@ -8,7 +8,7 @@ import { Image, RefreshControl, ScrollView, NativeModules } from "react-native";
 import { ListMenu } from "../components/ListMenu";
 import { iconSelection } from "../utils/forListFiles";
 import { FooterDoc } from "./FooterDoc";
-import { DocumentPicker } from "react-native-document-picker";
+import DocumentPicker from "react-native-document-picker";
 import { AddCertButton } from "../components/AddCertButton";
 
 import { connect } from "react-redux";
@@ -85,14 +85,11 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 			if (veify === "iCloud container not available.") {
 				showToastDanger("Ошибка доступа к iCloud");
 			} else {
-				debugger;
 				RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/").then(
 					fileForCloud => {
-						debugger;
 						console.log(fileForCloud);
 						for (let i = 0; i < fileForCloud.length; i++) {
 							if (fileForCloud[i].name.indexOf(".icloud") !== -1) {
-								debugger;
 								NativeModules.Wrap_Main.downloadingFileFromiCloud(fileForCloud[i].path, (veify, err) => {
 									RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/").then(
 										newFileForCloud => console.log(newFileForCloud)
@@ -109,18 +106,15 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 									);
 								});
 							} else if (fileForCloud[i].name[0] === ".") {
-								debugger;
 								continue;
 							} else {
 								RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
 									success => {
-										debugger;
 										if (i + 1 === fileForCloud.length) {
 											this.props.readFiles();
 										}
 									},
 									err => {
-										debugger;
 										RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
 											() => RNFS.copyFile("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOCTDocuments/Documents/" + fileForCloud[i].name, RNFS.DocumentDirectoryPath + "/Files/" + fileForCloud[i].name).then(
 												() => {
@@ -185,7 +179,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 		return (
 			this.props.files.map((file, key) => <ListMenu
 				key={key + file.time}
-				title={file.name + "." + file.extensionAll}
+				title={file.name + (file.extensionAll === "" ? "" : "." + file.extensionAll)}
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 				checkbox
 				img={img[key]}
@@ -196,18 +190,20 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 	}
 
 	documentPicker() {
-		DocumentPicker.show({
-			filetype: ["public.item"]
-		}, (error: any, res: any) => {
-			this.props.addFiles(res.uri, res.fileName, null, () => {
-				this.setState({
-					selectedFiles: {
-						arrNum: [],
-						arrExtension: []
-					}
+		DocumentPicker.pickMultiple({
+			type: ["public.item"]
+		}).then((res) => {
+			console.log(res);
+			for (let i = 0; i < res.length; i++) {
+				this.props.addFiles(res[i].uri, res[i].name, null, () => {
+					this.setState({
+						selectedFiles: {
+							arrNum: [],
+							arrExtension: []
+						}
+					});
 				});
-			});
-
+			}
 		});
 	}
 

@@ -49,7 +49,7 @@ interface FooterDocProps {
 	clearselectedFiles?(): void;
 	verifySign?(files: IFile[], selectedFiles: Object): void;
 	UnSignFile?(files: IFile[], selectedFiles: Object, clearselectedFiles: Function): void;
-	uploadFile?(files: IFile[], selectedFiles: ISelectedFiles): void;
+	uploadFile?(files: IFile[], selectedFiles: ISelectedFiles, refreshingFiles: Function, page: string): void;
 	deleteFile?(files: IFile[], selectedFiles: ISelectedFiles, clearselectedFiles: Function): void;
 	getSignInfo?(files: IFile[], selectedFiles: Object, navigate): void;
 	addFilesInWorkspaceSign?(files: IFile[], selectedFiles: ISelectedFiles);
@@ -188,9 +188,13 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 								);
 							}} />
 						<FooterButton title="Отправить"
-							disabled={selectedFiles.arrNum.length === 1 ? false : true}
 							img={require("../../imgs/ios/posted.png")}
-							nav={() => uploadFile(files, selectedFiles)} />
+							nav={() => {
+								uploadFile(files, selectedFiles, () => {
+									clearselectedFiles();
+									readFiles();
+								}, "doc");
+							}} />
 						<FooterButton title="Больше"
 							icon="ios-more"
 							nav={() => this.setState({ modalMore: !this.state.modalMore })} />
@@ -227,7 +231,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => this.modals.basicModal.close()}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
 							</Button>
-							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => { this.modals.basicModal.close();  clearAllFilesinAllWorkspace(); deleteFile(files, selectedFiles, () => clearselectedFiles());  }}>
+							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => { this.modals.basicModal.close(); clearAllFilesinAllWorkspace(); deleteFile(files, selectedFiles, () => clearselectedFiles()); }}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Да</Text>
 							</Button>
 						</View>

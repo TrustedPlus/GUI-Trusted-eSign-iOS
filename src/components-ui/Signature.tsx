@@ -7,7 +7,7 @@ import { ListMenu } from "../components/ListMenu";
 import { FooterSign } from "./FooterSign";
 import { iconSelection } from "../utils/forListFiles";
 import { readCertKeys } from "../actions/certKeysAction";
-import { DocumentPicker } from "react-native-document-picker";
+import DocumentPicker from "react-native-document-picker";
 import * as Modal from "react-native-modalbox";
 
 import { connect } from "react-redux";
@@ -109,7 +109,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 		return (
 			this.props.files.map((file, key) => <ListMenu
 				key={key + file.time}
-				title={file.name + "." + file.extensionAll}
+				title={file.name + (file.extensionAll === "" ? "" : "." + file.extensionAll)}
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 				img={img[key]}
 				checkbox
@@ -121,10 +121,16 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 	}
 
 	documentPicker() {
-		DocumentPicker.show({
-			filetype: ["public.item"]
-		}, (error: any, res: any) => {
-			this.props.addFiles(res.uri, res.fileName, "sign");
+		DocumentPicker.pickMultiple({
+			type: ["public.item"]
+		}).then((res) => {
+			console.log(res);
+			for (let i = 0; i < res.length; i++) {
+				this.props.addFiles(res[i].uri, res[i].name, "sign");
+			}
+			this.modals.basicModal.close();
+		}).catch((err) => {
+			console.log(err);
 			this.modals.basicModal.close();
 		});
 	}

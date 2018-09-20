@@ -92,6 +92,19 @@ export function Files(state = initialState, action) {
 				isFetching: false
 			};
 		case UPLOAD_FILES:
+			return {
+				...state,
+				isFetching: true,
+				isFetchingSign: true,
+				isFetchingEnc: true,
+			};
+		case UPLOAD_FILES_END:
+			return {
+				...state,
+				isFetching: false,
+				isFetchingSign: false,
+				isFetchingEnc: false,
+			};
 		case DELETE_FILES:
 		case READ_FILES:
 		case ADD_FILES:

@@ -216,30 +216,30 @@ export class CreateCertificate extends React.Component<CreateCertificateProps, C
 					<View style={{ paddingTop: 15, paddingBottom: 15 }}>
 						<ListWithSwitch text="Создать как самоподписаннный сертификат" value={this.state.isselfsign} changeValue={() => this.setState({ isselfsign: !this.state.isselfsign })} />
 					</View>
-					<View style={{ paddingTop: 15, paddingBottom: 15 }}>
+					<View style={{ paddingBottom: 15 }}>
 						<ListWithSwitch text="Экспортируемый ключ" value={this.state.exportKey} changeValue={() => this.setState({ exportKey: !this.state.exportKey })} />
 					</View>
-					<View style={styles.sign_enc_view}>
+					<View style={[styles.sign_enc_view]}>
 						<Text style={{ color: "grey" }}>Параметры субъекта</Text>
 					</View>
 					<Form>
-						<Item floatingLabel error={this.state.errorInputCN ? true : false} >
+						<Item stackedLabel error={this.state.errorInputCN ? true : false} >
 							<Label>CN*</Label>
 							<Input value={this.state.CN} onChangeText={(CN) => this.setState({ CN })} />
 						</Item>
-						<Item floatingLabel error={this.state.errorInputEmail ? true : false} >
+						<Item stackedLabel error={this.state.errorInputEmail ? true : false} >
 							<Label>email</Label>
 							<Input value={this.state.email} onChangeText={(email) => this.setState({ email })} />
 						</Item>
-						<Item floatingLabel>
+						<Item stackedLabel>
 							<Label>организация</Label>
 							<Input value={this.state.org} onChangeText={(org) => this.setState({ org })} />
 						</Item>
-						<Item floatingLabel>
+						<Item stackedLabel>
 							<Label>город</Label>
 							<Input value={this.state.city} onChangeText={(city) => this.setState({ city })} />
 						</Item>
-						<Item floatingLabel>
+						<Item stackedLabel>
 							<Label>область</Label>
 							<Input value={this.state.obl} onChangeText={(obl) => this.setState({ obl })} />
 						</Item>

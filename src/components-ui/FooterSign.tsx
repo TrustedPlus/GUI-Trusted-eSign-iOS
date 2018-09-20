@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { signFile, verifySign, UnSignFile, getSignInfo } from "../actions/signVerifyAction";
 import { uploadFile, deleteFile } from "../actions/uploadFileAction";
+import { readFiles } from "../actions";
 
 import * as Modal from "react-native-modalbox";
 import { styles } from "../styles";
@@ -21,6 +22,7 @@ function mapDispatchToProps(dispatch) {
 		uploadFile: bindActionCreators(uploadFile, dispatch),
 		deleteFile: bindActionCreators(deleteFile, dispatch),
 		getSignInfo: bindActionCreators(getSignInfo, dispatch),
+		readFiles: bindActionCreators(readFiles, dispatch),
 		clearOriginalFileInWorkspaceSign: bindActionCreators(clearOriginalFileInWorkspaceSign, dispatch)
 	};
 }
@@ -40,11 +42,11 @@ interface FooterSignProps {
 	navigate?: any;
 	clearselectedFiles?(num);
 	clearOriginalFileInWorkspaceSign?(name, extensionAll);
-	refreshingFiles?();
+	readFiles?(): void;
 	signFile?(files: IFile[], personalCert: string[], footer: string[], detached: boolean, signature: string, clearselectedFiles: Function): void;
 	verifySign?(files: IFile[], footer: string[]): void;
 	UnSignFile?(files: IFile[], footer: string[], clearselectedFiles: Function): void;
-	uploadFile?(files: IFile[], footer: Object): void;
+	uploadFile?(files: IFile[], footer: Object, refreshingFiles: Function, page: string): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
 	getSignInfo?(files: IFile[], footer: string[], navigate): void;
 }
@@ -85,7 +87,7 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 	}
 
 	render() {
-		const { files, personalCert, verifySign, signFile, UnSignFile, uploadFile, deleteFile, footer, getSignInfo, navigate } = this.props;
+		const { files, personalCert, verifySign, signFile, UnSignFile, uploadFile, deleteFile, footer, getSignInfo, navigate, readFiles } = this.props;
 		let certIsNotNull, allIsSign = null, numSelectedFilesIsOne = false;
 		if (!personalCert.title) {
 			certIsNotNull = "noCert";
@@ -113,9 +115,10 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 											img={require("../../imgs/ios/delete_sign.png")}
 											nav={() => UnSignFile(files, footer, (num) => this.props.clearselectedFiles(num))} />
 										<FooterButton title="Отправить"
-											disabled={!numSelectedFilesIsOne}
 											img={require("../../imgs/ios/posted.png")}
-											nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension })} />
+											nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension },
+												(num) => this.props.clearselectedFiles(num), "sig"
+											)} />
 									</FooterTab>
 								</Footer>
 								<Footer>

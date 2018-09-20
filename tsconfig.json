@@ -7,7 +7,8 @@
       "sourceMap": false,
       "rootDir": "src",
       "outDir": "build",
-      "target": "es6"
+      "target": "es6",
+      "skipLibCheck": true
   },
   "filesGlob": [
       "typings/**/*.d.ts",

@@ -14,8 +14,10 @@
 // ORIG: #pragma once
 
 #ifndef _ATL_NO_PRAGMA_WARNINGS
+#ifndef UNIX
 #pragma warning (push)
 #pragma warning(disable: 4127) // unreachable code
+#endif
 #endif //!_ATL_NO_PRAGMA_WARNINGS
 
 #ifndef __cplusplus
@@ -1334,7 +1336,9 @@ ATLINLINE ATLAPI_(LPDEVMODEA) AtlDevModeW2A(__out LPDEVMODEA lpDevModeA, __in co
 #endif // !_ATL_DLL
 
 #ifndef _ATL_NO_PRAGMA_WARNINGS
+#ifndef UNIX
 #pragma warning (pop)
+#endif
 #endif //!_ATL_NO_PRAGMA_WARNINGS
 
 #endif // __ATLCONV_H__

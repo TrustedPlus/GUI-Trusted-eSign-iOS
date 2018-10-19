@@ -170,6 +170,18 @@ export const styles = StyleSheet.create({
 		padding: 10
 	},
 
+	modalMain: {
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center",
+		width: "50%",
+		borderLeftWidth: 0.25,
+		borderTopWidth: 0.5,
+		borderColor: "grey",
+		borderRadius: 0
+	},
+
 	// FooterSignModal
 	modalMore: {
 		position: "absolute",

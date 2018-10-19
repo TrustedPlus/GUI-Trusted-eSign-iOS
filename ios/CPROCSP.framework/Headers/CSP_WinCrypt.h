@@ -2069,7 +2069,13 @@ typedef struct _CRYPT_TIME_STAMP_REQUEST_INFO {
 #define CERT_RENEWAL_PROP_ID                64
 #define CERT_ARCHIVED_KEY_HASH_PROP_ID      65
 #define CERT_FIRST_RESERVED_PROP_ID         66
+#define CERT_REQUEST_ORIGINATOR_PROP_ID     71	// string:machine DNS name
 #define CERT_CA_OCSP_AUTHORITY_INFO_ACCESS_PROP_ID 81
+
+
+#define CERT_SUBJECT_PUB_KEY_BIT_LENGTH_PROP_ID 92
+
+#define CERT_NO_EXPIRE_NOTIFICATION_PROP_ID 97
 
 #define CERT_LAST_RESERVED_PROP_ID          0x00007FFF
 #define CERT_FIRST_USER_PROP_ID             0x00008000
@@ -6122,12 +6128,10 @@ typedef struct _CERT_PHYSICAL_STORE_INFO {
 //+-------------------------------------------------------------------------
 //  Physical Store Information dwFlags
 //--------------------------------------------------------------------------
-#if defined WIN32
 #define CERT_PHYSICAL_STORE_ADD_ENABLE_FLAG                     0x1
 #define CERT_PHYSICAL_STORE_OPEN_DISABLE_FLAG                   0x2
 #define CERT_PHYSICAL_STORE_REMOTE_OPEN_DISABLE_FLAG            0x4
 #define CERT_PHYSICAL_STORE_INSERT_COMPUTER_NAME_ENABLE_FLAG    0x8
-#endif	/* WIN32 */
 
 //+-------------------------------------------------------------------------
 //  Register a system store.

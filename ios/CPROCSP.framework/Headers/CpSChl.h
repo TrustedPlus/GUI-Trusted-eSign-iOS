@@ -63,6 +63,7 @@ typedef struct _CPSSP_CTX_FLAGS_ {
     unsigned int status_request:1;
 #endif /*_CP_SSP_AP_*/
     unsigned int hash_and_sign_cln_algs : 1;
+    unsigned int extended_master_secret : 1;
 } CPSSP_CTX_FLAGS, *PCPSSP_CTX_FLAGS;
 
 #ifdef KSP_LITE

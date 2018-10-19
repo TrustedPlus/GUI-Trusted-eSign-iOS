@@ -103,7 +103,7 @@ BSTR ConvertStringToBSTREx( const char* str, int encoding);
 
 char* ConvertBSTRToStringEx( BSTR bStr, int encoding);
 
-HRESULT ConvertBinToBSTR(std::vector<BYTE>& encodedRequest, BSTR * bStr);
+HRESULT ConvertBinToBSTR(const std::vector<BYTE>& encodedRequest, BSTR * bStr);
 HRESULT ConvertBSTRToBin(BSTR msg, std::vector<BYTE>& ret);
 
 #endif //__BSTR_H__

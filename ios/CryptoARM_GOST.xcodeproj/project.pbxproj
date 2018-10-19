@@ -19,8 +19,36 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		20D39623791842AEA7D17117 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8C3F7E1C174477B105E08D /* libRNFetchBlob.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		840158B72164F26000874F03 /* config.ini in Resources */ = {isa = PBXBuildFile; fileRef = 840158A02164F25C00874F03 /* config.ini */; };
+		840158B82164F26000874F03 /* NewUserViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158A12164F25C00874F03 /* NewUserViewControllerIPhone.xib */; };
+		840158B92164F26000874F03 /* CPCAViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158A22164F25C00874F03 /* CPCAViewController.xib */; };
+		840158BA2164F26000874F03 /* CPROCertviewViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158A32164F25D00874F03 /* CPROCertviewViewControllerIPhone.xib */; };
+		840158BB2164F26000874F03 /* PaneViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158A42164F25D00874F03 /* PaneViewControllerIPhone.xib */; };
+		840158BC2164F26000874F03 /* NewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158A52164F25D00874F03 /* NewUserViewController.xib */; };
+		840158BD2164F26000874F03 /* RequestSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158A62164F25D00874F03 /* RequestSelectionViewController.xib */; };
+		840158BE2164F26000874F03 /* RequestSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158A72164F25D00874F03 /* RequestSelectionViewControllerIPhone.xib */; };
+		840158BF2164F26000874F03 /* CPROCertviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158A82164F25D00874F03 /* CPROCertviewViewController.xib */; };
+		840158C02164F26000874F03 /* PaneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158A92164F25D00874F03 /* PaneViewController.xib */; };
+		840158C12164F26000874F03 /* RndmBioViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158AA2164F25E00874F03 /* RndmBioViewController.xib */; };
+		840158C22164F26000874F03 /* RndmBioViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158AB2164F25E00874F03 /* RndmBioViewControllerIPhone.xib */; };
+		840158C32164F26000874F03 /* TemplateSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158AC2164F25E00874F03 /* TemplateSelectionViewController.xib */; };
+		840158C42164F26000874F03 /* MSCARequestViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158AD2164F25E00874F03 /* MSCARequestViewControllerIPhone.xib */; };
+		840158C52164F26000874F03 /* CPCAViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158AE2164F25E00874F03 /* CPCAViewControllerIPhone.xib */; };
+		840158C62164F26000874F03 /* MSCARequestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158AF2164F25E00874F03 /* MSCARequestViewController.xib */; };
+		840158C72164F26000874F03 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 840158B02164F25F00874F03 /* Images.xcassets */; };
+		840158C82164F26000874F03 /* SelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158B12164F25F00874F03 /* SelectionViewController.xib */; };
+		840158C92164F26000874F03 /* root.sto in Resources */ = {isa = PBXBuildFile; fileRef = 840158B22164F25F00874F03 /* root.sto */; };
+		840158CA2164F26000874F03 /* TemplateSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158B32164F25F00874F03 /* TemplateSelectionViewControllerIPhone.xib */; };
+		840158CB2164F26000874F03 /* SelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840158B42164F25F00874F03 /* SelectionViewControllerIPhone.xib */; };
+		840158CC2164F26000874F03 /* kis_1 in Resources */ = {isa = PBXBuildFile; fileRef = 840158B52164F26000874F03 /* kis_1 */; };
+		840158CD2164F26000874F03 /* locale in Resources */ = {isa = PBXBuildFile; fileRef = 840158B62164F26000874F03 /* locale */; };
+		840158D82164F26D00874F03 /* CP_Short.strings in Resources */ = {isa = PBXBuildFile; fileRef = 840158CF2164F26C00874F03 /* CP_Short.strings */; };
+		840158D92164F26D00874F03 /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 840158D12164F26C00874F03 /* CP_Localizable.strings */; };
+		840158DA2164F26D00874F03 /* CP_Short.strings in Resources */ = {isa = PBXBuildFile; fileRef = 840158D42164F26D00874F03 /* CP_Short.strings */; };
+		840158DB2164F26D00874F03 /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 840158D62164F26D00874F03 /* CP_Localizable.strings */; };
 		8442F400212ABEB2005ED466 /* Wrap_License.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8442F3D7212ABEB2005ED466 /* Wrap_License.mm */; };
 		8442F4B3212D4F9F005ED466 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8442F4A8212D4EA3005ED466 /* Ionicons.ttf */; };
 		84CE3AB42136DBA8005EB1A4 /* splash_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CE3AB12136DBA8005EB1A4 /* splash_icon.png */; };
@@ -36,34 +64,9 @@
 		9E422A3D20AAD8DF002883CC /* libCSP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3B20AAD8DF002883CC /* libCSP.a */; };
 		9E422A4020AAD8E8002883CC /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3F20AAD8E8002883CC /* CPROCSP.framework */; };
 		9E422B1020AAD9C8002883CC /* librdrpcsc_empty.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */; };
-		9EE07A9D20AB03E000741DC6 /* TemplateSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */; };
-		9EE07A9E20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */; };
-		9EE07AA120AB03E800741DC6 /* SelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07A9F20AB03E800741DC6 /* SelectionViewController.xib */; };
-		9EE07AA220AB03E800741DC6 /* SelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA020AB03E800741DC6 /* SelectionViewControllerIPhone.xib */; };
-		9EE07AA420AB03F100741DC6 /* root.sto in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA320AB03F100741DC6 /* root.sto */; };
-		9EE07AAB20AB03FE00741DC6 /* PaneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA520AB03FD00741DC6 /* PaneViewController.xib */; };
-		9EE07AAC20AB03FE00741DC6 /* RequestSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA620AB03FD00741DC6 /* RequestSelectionViewController.xib */; };
-		9EE07AAD20AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA720AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib */; };
-		9EE07AAE20AB03FE00741DC6 /* PaneViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA820AB03FE00741DC6 /* PaneViewControllerIPhone.xib */; };
-		9EE07AAF20AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AA920AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib */; };
-		9EE07AB020AB03FE00741DC6 /* RndmBioViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AAA20AB03FE00741DC6 /* RndmBioViewController.xib */; };
-		9EE07AB520AB040600741DC6 /* MSCARequestViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB120AB040500741DC6 /* MSCARequestViewControllerIPhone.xib */; };
-		9EE07AB620AB040600741DC6 /* NewUserViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB220AB040500741DC6 /* NewUserViewControllerIPhone.xib */; };
-		9EE07AB720AB040600741DC6 /* NewUserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB320AB040500741DC6 /* NewUserViewController.xib */; };
-		9EE07AB820AB040600741DC6 /* MSCARequestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB420AB040600741DC6 /* MSCARequestViewController.xib */; };
-		9EE07ABB20AB040F00741DC6 /* kis_1 in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AB920AB040F00741DC6 /* kis_1 */; };
-		9EE07ABC20AB040F00741DC6 /* locale in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ABA20AB040F00741DC6 /* locale */; };
-		9EE07AC420AB042000741DC6 /* CPCAViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ABF20AB042000741DC6 /* CPCAViewController.xib */; };
-		9EE07AC520AB042000741DC6 /* CPROCertviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AC020AB042000741DC6 /* CPROCertviewViewController.xib */; };
-		9EE07AC620AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AC120AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib */; };
-		9EE07AC720AB042000741DC6 /* config.ini in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AC220AB042000741DC6 /* config.ini */; };
-		9EE07AC820AB042000741DC6 /* CPCAViewControllerIPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AC320AB042000741DC6 /* CPCAViewControllerIPhone.xib */; };
-		9EE07ACE20AB042F00741DC6 /* CP_Short.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ACA20AB042F00741DC6 /* CP_Short.strings */; };
-		9EE07ACF20AB042F00741DC6 /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07ACC20AB042F00741DC6 /* CP_Localizable.strings */; };
-		9EE07AD520AB043500741DC6 /* CP_Short.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AD120AB043500741DC6 /* CP_Short.strings */; };
-		9EE07AD620AB043500741DC6 /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EE07AD320AB043500741DC6 /* CP_Localizable.strings */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B917CA9F09004B4AB43EAC65 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C74AB87B344C53929C3574 /* libRNFS.a */; };
+		B9E577B7B01A4B2C8FC19F16 /* libRNExitApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC207768D594B08953D80C4 /* libRNExitApp.a */; };
 		C0758707CB474FFE8A249D4E /* libRNDocumentPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5991726BC0E4214AAF32E3B /* libRNDocumentPicker.a */; };
 		DAD862495B2D49EA91B9142D /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A6ED260A884518BCC3F495 /* libRNShare.a */; };
 		EDDD4E631D6342E380AFD4A9 /* libMultiShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 319DEDC07A314714961DD5A2 /* libMultiShare.a */; };
@@ -315,6 +318,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		840159192167904F00874F03 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E8AA6CC4F25B4B66B2529E39 /* RNExitApp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 15209BEF1D250F63000D0F44;
+			remoteInfo = RNExitApp;
+		};
 		84AE1257214FA3910061DCC3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DC91647DBC6A473E87FB806F /* MultiShare.xcodeproj */;
@@ -328,6 +338,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNShare;
+		};
+		84E32D162158DE550043E5BB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D211AF5A0F9743E390833816 /* RNFetchBlob.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A15C300E1CD25C330074CB35;
+			remoteInfo = RNFetchBlob;
 		};
 		9E422B4820AAE5F3002883CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -378,7 +395,9 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CryptoARM_GOST/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1A0BA38415E84F9789F6AAEF /* RNiCloudSyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = RNiCloudSyncTests.xctest; sourceTree = "<group>"; };
+		1BC207768D594B08953D80C4 /* libRNExitApp.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNExitApp.a; sourceTree = "<group>"; };
 		26C1024B01E34A4B9DAC2BE2 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
+		2C8C3F7E1C174477B105E08D /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		319DEDC07A314714961DD5A2 /* libMultiShare.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libMultiShare.a; sourceTree = "<group>"; };
 		52EFF5A988A94095B900C364 /* libRNiCloudSync.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNiCloudSync.a; sourceTree = "<group>"; };
@@ -388,6 +407,33 @@
 		6FAA421CFD0B4009A87CA3A5 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		840158A02164F25C00874F03 /* config.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.ini; sourceTree = "<group>"; };
+		840158A12164F25C00874F03 /* NewUserViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewUserViewControllerIPhone.xib; sourceTree = "<group>"; };
+		840158A22164F25C00874F03 /* CPCAViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPCAViewController.xib; sourceTree = "<group>"; };
+		840158A32164F25D00874F03 /* CPROCertviewViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPROCertviewViewControllerIPhone.xib; sourceTree = "<group>"; };
+		840158A42164F25D00874F03 /* PaneViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaneViewControllerIPhone.xib; sourceTree = "<group>"; };
+		840158A52164F25D00874F03 /* NewUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewUserViewController.xib; sourceTree = "<group>"; };
+		840158A62164F25D00874F03 /* RequestSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestSelectionViewController.xib; sourceTree = "<group>"; };
+		840158A72164F25D00874F03 /* RequestSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
+		840158A82164F25D00874F03 /* CPROCertviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPROCertviewViewController.xib; sourceTree = "<group>"; };
+		840158A92164F25D00874F03 /* PaneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaneViewController.xib; sourceTree = "<group>"; };
+		840158AA2164F25E00874F03 /* RndmBioViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RndmBioViewController.xib; sourceTree = "<group>"; };
+		840158AB2164F25E00874F03 /* RndmBioViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RndmBioViewControllerIPhone.xib; sourceTree = "<group>"; };
+		840158AC2164F25E00874F03 /* TemplateSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewController.xib; sourceTree = "<group>"; };
+		840158AD2164F25E00874F03 /* MSCARequestViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSCARequestViewControllerIPhone.xib; sourceTree = "<group>"; };
+		840158AE2164F25E00874F03 /* CPCAViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPCAViewControllerIPhone.xib; sourceTree = "<group>"; };
+		840158AF2164F25E00874F03 /* MSCARequestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSCARequestViewController.xib; sourceTree = "<group>"; };
+		840158B02164F25F00874F03 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		840158B12164F25F00874F03 /* SelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewController.xib; sourceTree = "<group>"; };
+		840158B22164F25F00874F03 /* root.sto */ = {isa = PBXFileReference; lastKnownFileType = file; path = root.sto; sourceTree = "<group>"; };
+		840158B32164F25F00874F03 /* TemplateSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
+		840158B42164F25F00874F03 /* SelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
+		840158B52164F26000874F03 /* kis_1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kis_1; sourceTree = "<group>"; };
+		840158B62164F26000874F03 /* locale */ = {isa = PBXFileReference; lastKnownFileType = folder; path = locale; sourceTree = "<group>"; };
+		840158D02164F26C00874F03 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = CP_Short.strings; sourceTree = "<group>"; };
+		840158D22164F26C00874F03 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = CP_Localizable.strings; sourceTree = "<group>"; };
+		840158D52164F26D00874F03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = CP_Short.strings; sourceTree = "<group>"; };
+		840158D72164F26D00874F03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = CP_Localizable.strings; sourceTree = "<group>"; };
 		8442F3D7212ABEB2005ED466 /* Wrap_License.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_License.mm; sourceTree = "<group>"; };
 		8442F3FF212ABEB2005ED466 /* Wrap_License.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_License.h; sourceTree = "<group>"; };
 		8442F4A2212D4EA0005ED466 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../../../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -424,36 +470,12 @@
 		9E422A3F20AAD8E8002883CC /* CPROCSP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CPROCSP.framework; sourceTree = "<group>"; };
 		9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; name = librdrpcsc_empty.o; path = CPROCSP.framework/readers/librdrpcsc_empty.o; sourceTree = "<group>"; };
 		9E422B5020AAE711002883CC /* CryptoARM_GOST.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CryptoARM_GOST.entitlements; path = CryptoARM_GOST/CryptoARM_GOST.entitlements; sourceTree = "<group>"; };
-		9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewController.xib; sourceTree = "<group>"; };
-		9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TemplateSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9EE07A9F20AB03E800741DC6 /* SelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewController.xib; sourceTree = "<group>"; };
-		9EE07AA020AB03E800741DC6 /* SelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9EE07AA320AB03F100741DC6 /* root.sto */ = {isa = PBXFileReference; lastKnownFileType = file; path = root.sto; sourceTree = "<group>"; };
-		9EE07AA520AB03FD00741DC6 /* PaneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaneViewController.xib; sourceTree = "<group>"; };
-		9EE07AA620AB03FD00741DC6 /* RequestSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestSelectionViewController.xib; sourceTree = "<group>"; };
-		9EE07AA720AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RequestSelectionViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9EE07AA820AB03FE00741DC6 /* PaneViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaneViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9EE07AA920AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RndmBioViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9EE07AAA20AB03FE00741DC6 /* RndmBioViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RndmBioViewController.xib; sourceTree = "<group>"; };
-		9EE07AB120AB040500741DC6 /* MSCARequestViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSCARequestViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9EE07AB220AB040500741DC6 /* NewUserViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewUserViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9EE07AB320AB040500741DC6 /* NewUserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewUserViewController.xib; sourceTree = "<group>"; };
-		9EE07AB420AB040600741DC6 /* MSCARequestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MSCARequestViewController.xib; sourceTree = "<group>"; };
-		9EE07AB920AB040F00741DC6 /* kis_1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kis_1; sourceTree = "<group>"; };
-		9EE07ABA20AB040F00741DC6 /* locale */ = {isa = PBXFileReference; lastKnownFileType = folder; path = locale; sourceTree = "<group>"; };
-		9EE07ABF20AB042000741DC6 /* CPCAViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPCAViewController.xib; sourceTree = "<group>"; };
-		9EE07AC020AB042000741DC6 /* CPROCertviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPROCertviewViewController.xib; sourceTree = "<group>"; };
-		9EE07AC120AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPROCertviewViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9EE07AC220AB042000741DC6 /* config.ini */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.ini; sourceTree = "<group>"; };
-		9EE07AC320AB042000741DC6 /* CPCAViewControllerIPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CPCAViewControllerIPhone.xib; sourceTree = "<group>"; };
-		9EE07ACB20AB042F00741DC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = CP_Short.strings; sourceTree = "<group>"; };
-		9EE07ACD20AB042F00741DC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = CP_Localizable.strings; sourceTree = "<group>"; };
-		9EE07AD220AB043500741DC6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = CP_Short.strings; sourceTree = "<group>"; };
-		9EE07AD420AB043500741DC6 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = CP_Localizable.strings; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		CEA3B6A16FD643299BC426D0 /* libRNCloudFs.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCloudFs.a; sourceTree = "<group>"; };
+		D211AF5A0F9743E390833816 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		DC91647DBC6A473E87FB806F /* MultiShare.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = MultiShare.xcodeproj; path = "../node_modules/react-native-multi-share/ios/MultiShare.xcodeproj"; sourceTree = "<group>"; };
 		E5991726BC0E4214AAF32E3B /* libRNDocumentPicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDocumentPicker.a; sourceTree = "<group>"; };
+		E8AA6CC4F25B4B66B2529E39 /* RNExitApp.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNExitApp.xcodeproj; path = "../node_modules/react-native-exit-app/ios/RNExitApp.xcodeproj"; sourceTree = "<group>"; };
 		F0C74AB87B344C53929C3574 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -481,6 +503,8 @@
 				B917CA9F09004B4AB43EAC65 /* libRNFS.a in Frameworks */,
 				EDDD4E631D6342E380AFD4A9 /* libMultiShare.a in Frameworks */,
 				DAD862495B2D49EA91B9142D /* libRNShare.a in Frameworks */,
+				20D39623791842AEA7D17117 /* libRNFetchBlob.a in Frameworks */,
+				B9E577B7B01A4B2C8FC19F16 /* libRNExitApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -643,6 +667,8 @@
 				26C1024B01E34A4B9DAC2BE2 /* RNFS.xcodeproj */,
 				DC91647DBC6A473E87FB806F /* MultiShare.xcodeproj */,
 				6974A36FD75A488B950DB063 /* RNShare.xcodeproj */,
+				D211AF5A0F9743E390833816 /* RNFetchBlob.xcodeproj */,
+				E8AA6CC4F25B4B66B2529E39 /* RNExitApp.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -681,6 +707,32 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		840158CE2164F26C00874F03 /* ru.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				840158CF2164F26C00874F03 /* CP_Short.strings */,
+				840158D12164F26C00874F03 /* CP_Localizable.strings */,
+			);
+			path = ru.lproj;
+			sourceTree = "<group>";
+		};
+		840158D32164F26D00874F03 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				840158D42164F26D00874F03 /* CP_Short.strings */,
+				840158D62164F26D00874F03 /* CP_Localizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		840159162167904F00874F03 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8401591A2167904F00874F03 /* libRNExitApp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		84AE1254214FA3910061DCC3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,6 +745,14 @@
 			isa = PBXGroup;
 			children = (
 				84AE12BA214FB0E70061DCC3 /* libRNShare.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84E32D132158DE550043E5BB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84E32D172158DE550043E5BB /* libRNFetchBlob.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -725,30 +785,31 @@
 			children = (
 				84CE3AB12136DBA8005EB1A4 /* splash_icon.png */,
 				84CE3AB62136DD55005EB1A4 /* splash_screen.png */,
-				9EE07AD020AB043500741DC6 /* ru.lproj */,
-				9EE07AC920AB042F00741DC6 /* en.lproj */,
-				9EE07AC220AB042000741DC6 /* config.ini */,
-				9EE07ABF20AB042000741DC6 /* CPCAViewController.xib */,
-				9EE07AC320AB042000741DC6 /* CPCAViewControllerIPhone.xib */,
-				9EE07AC020AB042000741DC6 /* CPROCertviewViewController.xib */,
-				9EE07AC120AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib */,
-				9EE07AB920AB040F00741DC6 /* kis_1 */,
-				9EE07ABA20AB040F00741DC6 /* locale */,
-				9EE07AB420AB040600741DC6 /* MSCARequestViewController.xib */,
-				9EE07AB120AB040500741DC6 /* MSCARequestViewControllerIPhone.xib */,
-				9EE07AB320AB040500741DC6 /* NewUserViewController.xib */,
-				9EE07AB220AB040500741DC6 /* NewUserViewControllerIPhone.xib */,
-				9EE07AA520AB03FD00741DC6 /* PaneViewController.xib */,
-				9EE07AA820AB03FE00741DC6 /* PaneViewControllerIPhone.xib */,
-				9EE07AA620AB03FD00741DC6 /* RequestSelectionViewController.xib */,
-				9EE07AA720AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib */,
-				9EE07AAA20AB03FE00741DC6 /* RndmBioViewController.xib */,
-				9EE07AA920AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib */,
-				9EE07AA320AB03F100741DC6 /* root.sto */,
-				9EE07A9F20AB03E800741DC6 /* SelectionViewController.xib */,
-				9EE07AA020AB03E800741DC6 /* SelectionViewControllerIPhone.xib */,
-				9EE07A9B20AB03E000741DC6 /* TemplateSelectionViewController.xib */,
-				9EE07A9C20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib */,
+				840158D32164F26D00874F03 /* en.lproj */,
+				840158CE2164F26C00874F03 /* ru.lproj */,
+				840158A02164F25C00874F03 /* config.ini */,
+				840158A22164F25C00874F03 /* CPCAViewController.xib */,
+				840158AE2164F25E00874F03 /* CPCAViewControllerIPhone.xib */,
+				840158A82164F25D00874F03 /* CPROCertviewViewController.xib */,
+				840158A32164F25D00874F03 /* CPROCertviewViewControllerIPhone.xib */,
+				840158B02164F25F00874F03 /* Images.xcassets */,
+				840158B52164F26000874F03 /* kis_1 */,
+				840158B62164F26000874F03 /* locale */,
+				840158AF2164F25E00874F03 /* MSCARequestViewController.xib */,
+				840158AD2164F25E00874F03 /* MSCARequestViewControllerIPhone.xib */,
+				840158A52164F25D00874F03 /* NewUserViewController.xib */,
+				840158A12164F25C00874F03 /* NewUserViewControllerIPhone.xib */,
+				840158A92164F25D00874F03 /* PaneViewController.xib */,
+				840158A42164F25D00874F03 /* PaneViewControllerIPhone.xib */,
+				840158A62164F25D00874F03 /* RequestSelectionViewController.xib */,
+				840158A72164F25D00874F03 /* RequestSelectionViewControllerIPhone.xib */,
+				840158AA2164F25E00874F03 /* RndmBioViewController.xib */,
+				840158AB2164F25E00874F03 /* RndmBioViewControllerIPhone.xib */,
+				840158B22164F25F00874F03 /* root.sto */,
+				840158B12164F25F00874F03 /* SelectionViewController.xib */,
+				840158B42164F25F00874F03 /* SelectionViewControllerIPhone.xib */,
+				840158AC2164F25E00874F03 /* TemplateSelectionViewController.xib */,
+				840158B32164F25F00874F03 /* TemplateSelectionViewControllerIPhone.xib */,
 				8442F4AC212D4EA5005ED466 /* Entypo.ttf */,
 				8442F4A4212D4EA1005ED466 /* EvilIcons.ttf */,
 				8442F4A3212D4EA0005ED466 /* FontAwesome.ttf */,
@@ -778,6 +839,8 @@
 				CEA3B6A16FD643299BC426D0 /* libRNCloudFs.a */,
 				319DEDC07A314714961DD5A2 /* libMultiShare.a */,
 				92A6ED260A884518BCC3F495 /* libRNShare.a */,
+				2C8C3F7E1C174477B105E08D /* libRNFetchBlob.a */,
+				1BC207768D594B08953D80C4 /* libRNExitApp.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -797,24 +860,6 @@
 				9E422B4F20AAE5F3002883CC /* libRNFS.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		9EE07AC920AB042F00741DC6 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				9EE07ACA20AB042F00741DC6 /* CP_Short.strings */,
-				9EE07ACC20AB042F00741DC6 /* CP_Localizable.strings */,
-			);
-			path = en.lproj;
-			sourceTree = "<group>";
-		};
-		9EE07AD020AB043500741DC6 /* ru.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				9EE07AD120AB043500741DC6 /* CP_Short.strings */,
-				9EE07AD320AB043500741DC6 /* CP_Localizable.strings */,
-			);
-			path = ru.lproj;
 			sourceTree = "<group>";
 		};
 		ADBDB9201DFEBF0600ED6528 /* Products */ = {
@@ -930,6 +975,14 @@
 				{
 					ProductGroup = 9E422B4320AAE5F2002883CC /* Products */;
 					ProjectRef = 6F37AA6EF9E7477DAAB88F4D /* RNDocumentPicker.xcodeproj */;
+				},
+				{
+					ProductGroup = 840159162167904F00874F03 /* Products */;
+					ProjectRef = E8AA6CC4F25B4B66B2529E39 /* RNExitApp.xcodeproj */;
+				},
+				{
+					ProductGroup = 84E32D132158DE550043E5BB /* Products */;
+					ProjectRef = D211AF5A0F9743E390833816 /* RNFetchBlob.xcodeproj */;
 				},
 				{
 					ProductGroup = 9E422B4520AAE5F2002883CC /* Products */;
@@ -1193,6 +1246,13 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		8401591A2167904F00874F03 /* libRNExitApp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNExitApp.a;
+			remoteRef = 840159192167904F00874F03 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		84AE1258214FA3910061DCC3 /* libMultiShare.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1205,6 +1265,13 @@
 			fileType = archive.ar;
 			path = libRNShare.a;
 			remoteRef = 84AE12B9214FB0E70061DCC3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		84E32D172158DE550043E5BB /* libRNFetchBlob.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFetchBlob.a;
+			remoteRef = 84E32D162158DE550043E5BB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9E422B4920AAE5F3002883CC /* libRNDocumentPicker.a */ = {
@@ -1242,38 +1309,39 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				840158CC2164F26000874F03 /* kis_1 in Resources */,
+				840158BA2164F26000874F03 /* CPROCertviewViewControllerIPhone.xib in Resources */,
+				840158C72164F26000874F03 /* Images.xcassets in Resources */,
+				840158BB2164F26000874F03 /* PaneViewControllerIPhone.xib in Resources */,
+				840158CD2164F26000874F03 /* locale in Resources */,
+				840158B92164F26000874F03 /* CPCAViewController.xib in Resources */,
+				840158BD2164F26000874F03 /* RequestSelectionViewController.xib in Resources */,
 				8442F4B3212D4F9F005ED466 /* Ionicons.ttf in Resources */,
+				840158D92164F26D00874F03 /* CP_Localizable.strings in Resources */,
 				84CE3AB52136DC09005EB1A4 /* MaterialCommunityIcons.ttf in Resources */,
-				9EE07AB620AB040600741DC6 /* NewUserViewControllerIPhone.xib in Resources */,
-				9EE07AAE20AB03FE00741DC6 /* PaneViewControllerIPhone.xib in Resources */,
-				9EE07ACF20AB042F00741DC6 /* CP_Localizable.strings in Resources */,
-				9EE07A9E20AB03E000741DC6 /* TemplateSelectionViewControllerIPhone.xib in Resources */,
-				9EE07AC720AB042000741DC6 /* config.ini in Resources */,
-				9EE07AA120AB03E800741DC6 /* SelectionViewController.xib in Resources */,
-				9EE07AC420AB042000741DC6 /* CPCAViewController.xib in Resources */,
-				9EE07AB020AB03FE00741DC6 /* RndmBioViewController.xib in Resources */,
-				9EE07AB520AB040600741DC6 /* MSCARequestViewControllerIPhone.xib in Resources */,
-				9EE07AC620AB042000741DC6 /* CPROCertviewViewControllerIPhone.xib in Resources */,
+				840158DA2164F26D00874F03 /* CP_Short.strings in Resources */,
+				840158B72164F26000874F03 /* config.ini in Resources */,
+				840158C52164F26000874F03 /* CPCAViewControllerIPhone.xib in Resources */,
+				840158C82164F26000874F03 /* SelectionViewController.xib in Resources */,
+				840158CA2164F26000874F03 /* TemplateSelectionViewControllerIPhone.xib in Resources */,
+				840158C92164F26000874F03 /* root.sto in Resources */,
+				840158D82164F26D00874F03 /* CP_Short.strings in Resources */,
+				840158C12164F26000874F03 /* RndmBioViewController.xib in Resources */,
+				840158BF2164F26000874F03 /* CPROCertviewViewController.xib in Resources */,
+				840158BC2164F26000874F03 /* NewUserViewController.xib in Resources */,
+				840158B82164F26000874F03 /* NewUserViewControllerIPhone.xib in Resources */,
+				840158C32164F26000874F03 /* TemplateSelectionViewController.xib in Resources */,
+				840158C02164F26000874F03 /* PaneViewController.xib in Resources */,
+				840158C62164F26000874F03 /* MSCARequestViewController.xib in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				9EE07ABC20AB040F00741DC6 /* locale in Resources */,
+				840158C22164F26000874F03 /* RndmBioViewControllerIPhone.xib in Resources */,
+				840158BE2164F26000874F03 /* RequestSelectionViewControllerIPhone.xib in Resources */,
+				840158CB2164F26000874F03 /* SelectionViewControllerIPhone.xib in Resources */,
 				84CE3AB82136DD55005EB1A4 /* splash_screen.png in Resources */,
-				9EE07AB720AB040600741DC6 /* NewUserViewController.xib in Resources */,
+				840158DB2164F26D00874F03 /* CP_Localizable.strings in Resources */,
 				84CE3AB42136DBA8005EB1A4 /* splash_icon.png in Resources */,
-				9EE07AAC20AB03FE00741DC6 /* RequestSelectionViewController.xib in Resources */,
-				9EE07AAF20AB03FE00741DC6 /* RndmBioViewControllerIPhone.xib in Resources */,
-				9EE07AC520AB042000741DC6 /* CPROCertviewViewController.xib in Resources */,
-				9EE07AAD20AB03FE00741DC6 /* RequestSelectionViewControllerIPhone.xib in Resources */,
-				9EE07AD620AB043500741DC6 /* CP_Localizable.strings in Resources */,
-				9EE07AB820AB040600741DC6 /* MSCARequestViewController.xib in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				9EE07AAB20AB03FE00741DC6 /* PaneViewController.xib in Resources */,
-				9EE07AD520AB043500741DC6 /* CP_Short.strings in Resources */,
-				9EE07ACE20AB042F00741DC6 /* CP_Short.strings in Resources */,
-				9EE07ABB20AB040F00741DC6 /* kis_1 in Resources */,
-				9EE07AA420AB03F100741DC6 /* root.sto in Resources */,
-				9EE07AA220AB03E800741DC6 /* SelectionViewControllerIPhone.xib in Resources */,
-				9EE07AC820AB042000741DC6 /* CPCAViewControllerIPhone.xib in Resources */,
-				9EE07A9D20AB03E000741DC6 /* TemplateSelectionViewController.xib in Resources */,
+				840158C42164F26000874F03 /* MSCARequestViewControllerIPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1326,6 +1394,38 @@
 			path = CryptoARM_GOST;
 			sourceTree = "<group>";
 		};
+		840158CF2164F26C00874F03 /* CP_Short.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				840158D02164F26C00874F03 /* ru */,
+			);
+			name = CP_Short.strings;
+			sourceTree = "<group>";
+		};
+		840158D12164F26C00874F03 /* CP_Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				840158D22164F26C00874F03 /* ru */,
+			);
+			name = CP_Localizable.strings;
+			sourceTree = "<group>";
+		};
+		840158D42164F26D00874F03 /* CP_Short.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				840158D52164F26D00874F03 /* en */,
+			);
+			name = CP_Short.strings;
+			sourceTree = "<group>";
+		};
+		840158D62164F26D00874F03 /* CP_Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				840158D72164F26D00874F03 /* en */,
+			);
+			name = CP_Localizable.strings;
+			sourceTree = "<group>";
+		};
 		84CE3AB12136DBA8005EB1A4 /* splash_icon.png */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1340,38 +1440,6 @@
 				84CE3AB72136DD55005EB1A4 /* Base */,
 			);
 			name = splash_screen.png;
-			sourceTree = "<group>";
-		};
-		9EE07ACA20AB042F00741DC6 /* CP_Short.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9EE07ACB20AB042F00741DC6 /* en */,
-			);
-			name = CP_Short.strings;
-			sourceTree = "<group>";
-		};
-		9EE07ACC20AB042F00741DC6 /* CP_Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9EE07ACD20AB042F00741DC6 /* en */,
-			);
-			name = CP_Localizable.strings;
-			sourceTree = "<group>";
-		};
-		9EE07AD120AB043500741DC6 /* CP_Short.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9EE07AD220AB043500741DC6 /* ru */,
-			);
-			name = CP_Short.strings;
-			sourceTree = "<group>";
-		};
-		9EE07AD320AB043500741DC6 /* CP_Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9EE07AD420AB043500741DC6 /* ru */,
-			);
-			name = CP_Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1404,6 +1472,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-multi-share/ios",
 					"$(SRCROOT)/../node_modules/react-native-share/ios",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 				INFOPLIST_FILE = CryptoARM_GOST/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
@@ -1411,6 +1480,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
+					"\"$(SRCROOT)/CryptoARM_GOST\"",
+					"\"$(SRCROOT)/CryptoARM_GOST\"",
 					"\"$(SRCROOT)/CryptoARM_GOST\"",
 					"\"$(SRCROOT)/CryptoARM_GOST\"",
 					"\"$(SRCROOT)/CryptoARM_GOST\"",
@@ -1453,6 +1524,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-multi-share/ios",
 					"$(SRCROOT)/../node_modules/react-native-share/ios",
+					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
 				);
 				INFOPLIST_FILE = CryptoARM_GOST/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
@@ -1460,6 +1532,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/libs",
+					"\"$(SRCROOT)/CryptoARM_GOST\"",
+					"\"$(SRCROOT)/CryptoARM_GOST\"",
 					"\"$(SRCROOT)/CryptoARM_GOST\"",
 					"\"$(SRCROOT)/CryptoARM_GOST\"",
 					"\"$(SRCROOT)/CryptoARM_GOST\"",

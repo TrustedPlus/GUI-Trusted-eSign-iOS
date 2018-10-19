@@ -11,6 +11,7 @@ import { workspaceSign } from "./workspaceSign";
 import { workspaceEnc } from "./workspaceEnc";
 import { filter } from "./filterReducers";
 import { statusLicense } from "./refreshStatusReducer";
+import { tempFiles } from "./uploadFileToCryptoArmDocumtsReducer";
 
 const rootReducer = combineReducers({
 	// footer: Footer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
 	workspaceSign: workspaceSign,
 	workspaceEnc: workspaceEnc,
 	filter: filter,
-	statusLicense: statusLicense
+	statusLicense: statusLicense,
+	tempFiles: tempFiles
 });
 
 export default rootReducer;

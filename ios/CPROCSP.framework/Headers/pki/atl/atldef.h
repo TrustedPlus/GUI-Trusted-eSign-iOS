@@ -14,7 +14,9 @@
 
 // ORIG: #pragma once
 
+#ifndef UNIX
 #pragma warning(disable : 4619)	// there is no warning number
+#endif
 
 #include <atlrc.h>
 #include <errno.h>

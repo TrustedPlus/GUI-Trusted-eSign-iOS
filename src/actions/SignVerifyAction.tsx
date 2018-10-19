@@ -1,7 +1,11 @@
 import * as RNFS from "react-native-fs";
-import { NativeModules, Alert } from "react-native";
+import * as request from "request";
+import { NativeModules, Linking } from "react-native";
+import RNFetchBlob from "rn-fetch-blob";
 import { readFiles } from ".";
+import { addTempFilesForCryptoarmdDocuments } from "./uploadFileToCryptoArmDocumtsAction";
 import { showToast, showToastDanger } from "../utils/toast";
+import { clearAllFilesinWorkspaceSign } from "./workspaceAction";
 import {
 	SIGN_FILE, SIGN_FILE_SUCCESS, SIGN_FILE_ERROR, SIGN_FILE_END,
 	VERIFY_SIGN, VERIFY_SIGN_SUCCESS, VERIFY_SIGN_ERROR, VERIFY_SIGN_END,
@@ -19,7 +23,33 @@ interface IFile {
 	name: string;
 }
 
-export function signFile(files: IFile[], personalCert, footer, detached, signature, clearselectedFiles) {
+interface IPersonalCert {
+	cert: {
+		category: any,
+		chainBuilding: any,
+		hasPrivateKey: any,
+		isCA: any,
+		issuerFriendlyName: any,
+		issuerName: any,
+		keyUsage: any,
+		notAfter: any,
+		notBefore: any,
+		organizationName: any,
+		provider: any,
+		publicKeyAlgorithm: any,
+		selfSigned: any,
+		serialNumber: any,
+		signatureAlgorithm: any,
+		signatureDigestAlgorithm: any,
+		subjectFriendlyName: any,
+		subjectName: any,
+		type: any,
+		version: any
+	};
+	img: string;
+}
+
+export function signFile(files: IFile[], personalCert: IPersonalCert, footer, detached, signature, clearselectedFiles, tempFiles, navigate, isSuccessUpload) {
 	return function action(dispatch) {
 		dispatch({ type: SIGN_FILE });
 		let lengthError = 0;
@@ -55,9 +85,9 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 								}
 							} else {
 								NativeModules.Wrap_Signer.coSign(
-									personalCert.serialNumber,
-									personalCert.category,
-									personalCert.provider,
+									personalCert.cert.serialNumber,
+									personalCert.cert.category,
+									personalCert.cert.provider,
 									verify ? path.substring(0, path.length - 4) : "",
 									path,
 									encoding,
@@ -92,6 +122,60 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 											}
 											dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll), err });
 										} else {
+											if (files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll === tempFiles[0].name) {
+												NativeModules.Wrap_Signer.getSignInfo(
+													"",
+													path,
+													encoding,
+													false,
+													(err, verify) => {
+														const data = new FormData();
+														let signers = [];
+														for (let i = 0; i < verify.length; i++) {
+															signers.push({
+																subjectFriendlyName: verify[i].subjectFriendlyName,
+																issuerFriendlyName: verify[i].issuerFriendlyName,
+																notBefore: verify[i].notBefore,
+																notAfter: verify[i].notAfter,
+																digestAlgorithm: verify[i].signatureAlgorithm,
+																signingTime: new Date(verify[i].signingTime).getTime(),
+																subjectName: verify[i].subjectName,
+																issuerName: verify[i].issuerName
+															});
+														}
+
+														data.append("signers", JSON.stringify(signers));
+														data.append("extra", null);
+														data.append("id", tempFiles[0].id);
+														(data as any).append("file", {
+															uri: RNFS.DocumentDirectoryPath + "/Files/" + tempFiles[0].name,
+															type: null, // or photo.type
+															name: tempFiles[0].name
+														});
+														fetch(tempFiles[0].uploadurl + "?command=upload", {
+															method: "post",
+															body: data
+														}).then((res: any) => {
+															console.log(res);
+															let result = JSON.parse(res._bodyInit);
+															let chrome = tempFiles[0].chrome;
+															RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles[0].name).then(
+																() => {
+																	dispatch(readFiles());
+																	dispatch(clearAllFilesinWorkspaceSign());
+																	dispatch(addTempFilesForCryptoarmdDocuments(null, null, null, null));
+																}
+															);
+															isSuccessUpload(result.success, chrome);
+														}).catch(
+															err => {
+																debugger;
+															}
+														);
+													}
+												);
+											}
+
 											const request = RNFS.stat(path);
 											request.then(
 												response => {
@@ -161,9 +245,9 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 							one = "(1)";
 						}
 						NativeModules.Wrap_Signer.sign(
-							personalCert.serialNumber,
-							personalCert.category,
-							personalCert.provider,
+							personalCert.cert.serialNumber,
+							personalCert.cert.category,
+							personalCert.cert.provider,
 							path,
 							RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll) + ".sig",
 							signature === "BASE-64" ? "BASE64" : "DER",
@@ -188,9 +272,66 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 									} else {
 										showToastDanger(err);
 									}
-									debugger;
 									dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll), err });
 								} else {
+									if (files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll) === tempFiles[0].name) {
+										const data = new FormData();
+										data.append("extra", null);
+										data.append("id", tempFiles[0].id);
+										data.append("signers", JSON.stringify({
+											subjectFriendlyName: personalCert.cert.subjectFriendlyName,
+											issuerFriendlyName: personalCert.cert.issuerFriendlyName,
+											notBefore: personalCert.cert.notBefore,
+											notAfter: personalCert.cert.notAfter,
+											digestAlgorithm: personalCert.cert.signatureAlgorithm,
+											signingTime: new Date().getTime(),
+											subjectName: personalCert.cert.subjectName,
+											issuerName: personalCert.cert.issuerName
+										}));
+										(data as any).append("file", {
+											uri: RNFS.DocumentDirectoryPath + "/Files/" + tempFiles[0].name + ".sig",
+											type: null, // or photo.type
+											name: tempFiles[0].name
+										});
+										fetch(tempFiles[0].uploadurl + "?command=upload", {
+											method: "post",
+											body: data
+										}).then((res: any) => {
+											console.log(res);
+											let result = JSON.parse(res._bodyInit);
+											let flag = 0;
+											RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles[0].name).then(
+												() => {
+													if (flag) {
+														dispatch(readFiles());
+														dispatch(clearAllFilesinWorkspaceSign());
+														addTempFilesForCryptoarmdDocuments(null, null, null, null);
+													} else {
+														flag = 1;
+													}
+												}
+											);
+											RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles[0].name + ".sig").then(
+												() => {
+													if (flag) {
+														dispatch(readFiles());
+														dispatch(clearAllFilesinWorkspaceSign());
+														dispatch(addTempFilesForCryptoarmdDocuments(null, null, null, null));
+													} else {
+														flag = 1;
+													}
+												}
+											);
+											if (result.success) {
+												isSuccessUpload(result.success);
+												/*if (tempFiles[0].chrome) {
+													Linking.openURL("googlechrome://");
+												} else {
+													Linking.openURL("https://license.trusted.ru/bitrix/admin/trusted_cryptoarm_docs.php");
+												} */
+											}
+										});
+									}
 									/*RNFS.copyFile(path + ".sig", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".sig").then(
 										success => {
 											console.log(success);
@@ -206,8 +347,8 @@ export function signFile(files: IFile[], personalCert, footer, detached, signatu
 											});
 										}
 									); */
-									const request = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll) + ".sig");
-									request.then(
+									const statFile = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + one + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll) + ".sig");
+									statFile.then(
 										response => {
 											const verify = 0;
 											let filearr;
@@ -468,9 +609,9 @@ export function getSignInfo(files: IFile[], footer, navigate) {
 									showToastDanger(err);
 								} else {
 									if (verify.length === 1) {
-										navigate("AboutSignCert", { cert: verify[0] });
+										navigate("AboutSignCert", { cert: verify[0], isCryptoDoc: false });
 									} else {
-										navigate("AboutAllSignCert", { cert: verify });
+										navigate("AboutAllSignCert", { cert: verify, isCryptoDoc: false });
 									}
 								}
 								dispatch({ type: FETCHING_DOC_FALSE });

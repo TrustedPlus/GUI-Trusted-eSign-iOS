@@ -299,7 +299,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 							files={files}
 							selectedFiles={selectedFiles}
 							clearselectedFiles={() => this.clearselectedFiles()}
-							navigate={(page, cert) => navigate(page, { cert: cert })} />
+							navigate={navigate} />
 						: null
 					}</> : <View style={{
 						display: "flex",

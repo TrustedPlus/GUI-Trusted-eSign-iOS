@@ -15,7 +15,7 @@ import { Root } from "native-base";
 const persistConfig = {
 	key: "root",
 	storage,
-	whitelist: ["logger"]
+	whitelist: ["logger", "tempFiles"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -28,8 +28,6 @@ export class MainApp extends React.Component {
 		console.disableYellowBox = true;
 		NativeModules.Wrap_Main.init(
 			RNFS.DocumentDirectoryPath + "/store",
-			// ,RNFS.DocumentDirectoryPath + "/license_app.txt"
-			// ,RNFS.DocumentDirectoryPath + "/license_cryptoPro.txt"
 			(err) => console.log(err));
 	}
 	render() {

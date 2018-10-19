@@ -127,11 +127,11 @@ export class AboutSignCert extends React.Component<AboutSignCertProps, AboutSign
 
 	render() {
 		const { navigate, goBack } = this.props.navigation;
-		const { cert } = this.props.navigation.state.params.cert.cert;
+		const { cert, isCryptoDoc } = this.props.navigation.state.params;
 		console.log(cert);
 		return (
 			<Container style={styles.container}>
-				<Headers title="Свойства подписи" goBack={() => goBack()} />
+				<Headers title="Свойства подписи" goBack={isCryptoDoc ? null : () => goBack()} />
 				<Segment style={{ backgroundColor: "white" }}>
 					<Button
 						first

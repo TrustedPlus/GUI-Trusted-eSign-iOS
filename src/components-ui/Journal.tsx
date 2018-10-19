@@ -227,10 +227,10 @@ export class Journal extends React.Component<JournalProps, JournalState> {
 							}}>Выполнить удаление всех записей операций?</Text>
 						</View>
 						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
-							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => this.modals.basicModal.close()}>
+							<Button transparent style={styles.modalMain} onPress={() => this.modals.basicModal.close()}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
 							</Button>
-							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => { this.modals.basicModal.close(); clearLog(); }}>
+							<Button transparent style={styles.modalMain} onPress={() => { this.modals.basicModal.close(); clearLog(); }}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Да</Text>
 							</Button>
 						</View>

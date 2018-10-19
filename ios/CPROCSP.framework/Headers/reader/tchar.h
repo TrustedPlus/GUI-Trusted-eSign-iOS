@@ -58,6 +58,8 @@
 	#ifndef CSP_LITE
 	    #include <ctype.h>
 	    #include <strings.h>
+	    #include <wchar.h>
+	    #include <wctype.h>
 	#endif
 	#define _tmain main
     #endif /* UNIX */
@@ -173,6 +175,18 @@
 		}
 		while(*a){
 		    *a = (char)tolower( (*a) & 0xff );
+		    a++;
+		}
+		return res;
+	    }
+	    static inline wchar_t *wcslwr(wchar_t *a) {
+		wchar_t *res = a;
+		
+		if(NULL == a){
+		    return NULL;
+		}
+		while(*a){
+		    *a = (wchar_t)towlower(*a);
 		    a++;
 		}
 		return res;

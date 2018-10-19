@@ -99,7 +99,7 @@
 #define SUPPORT_DBFMT_ERR 0x40
 
 #define SUPPORT_DBFMT_ALL 0x7F
-#define SUPPORT_DBFMT_CLEAN 0x30
+#define SUPPORT_DBFMT_CLEAN 0x38
 #define SUPPORT_DBLEVEL_ALL 0xffffffffU
 
 #define NCOUNT(x) x
@@ -346,15 +346,19 @@ _SUPPORT_DECL TSupErr
 support_elprint_print(TSupportDbContext* ctx, const DCHAR *str,
 		      const DCHAR *file, int line, const DCHAR *func,
 		      va_list args);
+//+V576, function:support_cprint_print_, format_arg:2, ellipsis_arg:6
 _SUPPORT_DECL void
 support_cprint_print_(TSupportDbContext* ctx, const DCHAR *str,
 		      const DCHAR *file, int line, const DCHAR *func, ...);
+//+V576, function:support_dprint_print_, format_arg:2, ellipsis_arg:6
 _SUPPORT_DECL void
 support_dprint_print_(TSupportDbContext* ctx, const DCHAR *str, 
 		      const DCHAR *file, int line, const DCHAR *func, ...);
+//+V576, function:support_eprint_print_, format_arg:2, ellipsis_arg:6
 _SUPPORT_DECL void
 support_eprint_print_(TSupportDbContext* ctx, const DCHAR *str,
 		      const DCHAR *file, int line, const DCHAR *func, ...);
+//+V576, function:support_elprint_print_, format_arg:2, ellipsis_arg:6
 _SUPPORT_DECL void
 support_elprint_print_(TSupportDbContext* ctx, const DCHAR *str,
 		       const DCHAR *file, int line, const DCHAR *func, ...);

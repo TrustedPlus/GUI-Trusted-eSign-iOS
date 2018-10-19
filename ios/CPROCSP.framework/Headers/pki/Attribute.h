@@ -14,9 +14,9 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 126987 $
- * \date $Date:: 2015-09-08 17:51:58 +0400#$
- * \author $Author: pav $
+ * \version $Revision: 178878 $
+ * \date $Date:: 2018-08-06 17:50:17 +0400#$
+ * \author $Author: maxdm $
  *
  * \brief Классы аттрибутов.
  */
@@ -750,9 +750,9 @@ public:
      */
     CAttrMessageDigest( const CBlob& value);
 
-    /// возвращает хеш сообщения
+    /// возвращает хэш сообщения
     const CBlob& get_messageDigest() const;
-    /// устанавливает хеш сообщения
+    /// устанавливает хэш сообщения
     void put_messageDigest( const CBlob& messageDigest);
 private:
     CBlob messageDigest_;

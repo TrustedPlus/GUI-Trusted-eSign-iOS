@@ -412,6 +412,7 @@ typedef struct _LUID {
 #define CP_ACP                      0           // default to ANSI code page
 #define CP_UTF8                     65001
 #define CP_UTF16LE                  1200
+#define CP_ISO8859_5                28595
 
 #define MB_PRECOMPOSED              0x01
 #define MB_COMPOSITE                0x02
@@ -478,10 +479,12 @@ CSP_FormatMessage(
 #else
 
 #if defined (_MSC_VER) || defined (__GNUC__)
-#  if defined (__cplusplus)
-#    pragma message ("Your application will require at least CryptoPro CSP 4.0 R3. You can use LEGACY_FORMAT_MESSAGE_IMPL to support older versions.")
+#  if defined (__cplusplus) && !defined (IGNORE_LEGACY_FORMAT_MESSAGE_MSG)
+#    if !(defined(PROCESSOR_TYPE) && (PROCESSOR_TYPE == PROC_TYPE_E2K32 || PROCESSOR_TYPE == PROC_TYPE_E2K64))
+#      pragma message ("Your application will require at least CryptoPro CSP 4.0 R3. You can use LEGACY_FORMAT_MESSAGE_IMPL to support older versions.")
+#    endif
 #  endif
-#endif 
+#endif
 
 WINBASEAPI
 DWORD

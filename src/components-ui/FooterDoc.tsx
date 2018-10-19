@@ -131,7 +131,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 										<FooterButton title="Свойства"
 											disabled={mark !== 1 || this.props.selectedFiles.arrNum.length !== 1}
 											img={require("../../imgs/ios/view_sign.png")}
-											nav={() => getSignInfo(files, selectedFilesObject, (page, cert) => navigate(page, { cert: cert }))} />
+											nav={() => getSignInfo(files, selectedFilesObject, navigate)} />
 									</FooterTab>
 								</Footer>
 								<Footer>
@@ -228,10 +228,10 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 							}}>Выполнить удаление выбраных файлов с устройства?</Text>
 						</View>
 						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
-							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => this.modals.basicModal.close()}>
+							<Button transparent style={styles.modalMain} onPress={() => this.modals.basicModal.close()}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
 							</Button>
-							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => { this.modals.basicModal.close(); clearAllFilesinAllWorkspace(); deleteFile(files, selectedFiles, () => clearselectedFiles()); }}>
+							<Button transparent style={styles.modalMain} onPress={() => { this.modals.basicModal.close(); clearAllFilesinAllWorkspace(); deleteFile(files, selectedFiles, () => clearselectedFiles()); }}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Да</Text>
 							</Button>
 						</View>

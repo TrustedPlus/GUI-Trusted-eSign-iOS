@@ -14,9 +14,9 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 157847 $
- * \date $Date:: 2017-05-30 16:36:35 +0400#$
- * \author $Author: dmax $
+ * \version $Revision: 177628 $
+ * \date $Date:: 2018-07-11 15:49:11 +0400#$
+ * \author $Author: sonina $
  *
  * \brief ћодуль функций, обеспечивающих контейнер и др. основные структуры.
  */
@@ -276,6 +276,46 @@ void htobel_ptr(void *pcn, uint32_t hdw)
 }
 
 static __inline
+void betohq_ref(void *pch, const void * pcn)
+{
+#if !defined (WORDS_BIGENDIAN)
+    BYTE           t = ((BYTE *)pcn)[0];
+    ((BYTE *)pch)[0] = ((BYTE *)pcn)[7];
+    ((BYTE *)pch)[7] = t;
+    t = ((BYTE *)pcn)[6];
+    ((BYTE *)pch)[6] = ((BYTE *)pcn)[1];
+    ((BYTE *)pch)[1] = t;
+    t = ((BYTE *)pcn)[5];
+    ((BYTE *)pch)[5] = ((BYTE *)pcn)[2];
+    ((BYTE *)pch)[2] = t;
+    t = ((BYTE *)pcn)[4];
+    ((BYTE *)pch)[4] = ((BYTE *)pcn)[3];
+    ((BYTE *)pch)[3] = t;
+#else
+    /*    *(uint64_t *)pch = *(uint64_t *)pcn; */
+    /* ≈сли адреса должным образом aligned, то оптимизирующий компил€тор сам напишет 'одинокий mov'
+    * если не aligned, то зачем создавать грабли на ровном месте?
+    */
+    if (pch != pcn) /* made valgrind happy */ /* dim: это не к V, а к коду */
+	memcpy(pch, pcn, sizeof(uint64_t));
+#endif
+}
+
+static __inline
+uint64_t betohq_ptr(const void * pcn)
+{
+    uint64_t hqw;
+    betohq_ref(&hqw, pcn);
+    return hqw;
+}
+
+static __inline
+void htobeq_ptr(unsigned char *pcn, uint64_t hqw)
+{
+    betohq_ref(pcn, &hqw);
+}
+
+static __inline
 void    dw_set(void *pdwdst, uint32_t dwsrc) {
     *(uint32_t *)pdwdst = dwsrc;
 }
@@ -291,7 +331,7 @@ htolel_XOR(unsigned char * pcn, uint32_t ln)
 {
 #ifdef WORDS_BIGENDIAN
     htolelxor(pcn, ln);
-#elif defined (_WIN64)  || defined (_M_ARM)
+#else
     {
 	DWORD dwln=ln;
 	((BYTE *)pcn)[0] ^= ((BYTE *)&dwln)[0];
@@ -299,8 +339,6 @@ htolel_XOR(unsigned char * pcn, uint32_t ln)
 	((BYTE *)pcn)[2] ^= ((BYTE *)&dwln)[2];
 	((BYTE *)pcn)[3] ^= ((BYTE *)&dwln)[3];
     }
-#else
-    *(uint32_t *)pcn ^= ln;
 #endif
 }
  

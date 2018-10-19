@@ -113,8 +113,8 @@ ID маркера: %s
 "TesterFlags" = "TesterFlags";
 "Checksums:" = "Проверено модулей:";
 "Block" = "Имя модуля:";
-"Initial Hash:" = "Ожидаемый хеш:";
-"Calculated Hash:" = "Полученный хеш:";
+"Initial Hash:" = "Ожидаемый хэш:";
+"Calculated Hash:" = "Полученный хэш:";
 "Select CA type" = "Выберите тип УЦ";
 "CryptoPro CA 1.5" = "КриптоПро УЦ 1.5";
 "CryptoPro CA 2.0" = "КриптоПро УЦ 2.0";

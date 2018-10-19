@@ -34,16 +34,16 @@ export class AboutAllSignCert extends React.Component<AboutAllSignCertProps> {
 				img={(cert.statusCert === "1") && (cert.statusSign === "1") ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")}
 				title={cert.subjectFriendlyName}
 				note={cert.signingTime === "" ? "Дата подписи: отсутствует" : "Дата подписи: " + new Date(cert.signingTime).toLocaleString("ru", options)}
-				nav={() => this.props.navigation.navigate("AboutSignCert", { cert: { cert: { cert }}})} />
+				nav={() => this.props.navigation.navigate("AboutSignCert", { cert, isCryptoDoc: false })} />
 		));
 	}
 
 	render() {
 		const { navigate, goBack } = this.props.navigation;
-		const { cert } = this.props.navigation.state.params.cert.cert;
+		const { cert, isCryptoDoc } = this.props.navigation.state.params;
 		return (
 			<Container style={styles.container}>
-				<Headers title="Выбор подписи" goBack={() => goBack()} />
+				<Headers title="Выбор подписи" goBack={isCryptoDoc ? null : () => goBack()} />
 				<Content>
 					{this.showListCert(cert)}
 				</Content>

@@ -14,9 +14,9 @@
 
 /*!
  * \file $RCSfile$
- * \version $Revision: 126987 $
- * \date $Date:: 2015-09-08 17:51:58 +0400#$
- * \author $Author: pav $
+ * \version $Revision: 178878 $
+ * \date $Date:: 2018-08-06 17:50:17 +0400#$
+ * \author $Author: maxdm $
  *
  * \brief Классы для работы с OCSP (Online Certificate Status Protocol)
  */
@@ -79,7 +79,7 @@ namespace OCSP {
  *
  * Также предоставляются вспомогательные классы:
  *  - \link CryptoPro::PKI::OCSP::CSingleResponse CSingleResponse\endlink - запрос статуса отдельного сертификата;
- *  - \link CryptoPro::PKI::OCSP::CCertID CCertID\endlink - идентификатор сертификата (из хеша имени и публичного ключа издателя,
+ *  - \link CryptoPro::PKI::OCSP::CCertID CCertID\endlink - идентификатор сертификата (из хэша имени и публичного ключа издателя,
  *		    а также серийного номера сертификата);
  *  - \link CryptoPro::PKI::OCSP::CCertIdWithSignature CCertIdWithSignature\endlink - идентификатор сертификата (из имени издателя, серийного номера
  *		    и подписи сертификата);
@@ -365,9 +365,9 @@ class OCSP_CLASS CSingleRequestList: public CDllList<CSingleRequest>
 /**
  * \brief ASN.1 структура CertID. Идентификатор сертификата (RFC 2560, раздел 4.1.1).
  *
- * Сертификат идентифицируется хешами имени и открытого ключа издателя сертификата,
+ * Сертификат идентифицируется хэшами имени и открытого ключа издателя сертификата,
  * а также серийным номером.
- * \remark Так как в идентификаторе участвует хеш открытого ключа издателя, то для создания
+ * \remark Так как в идентификаторе участвует хэш открытого ключа издателя, то для создания
  * такого идентификатора сертификата необходимо найти также и сертификат издателя.
  * \sa CReqCert, CCertIdWithSignature
  */
@@ -379,8 +379,8 @@ public:
     /**
      * \brief Создает и инициализирует объект
      * \param hashAlgorithm [in] алгоритм содержащихся в идентификаторе хэшей
-     * \param issuerNameHash [in] значение хеша закодрованного имени издателя сертификата
-     * \param issuerKeyHash [in] значение хеша открытого ключа издателя сертификата
+     * \param issuerNameHash [in] значение хэша закодрованного имени издателя сертификата
+     * \param issuerKeyHash [in] значение хэша открытого ключа издателя сертификата
      * \param serialNumber [in] серийный номер сертификата
      */
     CCertID(
@@ -459,8 +459,8 @@ OCSP_API bool operator!=( const CCertID& lhs, const CCertID& rhs);
 /**
  * \brief ASN.1 структура CertIdWithSignature. Идентификатор сертификата (draft-ietf-pkix-ocspv2-ext-01.txt, раздел 5.1.1).
  *
- * Сертификат идентифицируется хешом закодированного поля tbsCertificate
- * сертификата, с использованием алгоритмя хеша соответствующего алгоритму подписи
+ * Сертификат идентифицируется хэшом закодированного поля tbsCertificate
+ * сертификата, с использованием алгоритмя хэша соответствующего алгоритму подписи
  * сертификата, значением подписи, именем издателя и серийным номером.
  * \sa CReqCert, CCertID
  */
@@ -473,7 +473,7 @@ public:
      * \brief Создает и инициализирует объект
      * \param issuer [in] закодированное имя издателя
      * \param serialNumber [in] серийный номер
-     * \param tbsCertificateHash [in] значение хеша закодированного поля tbsCertificate
+     * \param tbsCertificateHash [in] значение хэша закодированного поля tbsCertificate
      * \param signatureAlgorithm [in] алгоритм подписи
      * \param signatureValue [in] значение подписи
      */
@@ -521,7 +521,7 @@ public:
     const CBlob& get_issuer() const;
     /// возвращает серийный номер сертификата
     const ASN1::CBigInteger& get_serialNumber() const;
-    /// возвращает хеш закодированного поля tbsCertificate сертификата
+    /// возвращает хэш закодированного поля tbsCertificate сертификата
     const CBlob& get_tbsCertificateHash() const;
     /// возвращает алгоритм подписи сертификата
     const ASN1::CAlgorithmIdentifier& get_signatureAlgorithm() const;
@@ -532,7 +532,7 @@ public:
     void put_issuer( const CBlob& issuer);
     /// устанавливает значение серийного номера сертификата
     void put_serialNumber( const ASN1::CBigInteger& serialNumber);
-    /// устанавливает значение хеша поля tbsCertificate сертификата
+    /// устанавливает значение хэша поля tbsCertificate сертификата
     void put_tbsCertificateHash( const CBlob& tbsCertificateHash);
     /// устанавливает значение алгоритма подписи сертификата
     void put_signatureAlgorithm( 
@@ -1002,7 +1002,7 @@ private:
 * \brief ASN.1 структура ResponderID (RFC 2560, раздел 4.2.1)
 * 
 * Идентификатор создателя ответа OCSP (службы). Служба может
-* идентифицироватья по имени (ByName) или по SHA1 хешу открытого
+* идентифицироватья по имени (ByName) или по SHA1 хэшу открытого
 * ключа.
 *
 * \sa CBasicResponse
@@ -1010,12 +1010,12 @@ private:
 class OCSP_CLASS CResponderID
 {
 public:
-    /// тип идентификации ответчика - по имени или по хешу открытого ключа
+    /// тип идентификации ответчика - по имени или по хэшу открытого ключа
     enum Type 
     {
 	/// идентификация по имени
 	ByName,
-	/// идентификация по хешу открытого ключа
+	/// идентификация по хэшу открытого ключа
 	ByHash 
     };
 

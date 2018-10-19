@@ -124,7 +124,7 @@ export class License extends React.Component<LicenseProps, LicenseState> {
 					<View style={{ padding: 15 }}>
 						<Image style={{ height: 70, width: 70, position: "absolute", right: 15, top: 15 }} source={require("../../imgs/general/splash_icon.png")} />
 						<Text style={{ fontSize: 20 }}>КриптоАРМ ГОСТ</Text>
-						<Text style={{ fontSize: 17, color: "grey" }}>версия: 1.0.2{"\n"}ООО «Цифровые технологии»</Text>
+						<Text style={{ fontSize: 17, color: "grey" }}>версия: 1.0.3{"\n"}ООО «Цифровые технологии»</Text>
 					</View>
 					<View style={{ paddingLeft: 15, paddingRight: 15 }}>
 						<Text style={{ color: "grey" }}>Лицензия</Text>

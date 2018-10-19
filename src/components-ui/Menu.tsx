@@ -1,9 +1,9 @@
 import * as React from "react";
-import * as RNFS from "react-native-fs";
-import { Container, Content, List } from "native-base";
-import { Linking, AlertIOS, NativeModules } from "react-native";
-import { StackNavigator } from "react-navigation";
+import { Container, Content, List, Header, Title, Button } from "native-base";
+import { Linking, Modal, View, Text } from "react-native";
+import { createStackNavigator } from "react-navigation";
 import { styles } from "../styles";
+import { takeUrl } from "../utils/uploadFileFromCryptoArmDoc";
 
 import { ListMenu } from "../components/ListMenu";
 import { Headers } from "../components/Headers";
@@ -30,9 +30,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getProviders } from "../actions/getContainersAction";
 import { readCertKeys } from "../actions/certKeysAction";
-import { readFiles } from "../actions";
+import { readFiles, addFiles } from "../actions";
 import { readRequests } from "../actions/requestAction";
 import { refreshStatusLicense } from "../actions/refreshStatusAction";
+import { addTempFilesForCryptoarmdDocuments } from "../actions/uploadFileToCryptoArmDocumtsAction";
+import { clearTempFiles } from "../actions/uploadFileToCryptoArmDocumtsAction";
 
 function mapStateToProps(state) {
 	return {
@@ -42,7 +44,8 @@ function mapStateToProps(state) {
 		files: state.files.files,
 		lastlog: state.logger.lastlog,
 		containers: state.containers.containers,
-		statusLicense: state.statusLicense.status
+		statusLicense: state.statusLicense.status,
+		tempFiles: state.tempFiles.files
 	};
 }
 
@@ -52,7 +55,10 @@ function mapDispatchToProps(dispatch) {
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
 		getProviders: bindActionCreators(getProviders, dispatch),
 		readRequests: bindActionCreators(readRequests, dispatch),
-		refreshStatusLicense: bindActionCreators(refreshStatusLicense, dispatch)
+		refreshStatusLicense: bindActionCreators(refreshStatusLicense, dispatch),
+		addTempFilesForCryptoarmdDocuments: bindActionCreators(addTempFilesForCryptoarmdDocuments, dispatch),
+		addFiles: bindActionCreators(addFiles, dispatch),
+		clearTempFiles: bindActionCreators(clearTempFiles, dispatch)
 	};
 }
 
@@ -65,11 +71,15 @@ interface MainProps {
 	workspaceEnc: any;
 	workspaceSign: any;
 	statusLicense: any;
+	tempFiles: object;
 	readCertKeys(): any;
 	readFiles(): any;
 	getProviders(): any;
 	readRequests(): any;
 	refreshStatusLicense(): any;
+	addTempFilesForCryptoarmdDocuments(name: string, id: number, uploadurl: string): void;
+	clearTempFiles(tempFiles: object): void;
+	addFiles(uri: string, fileName: string, workspace: string): void;
 }
 
 const options = {
@@ -78,6 +88,40 @@ const options = {
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 class Main extends React.Component<MainProps> {
+
+	state = {
+		modalWarning: false,
+		url: null
+	};
+
+	setModalVisible(visible) {
+		this.setState({ modalWarning: visible });
+	}
+
+	componentWillUnmount() {
+		Linking.removeEventListener("url", this._handleOpenURL);
+	}
+
+	_handleOpenURL = (event) => {
+		this.setState({ modalWarning: true, url: event.url });
+	}
+
+	componentDidMount() {
+		Linking.addEventListener("url", this._handleOpenURL);
+		this.props.readFiles();
+		this.props.readCertKeys();
+		this.props.getProviders();
+		this.props.readRequests();
+		this.props.refreshStatusLicense();
+		this.props.clearTempFiles(this.props.tempFiles);
+		// window.open("cryptoarmgost://" + "?id=" + ids + "?url=" + JSON.parse(d.docsToSign)[0].url + "?filename=" + JSON.parse(d.docsToSign)[0].name + "?uploadurl=" + AJAX_CONTROLLER + '?command=upload');
+
+		Linking.getInitialURL().then((url) => {
+			if (url) {
+				this.setState({ modalWarning: true, url });
+			}
+		}).catch(err => console.error("An error occurred", err));
+	}
 
 	render() {
 		const { navigate } = this.props.navigation;
@@ -109,29 +153,67 @@ class Main extends React.Component<MainProps> {
 						<ListMenu title="Лицензии" img={require("../../imgs/general/license_menu_icon.png")}
 							note={this.props.statusLicense ? "действительные" : "ошибка при проверке"} nav={() => navigate("License")} />
 					</List>
+					<Modal
+						animationType="none"
+						transparent
+						visible={this.state.modalWarning}>
+						<View style={{
+							flex: 1,
+							flexDirection: "column",
+							justifyContent: "center",
+							alignItems: "center",
+							backgroundColor: "rgba(0, 0, 0, 0.5)"
+						}}>
+							<View style={{
+								height: "auto", width: 300, backgroundColor: "white"
+							}}>
+								<Header
+									style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+									<Title>
+										<Text style={{
+											color: "white",
+											fontSize: 15
+										}}>Подтверждение операции</Text>
+									</Title>
+								</Header>
+								<Text style={{ fontSize: 17, padding: 5 }}>Сторонний ресурс запрашивает разрешение на выполнении операции в приложении.{"\n"}Разрешить?</Text>
+								<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
+									<Button transparent
+										style={styles.modalMain}
+										onPress={() => {
+											this.setState({ modalWarning: false });
+											if (/chrome/.test(this.state.url)) {
+												Linking.openURL("googlechrome://");
+											} else {
+												Linking.openURL("https://license.trusted.ru/bitrix/admin/trusted_cryptoarm_docs.php");
+											}
+										}}>
+										<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Нет</Text>
+									</Button>
+									<Button transparent
+										style={styles.modalMain}
+										onPress={() => {
+											this.setState({ modalWarning: false });
+											takeUrl(this.state.url, this.props.addTempFilesForCryptoarmdDocuments, this.props.addFiles, this.props.navigation.navigate);
+										}}>
+										<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Да</Text>
+									</Button>
+								</View>
+							</View>
+						</View>
+					</Modal>
 				</Content>
 			</Container>
 		);
 	}
-
-	componentDidMount() {
-		this.props.readFiles();
-		this.props.readCertKeys();
-		this.props.getProviders();
-		this.props.readRequests();
-		this.props.refreshStatusLicense();
-
-		Linking.getInitialURL().then((url) => {
-			if (url) {
-				console.log(decodeURIComponent(url));
-			}
-		}).catch(err => console.error("An error occurred", err));
-	}
 }
 
-export const App = StackNavigator({
+export const App = createStackNavigator({
 	Main: { screen: Main },
-	Signature: { screen: Signature },
+	Signature: {
+		screen: Signature,
+		path: "sign",
+	},
 	Encryption: { screen: Encryption },
 	Certificate: { screen: Certificate },
 	Journal: { screen: Journal },
@@ -147,7 +229,10 @@ export const App = StackNavigator({
 	AboutSignCert: { screen: AboutSignCert },
 	NotSelectedDocuments: { screen: NotSelectedDocuments },
 	FilterJournal: { screen: FilterJournal },
-	AboutAllSignCert: { screen: AboutAllSignCert },
+	AboutAllSignCert: {
+		screen: AboutAllSignCert,
+		path: "verify"
+	},
 	License: { screen: License },
 }, {
 		navigationOptions: {

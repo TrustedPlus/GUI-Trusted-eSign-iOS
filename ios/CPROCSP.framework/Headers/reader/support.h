@@ -63,7 +63,7 @@
 
 #if !defined( _SUPPORT_CALLBACK_CONV )
 #   if defined( UNIX )
-#	if defined( __GNUC__ ) && !defined(IOS) && defined (PROCESSOR_TYPE) && (PROCESSOR_TYPE != PROC_TYPE_ARM && PROCESSOR_TYPE != PROC_TYPE_ARM64 && PROCESSOR_TYPE != PROC_TYPE_PPC64 && PROCESSOR_TYPE != PROC_TYPE_PPC32 && PROCESSOR_TYPE != PROC_TYPE_MIPS32)
+#	if defined( __GNUC__ ) && !defined(IOS) && defined (PROCESSOR_TYPE) && (PROCESSOR_TYPE != PROC_TYPE_ARM && PROCESSOR_TYPE != PROC_TYPE_ARM64 && PROCESSOR_TYPE != PROC_TYPE_PPC64 && PROCESSOR_TYPE != PROC_TYPE_PPC32 && PROCESSOR_TYPE != PROC_TYPE_MIPS32 && PROCESSOR_TYPE != PROC_TYPE_E2K32 && PROCESSOR_TYPE != PROC_TYPE_E2K64)
 #	    define _SUPPORT_CALLBACK_CONV __attribute__((regparm(0))) 
 #	else // defined( __GNUC__ )
 #	    define _SUPPORT_CALLBACK_CONV
@@ -93,7 +93,9 @@
 #endif /* !defined( LANGUAGE ) || ( LANGUAGE != 866 ) && ( LANGUAGE != 1251 ) ) */
 
 //------------------------------
-// ћакросы дл€ конвертации строк, полученных из консоли, или перед выводом строк на консоль
+// ’орошие макросы дл€ конвертации строк, полученных из консоли, или перед выводом строк на консоль
+// ѕри destArrayLen == 0 возвращают длину требуемого буфера или 0 в случае ошибки
+// ѕри destArrayLen != 0 возвращают длину сконвертированной строки или 0 в случае ошибки
 #ifdef UNIX
 #define CPRO_CONSOLE_CP CP_UTF8
 #else // UNIX
@@ -112,7 +114,9 @@
 #endif /* UNICODE */
 
 //------------------------------
-// ћакросы дл€ конвертации строк во внутреннее представление провайдера и обратно
+// ”старевшие макросы дл€ конвертации строк во внутреннее представление провайдера и обратно
+//  атегорически не рекомендуютс€ дл€ использовани€, т.к. через них затруднительно или невозможно
+// вычислить длину требуемого буфера или узнать, произошла ли ошибка
 #if defined _WIN32 && !defined CSP_LITE
 #   define safe_mbsrtowcs( dest, src, len ) MultiByteToWideChar( CP_ACP, 0, (src), (int)(len), (dest), (int)(len) )
 #   define safe_wcsrtombs( dest, src, len ) WideCharToMultiByte( CP_ACP, 0, (src), (int)(len), (dest), (int)(len), NULL, NULL )
@@ -319,27 +323,19 @@
 #endif
 
 #if defined (_WIN32)
-    #ifdef CSP_LITE
-	#define SUP_STOP { \
-		int x; \
-		x=3;x=x/(3-x); \
-		*(char *)(void *)(intptr_t)(x-3) = 0; \
-	    }
-    #else /* CSP_LITE */
-	#define SUP_STOP DebugBreak();
-    #endif /* CSP_LITE */
+    #define SUP_STOP __debugbreak(); 
 #elif (defined __GNUC__ || defined __clang__) && PROCESSOR_TYPE != PROC_TYPE_ARM64
 /* деление на 0 €вл€етс€ "undefined behaviour" -->
  * используем встроенные средства компил€тора
  * dim: не знаю, как написать дл€ VS/sunCC
  * dedal: на linux/arm64 __builtin_trap() пытаетс€ вызвать abort
  */
-    #define SUP_STOP __builtin_trap()
+    #define SUP_STOP { __builtin_trap(); }
 #elif defined __xlC__
 #if defined __cplusplus
 #   include <builtins.h>
 #endif	/* __cplusplus */
-    #define SUP_STOP __trap(1)
+    #define SUP_STOP { __trap(1); }
 #else
     #ifdef CSP_LITE
 	#define SUP_STOP { \
@@ -1929,4 +1925,4 @@ typedef void(*slr_pfDestruct_t)(void *);
 #endif /* defined( __cplusplus ) */
 
 #endif /* !defined( _READER_SUPPORT_SUPPORT_H ) */
-/*+ end of file:$Id: support.h 170050 2018-02-07 15:00:46Z sonina $ +*/
+/*+ end of file:$Id: support.h 179791 2018-08-20 15:22:59Z dedal $ +*/

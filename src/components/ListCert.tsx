@@ -28,7 +28,7 @@ export class ListCert extends React.Component<ListCertProps, { active: boolean }
 			rightimg = <Thumbnail small square style={{ position: "absolute", right: 15, top: 15 }} source={this.props.rightimg} />;
 		}
 		return (
-			<ListItem style={[styles.listItem, this.state.active ? { backgroundColor: "lightgrey" } : null]} avatar>
+			<ListItem style={[styles.listItem, this.state.active ? { backgroundColor: "lightgrey" } : null]} thumbnail>
 				<TouchableWithoutFeedback onPressIn={() => this.props.goBack()}><Left>
 					<Thumbnail square style={styles.thumbnail} source={this.props.img} />
 				</Left></TouchableWithoutFeedback>
@@ -38,9 +38,9 @@ export class ListCert extends React.Component<ListCertProps, { active: boolean }
 					<Text note style={{ position: "absolute", right: 25, bottom: 10 }}>{this.props.rightnote}</Text>
 					{rightimg}
 				</Body></TouchableWithoutFeedback>
-				{this.props.arrow ? <TouchableWithoutFeedback onPressIn={() => this.props.navigate("PropertiesCert", this.props.cert)}><Right style={{ width: 80 }} >
-					<Icon style={{ position: "absolute", right: 15, top: "50%" }} name="ios-more" />
-				</Right></TouchableWithoutFeedback> : null}
+				{this.props.arrow ? <Right style={{ width: 80 }} >
+				<TouchableWithoutFeedback onPressIn={() => this.props.navigate("PropertiesCert", this.props.cert)}><Icon style={{ position: "absolute", right: 15, top: "50%" }} name="ios-more" /></TouchableWithoutFeedback>
+				</Right> : null}
 			</ListItem>
 		);
 	}

@@ -44,14 +44,14 @@ export class ExportCert extends React.Component<ExportCertProps, ExportCertState
 				NativeModules.Wrap_Cert.load(
 					cert.serialNumber,
 					cert.provider,
-					(err) => {
+					(err, value) => {
 						if (err) {
 							showToast(err);
 						} {
 							NativeModules.Wrap_Cert.save(
 								path,
 								this.state.code ? "DER" : "BASE64",
-								(err) => {
+								(err, value) => {
 									if (err) {
 										showToast(err);
 									} else {

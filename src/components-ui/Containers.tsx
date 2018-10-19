@@ -157,10 +157,10 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 						</Header>
 						<ListWithSwitch styletext={{ fontSize: 13 }} text="Удалить по возможности вместе с сертификатом" value={this.state.deleteCert} changeValue={() => this.setState({ deleteCert: !this.state.deleteCert })} />
 						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
-							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => this.modals.basicModal.close()}>
+							<Button transparent style={styles.modalMain} onPress={() => this.modals.basicModal.close()}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
 							</Button>
-							<Button transparent style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", width: "50%", borderLeftWidth: 0.25, borderTopWidth: 0.5, borderColor: "grey", borderRadius: 0 }} onPress={() => {
+							<Button transparent style={styles.modalMain} onPress={() => {
 								this.deleteContainers();
 							}}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>

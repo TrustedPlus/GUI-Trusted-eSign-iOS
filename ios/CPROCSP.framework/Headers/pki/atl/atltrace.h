@@ -532,7 +532,9 @@ inline void __cdecl AtlTrace2(DWORD_PTR dwCategory, UINT nLevel, LPCSTR pszForma
 	ATL::CTrace::s_trace.TraceV(NULL, -1, dwCategory, nLevel, pszFormat, ptr);
 	va_end(ptr);
 }
+#ifndef UNIX
 #pragma warning(pop)
+#endif
 
 #if !defined UNIX
 #pragma warning(push)
@@ -551,14 +553,18 @@ inline void __cdecl AtlTrace2(DWORD_PTR dwCategory, UINT nLevel, LPCWSTR pszForm
 
 #else // !DEBUG
 
+#ifndef UNIX
 #pragma warning(push)
 #pragma warning(disable : 4793)
+#endif
 inline void __cdecl AtlTraceNull(...){}
 inline void __cdecl AtlTrace(LPCSTR , ...){}
 inline void __cdecl AtlTrace2(DWORD_PTR, UINT, LPCSTR , ...){}
 inline void __cdecl AtlTrace(LPCWSTR , ...){}
 inline void __cdecl AtlTrace2(DWORD_PTR, UINT, LPCWSTR , ...){}
+#ifndef UNIX
 #pragma warning(pop)
+#endif
 
 #ifndef ATLTRACE
 

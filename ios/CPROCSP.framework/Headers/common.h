@@ -1,6 +1,8 @@
 #ifndef _COMMON_H_INCLUDED_
 #define _COMMON_H_INCLUDED_
 
+#define BUILD_YEAR	"2018"
+
 /* Code types for USE_CODE #define */
 #define USE_CODE_C	    1
 #define USE_CODE_ASM	    2
@@ -15,6 +17,8 @@
 #define PROC_TYPE_ARM	6
 #define PROC_TYPE_ARM64 7
 #define PROC_TYPE_MIPS32 8
+#define PROC_TYPE_E2K32 9
+#define PROC_TYPE_E2K64 10
 
 #ifdef HAVE_CONFIG_H
 #ifdef DARWIN
@@ -98,6 +102,12 @@
 #    define PROCESSOR_TYPE PROC_TYPE_ARM
 #  elif defined(__mips__)
 #    define PROCESSOR_TYPE PROC_TYPE_MIPS32
+#  elif defined(__e2k__)
+#    if defined(__ptr64__)
+#       define PROCESSOR_TYPE PROC_TYPE_E2K64
+#    else
+#       define PROCESSOR_TYPE PROC_TYPE_E2K32
+#    endif 
 #  endif
 #endif //defined(PROCESSOR_TYPE)
 #if !defined(PROCESSOR_TYPE)

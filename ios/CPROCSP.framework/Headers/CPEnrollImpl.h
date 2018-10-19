@@ -43,6 +43,7 @@ class CPEnrollImpl: public CPEnroll
 	HRESULT addCertificateToCAStore(const BYTE* pbCert, DWORD cbCert) const;
 	HRESULT addCertificateToStore(const BYTE* pbCert, DWORD cbCert, cpcrypt_store_handle& store) const;
 	HRESULT isSelfSigned(const BYTE* pbCert, DWORD cbCert) const;
+	HRESULT getVersion() const;
 	HRESULT getCertificatesFromPKCS7(
 	    const BYTE* pbMsg, const DWORD cbMsg,
 	    HCERTSTORE& hStore) const;
@@ -63,6 +64,7 @@ class CPEnrollImpl: public CPEnroll
 	DWORD myStoreFlags_;
 	DWORD caStoreFlags_;
 	DWORD provFlags_;
+	DWORD version_;
 	bool limitExchangeKeyToEncipherment_;
 	BSTR myStoreName_;
 	bool deleteRequest_;

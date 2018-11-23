@@ -33,7 +33,7 @@ TrustedHandle<PkiItem> objectToPKIItem(TrustedHandle<Certificate> cert);
 -(std::vector<ProviderProps>) enumProvider;
 
 //перечисление контейнеров в хранилище
--(std::vector<TrustedHandle<ContainerName>>) enumContainers :(int)provType :(TrustedHandle<std::string>)provName;
+-(std::vector<TrustedHandle<ContainerName> >) enumContainers :(int)provType :(TrustedHandle<std::string>)provName;
 
 //получение информации о сертификате из контейнера
 -(NSMutableArray*) getInfoAboutCertFromContainer :(TrustedHandle<std::string>)contName;

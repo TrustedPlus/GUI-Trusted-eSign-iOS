@@ -38,7 +38,28 @@ export function personalCert(state = initialState, action) {
 			if ((state.cert.issuerName === action.payload.issuerName) && (state.cert.category === action.payload.category)) {
 				return {
 					...state,
-					cert: null,
+					cert: {
+						category: null,
+						chainBuilding: null,
+						hasPrivateKey: null,
+						isCA: null,
+						issuerFriendlyName: null,
+						issuerName: null,
+						keyUsage: null,
+						notAfter: null,
+						notBefore: null,
+						organizationName: null,
+						provider: null,
+						publicKeyAlgorithm: null,
+						selfSigned: null,
+						serialNumber: null,
+						signatureAlgorithm: null,
+						signatureDigestAlgorithm: null,
+						subjectFriendlyName: null,
+						subjectName: null,
+						type: null,
+						version: null
+					},
 					img: null
 				};
 			}

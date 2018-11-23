@@ -3,6 +3,10 @@ package com.cryptoarm_gost;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.github.wumke.RNExitApp.RNExitAppPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import cl.json.RNSharePackage;
+import li.chuangbo.multishare.MultiSharePackage;
 import com.reactlibrary.RNFileSharePackage;
 import org.rncloudfs.RNCloudFsPackage;
 import com.fileopener.FileOpenerPackage;
@@ -29,6 +33,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNExitAppPackage(),
+            new RNFetchBlobPackage(),
+            new RNSharePackage(),
+            new MultiSharePackage(),
             new RNFileSharePackage(),
             new RNCloudFsPackage(),
             new FileOpenerPackage(),

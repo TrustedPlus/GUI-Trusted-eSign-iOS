@@ -13,7 +13,7 @@ import { AddCertButton } from "../components/AddCertButton";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { readFiles, addFiles } from "../actions";
+import { readFiles, checkFiles } from "../actions";
 
 function mapStateToProps(state) {
 	return {
@@ -25,7 +25,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		readFiles: bindActionCreators(readFiles, dispatch),
-		addFiles: bindActionCreators(addFiles, dispatch)
+		checkFiles: bindActionCreators(checkFiles, dispatch)
 	};
 }
 
@@ -51,7 +51,7 @@ interface DocumentsProps {
 	files: IFile[];
 	isFetching: boolean;
 	readFiles(): void;
-	addFiles(uri: string, fileName: string, workspace: string, refreshDoc: Function): void;
+	checkFiles(res: object, workspace: string, refreshDoc: Function): void;
 }
 
 interface DocumentsState {
@@ -193,17 +193,14 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 		DocumentPicker.pickMultiple({
 			type: ["public.item"]
 		}).then((res) => {
-			console.log(res);
-			for (let i = 0; i < res.length; i++) {
-				this.props.addFiles(res[i].uri, res[i].name, null, () => {
-					this.setState({
-						selectedFiles: {
-							arrNum: [],
-							arrExtension: []
-						}
-					});
+			this.props.checkFiles(res, null, () => {
+				this.setState({
+					selectedFiles: {
+						arrNum: [],
+						arrExtension: []
+					}
 				});
-			}
+			});
 		});
 	}
 

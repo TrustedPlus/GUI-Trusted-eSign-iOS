@@ -13,7 +13,7 @@ import * as Modal from "react-native-modalbox";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { readFiles, addFiles } from "../actions";
+import { readFiles, checkFiles } from "../actions";
 
 function mapStateToProps(state) {
 	return {
@@ -26,7 +26,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
-		addFiles: bindActionCreators(addFiles, dispatch)
+		checkFiles: bindActionCreators(checkFiles, dispatch)
 	};
 }
 
@@ -47,7 +47,7 @@ interface EncryptionProps {
 	files: IFile[];
 	isFetching: boolean;
 	readCertKeys(): void;
-	addFiles(uri: string, fileName: string, workspace: string): void;
+	checkFiles(res: object, workspace: string): void;
 }
 
 interface ISelectedFiles {
@@ -88,7 +88,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 			this.props.otherCert.arrEncCertificates.map((cert, key) => <ListMenu
 				key={key}
 				title={cert.subjectFriendlyName}
-				img={cert.chainBuilding ? require("../../imgs/general/cert2_ok_icon.png") : require("../../imgs/general/cert2_bad_icon.png")}
+				img={cert.chainBuilding ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")}
 				note={cert.organizationName}
 				nav={() => null}
 			/>));
@@ -148,10 +148,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 		DocumentPicker.pickMultiple({
 			type: ["public.item"]
 		}).then((res) => {
-			console.log(res);
-			for (let i = 0; i < res.length; i++) {
-				this.props.addFiles(res[i].uri, res[i].name, "enc");
-			}
+			this.props.checkFiles(res, "enc");
 			this.modals.basicModal.close();
 		}).catch((err) => {
 			console.log(err);

@@ -8,6 +8,10 @@ node_modules
 
 ios/build
 
+ios/RDRRtSupCp.framework
+ios/RtPcsc.framework
+ios/rtpkcs11ecp.framework
+
 build
 
 .DS_Store

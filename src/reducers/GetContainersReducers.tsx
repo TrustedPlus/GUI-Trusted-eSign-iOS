@@ -2,7 +2,8 @@ import { READ_CONTAINERS, ADD_PROVIDERS } from "../constants";
 
 const initialState = {
 	containers: [],
-	providers: []
+	providers: [],
+	loader: false
 };
 
 export function containers(state = initialState, action) {
@@ -10,12 +11,14 @@ export function containers(state = initialState, action) {
 		case READ_CONTAINERS:
 			return {
 				...state,
-				containers: action.payload
+				containers: action.payload,
+				loader: false
 			};
 		case ADD_PROVIDERS:
 			return {
 				...state,
-				providers: action.payload
+				providers: action.payload,
+				loader: true
 			};
 		default:
 			return state;

@@ -15,7 +15,7 @@ import { Root } from "native-base";
 const persistConfig = {
 	key: "root",
 	storage,
-	whitelist: ["logger", "tempFiles"]
+	whitelist: ["logger", "tempFiles", "personalCert", "otherCert"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

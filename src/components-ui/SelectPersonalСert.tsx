@@ -40,7 +40,7 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
 				key={key}
 				title={cert.subjectFriendlyName}
 				note={cert.organizationName}
-				img={img[key]}
+				img={img[key] ? require("../../imgs/general/cert2_ok_icon.png") : require("../../imgs/general/cert2_bad_icon.png")}
 				navigate={(page, cert1) => { this.props.navigation.navigate(page, { cert: cert1 }); }}
 				goBack={() => {
 					this.props.addCertForSign(cert, img[key]);
@@ -56,8 +56,8 @@ export class SelectPersonalСert extends React.Component<SelectPersonalСertProp
 		let img = [];
 		for (let i = 0; i < certificates.length; i++) {
 			certificates[i].chainBuilding ?
-				img[i] = require("../../imgs/general/cert2_ok_icon.png") :
-				img[i] = require("../../imgs/general/cert2_bad_icon.png");
+				img[i] = true : // require("../../imgs/general/cert2_ok_icon.png")
+				img[i] = false; // require("../../imgs/general/cert2_bad_icon.png")
 		}
 		return (
 			<Container style={styles.container}>

@@ -7,7 +7,7 @@ import {
 } from "../constants";
 import * as RNFS from "react-native-fs";
 import { showToast } from "../utils/toast";
-import { NativeModules } from "react-native";
+import { NativeModules, AlertIOS } from "react-native";
 import { readCertKeys } from "./certKeysAction";
 import { getProviders } from "./getContainersAction";
 import { addSingleFileInWorkspaceSign, addSingleFileInWorkspaceEnc } from "./workspaceAction";
@@ -15,7 +15,7 @@ import { addSingleFileInWorkspaceSign, addSingleFileInWorkspaceEnc } from "./wor
 export function addCertForSign(cert, img) {
 	return {
 		type: PERSONAL_CERT_ACTION,
-		payload: {cert, img}
+		payload: { cert, img }
 	};
 }
 
@@ -130,17 +130,53 @@ export function clearLog() {
 		type: CLEAR_LOG
 	};
 }
+function f(response, dispatch, res, workspace, refreshDoc, resolve, reject) {
+	if (!response) { // если файл не существует
+		dispatch(addFiles(res.uri, res.name, workspace, refreshDoc));
+		resolve(true);
+	} else {
+		AlertIOS.alert("Файл '" + res.name + "' уже существует. Заменить?", null, [{
+			text: "Отмена",
+			onPress: () => { resolve(true); },
+			style: "cancel"
+		},
+		{
+			text: "Заменить",
+			onPress: () => {
+				RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + res.name).then(
+					success => {
+						dispatch(addFiles(res.uri, res.name, workspace, refreshDoc));
+						resolve(true);
+					},
+					err => {
+						showToast("Ошибка при удалении заменяемого файла");
+						reject(true);
+					}
+				);
+			},
+			style: "default"
+		}],
+		);
+	}
+}
 
-export function addFiles(uri, fileName, workspace, refreshDoc) {
-	return function action(dispatch) {
+export function checkFiles(res, /*uri, fileName, */ workspace, refreshDoc) { // res[i].uri, res[i].name
+	return async function action(dispatch) {
 		dispatch({ type: ADD_FILES });
-		let point, name;
-		point = fileName.indexOf(".");
-		name = fileName.substring(0, point);
+		for (let i = 0; i < res.length; i++) {
+			let response = await RNFS.exists(RNFS.DocumentDirectoryPath + "/Files/" + res[i].name); // проверяет, существует ли элемент
+			let kek = await new Promise((resolve, reject) => f(response, dispatch, res[i], workspace, refreshDoc, resolve, reject));
+		}
+		dispatch(readFiles());
+		refreshDoc();
+	};
+}
+
+function addFiles(uri, fileName, workspace, refreshDoc) {
+	return function action(dispatch) {
 		const copyFile = RNFS.copyFile(decodeURIComponent(uri.replace("file:///", "/")), RNFS.DocumentDirectoryPath + "/Files/" + fileName);
 		return copyFile.then(
 			response => {
-				dispatch({ type: ADD_FILES_SUCCESS, payload: fileName });
 				if (workspace) {
 					const request = RNFS.stat(RNFS.DocumentDirectoryPath + "/Files/" + fileName);
 					request.then(
@@ -188,8 +224,6 @@ export function addFiles(uri, fileName, workspace, refreshDoc) {
 						err => console.log(err)
 					);
 				}
-				dispatch(readFiles());
-				refreshDoc();
 			},
 			err => {
 				dispatch({ type: ADD_FILES_ERROR, payload: fileName, err });

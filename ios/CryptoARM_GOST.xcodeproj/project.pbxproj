@@ -49,6 +49,11 @@
 		840158D92164F26D00874F03 /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 840158D12164F26C00874F03 /* CP_Localizable.strings */; };
 		840158DA2164F26D00874F03 /* CP_Short.strings in Resources */ = {isa = PBXBuildFile; fileRef = 840158D42164F26D00874F03 /* CP_Short.strings */; };
 		840158DB2164F26D00874F03 /* CP_Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 840158D62164F26D00874F03 /* CP_Localizable.strings */; };
+		8403005621A8180F001CD5C5 /* rtpkcs11ecp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8403005321A8180F001CD5C5 /* rtpkcs11ecp.framework */; };
+		8403005721A8180F001CD5C5 /* RtPcsc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8403005421A8180F001CD5C5 /* RtPcsc.framework */; };
+		8403005821A8180F001CD5C5 /* RDRRtSupCp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8403005521A8180F001CD5C5 /* RDRRtSupCp.framework */; };
+		8403005A21A81826001CD5C5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8403005921A81826001CD5C5 /* Security.framework */; };
+		8403005C21A81833001CD5C5 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8403005B21A81832001CD5C5 /* ExternalAccessory.framework */; };
 		8442F400212ABEB2005ED466 /* Wrap_License.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8442F3D7212ABEB2005ED466 /* Wrap_License.mm */; };
 		8442F4B3212D4F9F005ED466 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8442F4A8212D4EA3005ED466 /* Ionicons.ttf */; };
 		84CE3AB42136DBA8005EB1A4 /* splash_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 84CE3AB12136DBA8005EB1A4 /* splash_icon.png */; };
@@ -63,7 +68,6 @@
 		9E422A3A20AAD891002883CC /* Wrap_Cert.mm in Sources */ = {isa = PBXBuildFile; fileRef = 9E422A3220AAD891002883CC /* Wrap_Cert.mm */; };
 		9E422A3D20AAD8DF002883CC /* libCSP.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3B20AAD8DF002883CC /* libCSP.a */; };
 		9E422A4020AAD8E8002883CC /* CPROCSP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422A3F20AAD8E8002883CC /* CPROCSP.framework */; };
-		9E422B1020AAD9C8002883CC /* librdrpcsc_empty.o in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B917CA9F09004B4AB43EAC65 /* libRNFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0C74AB87B344C53929C3574 /* libRNFS.a */; };
 		B9E577B7B01A4B2C8FC19F16 /* libRNExitApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BC207768D594B08953D80C4 /* libRNExitApp.a */; };
@@ -434,6 +438,11 @@
 		840158D22164F26C00874F03 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = CP_Localizable.strings; sourceTree = "<group>"; };
 		840158D52164F26D00874F03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = CP_Short.strings; sourceTree = "<group>"; };
 		840158D72164F26D00874F03 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = CP_Localizable.strings; sourceTree = "<group>"; };
+		8403005321A8180F001CD5C5 /* rtpkcs11ecp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = rtpkcs11ecp.framework; sourceTree = "<group>"; };
+		8403005421A8180F001CD5C5 /* RtPcsc.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RtPcsc.framework; sourceTree = "<group>"; };
+		8403005521A8180F001CD5C5 /* RDRRtSupCp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RDRRtSupCp.framework; sourceTree = "<group>"; };
+		8403005921A81826001CD5C5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8403005B21A81832001CD5C5 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		8442F3D7212ABEB2005ED466 /* Wrap_License.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Wrap_License.mm; sourceTree = "<group>"; };
 		8442F3FF212ABEB2005ED466 /* Wrap_License.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wrap_License.h; sourceTree = "<group>"; };
 		8442F4A2212D4EA0005ED466 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Octicons.ttf; path = "../../../node_modules/native-base/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
@@ -484,10 +493,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8403005C21A81833001CD5C5 /* ExternalAccessory.framework in Frameworks */,
+				8403005A21A81826001CD5C5 /* Security.framework in Frameworks */,
+				8403005621A8180F001CD5C5 /* rtpkcs11ecp.framework in Frameworks */,
+				8403005721A8180F001CD5C5 /* RtPcsc.framework in Frameworks */,
+				8403005821A8180F001CD5C5 /* RDRRtSupCp.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
-				9E422B1020AAD9C8002883CC /* librdrpcsc_empty.o in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				9E422A4020AAD8E8002883CC /* CPROCSP.framework in Frameworks */,
@@ -623,6 +636,11 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8403005B21A81832001CD5C5 /* ExternalAccessory.framework */,
+				8403005921A81826001CD5C5 /* Security.framework */,
+				8403005521A8180F001CD5C5 /* RDRRtSupCp.framework */,
+				8403005421A8180F001CD5C5 /* RtPcsc.framework */,
+				8403005321A8180F001CD5C5 /* rtpkcs11ecp.framework */,
 				9E422B0F20AAD9C8002883CC /* librdrpcsc_empty.o */,
 				9E422A3F20AAD8E8002883CC /* CPROCSP.framework */,
 				9E422A3B20AAD8DF002883CC /* libCSP.a */,
@@ -1490,6 +1508,8 @@
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-force_load",
+					"$(SRCROOT)/RDRRtSupCp.framework/RDRRtSupCp",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.digt.CryptoARMGOST;
 				PRODUCT_NAME = CryptoARM_GOST;
@@ -1543,6 +1563,8 @@
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
+					"-force_load",
+					"$(SRCROOT)/RDRRtSupCp.framework/RDRRtSupCp",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.digt.CryptoARMGOST;
 				PRODUCT_NAME = CryptoARM_GOST;

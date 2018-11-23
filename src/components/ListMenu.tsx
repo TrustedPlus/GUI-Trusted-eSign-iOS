@@ -18,6 +18,7 @@ interface ListItemProps {
 	selected?: boolean;
 	styleImg?: object;
 	styleText?: object;
+	nonClicked?: boolean;
 	nav?(): void;
 }
 
@@ -29,15 +30,17 @@ export class ListMenu extends React.Component<ListItemProps, { active: boolean }
 	}
 
 	onPress() {
-		if (this.props.selected !== undefined) {
-			if (this.props.selected) {
-				this.setState({ active: false });
-			} else {
-				this.setState({ active: true });
+		if ((this.props.nonClicked === false) || (this.props.nonClicked === undefined)) {
+			if (this.props.selected !== undefined) {
+				if (this.props.selected) {
+					this.setState({ active: false });
+				} else {
+					this.setState({ active: true });
+				}
 			}
+			if (this.props.checkbox !== undefined) { this.state.active ? this.setState({ active: false }) : this.setState({ active: true }); }
+			this.props.nav ? this.props.nav() : null;
 		}
-		if (this.props.checkbox !== undefined) { this.state.active ? this.setState({ active: false }) : this.setState({ active: true }); }
-		this.props.nav ? this.props.nav() : null;
 	}
 
 	render() {

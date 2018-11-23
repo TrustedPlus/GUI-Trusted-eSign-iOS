@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, ListItem, View, List, Content, Segment, Button, Text, Footer, FooterTab, Header, Title, Left, Right, Icon } from "native-base";
+import { Container, ListItem, View, List, Content, Segment, Button, Text, Footer, FooterTab, Header, Title, Left, Right, Icon, Spinner } from "native-base";
 import { Image, AlertIOS, NativeModules, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
@@ -24,6 +24,7 @@ function mapDispatchToProps(dispatch) {
 interface PropertiesCertState {
 	numPage: number;
 	chain: any;
+	loader: boolean;
 }
 
 interface PropertiesCertProps {
@@ -49,7 +50,8 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 
 		this.state = {
 			numPage: 1,
-			chain: []
+			chain: [],
+			loader: false
 		};
 	}
 
@@ -101,6 +103,15 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 		const { cert, isCertInContainers, containers } = this.props.navigation.state.params;
 		const { navigate, goBack } = this.props.navigation;
 		let subjectFriendlyName, subjectEmail, subjectCountry, subjectRegion, subjectCity;
+		let loader = null;
+		if (this.state.loader) {
+			loader = <View style={styles.loader}>
+				<View style={styles.loaderView}>
+					<Spinner color={"#be3817"} />
+					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
+				</View>
+			</View>;
+		}
 		if (!cert.selfSigned) {
 			subjectFriendlyName = cert.subjectName.match(/2.5.4.3=[^\/]{1,}/);
 			subjectFriendlyName = subjectFriendlyName ? subjectFriendlyName[0].replace("2.5.4.3=", "") : null;
@@ -141,7 +152,8 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 					</Button>
 				</Segment>}
 				{this.state.numPage === 1
-					? <><Content style={{ backgroundColor: "white" }}>
+					? <>
+					<Content style={{ backgroundColor: "white" }}>
 						<View>
 							<Image style={styles.prop_cert_img} source={isCertInContainers ? require("../../imgs/general/cert_ok_icon.png") : cert.chainBuilding ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")} />
 							<Text style={styles.prop_cert_title}>{cert.subjectFriendlyName}</Text>
@@ -170,11 +182,12 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 							<ListForCert itemHeader title="Сертификат" />
 							<ListForCert title="Серийный номер:" value={cert.serialNumber} />
 							<ListForCert title="Годен до:" value={cert.notAfter} />
-							<ListForCert title="Алгоритм подписи:" value={cert.publicKeyAlgorithm} />
+							<ListForCert title="Алгоритм подписи:" value={cert.signatureAlgorithm} />
 							<ListForCert title="Хэш-алгоритм:" value={cert.signatureDigestAlgorithm} />
 							<ListForCert title="Закрытый ключ:" value={cert.hasPrivateKey ? "присутствует" : "отсутствует"} />
 						</List>
 					</Content>
+					{loader}
 						<Modal
 							ref={ref => this.modals.basicModal = ref}
 							style={[styles.modal, {
@@ -247,17 +260,20 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 									</>}
 							</View>
 						</Modal>
+						{!this.state.loader ?
 						<Footer>
 							{isCertInContainers === true ?
 								<FooterTab>
 									<FooterButton title="Установить"
 										icon="md-add"
 										nav={() => {
+											this.setState({ loader: true });
 											NativeModules.Wrap_Main.installCertFromContainer(containers, (err) => {
 												if (err) {
 													showToast("Установка сертификата не удалась");
 												} else {
 													this.props.readCertKeys();
+													this.setState({ loader: false });
 													showToast("Сертификат установлен");
 													this.props.navigation.goBack("Home");
 												}
@@ -273,7 +289,10 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 										nav={() => this.modals.basicModal.open()} />
 								</FooterTab>
 							}
-						</Footer></>
+						</Footer>
+						: null
+						}
+						</>
 					: this.chainList()}
 			</Container>
 		);

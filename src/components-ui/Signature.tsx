@@ -12,21 +12,21 @@ import * as Modal from "react-native-modalbox";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { addFiles } from "../actions";
+import { checkFiles } from "../actions";
 
 function mapStateToProps(state) {
 	return {
 		personalCert: state.personalCert,
 		files: state.workspaceSign.files,
 		isFetching: state.files.isFetchingSign,
-		tempFiles: state.tempFiles.files
+		tempFiles: state.tempFiles.tempFiles
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		readCertKeys: bindActionCreators(readCertKeys, dispatch),
-		addFiles: bindActionCreators(addFiles, dispatch)
+		checkFiles: bindActionCreators(checkFiles, dispatch)
 	};
 }
 
@@ -72,9 +72,9 @@ interface SignatureProps {
 	personalCert: IPersonalCert;
 	files: IFile[];
 	isFetching: boolean;
-	tempFiles: object;
+	tempFiles: any;
 	readCertKeys(): void;
-	addFiles(uri: string, fileName: string, workspace: string): void;
+	checkFiles(res: object, workspace: string): void;
 }
 
 interface ISelectedFiles {
@@ -86,7 +86,8 @@ interface SignatureState {
 	selectedFiles?: ISelectedFiles;
 	activeFiles?: boolean;
 	isSuccess: boolean;
-	chrome: boolean;
+	href: string;
+	chrome: string;
 	modalWarning: boolean;
 }
 
@@ -105,13 +106,14 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 		super(props);
 		this.state = {
 			selectedFiles: {
-				arrNum: this.props.navigation.state.params.cert ? this.props.navigation.state.params.cert.selectedFiles.arrNum : [],
-				arrExtension: this.props.navigation.state.params.cert ? this.props.navigation.state.params.cert.selectedFiles.arrExtension : [],
+				arrNum: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrNum : [],
+				arrExtension: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrExtension : [],
 			},
-			activeFiles: this.props.navigation.state.params.cert ? true : false,
+			activeFiles: this.props.navigation.state.params.selectedFiles ? true : false,
 			isSuccess: false,
 			modalWarning: false,
-			chrome: false,
+			href: "",
+			chrome: "",
 		};
 		this.props.navigation.state.key = "HomeSign";
 	}
@@ -147,7 +149,8 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
 				img={img[key]}
 				checkbox
-				active={this.state.activeFiles ? true : false}
+				active={this.state.activeFiles ? true : this.props.tempFiles.arrFiles === null ? false : true}
+				nonClicked={this.props.tempFiles.arrFiles === null ? false : true}
 				nav={() => {
 					const newSelectedFiles = this.changeSelectedRequests(this.state.selectedFiles, key, file.extension);
 					this.setState({ selectedFiles: { arrNum: newSelectedFiles.arrNum, arrExtension: newSelectedFiles.arrExtension } });
@@ -158,9 +161,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 		DocumentPicker.pickMultiple({
 			type: ["public.item"]
 		}).then((res) => {
-			for (let i = 0; i < res.length; i++) {
-				this.props.addFiles(res[i].uri, res[i].name, "sign");
-			}
+			this.props.checkFiles(res, "sign");
 			this.modals.basicModal.close();
 		}).catch((err) => {
 			this.modals.basicModal.close();
@@ -203,7 +204,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 		let certificate;
 		if (personalCert.cert.subjectFriendlyName) { // выбран ли сертификат
 			certificate = <List>
-				<ListMenu title={personalCert.cert.subjectFriendlyName} img={personalCert.img}
+				<ListMenu title={personalCert.cert.subjectFriendlyName} img={personalCert.img ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")}
 					note={personalCert.cert.organizationName} nav={() => { readCertKeys(); navigate("SelectPersonalСert"); }} />
 			</List>;
 		} else {
@@ -226,7 +227,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 		}
 		return (
 			<Container style={styles.container}>
-				<Headers title="Подпись" goBack={this.props.tempFiles[0].name === null ? () => goBack() : null} />
+				<Headers title="Подпись" goBack={this.props.tempFiles.arrFiles === null ? () => goBack() : null} />
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Сертификат подписи</Text>
 					<Button transparent onPressIn={() => { readCertKeys(); navigate("SelectPersonalСert", { isCertInContainers: true }); }} style={styles.sign_enc_button}>
@@ -238,7 +239,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{selectFilesView}
 					{
-						this.props.tempFiles[0].name === null
+						this.props.tempFiles.arrFiles === null
 							? <Button transparent style={styles.sign_enc_button} onPressIn={() => this.modals.basicModal.open()}>
 								<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
 							</Button>
@@ -312,19 +313,19 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 							</Title>
 						</Header>
 						<Text style={{ fontSize: 17, padding: 5 }}>
-						{
-							this.state.isSuccess
-							? "Файл успешно подписан и отправлен. Подтвердите операцию перехода на сторонний ресурс"
-							: "Ошибка при выполнении операции. Повторите операцию на сторонний ресурсе. Подтвердите операцию перехода на сторонний ресурс"
-						}
+							{
+								this.state.isSuccess
+									? "Файл успешно подписан и отправлен. Подтвердите операцию перехода на сторонний ресурс"
+									: "Ошибка при выполнении операции. Повторите операцию на сторонний ресурсе. Подтвердите операцию перехода на сторонний ресурс"
+							}
 						</Text>
 						<View>
-							<Button transparent style={[styles.modalMain, { width: "100%"}]} onPress={() => {
+							<Button transparent style={[styles.modalMain, { width: "100%" }]} onPress={() => {
 								this.setState({ modalWarning: false });
-								if (this.state.chrome) {
+								if (this.state.chrome === "chrome") {
 									Linking.openURL("googlechrome://");
 								} else {
-									Linking.openURL("https://license.trusted.ru/bitrix/admin/trusted_cryptoarm_docs.php");
+									Linking.openURL(this.state.href);
 								}
 								this.props.navigation.navigate("Main");
 							}}>
@@ -339,14 +340,26 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 						personalCert={personalCert}
 						footer={{ arrButton: this.state.selectedFiles.arrNum, arrExtension: this.state.selectedFiles.arrExtension }}
 						navigate={navigate}
-						modalSuccessUpload={(isSuccess, browser) => { this.setState({ isSuccess, chrome: browser, modalWarning: true }); }}
+						modalSuccessUpload={(isSuccess, browser, href) => { this.setState({ isSuccess, href, chrome: browser, modalWarning: true }); }}
 						clearselectedFiles={() => this.clearselectedFiles()} />
 					: null}
 			</Container>
 		);
 	}
 
-	componentDidMount() {
-		this.setState({ activeFiles: false });
+	componentWillUpdate() {
+		if (this.state.selectedFiles.arrNum !== (this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrNum : null)) {
+			if (this.props.navigation.state.params.refreshSign) {
+				this.setState({
+					selectedFiles: {
+						arrNum: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrNum : [],
+						arrExtension: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrExtension : [],
+					}
+				});
+			}
+		}
+		if (this.state.activeFiles) {
+			this.setState({activeFiles: false});
+		}
 	}
 }

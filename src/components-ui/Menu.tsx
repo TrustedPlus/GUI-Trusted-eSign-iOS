@@ -4,6 +4,7 @@ import { Linking, Modal, View, Text } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { styles } from "../styles";
 import { takeUrl } from "../utils/uploadFileFromCryptoArmDoc";
+import * as url from "url";
 
 import { ListMenu } from "../components/ListMenu";
 import { Headers } from "../components/Headers";
@@ -25,16 +26,18 @@ import { NotSelectedDocuments } from "./NotSelectedDocuments";
 import { FilterJournal } from "./FilterJournal";
 import { AboutAllSignCert } from "./AboutAllSignCert";
 import { License } from "./License";
+import { SignForCryptoArmDoc } from "./SignForCryptoArmDoc";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { getProviders } from "../actions/getContainersAction";
 import { readCertKeys } from "../actions/certKeysAction";
-import { readFiles, addFiles } from "../actions";
+import { readFiles, checkFiles } from "../actions";
 import { readRequests } from "../actions/requestAction";
 import { refreshStatusLicense } from "../actions/refreshStatusAction";
 import { addTempFilesForCryptoarmdDocuments } from "../actions/uploadFileToCryptoArmDocumtsAction";
 import { clearTempFiles } from "../actions/uploadFileToCryptoArmDocumtsAction";
+import { clearAllFilesinWorkspaceSign } from "../actions/workspaceAction";
 
 function mapStateToProps(state) {
 	return {
@@ -44,8 +47,9 @@ function mapStateToProps(state) {
 		files: state.files.files,
 		lastlog: state.logger.lastlog,
 		containers: state.containers.containers,
+		loadContainers: state.containers.loader,
 		statusLicense: state.statusLicense.status,
-		tempFiles: state.tempFiles.files
+		tempFiles: state.tempFiles.tempFiles
 	};
 }
 
@@ -57,8 +61,9 @@ function mapDispatchToProps(dispatch) {
 		readRequests: bindActionCreators(readRequests, dispatch),
 		refreshStatusLicense: bindActionCreators(refreshStatusLicense, dispatch),
 		addTempFilesForCryptoarmdDocuments: bindActionCreators(addTempFilesForCryptoarmdDocuments, dispatch),
-		addFiles: bindActionCreators(addFiles, dispatch),
-		clearTempFiles: bindActionCreators(clearTempFiles, dispatch)
+		checkFiles: bindActionCreators(checkFiles, dispatch),
+		clearTempFiles: bindActionCreators(clearTempFiles, dispatch),
+		clearAllFilesinWorkspaceSign: bindActionCreators(clearAllFilesinWorkspaceSign, dispatch)
 	};
 }
 
@@ -67,6 +72,7 @@ interface MainProps {
 	files: any;
 	certificates: any;
 	containers: any;
+	loadContainers: boolean;
 	lastlog: any;
 	workspaceEnc: any;
 	workspaceSign: any;
@@ -77,9 +83,16 @@ interface MainProps {
 	getProviders(): any;
 	readRequests(): any;
 	refreshStatusLicense(): any;
-	addTempFilesForCryptoarmdDocuments(name: string, id: number, uploadurl: string): void;
+	addTempFilesForCryptoarmdDocuments(name: string, id: number, uploadurl: string, href: string): void;
 	clearTempFiles(tempFiles: object): void;
-	addFiles(uri: string, fileName: string, workspace: string): void;
+	clearAllFilesinWorkspaceSign(): void;
+	checkFiles(uri: string, fileName: string, workspace: string): void;
+}
+
+interface MainState {
+	modalWarning: boolean;
+	url: string;
+	href: string;
 }
 
 const options = {
@@ -87,11 +100,12 @@ const options = {
 };
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
-class Main extends React.Component<MainProps> {
+class Main extends React.Component<MainProps, MainState> {
 
 	state = {
 		modalWarning: false,
-		url: null
+		url: null,
+		href: null
 	};
 
 	setModalVisible(visible) {
@@ -103,7 +117,8 @@ class Main extends React.Component<MainProps> {
 	}
 
 	_handleOpenURL = (event) => {
-		this.setState({ modalWarning: true, url: event.url });
+		let param = url.parse(event.url, true);
+		this.setState({ modalWarning: true, url: event.url, href: param.query.href });
 	}
 
 	componentDidMount() {
@@ -116,9 +131,10 @@ class Main extends React.Component<MainProps> {
 		this.props.clearTempFiles(this.props.tempFiles);
 		// window.open("cryptoarmgost://" + "?id=" + ids + "?url=" + JSON.parse(d.docsToSign)[0].url + "?filename=" + JSON.parse(d.docsToSign)[0].name + "?uploadurl=" + AJAX_CONTROLLER + '?command=upload');
 
-		Linking.getInitialURL().then((url) => {
-			if (url) {
-				this.setState({ modalWarning: true, url });
+		Linking.getInitialURL().then((url_string) => {
+			if (url_string) {
+				let param = url.parse(url_string, true);
+				this.setState({ modalWarning: true, href: param.query.href, url: url_string });
 			}
 		}).catch(err => console.error("An error occurred", err));
 	}
@@ -130,7 +146,12 @@ class Main extends React.Component<MainProps> {
 		let lengthSign = "выбрано файлов: " + workspaceSign.length;
 		let lengthEnc = "выбрано файлов: " + workspaceEnc.length;
 		let persCert = "личных сертификатов: " + certificates.filter(cert => cert.category.toUpperCase() === "MY").length;
-		let lengthContainers = "количество контейнеров: " + containers.length;
+		let lengthContainers;
+		if (this.props.loadContainers) {
+			lengthContainers = "считывание контейнеров";
+		} else {
+			lengthContainers = "количество контейнеров: " + containers.length;
+		}
 		let lastlognote = lastlog ? "последняя запись: " + new Date(lastlog).toLocaleString("ru", options) : "действий не совершалось";
 
 		return (
@@ -185,7 +206,7 @@ class Main extends React.Component<MainProps> {
 											if (/chrome/.test(this.state.url)) {
 												Linking.openURL("googlechrome://");
 											} else {
-												Linking.openURL("https://license.trusted.ru/bitrix/admin/trusted_cryptoarm_docs.php");
+												Linking.openURL(this.state.href);
 											}
 										}}>
 										<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Нет</Text>
@@ -194,7 +215,7 @@ class Main extends React.Component<MainProps> {
 										style={styles.modalMain}
 										onPress={() => {
 											this.setState({ modalWarning: false });
-											takeUrl(this.state.url, this.props.addTempFilesForCryptoarmdDocuments, this.props.addFiles, this.props.navigation.navigate);
+											takeUrl(this.state.url, this.props.addTempFilesForCryptoarmdDocuments, this.props.checkFiles, this.props.navigation.navigate, this.props.clearAllFilesinWorkspaceSign);
 										}}>
 										<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Да</Text>
 									</Button>
@@ -229,6 +250,7 @@ export const App = createStackNavigator({
 	AboutSignCert: { screen: AboutSignCert },
 	NotSelectedDocuments: { screen: NotSelectedDocuments },
 	FilterJournal: { screen: FilterJournal },
+	SignForCryptoArmDoc: { screen: SignForCryptoArmDoc },
 	AboutAllSignCert: {
 		screen: AboutAllSignCert,
 		path: "verify"

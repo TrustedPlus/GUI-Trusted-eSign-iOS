@@ -13,7 +13,7 @@ import { readFiles } from "../actions";
 import * as Modal from "react-native-modalbox";
 import { styles } from "../styles";
 import { clearOriginalFileInWorkspaceSign } from "../actions/workspaceAction";
-import { tempFiles } from "../reducers/uploadFileToCryptoArmDocumtsReducer";
+import { tempFilesFunction } from "../reducers/uploadFileToCryptoArmDocumtsReducer";
 import { AlertIOS } from "react-native";
 
 function mapDispatchToProps(dispatch) {
@@ -31,7 +31,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return {
-		tempFiles: state.tempFiles.files
+		tempFiles: state.tempFiles.tempFiles
 	};
 }
 
@@ -74,8 +74,8 @@ interface FooterSignProps {
 	personalCert?: IPersonalCert;
 	modalView?: Function;
 	navigate?: any;
-	tempFiles?: object;
-	modalSuccessUpload?(isSuccess, browser): void;
+	tempFiles?: any;
+	modalSuccessUpload?(isSuccess, browser, href): void;
 	clearselectedFiles?(num);
 	clearOriginalFileInWorkspaceSign?(name, extensionAll);
 	readFiles?(): void;
@@ -134,7 +134,7 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 		//
 		return (
 			<>
-				<Footer>
+				<Footer style={{position: "absolute", bottom: 0}}>
 					<FooterTab>
 						{this.state.modalMore
 							? <View style={[styles.modalMore, styles.modalMore4]}>
@@ -175,11 +175,11 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							img={require("../../imgs/ios/sign.png")}
 							nav={() => {
 								allIsSign === "sig"
-									? signFile(files, personalCert, footer, null, null, (num) => this.props.clearselectedFiles(num), this.props.tempFiles, navigate, (isSuccess, browser) => this.props.modalSuccessUpload(isSuccess, browser))
+									? signFile(files, personalCert, footer, null, null, (num) => this.props.clearselectedFiles(num), this.props.tempFiles, navigate, (isSuccess, browser, href) => this.props.modalSuccessUpload(isSuccess, browser, href))
 									: this.setState({ modalSign: true });
 							}} />
 						<FooterButton title="Свойства" disabled={numSelectedFilesIsOne ? allIsSign === "sig" ? false : true : true} img={require("../../imgs/ios/view_sign.png")} nav={() => getSignInfo(files, footer, navigate)} />
-						<FooterButton title="Больше" disabled={this.props.tempFiles[0].name === null ? false : true} icon="ios-more" nav={() => this.setState({ modalMore: !this.state.modalMore })} />
+						<FooterButton title="Больше" disabled={this.props.tempFiles.arrFiles === null ? false : true} icon="ios-more" nav={() => this.setState({ modalMore: !this.state.modalMore })} />
 					</FooterTab>
 				</Footer>
 				<Modal
@@ -205,12 +205,15 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							defaultValue={this.state.signature}
 							changeValue={(value) => this.setState({ signature: value })}
 							options={[{ value: "BASE-64" }, { value: "DER" }]} />
-						<ListWithSwitch text="Сохранить подпись отдельно" value={this.state.detached} changeValue={() => this.setState({ detached: !this.state.detached })} />
+						<ListWithSwitch text="Сохранить подпись отдельно"
+							disabled={this.props.tempFiles.arrFiles === null ? false : true}
+							value={this.state.detached}
+							changeValue={() => this.setState({ detached: !this.state.detached })} />
 						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
 							<Button transparent style={styles.modalMain} onPress={() => this.setState({ modalSign: false })}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
 							</Button>
-							<Button transparent style={styles.modalMain} onPress={() => { this.setState({ modalSign: false }); signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num), this.props.tempFiles, navigate, (isSuccess, browser) => this.props.modalSuccessUpload(isSuccess, browser)); }}>
+							<Button transparent style={styles.modalMain} onPress={() => { this.setState({ modalSign: false }); signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num), this.props.tempFiles, navigate, (isSuccess, browser, href) => this.props.modalSuccessUpload(isSuccess, browser, href)); }}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>
 							</Button>
 						</View>

@@ -122,7 +122,8 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 											}
 											dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll), err });
 										} else {
-											if (files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll === tempFiles[0].name) {
+											let indexFile = tempFiles.arrFiles ? tempFiles.arrFiles.findIndex(file => file.filename === (files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll))) : -1;
+											if (indexFile !== -1) {
 												NativeModules.Wrap_Signer.getSignInfo(
 													"",
 													path,
@@ -143,30 +144,33 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 																issuerName: verify[i].issuerName
 															});
 														}
-
 														data.append("signers", JSON.stringify(signers));
-														data.append("extra", null);
-														data.append("id", tempFiles[0].id);
+														if (tempFiles.extra === null) {
+															data.append("extra", null);
+														} else {
+															data.append("extra", JSON.stringify({ role: tempFiles.extra }));
+														}
+														data.append("extra", JSON.stringify({ role: tempFiles.extra }));
+														data.append("id", tempFiles.arrFiles[indexFile].id);
 														(data as any).append("file", {
-															uri: RNFS.DocumentDirectoryPath + "/Files/" + tempFiles[0].name,
+															uri: RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[indexFile].filename,
 															type: null, // or photo.type
-															name: tempFiles[0].name
+															name: tempFiles.arrFiles[indexFile].filename
 														});
-														fetch(tempFiles[0].uploadurl + "?command=upload", {
+														fetch(tempFiles.uploadurl + "?command=upload", {
 															method: "post",
 															body: data
 														}).then((res: any) => {
 															console.log(res);
 															let result = JSON.parse(res._bodyInit);
-															let chrome = tempFiles[0].chrome;
-															RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles[0].name).then(
+															RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[indexFile].filename).then(
 																() => {
 																	dispatch(readFiles());
 																	dispatch(clearAllFilesinWorkspaceSign());
-																	dispatch(addTempFilesForCryptoarmdDocuments(null, null, null, null));
+																	dispatch(addTempFilesForCryptoarmdDocuments(null, null, null, null, null));
 																}
 															);
-															isSuccessUpload(result.success, chrome);
+															isSuccessUpload(result.success, tempFiles.chrome, tempFiles.href);
 														}).catch(
 															err => {
 																debugger;
@@ -274,10 +278,15 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 									}
 									dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll), err });
 								} else {
-									if (files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll) === tempFiles[0].name) {
+									let indexFile = tempFiles.arrFiles ? tempFiles.arrFiles.findIndex(file => file.filename === (files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll))) : -1;
+									if (indexFile !== -1) {
 										const data = new FormData();
-										data.append("extra", null);
-										data.append("id", tempFiles[0].id);
+										if (tempFiles.extra === null) {
+											data.append("extra", null);
+										} else {
+											data.append("extra", JSON.stringify({ role: tempFiles.extra }));
+										}
+										data.append("id", tempFiles.arrFiles[indexFile].id);
 										data.append("signers", JSON.stringify({
 											subjectFriendlyName: personalCert.cert.subjectFriendlyName,
 											issuerFriendlyName: personalCert.cert.issuerFriendlyName,
@@ -289,41 +298,25 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 											issuerName: personalCert.cert.issuerName
 										}));
 										(data as any).append("file", {
-											uri: RNFS.DocumentDirectoryPath + "/Files/" + tempFiles[0].name + ".sig",
+											uri: RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[indexFile].filename + ".sig",
 											type: null, // or photo.type
-											name: tempFiles[0].name
+											name: tempFiles.arrFiles[indexFile].filename
 										});
-										fetch(tempFiles[0].uploadurl + "?command=upload", {
+										fetch(tempFiles.uploadurl + "?command=upload", {
 											method: "post",
 											body: data
 										}).then((res: any) => {
 											console.log(res);
 											let result = JSON.parse(res._bodyInit);
-											let flag = 0;
-											RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles[0].name).then(
-												() => {
-													if (flag) {
-														dispatch(readFiles());
-														dispatch(clearAllFilesinWorkspaceSign());
-														addTempFilesForCryptoarmdDocuments(null, null, null, null);
-													} else {
-														flag = 1;
-													}
-												}
-											);
-											RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles[0].name + ".sig").then(
-												() => {
-													if (flag) {
-														dispatch(readFiles());
-														dispatch(clearAllFilesinWorkspaceSign());
-														dispatch(addTempFilesForCryptoarmdDocuments(null, null, null, null));
-													} else {
-														flag = 1;
-													}
-												}
-											);
+											let deleteFileOriginal = RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[indexFile].filename);
+											let deleteFileSigned = RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[indexFile].filename + ".sig");
+											Promise.all([deleteFileOriginal, deleteFileSigned]).then(() => {
+												dispatch(readFiles());
+												dispatch(clearAllFilesinWorkspaceSign());
+												dispatch(addTempFilesForCryptoarmdDocuments(null, null, null, null, null));
+											});
 											if (result.success) {
-												isSuccessUpload(result.success);
+												isSuccessUpload(result.success, tempFiles.chrome, tempFiles.href);
 												/*if (tempFiles[0].chrome) {
 													Linking.openURL("googlechrome://");
 												} else {

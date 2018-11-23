@@ -9,6 +9,7 @@ RCT_EXPORT_MODULE();
  */
 RCT_EXPORT_METHOD(init: (NSString *)path: (RCTResponseSenderBlock)callback) {
   try{
+    
 #ifdef ProvOpenSSL
       char *pPath = (char *) [path UTF8String];
       [ossl_Main init:pPath];
@@ -99,7 +100,7 @@ RCT_EXPORT_METHOD(getContainers: (NSInteger)nsType: (NSString *)nsName: (RCTResp
     
     TrustedHandle<std::string> hName = new std::string(name);
     
-    std::vector<TrustedHandle<ContainerName>> providerContainers = [csp_Store enumContainers:type :hName];
+    std::vector<TrustedHandle<ContainerName> > providerContainers = [csp_Store enumContainers:type :hName];
     
     NSMutableArray *arrayContainers = [NSMutableArray array];
     for (int i = 0; i < providerContainers.size(); i++) {

@@ -6,7 +6,8 @@ import {
 	ENCODE_FILES, ENCODE_FILES_END, DECODE_FILES, DECODE_FILES_END,
 	UPLOAD_FILES, UPLOAD_FILES_END, DELETE_FILES, DELETE_FILES_END,
 	CLEAR_FILES, FETCHING_SIGN_TRUE, FETCHING_SIGN_FALSE, FETCHING_ENC_TRUE, FETCHING_ENC_FALSE,
-	FETCHING_DOC_TRUE, FETCHING_DOC_FALSE
+	FETCHING_DOC_TRUE, FETCHING_DOC_FALSE,
+	VERIFY_SIGN_FILES_CRYPTOARMDOC_SUCCESS, VERIFY_SIGN_FILES_CRYPTOARMDOC_ERROR
 } from "../constants";
 
 const initialState = {
@@ -39,12 +40,6 @@ function verySignError(oldFiles, action) {
 
 export function Files(state = initialState, action) {
 	switch (action.type) {
-		case VERIFY_SIGN:
-			return {
-				...state,
-				isFetchingSign: true,
-				isFetching: true
-			};
 		case VERIFY_SIGN:
 			return {
 				...state,
@@ -152,6 +147,8 @@ export function Files(state = initialState, action) {
 				files: verySignError(state.files.concat(), action)
 			};
 		case VERIFY_SIGN_END:
+		case VERIFY_SIGN_FILES_CRYPTOARMDOC_SUCCESS:
+		case VERIFY_SIGN_FILES_CRYPTOARMDOC_ERROR:
 			return {
 				...state,
 				files: state.files,

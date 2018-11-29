@@ -182,6 +182,12 @@ export const styles = StyleSheet.create({
 		borderRadius: 0
 	},
 
+	buttonModal: {
+		fontSize: 15,
+		textAlign: "center",
+		color: "black"
+	},
+
 	// FooterSignModal
 	modalMore: {
 		position: "absolute",

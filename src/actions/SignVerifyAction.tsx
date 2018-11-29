@@ -14,13 +14,11 @@ import {
 import { addSingleFileInWorkspaceSign, clearOriginalFileInWorkspaceSign, clearAllFilesinWorkspaceEnc } from "./workspaceAction";
 
 interface IFile {
-	date: string;
-	time: string;
-	month: string;
-	year: string;
+	mtime: Date;
 	extension: string;
 	extensionAll: string;
 	name: string;
+	verify: number;
 }
 
 interface IPersonalCert {
@@ -49,7 +47,7 @@ interface IPersonalCert {
 	img: string;
 }
 
-export function signFile(files: IFile[], personalCert: IPersonalCert, footer, detached, signature, clearselectedFiles, tempFiles, navigate, isSuccessUpload) {
+export function signFile(files: IFile[], personalCert: IPersonalCert, footer, detached, signature, clearselectedFiles) {
 	return function action(dispatch) {
 		dispatch({ type: SIGN_FILE });
 		let lengthError = 0;
@@ -72,7 +70,7 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 							if (err) {
 								showToastDanger(err);
 								arrDeletedFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
-								arrAddFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, date: files[footer.arrButton[i]].date, month: files[footer.arrButton[i]].month, year: files[footer.arrButton[i]].year, time: files[footer.arrButton[i]].time, verify: 0 });
+								arrAddFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, mtime: files[footer.arrButton[i]].mtime, verify: 0 });
 								if (i === footer.arrButton.length - 1) {
 									for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
 										dispatch(clearOriginalFileInWorkspaceSign(arrDeletedFilesInWorkspacwSign[i].name, arrDeletedFilesInWorkspacwSign[i].extensionAll));
@@ -97,7 +95,7 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 											lengthError++;
 											clearselectedFiles(footer.arrButton[i]);
 											arrDeletedFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
-											arrAddFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, date: files[footer.arrButton[i]].date, month: files[footer.arrButton[i]].month, year: files[footer.arrButton[i]].year, time: files[footer.arrButton[i]].time, verify: 0 });
+											arrAddFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, mtime: files[footer.arrButton[i]].mtime, verify: 0 });
 											if (i === footer.arrButton.length - 1) {
 												for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
 													dispatch(clearOriginalFileInWorkspaceSign(arrDeletedFilesInWorkspacwSign[i].name, arrDeletedFilesInWorkspacwSign[i].extensionAll));
@@ -122,64 +120,6 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 											}
 											dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll), err });
 										} else {
-											let indexFile = tempFiles.arrFiles ? tempFiles.arrFiles.findIndex(file => file.filename === (files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll))) : -1;
-											if (indexFile !== -1) {
-												NativeModules.Wrap_Signer.getSignInfo(
-													"",
-													path,
-													encoding,
-													false,
-													(err, verify) => {
-														const data = new FormData();
-														let signers = [];
-														for (let i = 0; i < verify.length; i++) {
-															signers.push({
-																subjectFriendlyName: verify[i].subjectFriendlyName,
-																issuerFriendlyName: verify[i].issuerFriendlyName,
-																notBefore: verify[i].notBefore,
-																notAfter: verify[i].notAfter,
-																digestAlgorithm: verify[i].signatureAlgorithm,
-																signingTime: new Date(verify[i].signingTime).getTime(),
-																subjectName: verify[i].subjectName,
-																issuerName: verify[i].issuerName
-															});
-														}
-														data.append("signers", JSON.stringify(signers));
-														if (tempFiles.extra === null) {
-															data.append("extra", null);
-														} else {
-															data.append("extra", JSON.stringify({ role: tempFiles.extra }));
-														}
-														data.append("extra", JSON.stringify({ role: tempFiles.extra }));
-														data.append("id", tempFiles.arrFiles[indexFile].id);
-														(data as any).append("file", {
-															uri: RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[indexFile].filename,
-															type: null, // or photo.type
-															name: tempFiles.arrFiles[indexFile].filename
-														});
-														fetch(tempFiles.uploadurl + "?command=upload", {
-															method: "post",
-															body: data
-														}).then((res: any) => {
-															console.log(res);
-															let result = JSON.parse(res._bodyInit);
-															RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[indexFile].filename).then(
-																() => {
-																	dispatch(readFiles());
-																	dispatch(clearAllFilesinWorkspaceSign());
-																	dispatch(addTempFilesForCryptoarmdDocuments(null, null, null, null, null));
-																}
-															);
-															isSuccessUpload(result.success, tempFiles.chrome, tempFiles.href);
-														}).catch(
-															err => {
-																debugger;
-															}
-														);
-													}
-												);
-											}
-
 											const request = RNFS.stat(path);
 											request.then(
 												response => {
@@ -189,26 +129,7 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 													const extensionAll = files[footer.arrButton[i]].extensionAll;
 													const extension = "sig";
 													const mtime: any = response.mtime;
-													const date = mtime.getDate();
-													let month = mtime.getMonth();
-													switch (month) {
-														case 0: month = "января"; break;
-														case 1: month = "февраля"; break;
-														case 2: month = "марта"; break;
-														case 3: month = "апреля"; break;
-														case 4: month = "мая"; break;
-														case 5: month = "июня"; break;
-														case 6: month = "июля"; break;
-														case 7: month = "августа"; break;
-														case 8: month = "сентября"; break;
-														case 9: month = "октября"; break;
-														case 10: month = "ноября"; break;
-														case 11: month = "декабря"; break;
-														default: break;
-													}
-													const year = mtime.getFullYear();
-													const time = mtime.toLocaleTimeString();
-													filearr = { name, extension, extensionAll, date, month, year, time, verify };
+													filearr = { name, extension, extensionAll, mtime, verify };
 													dispatch(addSingleFileInWorkspaceSign(filearr));
 													if (i === footer.arrButton.length - 1) {
 														for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
@@ -260,7 +181,7 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 								if (err) {
 									lengthError++;
 									arrDeletedFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
-									arrAddFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, date: files[footer.arrButton[i]].date, month: files[footer.arrButton[i]].month, year: files[footer.arrButton[i]].year, time: files[footer.arrButton[i]].time, verify: 0 });
+									arrAddFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, mtime: files[footer.arrButton[i]].mtime, verify: 0 });
 									if (i === footer.arrButton.length - 1) {
 										for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
 											dispatch(clearOriginalFileInWorkspaceSign(arrDeletedFilesInWorkspacwSign[i].name, arrDeletedFilesInWorkspacwSign[i].extensionAll));
@@ -278,53 +199,6 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 									}
 									dispatch({ type: SIGN_FILE_ERROR, payload: files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll), err });
 								} else {
-									let indexFile = tempFiles.arrFiles ? tempFiles.arrFiles.findIndex(file => file.filename === (files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll))) : -1;
-									if (indexFile !== -1) {
-										const data = new FormData();
-										if (tempFiles.extra === null) {
-											data.append("extra", null);
-										} else {
-											data.append("extra", JSON.stringify({ role: tempFiles.extra }));
-										}
-										data.append("id", tempFiles.arrFiles[indexFile].id);
-										data.append("signers", JSON.stringify({
-											subjectFriendlyName: personalCert.cert.subjectFriendlyName,
-											issuerFriendlyName: personalCert.cert.issuerFriendlyName,
-											notBefore: personalCert.cert.notBefore,
-											notAfter: personalCert.cert.notAfter,
-											digestAlgorithm: personalCert.cert.signatureAlgorithm,
-											signingTime: new Date().getTime(),
-											subjectName: personalCert.cert.subjectName,
-											issuerName: personalCert.cert.issuerName
-										}));
-										(data as any).append("file", {
-											uri: RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[indexFile].filename + ".sig",
-											type: null, // or photo.type
-											name: tempFiles.arrFiles[indexFile].filename
-										});
-										fetch(tempFiles.uploadurl + "?command=upload", {
-											method: "post",
-											body: data
-										}).then((res: any) => {
-											console.log(res);
-											let result = JSON.parse(res._bodyInit);
-											let deleteFileOriginal = RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[indexFile].filename);
-											let deleteFileSigned = RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[indexFile].filename + ".sig");
-											Promise.all([deleteFileOriginal, deleteFileSigned]).then(() => {
-												dispatch(readFiles());
-												dispatch(clearAllFilesinWorkspaceSign());
-												dispatch(addTempFilesForCryptoarmdDocuments(null, null, null, null, null));
-											});
-											if (result.success) {
-												isSuccessUpload(result.success, tempFiles.chrome, tempFiles.href);
-												/*if (tempFiles[0].chrome) {
-													Linking.openURL("googlechrome://");
-												} else {
-													Linking.openURL("https://license.trusted.ru/bitrix/admin/trusted_cryptoarm_docs.php");
-												} */
-											}
-										});
-									}
 									/*RNFS.copyFile(path + ".sig", "/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/" + files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll + ".sig").then(
 										success => {
 											console.log(success);
@@ -349,26 +223,7 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 											const extensionAll = files[footer.arrButton[i]].extensionAll === "" ? "sig" : files[footer.arrButton[i]].extensionAll + ".sig";
 											const extension = "sig";
 											const mtime: any = response.mtime;
-											const date = mtime.getDate();
-											let month = mtime.getMonth();
-											switch (month) {
-												case 0: month = "января"; break;
-												case 1: month = "февраля"; break;
-												case 2: month = "марта"; break;
-												case 3: month = "апреля"; break;
-												case 4: month = "мая"; break;
-												case 5: month = "июня"; break;
-												case 6: month = "июля"; break;
-												case 7: month = "августа"; break;
-												case 8: month = "сентября"; break;
-												case 9: month = "октября"; break;
-												case 10: month = "ноября"; break;
-												case 11: month = "декабря"; break;
-												default: break;
-											}
-											const year = mtime.getFullYear();
-											const time = mtime.toLocaleTimeString();
-											filearr = { name, extension, extensionAll, date, month, year, time, verify };
+											filearr = { name, extension, extensionAll, mtime, verify };
 											dispatch(addSingleFileInWorkspaceSign(filearr));
 											arrDeletedFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
 											if (i === footer.arrButton.length - 1) {
@@ -502,7 +357,7 @@ export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 									if (err) {
 										showToastDanger("Открепленная подпись. При снятии подписи произошла ошибка.");
 										arrDeletedFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
-										arrAddFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, date: files[footer.arrButton[i]].date, month: files[footer.arrButton[i]].month, year: files[footer.arrButton[i]].year, time: files[footer.arrButton[i]].time, verify: 0 });
+										arrAddFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, mtime: files[footer.arrButton[i]].mtime, verify: 0 });
 										if (i === footer.arrButton.length - 1) {
 											for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
 												dispatch(clearOriginalFileInWorkspaceSign(arrDeletedFilesInWorkspacwSign[i].name, arrDeletedFilesInWorkspacwSign[i].extensionAll));
@@ -525,26 +380,7 @@ export function UnSignFile(files: IFile[], footer, clearselectedFiles) {
 												const point = extensionAll.lastIndexOf(".");
 												const extension = extensionAll.substring(point + 1);
 												const mtime: any = response.mtime;
-												const date = mtime.getDate();
-												let month = mtime.getMonth();
-												switch (month) {
-													case 0: month = "января"; break;
-													case 1: month = "февраля"; break;
-													case 2: month = "марта"; break;
-													case 3: month = "апреля"; break;
-													case 4: month = "мая"; break;
-													case 5: month = "июня"; break;
-													case 6: month = "июля"; break;
-													case 7: month = "августа"; break;
-													case 8: month = "сентября"; break;
-													case 9: month = "октября"; break;
-													case 10: month = "ноября"; break;
-													case 11: month = "декабря"; break;
-													default: break;
-												}
-												const year = mtime.getFullYear();
-												const time = mtime.toLocaleTimeString();
-												filearr = { name, extension, extensionAll, date, month, year, time, verify };
+												filearr = { name, extension, extensionAll, mtime, verify };
 												dispatch(addSingleFileInWorkspaceSign(filearr));
 												arrDeletedFilesInWorkspacwSign.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
 												if (i === footer.arrButton.length - 1) {

@@ -18,8 +18,7 @@ function mapStateToProps(state) {
 	return {
 		personalCert: state.personalCert,
 		files: state.workspaceSign.files,
-		isFetching: state.files.isFetchingSign,
-		tempFiles: state.tempFiles.tempFiles
+		isFetching: state.files.isFetchingSign
 	};
 }
 
@@ -57,13 +56,10 @@ interface IPersonalCert {
 }
 
 interface IFile {
+	mtime: Date;
 	extension: string;
 	extensionAll: string;
 	name: string;
-	date: string;
-	month: string;
-	year: string;
-	time: string;
 	verify: number;
 }
 
@@ -72,7 +68,6 @@ interface SignatureProps {
 	personalCert: IPersonalCert;
 	files: IFile[];
 	isFetching: boolean;
-	tempFiles: any;
 	readCertKeys(): void;
 	checkFiles(res: object, workspace: string): void;
 }
@@ -85,15 +80,16 @@ interface ISelectedFiles {
 interface SignatureState {
 	selectedFiles?: ISelectedFiles;
 	activeFiles?: boolean;
-	isSuccess: boolean;
-	href: string;
-	chrome: string;
-	modalWarning: boolean;
 }
 
 interface IModals {
 	basicModal: Modal.default;
 }
+
+const options = {
+	year: "numeric", month: "long", day: "numeric",
+	hour: "numeric", minute: "numeric", second: "numeric"
+};
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Signature extends React.Component<SignatureProps, SignatureState> {
@@ -110,10 +106,6 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 				arrExtension: this.props.navigation.state.params.selectedFiles ? this.props.navigation.state.params.selectedFiles.arrExtension : [],
 			},
 			activeFiles: this.props.navigation.state.params.selectedFiles ? true : false,
-			isSuccess: false,
-			modalWarning: false,
-			href: "",
-			chrome: "",
 		};
 		this.props.navigation.state.key = "HomeSign";
 	}
@@ -144,13 +136,12 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 	showList(img) {
 		return (
 			this.props.files.map((file, key) => <ListMenu
-				key={key + file.time}
+				key={key + new Date(file.mtime).toLocaleString("ru", options)}
 				title={file.name + (file.extensionAll === "" ? "" : "." + file.extensionAll)}
-				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
+				note={new Date(file.mtime).toLocaleString("ru", options)}
 				img={img[key]}
 				checkbox
-				active={this.state.activeFiles ? true : this.props.tempFiles.arrFiles === null ? false : true}
-				nonClicked={this.props.tempFiles.arrFiles === null ? false : true}
+				active={this.state.activeFiles ? true : false}
 				nav={() => {
 					const newSelectedFiles = this.changeSelectedRequests(this.state.selectedFiles, key, file.extension);
 					this.setState({ selectedFiles: { arrNum: newSelectedFiles.arrNum, arrExtension: newSelectedFiles.arrExtension } });
@@ -227,7 +218,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 		}
 		return (
 			<Container style={styles.container}>
-				<Headers title="Подпись" goBack={this.props.tempFiles.arrFiles === null ? () => goBack() : null} />
+				<Headers title="Подпись" goBack={() => goBack()} />
 				<View style={styles.sign_enc_view}>
 					<Text style={styles.sign_enc_title}>Сертификат подписи</Text>
 					<Button transparent onPressIn={() => { readCertKeys(); navigate("SelectPersonalСert", { isCertInContainers: true }); }} style={styles.sign_enc_button}>
@@ -239,11 +230,9 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 					<Text style={styles.sign_enc_title}>Файлы</Text>
 					{selectFilesView}
 					{
-						this.props.tempFiles.arrFiles === null
-							? <Button transparent style={styles.sign_enc_button} onPressIn={() => this.modals.basicModal.open()}>
-								<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
-							</Button>
-							: null
+						<Button transparent style={styles.sign_enc_button} onPressIn={() => this.modals.basicModal.open()}>
+							<Image style={styles.headerImage} source={require("../../imgs/general/add_icon.png")} />
+						</Button>
 					}
 				</View>
 				{filesView}
@@ -292,55 +281,12 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 						</View>
 					</View>
 				</Modal>
-				<Modal
-					isOpen={this.state.modalWarning}
-					style={[styles.modal, {
-						height: "auto",
-						width: 300,
-						backgroundColor: "white",
-					}]}
-					backdropPressToClose={false}
-					position={"center"}
-					swipeToClose={false}>
-					<View style={{ width: "100%" }}>
-						<Header
-							style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
-							<Title>
-								<Text style={{
-									color: "white",
-									fontSize: 15
-								}}>Подтверждение операции</Text>
-							</Title>
-						</Header>
-						<Text style={{ fontSize: 17, padding: 5 }}>
-							{
-								this.state.isSuccess
-									? "Файл успешно подписан и отправлен. Подтвердите операцию перехода на сторонний ресурс"
-									: "Ошибка при выполнении операции. Повторите операцию на сторонний ресурсе. Подтвердите операцию перехода на сторонний ресурс"
-							}
-						</Text>
-						<View>
-							<Button transparent style={[styles.modalMain, { width: "100%" }]} onPress={() => {
-								this.setState({ modalWarning: false });
-								if (this.state.chrome === "chrome") {
-									Linking.openURL("googlechrome://");
-								} else {
-									Linking.openURL(this.state.href);
-								}
-								this.props.navigation.navigate("Main");
-							}}>
-								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Подтверить</Text>
-							</Button>
-						</View>
-					</View>
-				</Modal>
 				{this.state.selectedFiles.arrNum.length && !isFetching
 					? <FooterSign
 						files={files}
 						personalCert={personalCert}
 						footer={{ arrButton: this.state.selectedFiles.arrNum, arrExtension: this.state.selectedFiles.arrExtension }}
 						navigate={navigate}
-						modalSuccessUpload={(isSuccess, browser, href) => { this.setState({ isSuccess, href, chrome: browser, modalWarning: true }); }}
 						clearselectedFiles={() => this.clearselectedFiles()} />
 					: null}
 			</Container>
@@ -359,7 +305,7 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 			}
 		}
 		if (this.state.activeFiles) {
-			this.setState({activeFiles: false});
+			this.setState({ activeFiles: false });
 		}
 	}
 }

@@ -35,13 +35,10 @@ interface ISelectedFiles {
 }
 
 interface IFile {
+	mtime: Date;
 	extension: string;
 	extensionAll: string;
 	name: string;
-	date: string;
-	month: string;
-	year: string;
-	time: string;
 	verify: number;
 }
 
@@ -58,6 +55,11 @@ interface DocumentsState {
 	selectedFiles?: ISelectedFiles;
 	loadingDocuments?: boolean;
 }
+
+const options = {
+	year: "numeric", month: "long", day: "numeric",
+	hour: "numeric", minute: "numeric", second: "numeric"
+};
 
 @(connect(mapStateToProps, mapDispatchToProps) as any)
 export class Documents extends React.Component<DocumentsProps, DocumentsState> {
@@ -178,9 +180,9 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 	showList(img) {
 		return (
 			this.props.files.map((file, key) => <ListMenu
-				key={key + file.time}
+				key={key + new Date(file.mtime).toLocaleString("ru", options)}
 				title={file.name + (file.extensionAll === "" ? "" : "." + file.extensionAll)}
-				note={file.date + " " + file.month + " " + file.year + ", " + file.time}
+				note={new Date(file.mtime).toLocaleString("ru", options)}
 				checkbox
 				img={img[key]}
 				nav={() => {

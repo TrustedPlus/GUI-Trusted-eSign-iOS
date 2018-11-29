@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Footer, FooterTab, Text, View, ListItem, Header, Title, Button } from "native-base";
+import { Footer, FooterTab, Text, View, ListItem, Header, Title, Button, Left, Right, CheckBox } from "native-base";
 import { FooterButton } from "../components/FooterButton";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
 import { ListWithSwitch } from "../components/ListWithSwitch";
@@ -29,17 +29,12 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-function mapStateToProps(state) {
-	return {
-		tempFiles: state.tempFiles.tempFiles
-	};
-}
-
 interface IFile {
-	mtime: string;
+	mtime: Date;
 	extension: string;
-	extensionAll?: string;
+	extensionAll: string;
 	name: string;
+	verify: number;
 }
 
 interface IPersonalCert {
@@ -74,12 +69,11 @@ interface FooterSignProps {
 	personalCert?: IPersonalCert;
 	modalView?: Function;
 	navigate?: any;
-	tempFiles?: any;
 	modalSuccessUpload?(isSuccess, browser, href): void;
 	clearselectedFiles?(num);
 	clearOriginalFileInWorkspaceSign?(name, extensionAll);
 	readFiles?(): void;
-	signFile?(files: IFile[], personalCert: IPersonalCert, footer: string[], detached: boolean, signature: string, clearselectedFiles: Function, tempFiles: object, navigate: void, isSuccessUpload: Function): void;
+	signFile?(files: IFile[], personalCert: IPersonalCert, footer: string[], detached: boolean, signature: string, clearselectedFiles: Function): void;
 	verifySign?(files: IFile[], footer: string[]): void;
 	UnSignFile?(files: IFile[], footer: string[], clearselectedFiles: Function): void;
 	uploadFile?(files: IFile[], footer: Object, refreshingFiles: Function, page: string): void;
@@ -88,6 +82,7 @@ interface FooterSignProps {
 }
 
 interface FooterSignState {
+	documents_viewed: boolean;
 	signature: string;
 	detached: boolean;
 	isSign: boolean;
@@ -95,7 +90,7 @@ interface FooterSignState {
 	modalSign: boolean;
 }
 
-@(connect(mapStateToProps, mapDispatchToProps) as any)
+@(connect(null, mapDispatchToProps) as any)
 export class FooterSign extends React.Component<FooterSignProps, FooterSignState> {
 
 	constructor(props) {
@@ -105,7 +100,8 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 			detached: false,
 			isSign: false,
 			modalMore: false,
-			modalSign: false
+			modalSign: false,
+			documents_viewed: false
 		};
 	}
 
@@ -134,7 +130,7 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 		//
 		return (
 			<>
-				<Footer style={{position: "absolute", bottom: 0}}>
+				<Footer style={{ position: "absolute", bottom: 0 }}>
 					<FooterTab>
 						{this.state.modalMore
 							? <View style={[styles.modalMore, styles.modalMore4]}>
@@ -175,11 +171,11 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							img={require("../../imgs/ios/sign.png")}
 							nav={() => {
 								allIsSign === "sig"
-									? signFile(files, personalCert, footer, null, null, (num) => this.props.clearselectedFiles(num), this.props.tempFiles, navigate, (isSuccess, browser, href) => this.props.modalSuccessUpload(isSuccess, browser, href))
+									? signFile(files, personalCert, footer, null, null, (num) => this.props.clearselectedFiles(num))
 									: this.setState({ modalSign: true });
 							}} />
 						<FooterButton title="Свойства" disabled={numSelectedFilesIsOne ? allIsSign === "sig" ? false : true : true} img={require("../../imgs/ios/view_sign.png")} nav={() => getSignInfo(files, footer, navigate)} />
-						<FooterButton title="Больше" disabled={this.props.tempFiles.arrFiles === null ? false : true} icon="ios-more" nav={() => this.setState({ modalMore: !this.state.modalMore })} />
+						<FooterButton title="Больше" icon="ios-more" nav={() => this.setState({ modalMore: !this.state.modalMore })} />
 					</FooterTab>
 				</Footer>
 				<Modal
@@ -206,15 +202,17 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							changeValue={(value) => this.setState({ signature: value })}
 							options={[{ value: "BASE-64" }, { value: "DER" }]} />
 						<ListWithSwitch text="Сохранить подпись отдельно"
-							disabled={this.props.tempFiles.arrFiles === null ? false : true}
 							value={this.state.detached}
 							changeValue={() => this.setState({ detached: !this.state.detached })} />
+						<ListWithSwitch text="Документы просмотрены перед их подписанием"
+							value={this.state.documents_viewed}
+							changeValue={() => this.setState({ documents_viewed: !this.state.documents_viewed })} />
 						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
 							<Button transparent style={styles.modalMain} onPress={() => this.setState({ modalSign: false })}>
-								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
+								<Text style={{ fontSize: 15, textAlign: "center", color: "black" }}>Отмена</Text>
 							</Button>
-							<Button transparent style={styles.modalMain} onPress={() => { this.setState({ modalSign: false }); signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num), this.props.tempFiles, navigate, (isSuccess, browser, href) => this.props.modalSuccessUpload(isSuccess, browser, href)); }}>
-								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>
+							<Button transparent disabled={!this.state.documents_viewed} style={styles.modalMain} onPress={() => { this.setState({ modalSign: false }); signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num)); }}>
+								<Text style={[{ fontSize: 15, textAlign: "center" }, this.state.documents_viewed ? { color: "black" } : null]}>Применить</Text>
 							</Button>
 						</View>
 					</View>

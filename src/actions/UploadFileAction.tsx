@@ -11,13 +11,11 @@ import { addSingleFileInWorkspaceSign, clearOriginalFileInWorkspaceSign, clearAl
 import { addSingleFileInWorkspaceEnc, clearOriginalFileInWorkspaceEnc, clearAllFilesinWorkspaceSign } from "./workspaceAction";
 
 interface IFile {
-	date: string;
-	time: string;
-	month: string;
-	year: string;
+	mtime: Date;
 	extension: string;
 	extensionAll: string;
 	name: string;
+	verify: number;
 }
 
 interface ISelectedFiles {
@@ -39,7 +37,7 @@ export function uploadFile(files: IFile[], selectedFiles: ISelectedFiles, refres
 			}
 			arrUrls.push(path);
 			arrAddFilesInWorkspace.push({ name: files[selectedFiles.arrNum[i]].name, extensionAll: files[selectedFiles.arrNum[i]].extensionAll });
-			arrDeletedFilesInWorkspae.push({ name: files[selectedFiles.arrNum[i]].name, extension: files[selectedFiles.arrNum[i]].extension, extensionAll: files[selectedFiles.arrNum[i]].extensionAll, date: files[selectedFiles.arrNum[i]].date, month: files[selectedFiles.arrNum[i]].month, year: files[selectedFiles.arrNum[i]].year, time: files[selectedFiles.arrNum[i]].time, verify: 0 });
+			arrDeletedFilesInWorkspae.push({ name: files[selectedFiles.arrNum[i]].name, extension: files[selectedFiles.arrNum[i]].extension, extensionAll: files[selectedFiles.arrNum[i]].extensionAll, mtime: files[selectedFiles.arrNum[i]].mtime, verify: 0 });
 		}
 		const shareOptions = {
 			urls: arrUrls,

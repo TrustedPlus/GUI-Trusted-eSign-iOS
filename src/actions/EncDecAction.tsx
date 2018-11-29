@@ -10,13 +10,11 @@ import {
 import { addSingleFileInWorkspaceEnc, clearOriginalFileInWorkspaceEnc, clearAllFilesinWorkspaceSign } from "./workspaceAction";
 
 interface IFile {
-	date: string;
-	time: string;
-	month: string;
-	year: string;
+	mtime: Date;
 	extension: string;
 	extensionAll: string;
 	name: string;
+	verify: number;
 }
 
 export function encAssymmetric(files: IFile[], otherCert, footer, signature, deleteAfter, clearselectedFiles) {
@@ -51,7 +49,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 								if (err) {
 									showToastDanger(err);
 									arrDeletedFilesInWorkspacwEnc.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
-									arrAddFilesInWorkspacwEnc.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, date: files[footer.arrButton[i]].date, month: files[footer.arrButton[i]].month, year: files[footer.arrButton[i]].year, time: files[footer.arrButton[i]].time, verify: 0 });
+									arrAddFilesInWorkspacwEnc.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, mtime: files[footer.arrButton[i]].mtime, verify: 0 });
 									if (i === footer.arrButton.length - 1) {
 										for (let k = 0; k < arrDeletedFilesInWorkspacwEnc.length; k++) {
 											dispatch(clearOriginalFileInWorkspaceEnc(arrDeletedFilesInWorkspacwEnc[k].name, arrDeletedFilesInWorkspacwEnc[k].extensionAll));
@@ -73,26 +71,7 @@ export function encAssymmetric(files: IFile[], otherCert, footer, signature, del
 											const extensionAll = files[footer.arrButton[i]].extensionAll === "" ? "enc" : files[footer.arrButton[i]].extensionAll + ".enc";
 											const extension = "enc";
 											const mtime: any = response.mtime;
-											const date = mtime.getDate();
-											let month = mtime.getMonth();
-											switch (month) {
-												case 0: month = "января"; break;
-												case 1: month = "февраля"; break;
-												case 2: month = "марта"; break;
-												case 3: month = "апреля"; break;
-												case 4: month = "мая"; break;
-												case 5: month = "июня"; break;
-												case 6: month = "июля"; break;
-												case 7: month = "августа"; break;
-												case 8: month = "сентября"; break;
-												case 9: month = "октября"; break;
-												case 10: month = "ноября"; break;
-												case 11: month = "декабря"; break;
-												default: break;
-											}
-											const year = mtime.getFullYear();
-											const time = mtime.toLocaleTimeString();
-											filearr = { name, extension, extensionAll, date, month, year, time };
+											filearr = { name, extension, extensionAll, mtime };
 											dispatch(addSingleFileInWorkspaceEnc(filearr));
 											arrDeletedFilesInWorkspacwEnc.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
 											if (i === footer.arrButton.length - 1) {
@@ -162,7 +141,7 @@ export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Funct
 											showToastDanger(err);
 										}
 										arrDeletedFilesInWorkspacwEnc.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
-										arrAddFilesInWorkspacwEnc.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, date: files[footer.arrButton[i]].date, month: files[footer.arrButton[i]].month, year: files[footer.arrButton[i]].year, time: files[footer.arrButton[i]].time, verify: 0 });
+										arrAddFilesInWorkspacwEnc.push({ name: files[footer.arrButton[i]].name, extension: files[footer.arrButton[i]].extension, extensionAll: files[footer.arrButton[i]].extensionAll, mtime: files[footer.arrButton[i]].mtime, verify: 0 });
 										if (i === footer.arrButton.length - 1) {
 											for (let k = 0; k < arrDeletedFilesInWorkspacwEnc.length; k++) {
 												dispatch(clearOriginalFileInWorkspaceEnc(arrDeletedFilesInWorkspacwEnc[k].name, arrDeletedFilesInWorkspacwEnc[k].extensionAll));
@@ -192,26 +171,7 @@ export function decAssymmetric(files: IFile[], footer, clearselectedFiles: Funct
 													extensionNewFiles = extensionAll.substring(point + 1);
 												}
 												const mtime: any = response.mtime;
-												const date = mtime.getDate();
-												let month = mtime.getMonth();
-												switch (month) {
-													case 0: month = "января"; break;
-													case 1: month = "февраля"; break;
-													case 2: month = "марта"; break;
-													case 3: month = "апреля"; break;
-													case 4: month = "мая"; break;
-													case 5: month = "июня"; break;
-													case 6: month = "июля"; break;
-													case 7: month = "августа"; break;
-													case 8: month = "сентября"; break;
-													case 9: month = "октября"; break;
-													case 10: month = "ноября"; break;
-													case 11: month = "декабря"; break;
-													default: break;
-												}
-												const year = mtime.getFullYear();
-												const time = mtime.toLocaleTimeString();
-												filearr = { name, extension: extensionNewFiles, extensionAll, date, month, year, time };
+												filearr = { name, extension: extensionNewFiles, extensionAll, mtime };
 												dispatch(addSingleFileInWorkspaceEnc(filearr));
 												arrDeletedFilesInWorkspacwEnc.push({ name: files[footer.arrButton[i]].name, extensionAll: files[footer.arrButton[i]].extensionAll });
 												if (i === footer.arrButton.length - 1) {

@@ -30,10 +30,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 interface IFile {
-	mtime: string;
+	mtime: Date;
 	extension: string;
-	extensionAll?: string;
+	extensionAll: string;
 	name: string;
+	verify: number;
 }
 
 interface ISelectedFiles {
@@ -229,10 +230,10 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 						</View>
 						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
 							<Button transparent style={styles.modalMain} onPress={() => this.modals.basicModal.close()}>
-								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
+								<Text style={ styles.buttonModal }>Отмена</Text>
 							</Button>
 							<Button transparent style={styles.modalMain} onPress={() => { this.modals.basicModal.close(); clearAllFilesinAllWorkspace(); deleteFile(files, selectedFiles, () => clearselectedFiles()); }}>
-								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Да</Text>
+								<Text style={ styles.buttonModal }>Да</Text>
 							</Button>
 						</View>
 					</View>

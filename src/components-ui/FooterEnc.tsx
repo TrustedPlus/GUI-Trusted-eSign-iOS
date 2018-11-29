@@ -24,9 +24,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 interface IFile {
-	mtime: string;
+	mtime: Date;
 	extension: string;
+	extensionAll: string;
 	name: string;
+	verify: number;
 }
 
 interface FooterEncProps {
@@ -132,10 +134,10 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 						<ListWithSwitch text="Архивировать файлы перед шифрованием" disabled={true} value={this.state.deleteAfter} changeValue={() => this.setState({ deleteAfter: !this.state.deleteAfter })} />
 						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
 							<Button transparent style={styles.modalMain} onPress={() => this.modals.basicModal.close()}>
-								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
+								<Text style={ styles.buttonModal }>Отмена</Text>
 							</Button>
 							<Button transparent style={styles.modalMain} onPress={() => { this.modals.basicModal.close(); encAssymmetric(files, otherCert, footer, this.state.signature, this.state.deleteAfter, () => this.props.clearselectedFiles()); }}>
-								<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>
+								<Text style={ styles.buttonModal }>Применить</Text>
 							</Button>
 						</View>
 					</View>

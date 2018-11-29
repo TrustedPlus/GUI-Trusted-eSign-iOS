@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container, Content, List, Text, Footer, FooterTab, View, Button, Header, Title, Spinner } from "native-base";
 import { Headers } from "../components/Headers";
-import { NativeModules } from "react-native";
+import { NativeModules, Image } from "react-native";
 import { ListMenu } from "../components/ListMenu";
 import { styles } from "../styles";
 import { showToast } from "../utils/toast";
@@ -100,25 +100,35 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 	deleteContainers() {
 		this.modals.basicModal.close();
 		this.setState({ loader: true });
-		for (let i = 0; i < this.state.selectedContainers.length; i++) {
-			NativeModules.Wrap_Main.deleteContainer(
-				this.props.containers[this.state.selectedContainers[i]]["unique"],
-				this.props.providers[1]["type"],
-				this.props.providers[1]["name"],
-				this.state.deleteCert,
-				(err, verify) => {
-					if (verify) {
-						showToast("Контейнер удален");
-					} else {
-						showToast("Ошибка при удалении контейнера");
-					}
-					if (i === this.state.selectedContainers.length - 1) {
-						this.setState({ selectedContainers: [] });
-						this.setState({ loader: false });
-						this.props.getProviders();
-					}
-				});
-		}
+		let promises = [];
+		this.state.selectedContainers.map(
+			container => {
+				promises.push(
+					new Promise((resolve, reject) => {
+						NativeModules.Wrap_Main.deleteContainer(
+							this.props.containers[container]["unique"],
+							this.props.providers[1]["type"],
+							this.props.providers[1]["name"],
+							this.state.deleteCert,
+							(err, verify) => {
+								if (verify) {
+									showToast("Контейнер удален");
+								} else {
+									showToast("Ошибка при удалении контейнера");
+								}
+								resolve();
+							});
+					})
+				);
+			}
+		);
+		Promise.all(promises).then(
+			() => {
+				this.setState({ selectedContainers: [] });
+				this.setState({ loader: false });
+				this.props.getProviders();
+			}
+		);
 	}
 
 	render() {
@@ -138,9 +148,16 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 				<Headers title="Контейнеры" goBack={() => goBack()} />
 				{!this.props.loadContainers ? <>
 					{loader}
-					{this.props.containers.length !== 0 ?
-						<List>{this.showList()}</List> :
-						<Text style={[styles.sign_enc_prompt, { paddingTop: "50%", paddingLeft: 5, paddingRight: 5 }]}>Контейнеров нет. Создайте или импортируйте сертификат с закрытым ключом.</Text>}
+					{this.props.containers.length !== 0
+						? <List>{this.showList()}</List>
+						: <Text style={[styles.sign_enc_prompt, { paddingTop: "50%", paddingLeft: 5, paddingRight: 5 }]}>
+							Контейнеров нет. Создайте или импортируйте сертификат с закрытым ключом.</Text>
+					}
+					<Button transparent style={{ position: "absolute", bottom: 40, right: 30 }} onPressIn={() => {
+						this.props.getProviders();
+					}}>
+						<Image style={{ width: 60, height: 60 }} source={require("../../imgs/general/refresh.png")} />
+					</Button>
 					<Modal
 						ref={ref => this.modals.basicModal = ref}
 						style={[styles.modal, {
@@ -163,12 +180,12 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 							<ListWithSwitch styletext={{ fontSize: 13 }} text="Удалить по возможности вместе с сертификатом" value={this.state.deleteCert} changeValue={() => this.setState({ deleteCert: !this.state.deleteCert })} />
 							<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
 								<Button transparent style={styles.modalMain} onPress={() => this.modals.basicModal.close()}>
-									<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
+									<Text style={styles.buttonModal}>Отмена</Text>
 								</Button>
 								<Button transparent style={styles.modalMain} onPress={() => {
 									this.deleteContainers();
 								}}>
-									<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>
+									<Text style={styles.buttonModal}>Применить</Text>
 								</Button>
 							</View>
 						</View>

@@ -61,13 +61,13 @@ export class ModalSignSetting extends React.Component<{}, ModalSignSettingState>
 					<ListWithSwitch text="Сохранить подпись отдельно" value={this.state.detached} changeValue={() => this.setState({ detached: !this.state.detached })} />
 					<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
 						<Button transparent style={styles.modalMain} onPress={() => this.modals.basicModal.close()}>
-							<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Отмена</Text>
+							<Text style={ styles.buttonModal }>Отмена</Text>
 						</Button>
 						<Button transparent style={styles.modalMain} onPress={() => {/*
 							this.modals.basicModal.close();
 							signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num), this.props.tempFiles, navigate, (isSuccess) => this.props.modalSuccessUpload(isSuccess));
 						*/}}>
-							<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Применить</Text>
+							<Text style={ styles.buttonModal }>Применить</Text>
 						</Button>
 					</View>
 				</View>

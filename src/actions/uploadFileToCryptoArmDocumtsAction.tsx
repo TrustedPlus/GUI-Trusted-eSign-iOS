@@ -1,19 +1,15 @@
 import { ADD_TEMP_FILES_FOR_CRYPTOARMDOCUMENTS, CLEAR_TEMP_FILES_FOR_CRYPTOARMDOCUMENTS } from "../constants";
 import * as RNFS from "react-native-fs";
 
-export function addTempFilesForCryptoarmdDocuments(arrFiles, uploadurl, browser, href, extra) {
+export function addTempFilesForCryptoarmdDocuments(arrFiles, uploadurl, browser, href, extra, footerMark) {
 	return {
 		type: ADD_TEMP_FILES_FOR_CRYPTOARMDOCUMENTS,
-		payload: { arrFiles, uploadurl, browser, href, extra }
+		payload: { arrFiles, uploadurl, browser, href, extra, footerMark }
 	};
 }
 
-export function clearTempFiles(tempFiles) {
-	if (tempFiles.arrFiles !== null) {
-		for (let i = 0; i < tempFiles.arrFiles.length; i++) {
-			RNFS.unlink(RNFS.DocumentDirectoryPath + "/Files/" + tempFiles.arrFiles[i].filename);
-		}
-	}
+export function clearTempFiles() {
+	RNFS.unlink(RNFS.DocumentDirectoryPath + "/RNFetchBlob_tmp/");
 	return {
 		type: CLEAR_TEMP_FILES_FOR_CRYPTOARMDOCUMENTS
 	};

@@ -79,7 +79,7 @@ export function readFiles() {
 
 export function readFilesSuccess(file) {
 	return function action(dispatch) {
-		let filearr = [], point, name, extensionAll, extension, date, month, year, time, verify = 0;
+		let filearr = [], point, name, extensionAll, extension, verify = 0;
 		let length = file.length;
 		for (let i = 0; i < length; i++) {
 			point = file[i].name.indexOf(".");
@@ -93,32 +93,14 @@ export function readFilesSuccess(file) {
 				point = extensionAll.lastIndexOf(".");
 				extension = extensionAll.substring(point + 1);
 			}
-			date = file[i].mtime.getDate();
-			month = file[i].mtime.getMonth();
-			switch (month) {
-				case 0: month = "января"; break;
-				case 1: month = "февраля"; break;
-				case 2: month = "марта"; break;
-				case 3: month = "апреля"; break;
-				case 4: month = "мая"; break;
-				case 5: month = "июня"; break;
-				case 6: month = "июля"; break;
-				case 7: month = "августа"; break;
-				case 8: month = "сентября"; break;
-				case 9: month = "октября"; break;
-				case 10: month = "ноября"; break;
-				case 11: month = "декабря"; break;
-				default: break;
-			}
-			year = file[i].mtime.getFullYear();
-			time = file[i].mtime.toLocaleTimeString();
+			const mtime: any = file[i].mtime;
 			if (name === "") {
 				// k++;
 				name = extension;
 				extension = 0;
-				filearr[i] = { name, extension, extensionAll, date, month, year, time, verify };
+				filearr[i] = { name, extension, extensionAll, mtime, verify };
 			} else {
-				filearr[i] = { name, extension, extensionAll, date, month, year, time, verify };
+				filearr[i] = { name, extension, extensionAll, mtime, verify };
 			}
 		}
 		dispatch({ type: READ_FILES_SUCCESS, payload: filearr });
@@ -195,26 +177,7 @@ function addFiles(uri, fileName, workspace, refreshDoc) {
 								extension = extensionAll.substring(point + 1);
 							}
 							const mtime: any = response.mtime;
-							const date = mtime.getDate();
-							let month = mtime.getMonth();
-							switch (month) {
-								case 0: month = "января"; break;
-								case 1: month = "февраля"; break;
-								case 2: month = "марта"; break;
-								case 3: month = "апреля"; break;
-								case 4: month = "мая"; break;
-								case 5: month = "июня"; break;
-								case 6: month = "июля"; break;
-								case 7: month = "августа"; break;
-								case 8: month = "сентября"; break;
-								case 9: month = "октября"; break;
-								case 10: month = "ноября"; break;
-								case 11: month = "декабря"; break;
-								default: break;
-							}
-							const year = mtime.getFullYear();
-							const time = mtime.toLocaleTimeString();
-							filearr = { name, extension, extensionAll, date, month, year, time, verify };
+							filearr = { name, extension, extensionAll, mtime, verify };
 							if (workspace === "sign") {
 								dispatch(addSingleFileInWorkspaceSign(filearr));
 							} else {

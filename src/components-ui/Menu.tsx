@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container, Content, List, Header, Title, Button } from "native-base";
 import { Linking, Modal, View, Text } from "react-native";
-import { createStackNavigator } from "react-navigation";
+import { createStackNavigator, createAppContainer } from "react-navigation";
 import { styles } from "../styles";
 import { takeUrl } from "../utils/uploadFileFromCryptoArmDoc";
 import * as url from "url";
@@ -84,7 +84,7 @@ interface MainProps {
 	readRequests(): any;
 	refreshStatusLicense(): any;
 	addTempFilesForCryptoarmdDocuments(name: string, id: number, uploadurl: string, href: string): void;
-	clearTempFiles(tempFiles: object): void;
+	clearTempFiles(): void;
 	clearAllFilesinWorkspaceSign(): void;
 	checkFiles(uri: string, fileName: string, workspace: string): void;
 }
@@ -128,7 +128,7 @@ class Main extends React.Component<MainProps, MainState> {
 		this.props.getProviders();
 		this.props.readRequests();
 		this.props.refreshStatusLicense();
-		this.props.clearTempFiles(this.props.tempFiles);
+		this.props.clearTempFiles();
 		// window.open("cryptoarmgost://" + "?id=" + ids + "?url=" + JSON.parse(d.docsToSign)[0].url + "?filename=" + JSON.parse(d.docsToSign)[0].name + "?uploadurl=" + AJAX_CONTROLLER + '?command=upload');
 
 		Linking.getInitialURL().then((url_string) => {
@@ -209,7 +209,7 @@ class Main extends React.Component<MainProps, MainState> {
 												Linking.openURL(this.state.href);
 											}
 										}}>
-										<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Нет</Text>
+										<Text style={styles.buttonModal}>Нет</Text>
 									</Button>
 									<Button transparent
 										style={styles.modalMain}
@@ -217,7 +217,7 @@ class Main extends React.Component<MainProps, MainState> {
 											this.setState({ modalWarning: false });
 											takeUrl(this.state.url, this.props.addTempFilesForCryptoarmdDocuments, this.props.checkFiles, this.props.navigation.navigate, this.props.clearAllFilesinWorkspaceSign);
 										}}>
-										<Text style={{ fontSize: 15, textAlign: "center", color: "grey" }}>Да</Text>
+										<Text style={styles.buttonModal}>Да</Text>
 									</Button>
 								</View>
 							</View>
@@ -229,7 +229,7 @@ class Main extends React.Component<MainProps, MainState> {
 	}
 }
 
-export const App = createStackNavigator({
+const AppNavigator = createStackNavigator({
 	Main: { screen: Main },
 	Signature: {
 		screen: Signature,
@@ -257,11 +257,14 @@ export const App = createStackNavigator({
 	},
 	License: { screen: License },
 }, {
-		navigationOptions: {
+		defaultNavigationOptions: {
 			gesturesEnabled: false,
 			header: null
 		}
 	});
+
+
+export const App = createAppContainer(AppNavigator);
 
 /* NativeModules.Wrap_Main.connect(RNFS.DocumentDirectoryPath, (veify, err) => {
 			RNFS.readDir("/var/mobile/Library/Mobile Documents/iCloud~com~digt~CryptoARMGOST/Documents/").then(

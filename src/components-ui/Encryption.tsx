@@ -241,11 +241,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 				{loader}
 				<Modal
 					ref={ref => this.modals.basicModal = ref}
-					style={[styles.modal, {
-						height: "auto",
-						width: 300,
-						backgroundColor: "white",
-					}]}
+					style={styles.modal}
 					position={"center"}
 					swipeToClose={false}>
 					<View style={{ width: "100%" }}>

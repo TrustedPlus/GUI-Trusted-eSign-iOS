@@ -153,18 +153,15 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 						: <Text style={[styles.sign_enc_prompt, { paddingTop: "50%", paddingLeft: 5, paddingRight: 5 }]}>
 							Контейнеров нет. Создайте или импортируйте сертификат с закрытым ключом.</Text>
 					}
-					<Button transparent style={{ position: "absolute", bottom: 40, right: 30 }} onPressIn={() => {
+					<Button transparent style={{ position: "absolute", bottom: 80, right: 30 }} onPressIn={() => {
 						this.props.getProviders();
+						this.clearSelectedCont();
 					}}>
 						<Image style={{ width: 60, height: 60 }} source={require("../../imgs/general/refresh.png")} />
 					</Button>
 					<Modal
 						ref={ref => this.modals.basicModal = ref}
-						style={[styles.modal, {
-							height: "auto",
-							width: 300,
-							backgroundColor: "white",
-						}]}
+						style={styles.modal}
 						position={"center"}
 						swipeToClose={false}>
 						<View style={{ width: "100%" }}>

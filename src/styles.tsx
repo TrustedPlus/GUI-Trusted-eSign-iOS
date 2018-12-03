@@ -153,7 +153,10 @@ export const styles = StyleSheet.create({
 
 	modal: {
 		justifyContent: "center",
-		alignItems: "center"
+		alignItems: "center",
+		height: "auto",
+		width: 300,
+		backgroundColor: "white",
 	},
 
 	modal3: {

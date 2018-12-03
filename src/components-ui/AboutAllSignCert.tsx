@@ -1,12 +1,9 @@
 import * as React from "react";
-import { View, AlertIOS } from "react-native";
-import { Container, List, Content, Segment, Button, Text, Header, Title, ListItem, Right, Icon, Left, Body } from "native-base";
+import { Container, Content } from "native-base";
 
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
-import { ListForCert } from "../components/ListForCert";
 import { ListMenu } from "../components/ListMenu";
-import * as Modal from "react-native-modalbox";
 
 interface AboutAllSignCertProps {
 	navigation: any;

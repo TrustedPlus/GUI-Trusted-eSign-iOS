@@ -187,11 +187,7 @@ export class SignForCryptoArmDoc extends React.Component<SignatureProps, Signatu
 				{loader}
 				<Modal
 					isOpen={this.state.modalWarning}
-					style={[styles.modal, {
-						height: "auto",
-						width: 300,
-						backgroundColor: "white",
-					}]}
+					style={styles.modal}
 					backdropPressToClose={false}
 					position={"center"}
 					swipeToClose={false}>
@@ -231,11 +227,7 @@ export class SignForCryptoArmDoc extends React.Component<SignatureProps, Signatu
 				</Modal>
 				<Modal
 					isOpen={this.state.modalSign}
-					style={[styles.modal, {
-						height: "auto",
-						width: 300,
-						backgroundColor: "white",
-					}]}
+					style={styles.modal}
 					position={"center"}
 					swipeToClose={false}>
 					<View style={{ width: "100%" }}>

@@ -180,11 +180,7 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 				</Footer>
 				<Modal
 					isOpen={this.state.modalSign}
-					style={[styles.modal, {
-						height: "auto",
-						width: 300,
-						backgroundColor: "white",
-					}]}
+					style={styles.modal}
 					position={"center"}
 					swipeToClose={false}>
 					<View style={{ width: "100%" }}>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Container, Content, List, Header, Title, Button } from "native-base";
+import { Container, Content, List, Header, Title, Button, Spinner } from "native-base";
 import { Linking, Modal, View, Text } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { styles } from "../styles";
@@ -93,6 +93,7 @@ interface MainState {
 	modalWarning: boolean;
 	url: string;
 	href: string;
+	loader: boolean;
 }
 
 const options = {
@@ -105,7 +106,8 @@ class Main extends React.Component<MainProps, MainState> {
 	state = {
 		modalWarning: false,
 		url: null,
-		href: null
+		href: null,
+		loader: false
 	};
 
 	setModalVisible(visible) {
@@ -154,77 +156,87 @@ class Main extends React.Component<MainProps, MainState> {
 		}
 		let lastlognote = lastlog ? "последняя запись: " + new Date(lastlog).toLocaleString("ru", options) : "действий не совершалось";
 
+		let loader = null;
+		if (this.state.loader) {
+			loader = <View style={styles.loader}>
+				<View style={styles.loaderView}>
+					<Spinner color={"#be3817"} />
+					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
+				</View>
+			</View>;
+		}
 		return (
-			<Container style={styles.container}>
-				<Headers title="КриптоАРМ ГОСТ" />
-				<Content>
-					<List>
-						<ListMenu title="Документы" img={require("../../imgs/general/documents_main_icon.png")}
-							note={length} nav={() => navigate("Documents")} />
-						<ListMenu title="Подпись" img={require("../../imgs/general/sign_main_icon.png")}
-							note={lengthSign} nav={() => navigate("Signature", { name: "Signature" })} />
-						<ListMenu title="Шифрование" img={require("../../imgs/general/encode_main_icon.png")}
-							note={lengthEnc} nav={() => navigate("Encryption", { name: "Encryption" })} />
-						<ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
-							note={persCert} nav={() => navigate("Certificate", { name: "Certificate" })} />
-						<ListMenu title="Управление контейнерами" img={require("../../imgs/general/stores_main_icon.png")}
-							note={lengthContainers} nav={() => navigate("Containers", { name: "Containers" })} />
-						<ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
-							note={lastlognote} nav={() => navigate("Journal")} />
-						<ListMenu title="Лицензии" img={require("../../imgs/general/license_menu_icon.png")}
-							note={this.props.statusLicense ? "действительные" : "ошибка при проверке"} nav={() => navigate("License")} />
-					</List>
-					<Modal
-						animationType="none"
-						transparent
-						visible={this.state.modalWarning}>
-						<View style={{
-							flex: 1,
-							flexDirection: "column",
-							justifyContent: "center",
-							alignItems: "center",
-							backgroundColor: "rgba(0, 0, 0, 0.5)"
-						}}>
+			<>
+				<Container style={styles.container}>
+					<Headers title="КриптоАРМ ГОСТ" />
+					<Content>
+						<List>
+							<ListMenu title="Документы" img={require("../../imgs/general/documents_main_icon.png")}
+								note={length} nav={() => navigate("Documents")} />
+							<ListMenu title="Подпись" img={require("../../imgs/general/sign_main_icon.png")}
+								note={lengthSign} nav={() => navigate("Signature", { name: "Signature" })} />
+							<ListMenu title="Шифрование" img={require("../../imgs/general/encode_main_icon.png")}
+								note={lengthEnc} nav={() => navigate("Encryption", { name: "Encryption" })} />
+							<ListMenu title="Управление сертификатами" img={require("../../imgs/general/certificates_main_icon.png")}
+								note={persCert} nav={() => navigate("Certificate", { name: "Certificate" })} />
+							<ListMenu title="Управление контейнерами" img={require("../../imgs/general/stores_main_icon.png")}
+								note={lengthContainers} nav={() => navigate("Containers", { name: "Containers" })} />
+							<ListMenu title="Журнал операций" img={require("../../imgs/general/journal_main_icon.png")}
+								note={lastlognote} nav={() => navigate("Journal")} />
+							<ListMenu title="Лицензии" img={require("../../imgs/general/license_menu_icon.png")}
+								note={this.props.statusLicense ? "действительные" : "ошибка при проверке"} nav={() => navigate("License")} />
+						</List>
+						<Modal
+							animationType="none"
+							transparent
+							visible={this.state.modalWarning}>
 							<View style={{
-								height: "auto", width: 300, backgroundColor: "white"
+								flex: 1,
+								flexDirection: "column",
+								justifyContent: "center",
+								alignItems: "center",
+								backgroundColor: "rgba(0, 0, 0, 0.5)"
 							}}>
-								<Header
-									style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
-									<Title>
-										<Text style={{
-											color: "white",
-											fontSize: 15
-										}}>Подтверждение операции</Text>
-									</Title>
-								</Header>
-								<Text style={{ fontSize: 17, padding: 5 }}>Сторонний ресурс запрашивает разрешение на выполнении операции в приложении.{"\n"}Разрешить?</Text>
-								<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
-									<Button transparent
-										style={styles.modalMain}
-										onPress={() => {
-											this.setState({ modalWarning: false });
-											if (/chrome/.test(this.state.url)) {
-												Linking.openURL("googlechrome://");
-											} else {
-												Linking.openURL(this.state.href);
-											}
-										}}>
-										<Text style={styles.buttonModal}>Нет</Text>
-									</Button>
-									<Button transparent
-										style={styles.modalMain}
-										onPress={() => {
-											this.setState({ modalWarning: false });
-											takeUrl(this.state.url, this.props.addTempFilesForCryptoarmdDocuments, this.props.checkFiles, this.props.navigation.navigate, this.props.clearAllFilesinWorkspaceSign);
-										}}>
-										<Text style={styles.buttonModal}>Да</Text>
-									</Button>
+								<View style={styles.modal}>
+									<Header
+										style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+										<Title>
+											<Text style={{
+												color: "white",
+												fontSize: 15
+											}}>Подтверждение операции</Text>
+										</Title>
+									</Header>
+									<Text style={{ fontSize: 17, padding: 5 }}>Сторонний ресурс запрашивает разрешение на выполнении операции в приложении.{"\n"}Разрешить?</Text>
+									<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
+										<Button transparent
+											style={styles.modalMain}
+											onPress={() => {
+												this.setState({ modalWarning: false });
+												if (/chrome/.test(this.state.url)) {
+													Linking.openURL("googlechrome://");
+												} else {
+													Linking.openURL(this.state.href);
+												}
+											}}>
+											<Text style={styles.buttonModal}>Нет</Text>
+										</Button>
+										<Button transparent
+											style={styles.modalMain}
+											onPress={() => {
+												this.setState({ modalWarning: false });
+												takeUrl(this.state.url, this.props.addTempFilesForCryptoarmdDocuments, this.props.checkFiles, this.props.navigation.navigate, this.props.clearAllFilesinWorkspaceSign, (status) => this.setState({ loader: status }));
+											}}>
+											<Text style={styles.buttonModal}>Да</Text>
+										</Button>
+									</View>
 								</View>
 							</View>
-						</View>
-					</Modal>
-				</Content>
-			</Container>
+						</Modal>
+					</Content>
+				</Container>
+				{loader}
+			</>
 		);
 	}
 }

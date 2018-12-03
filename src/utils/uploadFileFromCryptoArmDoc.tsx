@@ -4,7 +4,8 @@ import { showToast, showToastDanger } from "../utils/toast";
 import { NativeModules } from "react-native";
 import * as url from "url";
 
-export function takeUrl(url_string, addTempFilesForCryptoarmdDocuments, addFiles, navigate, clearAllFilesinWorkspaceSign) {
+export function takeUrl(url_string, addTempFilesForCryptoarmdDocuments, addFiles, navigate, clearAllFilesinWorkspaceSign, refreshFunc ) {
+	refreshFunc(true);
 	let param = url.parse(url_string, true);
 	let chrome = param.query.browser;
 	clearAllFilesinWorkspaceSign();
@@ -36,6 +37,7 @@ export function takeUrl(url_string, addTempFilesForCryptoarmdDocuments, addFiles
 									} else {
 										showToastDanger("подпись отделенная");
 									}
+									refreshFunc(false);
 								} else {
 									NativeModules.Wrap_Signer.getSignInfo(
 										"",
@@ -43,6 +45,7 @@ export function takeUrl(url_string, addTempFilesForCryptoarmdDocuments, addFiles
 										encoding,
 										false,
 										(err, verify) => {
+											refreshFunc(false);
 											if (err) {
 												debugger;
 												showToastDanger(err);
@@ -121,6 +124,7 @@ export function takeUrl(url_string, addTempFilesForCryptoarmdDocuments, addFiles
 							}
 						}
 						addTempFilesForCryptoarmdDocuments(arrFilesNameAndId, param.uploadurl, chrome, param.href, param.extra, footerMark);
+						refreshFunc(false);
 						navigate("SignForCryptoArmDoc");
 					}
 				);

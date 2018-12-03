@@ -73,6 +73,7 @@ export function signFile(tempFiles, personalCert: IPersonalCert, signature, deta
 										if (err) {
 											showToastDanger(err);
 											resolve();
+											resultArr.push(false);
 										} else {
 											NativeModules.Wrap_Signer.coSign(
 												personalCert.cert.serialNumber,
@@ -101,6 +102,7 @@ export function signFile(tempFiles, personalCert: IPersonalCert, signature, deta
 															dispatch({ type: SIGN_FILE_END });
 														}
 														resolve();
+														resultArr.push(false);
 														dispatch({ type: SIGN_FILE_ERROR, payload: file.filename, err });
 													} else {
 														NativeModules.Wrap_Signer.getSignInfo(
@@ -150,8 +152,8 @@ export function signFile(tempFiles, personalCert: IPersonalCert, signature, deta
 																	resolve();
 																}).catch(
 																	err => {
+																		resultArr.push(false);
 																		resolve();
-																		debugger;
 																	}
 																);
 															}
@@ -185,6 +187,7 @@ export function signFile(tempFiles, personalCert: IPersonalCert, signature, deta
 											showToastDanger(err);
 										}
 										resolve();
+										resultArr.push(false);
 										dispatch({ type: SIGN_FILE_ERROR, payload: file.filename, err });
 									} else {
 										const data = new FormData();

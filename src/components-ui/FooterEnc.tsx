@@ -7,7 +7,7 @@ import { ListWithSwitch } from "../components/ListWithSwitch";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { encAssymmetric, decAssymmetric } from "../actions/encDecAction";
-import { uploadFile, deleteFile } from "../actions/uploadFileAction";
+import { uploadFile, deleteFile, openFile } from "../actions/uploadFileAction";
 
 import * as Modal from "react-native-modalbox";
 import { styles } from "../styles";
@@ -19,6 +19,7 @@ function mapDispatchToProps(dispatch) {
 		encAssymmetric: bindActionCreators(encAssymmetric, dispatch),
 		decAssymmetric: bindActionCreators(decAssymmetric, dispatch),
 		uploadFile: bindActionCreators(uploadFile, dispatch),
+		openFile: bindActionCreators(openFile, dispatch),
 		deleteFile: bindActionCreators(deleteFile, dispatch)
 	};
 }
@@ -40,12 +41,14 @@ interface FooterEncProps {
 	encAssymmetric?(files: IFile[], otherCert: string[], footer: string[], signature: string, deleteAfter: boolean, clearselectedFiles: Function): void;
 	decAssymmetric?(files: IFile[], footer: string[], clearselectedFiles: Function): void;
 	uploadFile?(files: IFile[], footer: Object, refreshingFiles: Function, page: string): void;
+	openFile?(files: IFile[], footer: Object, refreshingFiles: Function, page: string): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
 }
 
 interface FooterEncState {
 	signature: string;
 	deleteAfter: boolean;
+	modalMore: boolean;
 }
 
 interface IModals {
@@ -59,7 +62,8 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 		super(props);
 		this.state = {
 			signature: "BASE-64",
-			deleteAfter: false
+			deleteAfter: false,
+			modalMore: false
 		};
 	}
 
@@ -75,7 +79,7 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 	}
 
 	render() {
-		const { files, otherCert, encAssymmetric, decAssymmetric, uploadFile, deleteFile, footer } = this.props;
+		const { files, otherCert, encAssymmetric, decAssymmetric, uploadFile, openFile, footer } = this.props;
 		let certIsNotNull, isDec, isEnc = null;
 
 		if (footer.arrExtension.filter(extension => extension === "enc").length !== 0) {
@@ -91,6 +95,25 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 			<>
 				<Footer>
 					<FooterTab>
+					{this.state.modalMore
+							? <View style={[styles.modalMore, styles.modalMore2]}>
+								<Footer>
+									<FooterTab>
+										<FooterButton title="Очистить"
+											img={require("../../imgs/ios/delete.png")}
+											nav={() => this.clearSelectedFilesInWorkspaceEnc()} />
+										<FooterButton title="Просмотреть"
+											disabled={footer.arrExtension.length !== 1 || isDec}
+											icon={"open"}
+											nav={() => {
+												openFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension },
+													() => this.props.clearselectedFiles(), "enc");
+											}}
+											style={{ borderTopWidth: 0 }} />
+									</FooterTab>
+								</Footer>
+							</View>
+							: null}
 						<FooterButton title="Зашифровать"
 							disabled={certIsNotNull ? true : (isEnc === "enc" ? true : false)}
 							img={require("../../imgs/ios/encrypt.png")}
@@ -103,9 +126,7 @@ export class FooterEnc extends React.Component<FooterEncProps, FooterEncState> {
 							img={require("../../imgs/ios/posted.png")}
 							nav={() => uploadFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension },
 								() => this.props.clearselectedFiles(), "enc")} />
-						<FooterButton title="Очистить"
-							img={require("../../imgs/ios/delete.png")}
-							nav={() => this.clearSelectedFilesInWorkspaceEnc()} />
+						<FooterButton title="Больше" icon="ios-more" nav={() => this.setState({ modalMore: !this.state.modalMore })} />
 					</FooterTab>
 				</Footer>
 				<Modal

@@ -10,6 +10,7 @@ import { readCertKeys } from "../actions/certKeysAction";
 import * as Modal from "react-native-modalbox";
 import { ListWithModalDropdown } from "../components/ListWithModalDropdown";
 import { ListWithSwitch } from "../components/ListWithSwitch";
+import { Loader } from "../components/Loader";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -143,15 +144,6 @@ export class SignForCryptoArmDoc extends React.Component<SignatureProps, Signatu
 		const { navigate } = this.props.navigation;
 		const img = iconSelection(tempFiles.arrFiles, tempFiles.arrFiles.length); // какое расширение у файлов
 		const filesView = this.getFilesView(img);
-		let loader = null;
-		if (isFetching) {
-			loader = <View style={styles.loader}>
-				<View style={styles.loaderView}>
-					<Spinner color={"#be3817"} />
-					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
-				</View>
-			</View>;
-		}
 		let certificate;
 		if (personalCert.cert.subjectFriendlyName) { // выбран ли сертификат
 			certificate = <List>
@@ -184,7 +176,7 @@ export class SignForCryptoArmDoc extends React.Component<SignatureProps, Signatu
 					{selectFilesView}
 				</View>
 				{filesView}
-				{loader}
+				<Loader isFetching={isFetching}/>
 				<Modal
 					isOpen={this.state.modalWarning}
 					style={styles.modal}
@@ -281,7 +273,7 @@ export class SignForCryptoArmDoc extends React.Component<SignatureProps, Signatu
 									if (tempFiles.footerMark === 4) {
 										this.setState({ modalSign: true });
 									} else {
-										signFile(tempFiles, personalCert, this.state.signature, this.state.detached, (isSuccess, browser, href) => { this.setState({ isSuccess, href, chrome: browser, modalWarning: true }); });
+										signFile(tempFiles, personalCert, this.state.signature, this.state.detached, (isSuccess, browser, href) => { debugger; this.setState({ isSuccess, href, chrome: browser, modalWarning: true }); });
 									}
 								}} />
 							<FooterButton title="Свойства"
@@ -294,7 +286,7 @@ export class SignForCryptoArmDoc extends React.Component<SignatureProps, Signatu
 										}
 									);
 								}} />
-							<FooterButton title="Отказаться" icon="ios-more" nav={() => navigate("Main")} />
+							<FooterButton title="Отказаться" icon="close" nav={() => navigate("Main")} />
 						</FooterTab>
 					</Footer>
 					: null

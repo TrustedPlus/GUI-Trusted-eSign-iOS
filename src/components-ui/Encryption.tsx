@@ -4,6 +4,7 @@ import { Image, RefreshControl, ScrollView, Alert } from "react-native";
 import { Headers } from "../components/Headers";
 import { styles } from "../styles";
 import { ListMenu } from "../components/ListMenu";
+import { Loader } from "../components/Loader";
 import { FooterEnc } from "./FooterEnc";
 import { iconSelection } from "../utils/forListFiles";
 import { readCertKeys } from "../actions/certKeysAction";
@@ -180,16 +181,6 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 		const { files, readCertKeys, otherCert, isFetching } = this.props;
 		const { navigate, goBack } = this.props.navigation;
 
-		let loader = null;
-		if (isFetching) {
-			loader = <View style={styles.loader}>
-				<View style={styles.loaderView}>
-					<Spinner color={"#be3817"} />
-					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
-				</View>
-			</View>;
-		}
-
 		let certificate;
 		if (otherCert.arrEncCertificates.length) { // выбран ли сертификат
 			certificate = <ScrollView alwaysBounceVertical={true} style={{ maxHeight: 150 }}><List>
@@ -238,7 +229,7 @@ export class Encryption extends React.Component<EncryptionProps, EncryptionState
 					</Button>
 				</View>
 				{filesView}
-				{loader}
+				<Loader isFetching={isFetching}/>
 				<Modal
 					ref={ref => this.modals.basicModal = ref}
 					style={styles.modal}

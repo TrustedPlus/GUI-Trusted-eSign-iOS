@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as Modal from "react-native-modalbox";
 import { Container, Content, List, Text, Footer, FooterTab, View, Button, Header, Title, Spinner } from "native-base";
 import { Headers } from "../components/Headers";
 import { NativeModules, Image } from "react-native";
@@ -6,7 +7,7 @@ import { ListMenu } from "../components/ListMenu";
 import { styles } from "../styles";
 import { showToast } from "../utils/toast";
 import { FooterButton } from "../components/FooterButton";
-import * as Modal from "react-native-modalbox";
+import { Loader } from "../components/Loader";
 import { ListWithSwitch } from "../components/ListWithSwitch";
 
 import { connect } from "react-redux";
@@ -134,20 +135,11 @@ export class Containers extends React.Component<ContainersProps, ContainersState
 	render() {
 		const { goBack } = this.props.navigation;
 
-		let loader = null;
-		if (this.state.loader) {
-			loader = <View style={styles.loader}>
-				<View style={styles.loaderView}>
-					<Spinner color={"#be3817"} />
-					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
-				</View>
-			</View>;
-		}
 		return (
 			<Container style={styles.container}>
 				<Headers title="Контейнеры" goBack={() => goBack()} />
 				{!this.props.loadContainers ? <>
-					{loader}
+					<Loader isFetching={this.state.loader}/>
 					{this.props.containers.length !== 0
 						? <List>{this.showList()}</List>
 						: <Text style={[styles.sign_enc_prompt, { paddingTop: "50%", paddingLeft: 5, paddingRight: 5 }]}>

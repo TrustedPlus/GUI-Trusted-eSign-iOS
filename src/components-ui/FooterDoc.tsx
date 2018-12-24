@@ -6,7 +6,7 @@ import * as Modal from "react-native-modalbox";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { signFile, verifySign, UnSignFile, getSignInfo } from "../actions/signVerifyAction";
-import { uploadFile, deleteFile } from "../actions/uploadFileAction";
+import { uploadFile, openFile, deleteFile } from "../actions/uploadFileAction";
 import { addFilesInWorkspaceSign, addFilesInWorkspaceEnc, clearAllFilesinAllWorkspace } from "../actions/workspaceAction";
 import { decAssymmetric } from "../actions/encDecAction";
 import { readFiles } from "../actions";
@@ -19,6 +19,7 @@ function mapDispatchToProps(dispatch) {
 		verifySign: bindActionCreators(verifySign, dispatch),
 		UnSignFile: bindActionCreators(UnSignFile, dispatch),
 		uploadFile: bindActionCreators(uploadFile, dispatch),
+		openFile: bindActionCreators(openFile, dispatch),
 		deleteFile: bindActionCreators(deleteFile, dispatch),
 		getSignInfo: bindActionCreators(getSignInfo, dispatch),
 		addFilesInWorkspaceSign: bindActionCreators(addFilesInWorkspaceSign, dispatch),
@@ -51,6 +52,7 @@ interface FooterDocProps {
 	verifySign?(files: IFile[], selectedFiles: Object): void;
 	UnSignFile?(files: IFile[], selectedFiles: Object, clearselectedFiles: Function): void;
 	uploadFile?(files: IFile[], selectedFiles: ISelectedFiles, refreshingFiles: Function, page: string): void;
+	openFile?(files: IFile[], selectedFiles: ISelectedFiles, refreshingFiles: Function, page: string): void;
 	deleteFile?(files: IFile[], selectedFiles: ISelectedFiles, clearselectedFiles: Function): void;
 	getSignInfo?(files: IFile[], selectedFiles: Object, navigate): void;
 	addFilesInWorkspaceSign?(files: IFile[], selectedFiles: ISelectedFiles);
@@ -90,7 +92,7 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 		const {
 			selectedFiles, files, navigate, clearselectedFiles,
 			addFilesInWorkspaceSign, addFilesInWorkspaceEnc,
-			uploadFile, deleteFile, readFiles,
+			uploadFile, openFile, deleteFile, readFiles,
 			verifySign, UnSignFile, getSignInfo,
 			decAssymmetric, clearAllFilesinAllWorkspace } = this.props;
 		const selectedFilesObject = { arrButton: selectedFiles.arrNum, arrExtension: selectedFiles.arrExtension };
@@ -142,10 +144,15 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 											img={require("../../imgs/ios/decrypt.png")}
 											style={{ borderTopWidth: 0 }}
 											nav={() => { clearAllFilesinAllWorkspace(); decAssymmetric(files, selectedFilesObject, () => clearselectedFiles()); }} />
-										<FooterButton title="Архивировать"
-											disabled={true}
-											img={require("../../imgs/ios/arhiver.png")}
-											nav={() => null}
+										<FooterButton title="Просмотреть"
+											disabled={mark !== 0 || this.props.selectedFiles.arrNum.length !== 1}
+											icon={"open"}
+											nav={() => {
+												openFile(files, selectedFiles, () => {
+													clearselectedFiles();
+													readFiles();
+												}, "doc");
+											}}
 											style={{ borderTopWidth: 0 }} />
 										<FooterButton title="Удалить"
 											img={require("../../imgs/ios/delete.png")}
@@ -226,10 +233,10 @@ export class FooterDoc extends React.Component<FooterDocProps, FooterDocState> {
 						</View>
 						<View style={{ display: "flex", flexDirection: "row", flexWrap: "nowrap", justifyContent: "space-around", maxWidth: "100%" }}>
 							<Button transparent style={styles.modalMain} onPress={() => this.modals.basicModal.close()}>
-								<Text style={ styles.buttonModal }>Отмена</Text>
+								<Text style={styles.buttonModal}>Отмена</Text>
 							</Button>
 							<Button transparent style={styles.modalMain} onPress={() => { this.modals.basicModal.close(); clearAllFilesinAllWorkspace(); deleteFile(files, selectedFiles, () => clearselectedFiles()); }}>
-								<Text style={ styles.buttonModal }>Да</Text>
+								<Text style={styles.buttonModal}>Да</Text>
 							</Button>
 						</View>
 					</View>

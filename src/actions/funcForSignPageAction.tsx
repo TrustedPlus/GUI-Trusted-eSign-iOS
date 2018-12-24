@@ -212,10 +212,12 @@ export function signFile(tempFiles, personalCert: IPersonalCert, signature, deta
 											type: null, // or photo.type
 											name: file.filename
 										});
+										debugger;
 										fetch(tempFiles.uploadurl + "?command=upload", {
 											method: "post",
 											body: data
 										}).then((res: any) => {
+											debugger;
 											console.log(res);
 											let result = JSON.parse(res._bodyInit);
 											RNFS.unlink(path).then(() => {
@@ -223,7 +225,11 @@ export function signFile(tempFiles, personalCert: IPersonalCert, signature, deta
 											});
 											resultArr.push(result.success);
 											resolve();
-										});
+										}).catch(
+											err => {
+												debugger;
+											}
+										);
 										dispatch({ type: SIGN_FILE_SUCCESS, payload: file.filename });
 									}
 								}

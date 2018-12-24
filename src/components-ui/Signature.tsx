@@ -9,6 +9,7 @@ import { iconSelection } from "../utils/forListFiles";
 import { readCertKeys } from "../actions/certKeysAction";
 import DocumentPicker from "react-native-document-picker";
 import * as Modal from "react-native-modalbox";
+import { Loader } from "../components/Loader";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -50,7 +51,8 @@ interface IPersonalCert {
 		subjectFriendlyName: any,
 		subjectName: any,
 		type: any,
-		version: any
+		version: any,
+		transaction_id?: string
 	};
 	img: string;
 }
@@ -183,25 +185,19 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 
 		const img = iconSelection(files, files.length); // какое расширение у файлов
 		const filesView = this.getFilesView(files, img);
-		let loader = null;
-		if (isFetching) {
-			loader = <View style={styles.loader}>
-				<View style={styles.loaderView}>
-					<Spinner color={"#be3817"} />
-					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
-				</View>
-			</View>;
-		}
+
 		let certificate;
 		if (personalCert.cert.subjectFriendlyName) { // выбран ли сертификат
-			certificate = <List>
-				<ListMenu title={personalCert.cert.subjectFriendlyName} img={personalCert.img ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")}
-					note={personalCert.cert.organizationName} nav={() => { readCertKeys(); navigate("SelectPersonalСert"); }} />
-			</List>;
+			certificate =
+				<List>
+					<ListMenu title={personalCert.cert.subjectFriendlyName} img={(personalCert.img || personalCert.img === undefined) ? require("../../imgs/general/cert_ok_icon.png") : require("../../imgs/general/cert_bad_icon.png")}
+						note={personalCert.cert.organizationName} rightimg={personalCert.cert.transaction_id ? require("../../imgs/general/megafon.png") : false} nav={() => { readCertKeys(); navigate("SelectPersonalСert"); }} />
+				</List>;
 		} else {
-			certificate = <View style={styles.sign_enc_view}>
-				<Text onPress={() => { readCertKeys(); navigate("SelectPersonalСert"); }} style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
-			</View>;
+			certificate =
+				<View style={styles.sign_enc_view}>
+					<Text onPress={() => { readCertKeys(); navigate("SelectPersonalСert"); }} style={styles.sign_enc_prompt}>[Добавьте сертификат подписчика]</Text>
+				</View>;
 		}
 
 		let selectFilesView;
@@ -236,45 +232,43 @@ export class Signature extends React.Component<SignatureProps, SignatureState> {
 					}
 				</View>
 				{filesView}
-				{loader}
+				<Loader isFetching={isFetching}/>
 				<Modal
 					ref={ref => this.modals.basicModal = ref}
 					style={styles.modal}
 					position={"center"}
 					swipeToClose={false}>
-					<View style={{ width: "100%" }}>
-						<Header
-							style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
-							<Title>
-								<Text style={{
-									color: "white",
-									fontSize: 15
-								}}>Добавление файла</Text>
-							</Title>
-						</Header>
-						<View>
-							<List>
-								<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => { navigate("NotSelectedDocuments", { from: "sign" }); this.modals.basicModal.close(); }}>
-									<Left>
-										<Text style={{ fontSize: 14, color: "grey" }}>Из документов</Text>
-									</Left>
-									<Right>
-										<Icon name="ios-arrow-forward-outline"></Icon>
-									</Right>
-								</ListItem>
-								<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => this.documentPicker()} >
-									<Left>
-										<Text style={{ fontSize: 14, color: "grey" }}>Импортировать</Text>
-									</Left>
-									<Right>
-										<Icon name="ios-arrow-forward-outline"></Icon>
-									</Right>
-								</ListItem>
-								<ListItem onPress={() => this.modals.basicModal.close()}>
-									<Text style={{ fontSize: 15, width: "100%", height: "100%", textAlign: "center", color: "grey" }}>Отмена</Text>
-								</ListItem>
-							</List>
-						</View>
+					<Header
+						style={{ backgroundColor: "#be3817", height: 45.7, width: 300, paddingTop: 13 }}>
+						<Title>
+							<Text style={{
+								color: "white",
+								fontSize: 15
+							}}>Добавление файла</Text>
+						</Title>
+					</Header>
+					<View>
+						<List>
+							<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => { navigate("NotSelectedDocuments", { from: "sign" }); this.modals.basicModal.close(); }}>
+								<Left>
+									<Text style={{ fontSize: 14, color: "grey" }}>Из документов</Text>
+								</Left>
+								<Right>
+									<Icon name="ios-arrow-forward-outline"></Icon>
+								</Right>
+							</ListItem>
+							<ListItem last style={{ marginLeft: 0, paddingLeft: 17 }} onPress={() => this.documentPicker()} >
+								<Left>
+									<Text style={{ fontSize: 14, color: "grey" }}>Импортировать</Text>
+								</Left>
+								<Right>
+									<Icon name="ios-arrow-forward-outline"></Icon>
+								</Right>
+							</ListItem>
+							<ListItem onPress={() => this.modals.basicModal.close()}>
+								<Text style={{ fontSize: 15, width: "100%", height: "100%", textAlign: "center", color: "grey" }}>Отмена</Text>
+							</ListItem>
+						</List>
 					</View>
 				</Modal>
 				{this.state.selectedFiles.arrNum.length && !isFetching

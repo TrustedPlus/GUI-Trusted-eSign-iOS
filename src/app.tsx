@@ -15,11 +15,12 @@ import { Root } from "native-base";
 const persistConfig = {
 	key: "root",
 	storage,
-	whitelist: ["logger", "personalCert", "otherCert"]
+	whitelist: ["logger", "personalCert", "otherCert", "services"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 const store = createStore(persistedReducer, applyMiddleware(logger, thunk));
+
 const persistor = persistStore(store);
 
 export class MainApp extends React.Component {

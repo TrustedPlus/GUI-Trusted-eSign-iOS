@@ -8,6 +8,7 @@ import * as url from "url";
 
 import { ListMenu } from "../components/ListMenu";
 import { Headers } from "../components/Headers";
+import { Loader } from "../components/Loader";
 import { ListCertCategory } from "./ListCertCategory";
 import { PropertiesCert } from "./PropertiesCert";
 import { SelectPersonalСert } from "./SelectPersonalСert";
@@ -27,6 +28,8 @@ import { FilterJournal } from "./FilterJournal";
 import { AboutAllSignCert } from "./AboutAllSignCert";
 import { License } from "./License";
 import { SignForCryptoArmDoc } from "./SignForCryptoArmDoc";
+import { ServiceSignature } from "./ServiceSignature";
+import { SettingService } from "./SettingService";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -49,7 +52,8 @@ function mapStateToProps(state) {
 		containers: state.containers.containers,
 		loadContainers: state.containers.loader,
 		statusLicense: state.statusLicense.status,
-		tempFiles: state.tempFiles.tempFiles
+		tempFiles: state.tempFiles.tempFiles,
+		services: state.services
 	};
 }
 
@@ -78,6 +82,11 @@ interface MainProps {
 	workspaceSign: any;
 	statusLicense: any;
 	tempFiles: object;
+	services: {
+		services: Array<any>,
+		lengthServices: number,
+		lastid: number
+	};
 	readCertKeys(): any;
 	readFiles(): any;
 	getProviders(): any;
@@ -135,6 +144,7 @@ class Main extends React.Component<MainProps, MainState> {
 
 		Linking.getInitialURL().then((url_string) => {
 			if (url_string) {
+				debugger;
 				let param = url.parse(url_string, true);
 				this.setState({ modalWarning: true, href: param.query.href, url: url_string });
 			}
@@ -149,6 +159,17 @@ class Main extends React.Component<MainProps, MainState> {
 		let lengthEnc = "выбрано файлов: " + workspaceEnc.length;
 		let persCert = "личных сертификатов: " + certificates.filter(cert => cert.category.toUpperCase() === "MY").length;
 		let lengthContainers;
+		let lengthActiveServices = 0;
+		this.props.services.services.map(
+			service => {
+				if (service.status === "подключено") {
+					++lengthActiveServices;
+				}
+			}
+		);
+		for (let i = 0; i < this.props.services.services.length; i++) {
+
+		}
 		if (this.props.loadContainers) {
 			lengthContainers = "считывание контейнеров";
 		} else {
@@ -156,15 +177,6 @@ class Main extends React.Component<MainProps, MainState> {
 		}
 		let lastlognote = lastlog ? "последняя запись: " + new Date(lastlog).toLocaleString("ru", options) : "действий не совершалось";
 
-		let loader = null;
-		if (this.state.loader) {
-			loader = <View style={styles.loader}>
-				<View style={styles.loaderView}>
-					<Spinner color={"#be3817"} />
-					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
-				</View>
-			</View>;
-		}
 		return (
 			<>
 				<Container style={styles.container}>
@@ -173,6 +185,8 @@ class Main extends React.Component<MainProps, MainState> {
 						<List>
 							<ListMenu title="Документы" img={require("../../imgs/general/documents_main_icon.png")}
 								note={length} nav={() => navigate("Documents")} />
+							<ListMenu title="Сервисы подписи" img={require("../../imgs/general/certificates_main_icon.png")}
+								note={"подключено: " + lengthActiveServices} nav={() => navigate("ServiceSignature")} />
 							<ListMenu title="Подпись" img={require("../../imgs/general/sign_main_icon.png")}
 								note={lengthSign} nav={() => navigate("Signature", { name: "Signature" })} />
 							<ListMenu title="Шифрование" img={require("../../imgs/general/encode_main_icon.png")}
@@ -199,7 +213,7 @@ class Main extends React.Component<MainProps, MainState> {
 							}}>
 								<View style={styles.modal}>
 									<Header
-										style={{ backgroundColor: "#be3817", height: 45.7, paddingTop: 13 }}>
+										style={{ backgroundColor: "#be3817", height: 45.7, width: 300, paddingTop: 13 }}>
 										<Title>
 											<Text style={{
 												color: "white",
@@ -235,7 +249,7 @@ class Main extends React.Component<MainProps, MainState> {
 						</Modal>
 					</Content>
 				</Container>
-				{loader}
+				<Loader isFetching={this.state.loader}/>
 			</>
 		);
 	}
@@ -243,6 +257,7 @@ class Main extends React.Component<MainProps, MainState> {
 
 const AppNavigator = createStackNavigator({
 	Main: { screen: Main },
+	ServiceSignature: { screen: ServiceSignature },
 	Signature: {
 		screen: Signature,
 		path: "sign",
@@ -263,6 +278,7 @@ const AppNavigator = createStackNavigator({
 	NotSelectedDocuments: { screen: NotSelectedDocuments },
 	FilterJournal: { screen: FilterJournal },
 	SignForCryptoArmDoc: { screen: SignForCryptoArmDoc },
+	SettingService: { screen: SettingService },
 	AboutAllSignCert: {
 		screen: AboutAllSignCert,
 		path: "verify"

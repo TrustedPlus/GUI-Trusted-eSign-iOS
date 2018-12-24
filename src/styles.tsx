@@ -205,6 +205,11 @@ export const styles = StyleSheet.create({
 		shadowOpacity: 1.0
 	},
 
+	modalMore2: {
+		width: 200,
+		height: 55
+	},
+
 	modalMore4: {
 		width: 200,
 		height: 110

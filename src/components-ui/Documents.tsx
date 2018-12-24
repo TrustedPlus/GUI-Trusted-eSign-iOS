@@ -10,6 +10,7 @@ import { iconSelection } from "../utils/forListFiles";
 import { FooterDoc } from "./FooterDoc";
 import DocumentPicker from "react-native-document-picker";
 import { AddCertButton } from "../components/AddCertButton";
+import { Loader } from "../components/Loader";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -246,16 +247,6 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 		const img = iconSelection(this.props.files, this.props.files.length);
 		const filesView = this.getFilesView(files, isFetching, img, readFiles);
 
-		let loader = null;
-		if (isFetching) {
-			loader = <View style={styles.loader}>
-				<View style={styles.loaderView}>
-					<Spinner color={"#be3817"} />
-					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
-				</View>
-			</View>;
-		}
-
 		let viewNumSelectFiles = null;
 		if (selectedFiles.arrNum.length) { // выбраны ли файлы
 			viewNumSelectFiles = <Text style={styles.selectFiles}>
@@ -282,7 +273,7 @@ export class Documents extends React.Component<DocumentsProps, DocumentsState> {
 						{viewNumSelectFiles}
 					</View>
 					{filesView}
-					{loader}
+					<Loader isFetching={isFetching}/>
 					{isFetching
 						? null
 						: <Button

@@ -7,6 +7,7 @@ import { FooterButton } from "../components/FooterButton";
 import { ListForCert } from "../components/ListForCert";
 import { showToast } from "../utils/toast";
 import { ListMenu } from "../components/ListMenu";
+import { Loader } from "../components/Loader";
 import * as Modal from "react-native-modalbox";
 
 import { connect } from "react-redux";
@@ -103,15 +104,6 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 		const { cert, isCertInContainers, containers } = this.props.navigation.state.params;
 		const { navigate, goBack } = this.props.navigation;
 		let subjectFriendlyName, subjectEmail, subjectCountry, subjectRegion, subjectCity;
-		let loader = null;
-		if (this.state.loader) {
-			loader = <View style={styles.loader}>
-				<View style={styles.loaderView}>
-					<Spinner color={"#be3817"} />
-					<Text style={{ fontSize: 17, color: "grey" }}>Операция{"\n"}выполняется</Text>
-				</View>
-			</View>;
-		}
 		if (!cert.selfSigned) {
 			subjectFriendlyName = cert.subjectName.match(/2.5.4.3=[^\/]{1,}/);
 			subjectFriendlyName = subjectFriendlyName ? subjectFriendlyName[0].replace("2.5.4.3=", "") : null;
@@ -187,7 +179,7 @@ export class PropertiesCert extends React.Component<PropertiesCertProps, Propert
 							<ListForCert title="Закрытый ключ:" value={cert.hasPrivateKey ? "присутствует" : "отсутствует"} />
 						</List>
 					</Content>
-					{loader}
+					<Loader isFetching={this.state.loader}/>
 						<Modal
 							ref={ref => this.modals.basicModal = ref}
 							style={styles.modal}

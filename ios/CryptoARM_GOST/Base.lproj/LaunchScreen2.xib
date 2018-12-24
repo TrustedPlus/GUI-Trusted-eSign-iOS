@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="342" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_screen.png" translatesAutoresizingMaskIntoConstraints="NO" id="Ata-1B-hVu">
+                    <rect key="frame" x="0.0" y="0.0" width="342" height="480"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="КриптоАРМ ГОСТ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="af0-Mi-yPv">
+                    <rect key="frame" x="42" y="221" width="259.5" height="38.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Идет загрузка..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tfF-uI-dj2">
+                    <rect key="frame" x="111" y="280" width="121.5" height="19.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="OJt-Q4-bfB">
+                    <rect key="frame" x="106" y="44" width="130" height="128"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="128" id="BmT-aT-Gq8"/>
+                        <constraint firstAttribute="width" constant="130" id="Y7k-KU-4J9"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Ata-1B-hVu" secondAttribute="bottom" id="15F-p7-FFq"/>
+                <constraint firstItem="af0-Mi-yPv" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="A7C-m8-QhF"/>
+                <constraint firstItem="tfF-uI-dj2" firstAttribute="top" secondItem="af0-Mi-yPv" secondAttribute="bottom" constant="20.5" id="S6S-QV-SZo"/>
+                <constraint firstAttribute="trailing" secondItem="Ata-1B-hVu" secondAttribute="trailing" id="YAN-tD-kSr"/>
+                <constraint firstItem="Ata-1B-hVu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="drA-9X-ZwK"/>
+                <constraint firstItem="af0-Mi-yPv" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="gRS-UK-xmy"/>
+                <constraint firstItem="af0-Mi-yPv" firstAttribute="top" secondItem="OJt-Q4-bfB" secondAttribute="bottom" constant="49" id="inG-li-GVC"/>
+                <constraint firstItem="tfF-uI-dj2" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="qar-DG-hcp"/>
+                <constraint firstItem="Ata-1B-hVu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="sgU-My-3x9"/>
+                <constraint firstItem="OJt-Q4-bfB" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="xFO-oe-1hO"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="479" y="455"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="splash_icon.png" width="683" height="684"/>
+        <image name="splash_screen.png" width="2048" height="2732"/>
+    </resources>
+</document>

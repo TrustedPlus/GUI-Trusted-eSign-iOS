@@ -32,11 +32,13 @@ export class FooterButton extends React.PureComponent<FooterButtonProps> {
 						? {
 							color: "lightgrey",
 							width: 150,
+							height: 30,
 							textAlign: "center"
 						}
 						: {
 							color: "black",
 							width: 150,
+							height: 30,
 							textAlign: "center"
 						}} />}
 				<Text style={disabled ? {

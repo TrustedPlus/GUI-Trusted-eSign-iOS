@@ -1,6 +1,6 @@
 import * as RNFS from "react-native-fs";
 import * as request from "request";
-import { NativeModules, Linking } from "react-native";
+import { NativeModules, Linking, AlertIOS } from "react-native";
 import RNFetchBlob from "rn-fetch-blob";
 import { readFiles } from ".";
 import { addTempFilesForCryptoarmdDocuments } from "./uploadFileToCryptoArmDocumtsAction";
@@ -50,11 +50,13 @@ interface IPersonalCert {
 export function signFile(files: IFile[], personalCert: IPersonalCert, footer, detached, signature, clearselectedFiles) {
 	return function action(dispatch) {
 		dispatch({ type: SIGN_FILE });
+		let filearr;
 		let lengthError = 0;
 		let arrDeletedFilesInWorkspacwSign = [];
 		let arrAddFilesInWorkspacwSign = [];
 		dispatch(clearAllFilesinWorkspaceEnc());
 		for (let i = 0; i < footer.arrButton.length; i++) {
+			let k = i;
 			let path = RNFS.DocumentDirectoryPath + "/Files/" + files[footer.arrButton[i]].name + (files[footer.arrButton[i]].extensionAll === "" ? "" : "." + files[footer.arrButton[i]].extensionAll);
 			if (files[footer.arrButton[i]].extension === "sig") {
 				const read = RNFS.read(path, 2, 0, "utf8");
@@ -123,15 +125,15 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 											const request = RNFS.stat(path);
 											request.then(
 												response => {
-													const verify = 0;
-													let filearr;
-													const name = files[footer.arrButton[i]].name;
-													const extensionAll = files[footer.arrButton[i]].extensionAll;
-													const extension = "sig";
-													const mtime: any = response.mtime;
-													filearr = { name, extension, extensionAll, mtime, verify };
+													filearr = {
+														name: files[footer.arrButton[k]].name,
+														extension: "sig",
+														extensionAll: files[footer.arrButton[k]].extensionAll,
+														mtime: response.mtime,
+														verify: 0
+													};
 													dispatch(addSingleFileInWorkspaceSign(filearr));
-													if (i === footer.arrButton.length - 1) {
+													if (k === footer.arrButton.length - 1) {
 														for (let i = 0; i < arrDeletedFilesInWorkspacwSign.length; i++) {
 															dispatch(clearOriginalFileInWorkspaceSign(arrDeletedFilesInWorkspacwSign[i].name, arrDeletedFilesInWorkspacwSign[i].extensionAll));
 														}
@@ -139,22 +141,22 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 															dispatch(addSingleFileInWorkspaceSign(arrAddFilesInWorkspacwSign[i]));
 														}
 														clearselectedFiles();
+														dispatch(readFiles());
+														if ((footer.arrButton.length === 1) && (lengthError === 0)) {
+															showToast("Подпись была добавлена");
+														}
+														if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
+															showToast("Ошибка при добавлении подписи");
+														}
+														if ((footer.arrButton.length > 1) && (lengthError > 0)) {
+															showToast("Для некоторых файлов подпись не смогла быть добавлена");
+														}
+														dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[k]].name + "." + files[footer.arrButton[k]].extensionAll });
 														dispatch({ type: SIGN_FILE_END });
 													}
 												},
 												err => console.log(err)
 											);
-											dispatch(readFiles());
-											if ((footer.arrButton.length === 1) && (lengthError === 0)) {
-												showToast("Подпись была добавлена");
-											}
-											if ((footer.arrButton.length > 1) && (lengthError === footer.arrButton.length)) {
-												showToast("Ошибка при добавлении подписи");
-											}
-											if ((footer.arrButton.length > 1) && (lengthError > 0)) {
-												showToast("Для некоторых файлов подпись не смогла быть добавлена");
-											}
-											dispatch({ type: SIGN_FILE_SUCCESS, payload: files[footer.arrButton[i]].name + "." + files[footer.arrButton[i]].extensionAll });
 										}
 									}
 								);
@@ -218,7 +220,7 @@ export function signFile(files: IFile[], personalCert: IPersonalCert, footer, de
 									statFile.then(
 										response => {
 											const verify = 0;
-											let filearr;
+											filearr = null;
 											const name = files[footer.arrButton[i]].name + one;
 											const extensionAll = files[footer.arrButton[i]].extensionAll === "" ? "sig" : files[footer.arrButton[i]].extensionAll + ".sig";
 											const extension = "sig";

@@ -1,5 +1,6 @@
 import * as RNFS from "react-native-fs";
 import * as Share from "react-native-share";
+import RNFetchBlob from "rn-fetch-blob";
 import { showToast, showToastDanger } from "../utils/toast";
 // import MultiShare from "react-native-multi-share";
 import { readFiles } from ".";
@@ -88,6 +89,75 @@ export function uploadFile(files: IFile[], selectedFiles: ISelectedFiles, refres
 				if (!(err.error.message === "Операция отменена." || err.error === "User did not share")) {
 					showToastDanger("При экспорте произошла ошибка");
 				}
+				refreshingFiles();
+				dispatch({ type: UPLOAD_FILES_END });
+			});
+	};
+}
+
+export function openFile(files: IFile[], selectedFiles: ISelectedFiles, refreshingFiles: Function, page: string) {
+	return function action(dispatch) {
+		dispatch({ type: UPLOAD_FILES });
+		let arrUrls = [];
+		let path;
+		let arrAddFilesInWorkspace = [];
+		let arrDeletedFilesInWorkspae = [];
+		for (let i = 0; i < selectedFiles.arrNum.length; i++) {
+			path = RNFS.DocumentDirectoryPath + "/Files/" + files[selectedFiles.arrNum[i]].name;
+			if (files[selectedFiles.arrNum[i]].extensionAll !== "") {
+				path = path + "." + files[selectedFiles.arrNum[i]].extensionAll;
+			}
+			arrUrls.push(path);
+			arrAddFilesInWorkspace.push({ name: files[selectedFiles.arrNum[i]].name, extensionAll: files[selectedFiles.arrNum[i]].extensionAll });
+			arrDeletedFilesInWorkspae.push({ name: files[selectedFiles.arrNum[i]].name, extension: files[selectedFiles.arrNum[i]].extension, extensionAll: files[selectedFiles.arrNum[i]].extensionAll, mtime: files[selectedFiles.arrNum[i]].mtime, verify: 0 });
+		}
+		const shareOptions = {
+			urls: arrUrls,
+		};
+		const path1 = arrUrls[0];
+		RNFetchBlob.ios.openDocument(path1)
+			.then((res) => {
+				switch (page) {
+					case "sig":
+						for (let i = 0; i < arrAddFilesInWorkspace.length; i++) {
+							dispatch(clearOriginalFileInWorkspaceSign(arrAddFilesInWorkspace[i].name, arrAddFilesInWorkspace[i].extensionAll));
+						}
+						for (let i = 0; i < arrDeletedFilesInWorkspae.length; i++) {
+							dispatch(addSingleFileInWorkspaceSign(arrDeletedFilesInWorkspae[i]));
+						}
+						break;
+					case "enc":
+						for (let i = 0; i < arrAddFilesInWorkspace.length; i++) {
+							dispatch(clearOriginalFileInWorkspaceEnc(arrAddFilesInWorkspace[i].name, arrAddFilesInWorkspace[i].extensionAll));
+						}
+						for (let i = 0; i < arrDeletedFilesInWorkspae.length; i++) {
+							dispatch(addSingleFileInWorkspaceEnc(arrDeletedFilesInWorkspae[i]));
+						}
+						break;
+				}
+				refreshingFiles();
+				dispatch({ type: UPLOAD_FILES_END });
+			})
+			.catch((err) => {
+				switch (page) {
+					case "sig":
+						for (let i = 0; i < arrAddFilesInWorkspace.length; i++) {
+							dispatch(clearOriginalFileInWorkspaceSign(arrAddFilesInWorkspace[i].name, arrAddFilesInWorkspace[i].extensionAll));
+						}
+						for (let i = 0; i < arrDeletedFilesInWorkspae.length; i++) {
+							dispatch(addSingleFileInWorkspaceSign(arrDeletedFilesInWorkspae[i]));
+						}
+						break;
+					case "enc":
+						for (let i = 0; i < arrAddFilesInWorkspace.length; i++) {
+							dispatch(clearOriginalFileInWorkspaceEnc(arrAddFilesInWorkspace[i].name, arrAddFilesInWorkspace[i].extensionAll));
+						}
+						for (let i = 0; i < arrDeletedFilesInWorkspae.length; i++) {
+							dispatch(addSingleFileInWorkspaceEnc(arrDeletedFilesInWorkspae[i]));
+						}
+						break;
+				}
+				showToastDanger("Неподдерживаемый формат");
 				refreshingFiles();
 				dispatch({ type: UPLOAD_FILES_END });
 			});

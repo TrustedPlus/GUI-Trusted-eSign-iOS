@@ -7,7 +7,8 @@ import { ListWithSwitch } from "../components/ListWithSwitch";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { signFile, verifySign, UnSignFile, getSignInfo } from "../actions/signVerifyAction";
-import { uploadFile, deleteFile } from "../actions/uploadFileAction";
+import { signFileMegafon } from "../actions/megafonAction";
+import { uploadFile, openFile, deleteFile } from "../actions/uploadFileAction";
 import { readFiles } from "../actions";
 
 import * as Modal from "react-native-modalbox";
@@ -22,10 +23,12 @@ function mapDispatchToProps(dispatch) {
 		verifySign: bindActionCreators(verifySign, dispatch),
 		UnSignFile: bindActionCreators(UnSignFile, dispatch),
 		uploadFile: bindActionCreators(uploadFile, dispatch),
+		openFile: bindActionCreators(openFile, dispatch),
 		deleteFile: bindActionCreators(deleteFile, dispatch),
 		getSignInfo: bindActionCreators(getSignInfo, dispatch),
 		readFiles: bindActionCreators(readFiles, dispatch),
-		clearOriginalFileInWorkspaceSign: bindActionCreators(clearOriginalFileInWorkspaceSign, dispatch)
+		clearOriginalFileInWorkspaceSign: bindActionCreators(clearOriginalFileInWorkspaceSign, dispatch),
+		signFileMegafon: bindActionCreators(signFileMegafon, dispatch),
 	};
 }
 
@@ -58,7 +61,8 @@ interface IPersonalCert {
 		subjectFriendlyName: any,
 		subjectName: any,
 		type: any,
-		version: any
+		version: any,
+		transaction_id?: string
 	};
 	img: string;
 }
@@ -77,8 +81,11 @@ interface FooterSignProps {
 	verifySign?(files: IFile[], footer: string[]): void;
 	UnSignFile?(files: IFile[], footer: string[], clearselectedFiles: Function): void;
 	uploadFile?(files: IFile[], footer: Object, refreshingFiles: Function, page: string): void;
+	openFile?(files: IFile[], footer: Object, refreshingFiles: Function, page: string): void;
 	deleteFile?(files: IFile[], footer: string[]): void;
 	getSignInfo?(files: IFile[], footer: string[], navigate): void;
+
+	signFileMegafon?(files: IFile[], personalCert: IPersonalCert, footer: string[], detached: boolean, signature: string, clearselectedFiles: Function): void;
 }
 
 interface FooterSignState {
@@ -113,13 +120,17 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 	}
 
 	render() {
-		const { files, personalCert, verifySign, signFile, UnSignFile, uploadFile, deleteFile, footer, getSignInfo, navigate, readFiles } = this.props;
+		const { files, personalCert, verifySign, signFile,
+			signFileMegafon, UnSignFile, uploadFile, openFile, footer, getSignInfo, navigate, readFiles } = this.props;
 		let certIsNotNull, allIsSign = null, numSelectedFilesIsOne = false;
 		if (!personalCert.cert.subjectFriendlyName) {
 			certIsNotNull = "noCert";
 		}
 		if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension === "sig").length) {
 			allIsSign = "sig";
+		}
+		if (footer.arrExtension.length === footer.arrExtension.filter(extension => extension !== "sig").length) {
+			allIsSign = "nonsign";
 		}
 		if (footer.arrExtension.length === 1) {
 			numSelectedFilesIsOne = true;
@@ -133,7 +144,7 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 				<Footer style={{ position: "absolute", bottom: 0 }}>
 					<FooterTab>
 						{this.state.modalMore
-							? <View style={[styles.modalMore, styles.modalMore4]}>
+							? <View style={[styles.modalMore, styles.modalMore6]}>
 								<Footer>
 									<FooterTab>
 										<FooterButton title="Снять"
@@ -149,10 +160,13 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 								</Footer>
 								<Footer>
 									<FooterTab>
-										<FooterButton title="Архивировать"
-											disabled={true}
-											img={require("../../imgs/ios/arhiver.png")}
-											nav={() => null}
+										<FooterButton title="Просмотреть"
+											disabled={allIsSign !== "nonsign" || !numSelectedFilesIsOne}
+											icon={"open"}
+											nav={() => {
+												openFile(files, { arrNum: footer.arrButton, arrExtension: footer.arrExtension },
+													(num) => this.props.clearselectedFiles(num), "sig");
+											}}
 											style={{ borderTopWidth: 0 }} />
 										<FooterButton title="Очистить"
 											img={require("../../imgs/ios/delete.png")}
@@ -171,7 +185,9 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							img={require("../../imgs/ios/sign.png")}
 							nav={() => {
 								allIsSign === "sig"
-									? signFile(files, personalCert, footer, null, null, (num) => this.props.clearselectedFiles(num))
+									? this.props.personalCert.cert.transaction_id
+										? signFileMegafon(files, personalCert, footer, null, null, (num) => this.props.clearselectedFiles(num))
+										: signFile(files, personalCert, footer, null, null, (num) => this.props.clearselectedFiles(num))
 									: this.setState({ modalSign: true });
 							}} />
 						<FooterButton title="Свойства" disabled={numSelectedFilesIsOne ? allIsSign === "sig" ? false : true : true} img={require("../../imgs/ios/view_sign.png")} nav={() => getSignInfo(files, footer, navigate)} />
@@ -207,7 +223,13 @@ export class FooterSign extends React.Component<FooterSignProps, FooterSignState
 							<Button transparent style={styles.modalMain} onPress={() => this.setState({ modalSign: false })}>
 								<Text style={{ fontSize: 15, textAlign: "center", color: "black" }}>Отмена</Text>
 							</Button>
-							<Button transparent disabled={!this.state.documents_viewed} style={styles.modalMain} onPress={() => { this.setState({ modalSign: false }); signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num)); }}>
+							<Button transparent disabled={!this.state.documents_viewed} style={styles.modalMain} onPress={() => {
+								this.setState({ modalSign: false });
+								this.props.personalCert.cert.transaction_id
+									? signFileMegafon(files, personalCert, footer, null, null, (num) => this.props.clearselectedFiles(num))
+									: signFile(files, personalCert, footer, this.state.detached, this.state.signature, (num) => this.props.clearselectedFiles(num))
+									;
+							}}>
 								<Text style={[{ fontSize: 15, textAlign: "center" }, this.state.documents_viewed ? { color: "black" } : null]}>Применить</Text>
 							</Button>
 						</View>
